@@ -1,0 +1,186 @@
+@comments_bottom_margin: 17px;
+        
+.thumbnail_comment{
+    width: 50px;
+    height: 50px;
+    float: left;
+    //.at2x('../img/blog/defaultcomment', 50px, 50px, '.png');
+    background-repeat: no-repeat;
+    
+    &.small{
+        width: 45px;
+        height: 45px;
+    }
+}
+ 
+#cancel_reply, #hide_comments, #show_sub{
+    color: @esza_paragraphs_obfuscated_color;
+    text-transform: lowercase;
+    margin-left: 7px;    
+    font-size: 13px;
+    .transition();
+    &:hover{
+        color: @esza_paragraphs_highlight_color;   
+    }
+    
+    text-decoration: underline;
+}
+
+//Comments span
+span.comment_number{
+    color: @esza_paragraphs_highlight_color;   
+    &.no_comments{
+        color: @esza_paragraphs_obfuscated_color;
+    }
+}
+
+.comments{
+    .children{
+        border-top: 0;
+        top: 0;
+    }
+    #logged_holder{
+        margin-bottom: 10px;
+        p{
+            color: @esza_paragraphs_color;
+            margin-left: 60px;
+            span{
+                color: inherit;
+            }
+        }
+        a{
+            font-size: inherit;
+            line-height: inherit;
+            color: @esza_paragraphs_color;
+            text-decoration: underline;
+            margin-left: 0;
+            
+            &:hover{
+                color: @esza_paragraphs_highlight_color;   
+            }
+        }
+    }
+    
+    .children{
+        margin: 0 0 0 50px; 
+    }
+    
+    .comment-edit-link{
+        margin-left: 5px;   
+    }
+    
+    .comment{
+        position: relative;
+        background-color: @esza_comment_back_color;
+        margin-bottom: @comments_bottom_margin;
+        
+        .comment_small_line{
+            position: absolute;
+            height: @comments_bottom_margin;
+            top: -@comments_bottom_margin;
+            left: 25px;
+            width: 1px;
+            background-color: @esza_comment_divider_color;
+        }
+        .headline{
+            overflow: hidden;
+            padding-top: 15px;
+            position: relative;     
+			padding-left: 15px;
+			
+			.comment_information_holder{
+			    overflow: hidden;
+			}
+			
+            h5{
+                line-height: 20px;
+                font-size: 14px;
+                color: @esza_comment_headline_color;
+                float: left;
+                margin: 0;
+                margin-right: 10px;
+            }
+            p{
+                margin: 0 6px !important;   
+            }
+            a.date, p{
+                color: @esza_comment_date_color;
+                line-height: 22px;
+                font-size: 12px;
+                float: left;
+                margin: 0;
+            }
+            hr{
+                clear: both;
+                margin-top: 5px;
+            }
+            a{    
+                position: relative;
+                color: @esza_comment_headline_color;
+                line-height: 22px;
+                font-size: 12px;
+                .transition();
+                &:last-child{
+                    //float: right;   
+                }
+                &:hover{
+                    color: @esza_blog_type_background_color;
+                }
+            }
+        }
+        .text{
+            padding: 16px 23px;  
+            color: @esza_comment_text_color;
+            font-size: 12px;
+            clear: both;
+        }
+    }
+}
+#commentform, .mainform{
+    &.labels_top{
+        .col-md-2{
+            width: 100%;   
+            min-height: 22px;
+        }
+        .col-md-10{
+            width: 100%; 
+            margin-left: 0px;
+        }
+    }
+    
+    [class*="col-md-"], .uneditable-input[class*="col-md-"], .row [class*="col-md-"]{
+        margin-bottom: 0px;   
+    }
+    .row{
+        margin-bottom: 5px;
+    }
+    input[type="text"], input[type="email"], textarea{
+        position: relative;
+        //max-width: 300px;   
+        width: 100%;
+        padding: 4px 8px;
+    }   
+    
+    #not_logged_holder{
+        .connect_facebook_holder{
+            overflow: hidden;
+            p{
+                color: @esza_paragraphs_obfuscated_color;
+                margin-bottom: 10px;
+                line-height: 26px;
+                float: left;
+            }
+            a{
+                margin-left: 13px;   
+            }
+        }
+    }
+}
+
+
+.mainform{
+    .alert{    
+        //max-width: 287px;
+        margin-top: 0;
+    } 
+}

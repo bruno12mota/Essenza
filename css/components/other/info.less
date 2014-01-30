@@ -1,0 +1,70 @@
+.info{
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: @esza_menu_height; 
+    padding-bottom: @esza_footer_height;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 5;
+    
+    .click_area{
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+    .container{
+        position: relative;
+        top: 15%;
+        vertical-align: center;
+        max-width: 400px;   
+        background-color: @esza_pages_color;
+        padding: 30px 45px;
+    }
+    
+    &.mobile{
+        position: absolute;
+        //padding:0;
+        top: 0;
+        left: 0;
+        bottom: auto;
+        z-index: 5;
+        .container{
+            display: block;
+            position: relative;
+            top: 0px;
+            //margin-top: 10px;
+            left: 0px;
+            //right: 22px; 
+            max-width: none;
+            padding: 30px 30px;
+        }
+    }
+}
+
+
+
+.close_btn{
+    top: 0;
+    position: absolute;
+    float: right;
+    right: 0;
+    
+    width: 45px;
+    height: 49px;
+    border-bottom: 1px solid @esza_pages_lines_color;
+    .transition(0.2s);
+    
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    .at2x('../img/other/close', 18px, 18px, '.png');
+    
+    background-color: @esza_pages_buttons_color;
+    &:hover{
+        background-color: @esza_pages_buttons_over_color;
+    }
+}

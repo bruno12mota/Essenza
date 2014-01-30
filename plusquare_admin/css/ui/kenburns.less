@@ -1,0 +1,45 @@
+.kenburns{
+    position: relative;
+    margin: 0 auto;
+    
+    .fullSize(){
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        position: absolute;
+    }
+    
+    .background{
+        .fullSize();
+        text-align: left;
+    }
+    .background_cover{
+        .fullSize();
+        background-color: #000000;
+        .opacity(0.5);
+    }
+    .scaler{
+        .fullSize();
+        
+        border: 1px solid #000000;
+        
+        .selected_part{
+            .fullSize();
+            overflow: hidden;
+            .imageHolder{
+                position: absolute;
+                top: 0;
+                left: 0;
+                img{
+                    max-width: none;   
+                }
+            }
+        }
+    }
+}
+
+.kenburns_holder{
+    background-color: #EEEEEE;
+    margin-bottom: 5px;
+}

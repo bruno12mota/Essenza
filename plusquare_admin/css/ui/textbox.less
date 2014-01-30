@@ -1,0 +1,51 @@
+.ui-textbox{
+    border: solid 1px #CCC !important;
+    padding:5px 7px;
+	
+	font-family: 'AllerRegular' !important;
+	color:#666666 !important;
+	font-size:12px !important;
+	
+    .roundedCorners (5px, 5px, 5px,5px);
+	
+    .transition (0.3s);
+     float: left;
+     
+     &.for-text{
+        width: 270px;   
+     }
+     &.for-percentage{
+        width: 60px;   
+     }
+     &.for-textarea{
+        width: 470px;     
+     }
+}
+.ui-textbox:focus{
+	border-color: #74B8C9 !important;
+	color:#111111;
+}
+
+.ui-label{
+    font-family: 'AllerRegular';
+    color:#333333;
+	font-size: 12px;
+    margin-right: 10px;
+    margin-left: 10px;
+    min-width: 100px;
+    float: left;
+    line-height: 25px;
+    &.noMin{
+        min-width: 0px;
+    }
+    &:first-child{
+        margin-left: 0px;
+    }
+    &:last-child{
+        margin-right: 0px;
+    }
+    &.noFloat{
+        float: none !important;
+        clear: both; 
+    }
+}

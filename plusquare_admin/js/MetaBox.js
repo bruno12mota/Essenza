@@ -1,0 +1,1 @@
+requirejs.config({paths:{libraries:"libraries",ui:"ui",utils:"utils",SliderBuilder:"SliderBuilder",Lightbox:"Lightbox"}});requirejs("jquery ui-elements ui/Accordion ui/FontPicker libraries/inheritance utils/utils PageBuilder StackBuilder SliderBuilder/SliderEditor Lightbox/Lightbox".split(" "));

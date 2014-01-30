@@ -1,0 +1,43 @@
+//Accordion shortcode
+ul.accordion{
+    margin: 0;
+    display: block;
+    clear: both;
+    margin-bottom: 20px; 
+    list-style: none !important;
+    li{
+        position: relative;
+        overflow: hidden;  
+        margin: 0;
+        padding: 0px;
+        border-bottom: 1px solid @esza_hr_divider_color;
+        
+        >i{
+            float: left;
+            font-size: 14px;
+            line-height: 20px;
+            margin-left: 0;
+            padding: 10px 0;
+        }
+        &:nth-child(1){
+            border-top: 1px solid @esza_hr_divider_color;
+        }
+        >a{
+            padding: 10px 0;
+            color: @esza_paragraphs_color;
+            display: block;
+			overflow: hidden;     
+            margin-left: 20px;
+            &:hover,
+            &.active{
+                color:@esza_paragraphs_highlight_color;
+            }
+        }
+        .content{    
+            margin-left: 20px;
+            >*:last-child{
+                margin-bottom:10px;   
+            }
+        }
+    }
+}

@@ -1,0 +1,30 @@
+//Tweet feed shortcode
+.tweet_small{
+    position: relative;
+    margin-bottom: 15px;
+    clear: both;
+    .bird{
+        float: left;
+        width: 18px;
+        height: 20px;
+        background-repeat: no-repeat;    
+        background-position: 50% 50%;
+        .at2x('../img/shortcodes/tweet', 18px, 15px, '.png');
+    }
+    .tweet_content{
+        margin-left: 27px;
+        >*{
+            display: block;   
+        }
+        a:hover span{
+            text-decoration: underline !important;   
+        }
+        >a{
+             font-size: 11px;   
+        }
+        p{
+            margin-bottom: 0;  
+            color: @esza_paragraphs_highlight_color;
+        }
+    }
+}

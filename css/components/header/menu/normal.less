@@ -1,0 +1,105 @@
+#menu{
+    display: block;
+    list-style-type: none;
+    padding: 0;
+    padding-bottom: 25px;
+    margin: 0;
+    overflow: hidden;
+    margin-left: @esza_menu_left_margin;
+    margin-right: @esza_menu_right_margin;
+    
+    a{
+        text-transform: @esza_menu_capitalize;
+        font-family:    @esza_menu_font;
+        font-size:      @esza_menu_font_size;
+        line-height:    @esza_menu_line_height;
+        font-weight:    @esza_menu_font_weight;
+        font-style:     @esza_menu_font_style;
+        letter-spacing: @esza_menu_font_letterspacing;
+        color: @esza_menu_buttons_color;
+        .transition();
+        &:hover{
+            color: @esza_menu_buttons_over_color;
+        }
+    }
+    >li ul a{
+        font-family:    @esza_submenu_font;
+        font-size:      @esza_submenu_font_size;
+        line-height:    @esza_submenu_line_height;
+        font-weight:    @esza_submenu_font_weight;
+        font-style:     @esza_submenu_font_style;
+        letter-spacing: @esza_submenu_font_letterspacing;
+        color: @esza_submenu_buttons_color;
+        &:hover{
+            color: @esza_submenu_buttons_over_color;
+        } 
+    }
+    >li >a{
+        white-space: nowrap;
+        
+        i{
+            position: relative;
+            font-size: @esza_submenu_indication_icon_size;
+            top: @esza_submenu_indication_icon_ver_off;
+            margin-left: @esza_submenu_indication_icon_hor_off;
+            color: @esza_submenu_indication_icon_color;
+        }
+        &:hover i{
+            color: @esza_submenu_indication_icon_over_color;
+        }
+    }
+    
+    //main buttons
+    >li{
+        overflow: hidden;
+        padding: 0;
+        margin-right: @esza_menu_min_margin;
+        padding-top: @esza_menu_height/2 + @esza_menu_top_off - @esza_menu_line_height/2;
+        padding-bottom: @esza_menu_height - @esza_menu_line_height - (@esza_menu_height/2 + @esza_menu_top_off - @esza_menu_line_height/2);
+        margin-bottom: 0;
+        border: 0;
+        float: left;
+        .display_inline_block();
+        >a{
+            position: relative;
+        }
+        
+        ul{
+            position: relative;
+            border: 0;
+            list-style-type: none;   
+            margin: 0;
+            padding: 0;
+            margin-top: @esza_submenu_margin;  
+            display: block;
+            //sub buttons
+            >li{
+                clear: both;
+                position: relative;
+                display: block;
+                margin: 0;
+                padding: 0;
+                border: 0;
+                margin-top: 8px;
+                a{
+                    display: block;
+                }
+            }
+            >li:first-child{
+                margin-top: 0px;
+            }
+        }
+    }
+}
+
+.menu_wraper.right{
+    float: right;
+    
+    .menu li a{
+        float: right;
+    }
+    .menu >li:last-child{
+        margin-right: 0 !important;
+        padding-right: 0 !important;
+    }
+}

@@ -1,0 +1,14 @@
+*{
+	margin:0;
+	padding:0;
+	left:0px;
+	top:0px;
+	border:none;
+	text-decoration:none;
+	outline:none;	
+}
+
+#post-body-content{
+	width:60%;
+	min-height:200px;
+}

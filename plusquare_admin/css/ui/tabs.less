@@ -1,0 +1,40 @@
+.ui_tabs{
+    //Menu buttons
+    .ui_tabs_menu{
+        overflow: hidden;
+        background-color: #EEEEEE;
+        
+        a{
+            float: left;
+            padding: 15px 25px;
+            text-decoration: none;
+            background-color: #EEEEEE;
+            
+            font-family: 'AllerRegular';
+            font-size: 12px;
+            color: #111111;
+            outline: 0;   
+            border: 0;
+            
+            .transition ();
+            
+            &.active, &:hover{
+                background-color: #cccccc;
+            }
+        }
+    }
+    
+    //Menu tabs
+    >.ui_tabs{
+        //overflow: hidden;
+        border: 2px solid #cccccc;
+        padding: 20px;
+        
+        .ui_tab{
+            display: none;
+            &.active{
+                display: block;   
+            }
+        }
+    }
+}

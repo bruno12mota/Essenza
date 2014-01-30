@@ -1,0 +1,44 @@
+//Alert shortcode
+.alert{
+    background-color: none;
+    border: 2px solid @esza_alert_warning_color;
+    padding: 8px 12px;
+    margin: 10px 0;
+    clear: both;
+    .roundedCorners ();
+    
+    >*:last-child{
+        margin-bottom:0;   
+    }
+    p{    
+        margin-left: 22px;
+        padding-left: 12px;
+        border-left: 1px solid @esza_alert_warning_color;
+        color: @esza_alert_text_color;
+    }
+    background-repeat: no-repeat;
+    background-position: 11px 50%;
+    .at2x('../img/shortcodes/warning', 11px, 11px, '.png');
+    
+}
+.alert-success{
+    border-color: @esza_alert_success_color;
+    .at2x('../img/shortcodes/check', 11px, 10px, '.png');
+    p{
+        border-color: @esza_alert_success_color;
+    }
+}
+.alert-error{
+    border-color: @esza_alert_error_color;
+    .at2x('../img/shortcodes/errornotice', 10px, 10px, '.png');
+    p{
+        border-color: @esza_alert_error_color;
+    }
+}
+.alert-info{
+    border-color: @esza_alert_info_color;
+    .at2x('../img/shortcodes/info', 11px, 11px, '.png');
+    p{
+        border-color: @esza_alert_info_color;
+    }
+}

@@ -1,0 +1,111 @@
+
+@import "blog/regular.less";
+@import "blog/masonry.less";
+@import "blog/mosaic.less";
+@import "blog/single.less";
+@import "blog/paginate.less";
+
+.facebook_login_button{
+    .at2x('../img/blog/facebook_connect_small', 100px, 26px, '.png');
+    background-repeat: no-repeat;
+    width: 100px;
+    height: 26px;
+    display: inline-block;
+}
+
+
+    
+    
+//Comments span
+span.comments{
+    color: @esza_paragraphs_highlight_color;   
+    i{
+        color: @esza_span_font_color;      
+        margin-right: 3px; 
+    }
+    &.no_comments{
+        color: @esza_paragraphs_obfuscated_color !important;
+        i{
+            color: @esza_paragraphs_obfuscated_color;   
+        }
+    }
+}
+
+
+
+
+@media (max-width: 600px) {
+    .single_blog_page_wraper, .blog_page_wraper{
+        padding: 0 0 25px !important;
+    }
+    
+    span.comments{
+        border-left: 0 !important;
+        margin-left: 0px !important;
+        padding-left: 0px !important;
+        display: block;
+    }
+    .blog_page_wraper .headline{
+        >h1{
+            padding: 20px 20px 0;   
+        }
+        hr{    
+            margin: 0 20px;
+        }
+    }
+    .masonry-blog-wraper{
+        padding: 0;
+        
+        .masonry-post .wraper{
+            margin-top: 0;  
+            margin-left: 0;   
+            margin-right: 0;   
+            margin-bottom: 10px;    
+        }
+    }
+    .paginate_simple{
+        margin-bottom: 80px;
+        margin-top: 0 !important;
+        overflow: hidden;    
+        padding: 0 20px;   
+    }
+    .regular-post{
+        .post_date_type{
+            display: none;
+        }
+        .post_date_type.mobile{
+            display: block;
+        }
+         .featured-content{
+            margin-bottom: 0px;   
+        }
+         .regular-post-inner{
+            padding-left: 0px;
+        }
+        .blog_post_title{
+            //padding: 0 !important;
+            h2{
+                padding: 17px 20px 5px; 
+            }
+        }
+        .regular-post-inner{
+            >a, >p, .divider{
+                padding: 0 20px;   
+            }
+            .post_padded_content{
+                padding: 0 20px;   
+            }
+        }
+    }
+    .single_blog_page_wraper{
+        .regular-post{
+            padding-top: 0px;
+            .blog_post_title{
+                padding-top: 17px !important;
+                padding-bottom: 5px !important;
+            }
+        }
+    }
+}
+
+

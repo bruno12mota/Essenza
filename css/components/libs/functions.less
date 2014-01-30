@@ -1,0 +1,139 @@
+//css functions
+
+/*Inline Block Fix*/
+.display_inline_block(){
+    display: inline-block;
+    vertical-align: top;
+    
+    /* For IE 7 */
+    zoom: 1;
+    *display: inline;
+}
+
+// Width Calc
+.width_calc(@percentage, @pixels){
+    width: -moz-calc(~"@{percentage} + @{pixels}");
+    width: -webkit-calc(~"@{percentage} + @{pixels}");
+    width: calc(~"@{percentage} + @{pixels}");
+}
+
+/*Maxes a div size to stick 0 pixels from the borders around*/
+.maxedSize(){
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.alphaColor(@r, @g, @b, @a){
+    html.no-rgba & {
+        @color: argb(rgba(@r, @g, @b, @a));
+        filter: ~"progid:DXImageTransform.Microsoft.gradient(startColorstr=@{color}, endColorstr=@{color})";
+        -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=@{color}, endColorstr=@{color})";
+    }
+    html.rgba & {
+        background: rgba(@r, @g, @b, @a);   
+    }
+}
+
+.alphaColorToRgb(@color, @alpha) when (@alpha > 1) {
+    .alphaColor(red(@color), green(@color), blue(@color), @alpha/100);
+}
+.alphaColorToRgb(@color, @alpha) when (@alpha =< 1) {
+    .alphaColor(red(@color), green(@color), blue(@color), @alpha);
+}
+
+/*Gradient*/
+.gradient(@color1, @color2, @perc1: 50%, @perc2: 50%){
+     background-color: @color2;
+    
+    background-image: linear-gradient(bottom, @color1 @perc1, @color2 @perc2);
+    background-image: -o-linear-gradient(bottom, @color1 @perc1, @color2 @perc2);
+    background-image: -moz-linear-gradient(bottom, @color1 @perc1, @color2 @perc2);
+    background-image: -webkit-linear-gradient(bottom, @color1 @perc1, @color2 @perc2);
+    background-image: -ms-linear-gradient(bottom, @color1 @perc1, @color2 @perc2);
+    
+    background-image: -webkit-gradient(
+        linear,
+    	left bottom,
+    	left top,
+    	color-stop(0.5, @color1),
+    	color-stop(0.5, @color2)
+    );
+    
+}
+
+/*Drop Shadow*/
+.drop-shadow(@x-axis: 0, @y-axis: 1px, @blur: 2px, @r: 0, @g: 0, @b: 0, @alpha: 0.1) {
+  -webkit-text-shadow: @x-axis @y-axis @blur rgba(@r, @g, @b, @alpha);
+  -moz-text-shadow: @x-axis @y-axis @blur rgba(@r, @g, @b, @alpha);
+  text-shadow: @x-axis @y-axis @blur rgba(@r, @g, @b, @alpha);
+}
+
+/*Rounded Corners*/
+.roundedCorners (@tl_rad: 2px, @tr_rad: 2px, @br_rad: 2px, @bl_rad: 2px) {
+    -webkit-border-radius : @tl_rad @tr_rad @br_rad @bl_rad;
+     -moz-border-radius : @tl_rad @tr_rad @br_rad @bl_rad;
+     -o-border-radius : @tl_rad @tr_rad @br_rad @bl_rad;
+     border-radius : @tl_rad @tr_rad @br_rad @bl_rad;
+}
+.roundedCorners (@rad: 2px) {
+    -webkit-border-radius : @rad;
+     -moz-border-radius : @rad;
+     -o-border-radius : @rad;
+     border-radius : @rad;
+}
+
+/*Transition*/
+.transition (@time: 0.2s, @to: all, @ease: cubic-bezier(0.190, 1.000, 0.220, 1.000)) {
+     transition : @to @time @ease;
+    -webkit-transition : @to @time @ease;
+     -moz-transition : @to @time @ease;
+     -o-transition : @to @time @ease;
+}
+
+/*Transition for transform only*/
+.transitionTransform (@time: 0.2s, @ease: ease){
+    transition : transform @time @ease;
+    -ms-transition: -ms-transform @time @ease;
+    -webkit-transition : -webkit-transform @time @ease;
+    -moz-transition : -moz-transform @time @ease;
+    -o-transition : -o-transform @time @ease;
+}
+
+/*Transition Delay*/
+.transitionDelay (@time: 0.2s) {
+    transition-delay : @time;
+    -webkit-transition-delay : @time;
+    -moz-transition-delay : @time;
+    -o-transition-delay : @time;
+}
+
+/*Opacity*/
+.opacity(@opacity: 0.5) {
+  @percentage: @opacity*100;
+  ms-filter: ~"progid:DXImageTransform.Microsoft.Alpha(Opacity=@{percentage})";
+  filter: ~"alpha(opacity=@{percentage})";  
+  -moz-opacity: @opacity;
+  -khtml-opacity: @opacity;
+  -webkit-opacity: @opacity;
+  opacity: @opacity;
+}
+
+
+.transformOrigin(@x, @y){
+    transform-origin: @x @y;
+    -ms-transform-origin: @x @y; /* IE 9 */
+    -webkit-transform-origin: @x @y; /* Safari and Chrome */
+    -moz-transform-origin: @x @y; /* Firefox */
+    -o-transform-origin: @x @y; /* Opera */
+}
+
+.transform(@values){
+    transform: @values;
+    -ms-transform: @values; /* IE 9 */
+    -moz-transform: @values; /* Firefox */
+    -webkit-transform: @values; /* Safari and Chrome */
+    -o-transform: @values; /* Opera */
+}

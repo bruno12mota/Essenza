@@ -1,0 +1,21 @@
+.masonry-block{
+    
+    .transitionTransform (0.3s);
+    
+    //opacity
+    .opacity(0);
+    
+    //tranform
+    .transformOrigin(50%, 50%);
+    .transform( scale(0.8,0.8) );
+    
+    &.appear{
+        transition : transform 0.3s ease, opacity 0.3s ease;
+        -ms-transition: -ms-transform 0.3s ease, opacity 0.3s ease;
+        -webkit-transition : -webkit-transform 0.3s ease, opacity 0.3s ease;
+        -moz-transition : -moz-transform 0.3s ease, opacity 0.3s ease;
+        -o-transition : -o-transform 0.3s ease, opacity 0.3s ease;
+        .opacity(1);
+        .transform( scale(1,1) );
+    }
+}

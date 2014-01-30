@@ -1,0 +1,41 @@
+.posts-navigation{
+    margin-top: 5px;
+}
+
+//Single post buttons
+.single_post_button{
+    background-color: @esza_pages_color;
+    width: 50px;
+    height: 36px;
+    border-bottom: 1px solid @esza_hr_divider_color;
+    display: block;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    .transition();
+    
+    
+    &:hover{
+        background-color: @esza_sidebars_color;
+    }
+    
+    &.next{
+        .at2x("../img/blog/nextpage", 8px, 14px, '.png');
+    }
+    
+    &.previous{
+        .at2x("../img/blog/previouspage", 8px, 14px, '.png');
+    }
+    
+    &.back{
+        .at2x("../img/blog/closepage", 12px, 12px, '.png');
+    }
+}
+.mobile{
+    .single_post_button{
+        height: 50px;
+        width: 45px;
+        border-left: 1px solid @esza_hr_divider_color;
+        border-bottom: 0;
+        float: right;
+    }
+}

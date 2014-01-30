@@ -1,0 +1,290 @@
+.option_label{
+    a{
+        background-image: url(../UI_Elements/slider_builder/add_element.png);
+        background-repeat: no-repeat;
+        background-position: 0% 50%;
+        float: right;
+        padding-left: 12px;
+        color: #999999;
+        
+        &.back{
+            background-image: url(../UI_Elements/slider_builder/back_to_overview.png);
+            &:hover{
+                background-image: url(../UI_Elements/slider_builder/back_to_overview_over.png);
+            }
+        }
+        
+        &:hover{
+            background-image: url(../UI_Elements/slider_builder/add_element_over.png);
+            color: #2c789e;
+        }
+    }
+}
+
+.slideManager{
+    position: relative;
+	border: 1px solid #E6E6E6;
+    width: 900px;
+    
+    *{
+        font-family: "AllerRegular";   
+        color: #333333;
+        font-size: 12px;
+        text-decoration: none;
+    }
+    
+    .tracer{
+        border: 1px dashed #FFFF00;
+        border-left: 0;
+        border-top: 0;
+        display: none;
+        position: absolute;    
+        top: 0;   
+        left: 0;
+    }
+    
+    .scalable_holder{
+        width: 100%;
+        height: 100%;
+        position: absolute !important;
+        top: 0;
+	    left: 0;
+    }
+    
+    .dragArea{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+	    top: 0;
+	    left: 0;
+    }
+    .scale_button{
+        position: absolute;
+        margin-left: -4px;
+        margin-top: -4px;
+        cursor: pointer;
+    }
+    
+    .slide_element{
+        position: absolute;
+        overflow: hidden;
+        //border: 1px solid #A9A801;
+        top: 0%;
+        left: 0%;
+        z-index: 1;
+        overflow: visible !important;
+        >*{
+            display: block;
+           // float: left;
+            position: relative;
+        }
+    }
+    
+    .off_limits{
+        width: 54px;
+		height: 54px;
+		background-image: url(../UI_Elements/off_bottom.png);
+		background-repeat: none;
+		display: none;
+		top: 0px;
+		left: 0px;
+		position: absolute;
+        &.off_lt{
+        	background-image: url(../UI_Elements/off_lt.png);
+        }
+        &.off_rt{
+            background-image: url(../UI_Elements/off_rt.png);
+        }
+        &.off_lb{
+            background-image: url(../UI_Elements/off_lb.png);
+        }
+        &.off_rb{
+            background-image: url(../UI_Elements/off_rb.png);
+        }
+        &.off_bottom{
+            background-image: url(../UI_Elements/off_bottom.png);
+        }
+        &.off_top{
+            background-image: url(../UI_Elements/off_top.png);
+        }
+        &.off_left{
+            background-image: url(../UI_Elements/off_left.png);
+        }
+        &.off_right{
+            background-image: url(../UI_Elements/off_right.png);
+        }
+    }
+    
+    .sliderHolder{
+        background-color: #E6E6E6;
+		width: 100%;
+		height: 500px;
+		text-align: center;
+		position: relative;
+		overflow: hidden;
+        .loading{        
+            background-color: #FFFFFF;
+            bottom: 0;
+            color: #555555;
+            display: inline-block;
+            left: 50%;
+            margin-left: -72px;
+            padding: 10px;
+            position: absolute;
+            text-align: center;
+            .opacity(0);
+        }
+        .sliderHolderInfo{
+            position: relative;
+			top: 48%;
+        }
+        .landingPage{
+            background-image: url(../UI_Elements/landing_page_stripe.jpg);
+			background-repeat: repeat;
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+        }
+        .landingPageImage{
+            position: relative;
+            
+            border: dashed 1px #999999;
+            
+            color: #DDDDDD;
+            display: inline-block;
+            font-family: Aller;
+            font-size: 15px;
+            margin: -24px auto 0;
+            padding: 15px 20px;
+            top: 50%;
+            
+            //background-image: url(../UI_Elements/landing_page.jpg);
+            //background-repeat: no-repeat;
+            //background-position: 50% 50%;
+        }
+        .background{
+            position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+            
+            background-position: 50% 50%;
+            background-repeat: no-repeat;
+            img{
+                max-width: none;   
+            }
+            &.youtube{
+                background-color: #ffffff;
+                background-image: url(../UI_Elements/youtube_icon.jpg);
+            }
+            &.vimeo{
+                background-color: #1ab7ea;
+                background-image: url(../UI_Elements/vimeo_icon.jpg);
+            }
+            &.dailymotion{
+                background-color: #163d8c;
+                background-image: url(../UI_Elements/dailymotion_icon.jpg);
+            }
+        }
+        .elements{
+            position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+        }
+    }
+    
+    .menu_top{
+        background-color: #111111;
+		position: relative;
+		padding: 7px;
+		overflow: hidden;
+        
+        a{
+            color: #ffffff;   
+        }
+        
+        .info{
+            position: relative;
+			padding: 7px 6px;
+			float: left;
+            color: #FFFFFF;
+            span{
+                color: #80CBDD;   
+            }
+        }
+        
+        .changeSlide{
+            width: 20px;
+			height: 30px;
+		    background-repeat: no-repeat;
+			margin: 0px 13px;
+			float: left;
+            background-repeat: no-repeat;
+            background-position: 50% 50%;
+            &.previous{
+                .opacity(0.4);
+                pointer-events: none;
+                background-image: url(../UI_Elements/slider_builder/previous_slide.png);
+                &.active{
+                    .opacity(1);
+                    pointer-events: auto;
+                }
+            }
+            &.next{
+                .opacity(0.4);
+                pointer-events: none;
+                background-image: url(../UI_Elements/slider_builder/next_slide.png);
+                &.active{
+                    .opacity(1);
+                    pointer-events: auto;
+                }
+            }
+        }
+        
+        .menu_btn{
+			position: relative;
+			float: right;
+			background-repeat: no-repeat;
+			background-position: 14px 2px;
+			padding-left: 33px;
+			padding-right: 14px;
+			margin-left: 0px;
+			margin-top: 7px;
+            color: #FFFFFF;
+            &.add_new{
+    		    background-image: url(../UI_Elements/add_slide_icon.png);
+    		    background-position: 14px 2px;
+    		    margin-left: 10px;
+            }
+            &.remove_slide{
+                background-image: url(../UI_Elements/remove_slide_icon.png);
+				background-position: 14px 1px;
+                border-left: solid 1px #333333;
+            }
+            &.duration_slide{
+                background-image: url(../UI_Elements/slide_duration_icon.png);
+				background-position: 14px 1px;
+				padding-left: 36px;
+            }
+        }
+        input{
+            background-color: #000000;
+			width: 40px;
+			padding: 3px 4px;
+			float: left;
+			border: 0;
+			position: relative;
+			margin-top: 4px;
+            color: #8AC7D4;
+            .roundedCorners (5px, 5px, 5px, 5px);
+        }
+        .livePreview{
+            float: right;   
+        }
+    }
+}

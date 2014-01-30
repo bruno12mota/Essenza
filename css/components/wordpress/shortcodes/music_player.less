@@ -1,0 +1,294 @@
+.music_player{
+    position: relative;
+    background-color: @esza_music_player_background_color;
+    //height: 80px;
+    text-align: center;
+    padding: 10px 5px;
+    
+    text-align: left;
+    font-family: "Open Sans";
+    color: @esza_music_player_title;
+    font-size: 11px;
+    
+    //<450
+    &.stage1{
+        //volume bar off
+        .volume_bar_holder{
+            display: none;   
+        }
+    }
+    //<390
+    &.stage2{
+        .component.right{
+            display: none;  
+        }
+        .component.fatten{
+            border-right: 0 !important;
+            >*{
+                padding-right: 10px !important;
+            }
+        }
+    }
+    //<330
+    &.stage3{
+        .tooglePlay{
+            width: 55px !important;
+            *{
+                line-height: 50px !important;  
+            }
+        }
+        .mobileProgress{
+            display: block !important;   
+        }
+        .player .progress_holder{
+            display: none !important; 
+        }
+        .player{
+            height: 55px !important;   
+        }
+    }
+    
+    
+    //Progress Bars
+    .current_position{
+        padding-right: 15px;
+    }
+    .duration{
+        padding-left: 15px;
+    }
+    .volume_bar_holder, .progress_bars{
+        position: relative;
+        .roundedCorners (1px, 1px, 1px, 1px);
+        background-color: @esza_music_player_bars_normal;
+        overflow: hidden;
+        height: 6px;
+        top: 8px;
+        float: none;
+    }
+    .volume_bar_holder{
+        width: 50px;   
+        top: 37px;
+        float: left;
+        margin-left: 10px;
+    }
+    .progress_holder{
+        position: relative;
+        margin-top: 5px;
+        overflow: hidden;
+    }
+    .active_bar, .stream_bar{
+        position: absolute;
+        height: 100%;
+        width: 0%;
+    }
+    .active_bar{
+        background-color: @esza_music_player_bars_active;
+        width: 0%;
+    }
+    .stream_bar{
+        background-color: @esza_music_player_bars_stream;
+        width: 0%;
+    }
+    
+    
+    .mobileProgress{
+        position: relative;
+        display: block;
+        display: none;    
+        padding: 0 16px;
+    }
+    .player{
+        position: relative;
+        height: 80px;
+        overflow: hidden;
+    
+        //Sound cloud link
+        .soundcloud{
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            
+            width: 50px;
+            height: 22px;
+            
+            .at2x("../img/music_player/soundcloud", 50px, 22px, ".png");
+            background-repeat: no-repeat;
+            .opacity(0.2);
+            .transition(0.3s);
+            
+            &:hover{
+                .opacity(0.5);
+            }
+        }
+        
+        //Song title and author holders
+        .song_artist, .song_title{
+            position: relative;
+            display: block;
+            float: none !important;
+            font-weight: bold;
+            overflow: hidden;
+            cursor: default;
+            &>*{
+                position: absolute;
+                left:0;
+                white-space: nowrap;
+            }
+        }
+        .song_artist{
+            &>*{
+                bottom:2px;
+            }
+            color: @esza_music_player_author;
+            font-size: 12px;
+            line-height: 12px;
+            height: 12px;
+            margin-top: 15px;
+            overflow: visible;
+        }
+        .song_title{
+            color: @esza_music_player_title;
+            font-size: 15px;
+            line-height: 20px;
+            height: 20px;
+        }
+        
+        .info_wraper{
+            position: relative;
+            float: none !important;
+            overflow: hidden;   
+        }
+        
+        
+        
+        // Component
+        .component{
+            position: relative;
+            float: left;
+            text-align: left;
+            height: 100%;
+            background-repeat: no-repeat;
+            background-position: 50% 50%;
+            
+            &>*{
+                float: left;   
+            }
+            &.right{
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+            &.fatten{
+                border-right: 1px solid @esza_music_player_bars_normal;
+                border-left: 1px solid @esza_music_player_bars_normal;
+                overflow: hidden;
+                float: none;
+                &>*{
+                    padding-left: 20px;  
+                    padding-right: 20px;    
+                }
+            }
+        }
+        
+        // Play&Pause toogle button
+        .tooglePlay{
+            width: 80px;    
+            
+            .roundedCorners(0px, 0px, 0px, 0px);
+            background-color: transparent;
+            padding: 0;
+            //background-image: url(../img/music_player/playicon.png);    
+            .transition(0.3s);
+            color: @esza_music_player_button;  
+            
+            *{
+                position: absolute;
+                width: 100%;   
+                line-height: 74px;
+                text-align: center;
+                font-size: 31px;
+            }
+            .esza-pause{
+                display: none;   
+            }
+            &:hover{
+                color: @esza_music_player_button_over;   
+            }
+            &.playing{
+                .esza-play{
+                    display: none;   
+                }
+                .esza-pause{
+                    display: inline !important;   
+                }
+                //background-image: url(../img/music_player/pauseicon.png);
+            }
+        }
+        
+        // Mute&Unmute toogle button
+        .toogleMute{
+            position:  relative;
+            //background-image: url(../img/music_player/speaker.png);
+            background-position: 0% 50%;
+            //padding-left: 16px;
+            width: 31px;
+            color: @esza_music_player_button;  
+            
+            .transition(0.3s);
+            
+            &:hover{
+                color: @esza_music_player_button_over;   
+            }
+            *{
+                line-height: 73px;
+                text-align: center;
+                font-size: 31px;   
+            }
+            >.esza-fullsound{
+                position: relative;
+            }
+            .volume_obj{
+                width: 18px;
+                overflow: hidden;
+            }
+            .volume_bar1, .volume_bar2, .no_volume{
+                float: left;   
+                background-repeat: no-repeat;
+                background-position: 0% 50%;
+                height: 100%;
+                width: 6px;
+                overflow: hidden;
+            }
+            .volume_bar1{
+                //background-image: url(../img/music_player/barsmall.png);
+                *{
+                    position: relative;
+                    left: -18px;
+                }
+            }
+            .volume_bar2{
+                *{
+                    position: relative;
+                    left: -23px;
+                }
+                //background-image: url(../img/music_player/barlarge.png);
+            }
+            .no_volume{
+                width: 10px;
+                display: none;  
+                *{
+                    position: relative;
+                    left: -18px;
+                }
+                //background-image: url(../img/music_player/nosoundicon.png); 
+            }
+            &.muted{
+                .volume_bar1, .volume_bar2{
+                    display: none;   
+                }
+                .no_volume{
+                    display: inline;   
+                }
+            }
+        }
+    }
+}

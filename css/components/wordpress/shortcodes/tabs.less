@@ -1,0 +1,42 @@
+//Tabs shortcode
+.tabs{
+    margin-bottom: 20px; 
+    position: relative;
+	width: 100%;	
+    clear: both;
+    
+    .tabs-titles{
+        position: relative;
+    	overflow: hidden;
+    	width: 100%;	
+        border-bottom: 1px solid @esza_tabs_border_background_color;
+        //#242424
+        a{
+            float: left;	
+        	padding: 3px 15px;
+            color: @esza_tabs_title_color;
+            font-size: 13px;
+            .transition();
+            
+            &:hover,
+            &.active{
+                background-color:@esza_tabs_border_background_color;
+                color: @esza_tabs_title_active_color;
+            }
+        }
+    }
+        
+    .tabs-content{
+    	position: relative;
+    	overflow: hidden;
+    	width: 100%;	
+        .tab{
+            width: 100%;
+        	position: absolute;
+            .tab-content{
+                position: relative;
+                padding: 15px;
+            }
+        }
+    }
+}

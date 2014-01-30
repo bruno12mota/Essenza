@@ -1,0 +1,183 @@
+.lightbox_cover{
+    .alphaColorToRgb(@esza_lightbox_cover_color, @esza_lightbox_cover_alpha);
+    
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    
+    z-index: 999;
+}
+
+.lightbox .description{
+    display: none;   
+}
+
+.lightbox_holder{
+    position: fixed;
+    
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    
+    z-index: 1000;
+    
+    .close_area{
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: transparent;
+    }
+}
+
+.lightbox_content_holder{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+
+.lightbox_content{
+    position: absolute;
+    *{
+        max-width: none;   
+    }
+    .description_holder{
+        position: absolute;
+        .alphaColorToRgb(@esza_lightbox_cover_color, @esza_lightbox_cover_alpha);
+        bottom: 0;
+        left: 0;
+        right: 0;
+        top: 0;
+        
+        h4{
+            font-family:    @esza_gallery_title_font;
+            font-size:      @esza_gallery_title_font_size;
+            line-height:    @esza_gallery_title_line_height;
+            font-weight:    @esza_gallery_title_font_weight;
+            font-style:     @esza_gallery_title_font_style;
+            letter-spacing: @esza_gallery_title_letterspacing;   
+            color:          @esza_lightbox_title_color;
+        }
+        p{
+            color: @esza_lightbox_description_color;
+            a{
+                text-decoration: underline;
+                   color: @esza_lightbox_description_color;
+                   &:hover{
+                       color: @esza_lightbox_title_color;
+                   }
+            }
+        }
+    }
+    .description{
+        position: relative;
+        >*{
+            padding: 0px 30px;
+        }
+    }
+}
+
+.lightbox_button{
+    width: 30px;
+    height: 30px;
+    background-color: #000000;
+    background-repeat: no-repeat;
+    background-position: 50%, 50%;
+    -ms-background-position-x: 50%;
+    -ms-background-position-y: 50%;
+    
+    position: absolute;    
+    display: inline-block;
+    
+    .transition ();
+    .opacity(0.9);
+    .roundedCorners (15px, 15px, 15px, 15px);
+    
+    &.disabled{
+        cursor: normal;
+        .opacity(0.4);
+         &:hover{
+            .opacity(0.4);
+        }
+    }
+    
+    &:hover{
+        .opacity(1);
+    }
+    //Left arrow
+    &.previous{
+        .at2x("../img/lightbox/arrowleft", 12px, 12px, '.png');
+        top: 50%;
+        left: 25px;
+        margin-top: -15px;
+    }
+    //Right arrow
+    &.next{
+        .at2x("../img/lightbox/arrowright", 12px, 12px, '.png');
+        top: 50%;
+        right: 25px;
+        margin-top: -15px;
+    }
+    //Description toogle
+    &.desc{
+        .at2x("../img/lightbox/description", 10px, 10px, '.png');
+        top: 50%;
+        right: 25px;
+        margin-top: 25px;
+    }
+    //Close button
+    &.close{
+        .at2x("../img/lightbox/lightboxclose", 10px, 10px, '.png');
+        background-image: url(../img/lightbox/lightboxclose.png);
+        top: 25px;
+        right: 25px;
+    }
+}
+
+
+@media (max-width: 700px) {
+    .lightbox_button{
+        //Left arrow
+        &.previous{
+            left: 5px;
+        }
+        //Right arrow
+        &.next{
+            right: 5px;
+        }
+        //Description toogle
+        &.desc{
+            right: 5px;
+        }
+        //Close button
+        &.close{
+            top: 15px;
+            right: 55px;
+        }
+    }
+}
+@media (max-height: 500px) {
+    .lightbox_button{
+        //Left arrow
+        &.previous{
+            left: 5px;
+        }
+        //Right arrow
+        &.next{
+            right: 5px;
+        }
+        //Description toogle
+        &.desc{
+            right: 5px;
+        }
+        //Close button
+        &.close{
+            top: 15px;
+            right: 5px;
+        }
+    }
+}

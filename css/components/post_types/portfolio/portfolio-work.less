@@ -1,0 +1,248 @@
+.slider{
+    background-color: #cccccc;
+}
+
+.next_project{
+    right: 15px;
+}
+.previous_project{
+    left: 15px;
+}
+
+.work-panel{
+    background-color: @esza_pages_color;
+    display: inline-block;
+    position: absolute;
+    .opacity(0);
+    
+    top: 88%;
+    left: 6%;
+    bottom: auto;
+    right: auto;
+    
+    //description
+    .work-expanded{
+        //display: none;
+        height: 0;
+        overflow: hidden;
+        background-color: @esza_pages_color;
+        position: absolute;
+        width: 100%;
+        bottom: 100%;
+        
+        .expanded-holder{
+            //.transition(0.2s, top);
+            
+            height: 100%;
+            padding-left: 25px;
+            
+            position: relative;
+            //padding: 25px 45px 25px 25px;
+            top: 13px;
+            >*{
+                padding-right: 50px;
+            }
+            
+            .item_header{
+                padding-top: 25px;
+            }
+        }
+    }
+    
+    .scrollbar{
+        top: 0px;
+        position: absolute;
+        float: right;
+        right: 0;
+        bottom: 10px;
+        padding: 0 17px;
+        border-left: 1px solid @esza_work_description_scrollbar_lines_color;    
+        overflow: hidden;
+        
+        a{
+            position: relative;
+            width: 6px;
+            height: 200px;
+            display: inline-block;
+            background-color: @esza_work_description_scrollbar_lines_color;
+        }
+    }
+    
+    .item_desc{
+        position: relative;
+        bottom: 0;
+        overflow: hidden;
+        .item_desc_content{
+            position: relative;
+            padding-bottom: 0px;
+            overflow: hidden;
+        }
+    }
+    
+    //other
+    .workMenuText{
+        color: @esza_paragraphs_highlight_color;
+        
+        span{
+            font-family:    @esza_single_portfolio_numbers_font;
+            font-weight:    @esza_single_portfolio_numbers_font_weight;
+            font-style:     @esza_single_portfolio_numbers_font_style;
+            letter-spacing: @esza_single_portfolio_numbers_letterspacing;
+        }
+    }
+    
+    .work-expanded{
+        .workMenuText.big{
+            font-family:    @esza_single_portfolio_opened_title_font;
+            font-weight:    @esza_single_portfolio_opened_title_font_weight;
+            font-style:     @esza_single_portfolio_opened_title_font_style;
+            letter-spacing: @esza_single_portfolio_opened_title_letterspacing;
+        }
+    }
+    
+    p{
+        margin-bottom: 10px;   
+    }
+    span{
+        color: @esza_paragraphs_color;
+    }
+    >p{
+        .workMenuTitle{
+            color: @esza_paragraphs_highlight_color;
+            font-family:    @esza_single_portfolio_title_font;
+            font-weight:    @esza_single_portfolio_title_font_weight;
+            font-style:     @esza_single_portfolio_title_font_style;
+            letter-spacing: @esza_single_portfolio_title_letterspacing;
+        }
+        position: relative;
+        float: left;
+        padding: 13px 15px;   
+        margin: 0;
+        top: 0px;
+        .transition(0.3s, top);
+        .opacity(1);
+    }
+    
+    //When opened
+    &.active{
+        .work-expanded{
+            //display: block;
+            height: auto;
+            .expanded-holder{
+                top: 0px;
+            }
+        }
+        .expand-panel{
+            .opacity(0);
+        }
+        >p{
+            .opacity(0);
+            top: -5px;
+        }
+    }
+    
+    //On mobile
+    &.mobile{
+        top: auto;
+		left: 0;
+	    bottom: 0;
+	    right: 0;
+        .scrollbar{
+            display: none;   
+        }
+        
+        .item_desc{
+            .item_desc_content{
+                padding-bottom: 20px;
+            }
+        }
+    }
+    
+    &.mobile.active{
+        position: absolute;
+        bottom: auto;
+        min-height: 100%;
+        .work-expanded{
+            position: relative;
+            top: 0;
+            height: auto;
+            
+            margin-bottom: @esza_footer_height;
+            @media (max-height: 400px) {
+                margin-bottom: 12px;
+            }
+            min-height: 100%;
+            .close-panel{
+                position: fixed;
+                top: @esza_menu_height;
+                right: @esza_site_border_size;
+            }
+        }
+        >*{
+            display: none;   
+            &.work-expanded{
+                display: block;   
+            }
+        }
+    }
+    
+    .panel-button{
+        width: 40px;
+        height: 41px;
+        display: inline-block;
+        
+        //padding: 14px 14px;
+        float: right;
+        
+        background-repeat: no-repeat;
+        background-position: 50% 50%;
+        
+        border-left: 1px solid @esza_work_description_scrollbar_lines_color;
+        background-color: @esza_pages_color;
+        
+        &.for_mobile{
+            float: left;
+            border-left: 0;
+            border-right: 1px solid @esza_work_description_scrollbar_lines_color;
+        }
+        
+        .transition(0.2s, background-color);
+        &:hover{
+            background-color: @esza_work_description_over_color;
+        }
+    }
+    .expand-panel{
+        .opacity(1);
+        .at2x('../img/portfolio/description', 12px, 13px, ".png");
+    }
+    .right-arrow{
+        .at2x('../img/portfolio/nextpage', 8px, 14px, ".png");
+    }
+    .left-arrow{
+        .at2x('../img/portfolio/previouspage', 8px, 14px, ".png");
+    }
+    .close-panel{
+        top: 0;
+        position: absolute;
+        float: right;
+        right: 0;
+        .at2x('../img/portfolio/closepage', 12px, 12px);
+        //background-image: url(../img/portfolio/closepage.png);
+    }
+}
+
+p.workMenuText{
+    //font-family: @Aller;
+    font-size: 15px;
+    line-height: 15px;
+    color: @esza_paragraphs_highlight_color;
+    
+    span{
+        color: @esza_paragraphs_obfuscated_color;
+    }
+    &.big{
+        font-size: 20px;
+        line-height: 20px;
+    }
+}
+

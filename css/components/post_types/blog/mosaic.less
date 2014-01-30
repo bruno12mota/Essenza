@@ -1,0 +1,53 @@
+.mosaic-blog-wraper{
+    position: relative;
+    padding: 0px;
+    min-height: 100%;
+    
+    .wraper{
+        position: relative;   
+        overflow: hidden;
+    }
+}
+
+.mosaic-post{
+    position: absolute;
+    
+    .shadow{
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        
+        background-color: @esza_mosaic_cover_color;
+        .transition(0.3s);
+        .opacity(0);
+    }
+    &.inactive{
+        .shadow{
+            .opacity(@esza_mosaic_cover_alpha / 100);
+        }   
+    }
+    
+    .mosaic-content{
+        position: absolute;
+        padding: 20px;
+        top: 0;
+        
+        h2{
+            font-family:    @esza_mosaic_blog_font;
+            font-size:      @esza_mosaic_blog_font_size;
+            line-height:    @esza_mosaic_blog_line_height;
+            font-weight:    @esza_mosaic_blog_font_weight;
+            font-style:     @esza_mosaic_blog_font_style;
+        }
+        p{
+            font-family:    @esza_mosaic_blog_sub_font;
+            font-size:      @esza_mosaic_blog_sub_font_size;
+            line-height:    @esza_mosaic_blog_sub_line_height;
+            font-weight:    @esza_mosaic_blog_sub_font_weight;
+            font-style:     @esza_mosaic_blog_sub_font_style;
+            margin-bottom: 0;
+        }
+    }
+}

@@ -1,0 +1,87 @@
+
+
+.paginate{
+    clear: both;
+    text-align: center;
+    margin-top: 20px;
+    >span, >a{
+        .roundedCorners (5px, 5px, 5px, 5px);
+        background-color: @esza_numeration_back_color;
+        padding: 5px 10px;
+        
+        font-family:    @esza_numeration_font;
+        font-size:      @esza_numeration_font_size;
+        line-height:    @esza_numeration_line_height;
+        font-weight:    @esza_numeration_font_weight;
+        font-style:     @esza_numeration_font_style;
+        letter-spacing: @esza_numeration_font_letterspacing;
+        color:          @esza_numeration_color;
+    }
+    >span, >a:hover{
+        color: @esza_numeration_active_color;
+    }
+    .next, .prev{
+        padding: 5px 7px;
+    }
+    
+    .next{
+        margin-left: 3px;
+    }
+    .prev{
+        margin-right: 3px;
+    }
+    .next .inner, .prev .inner{
+        background-repeat: no-repeat;
+        background-position: 50% 50%;
+        padding: 6px;
+    }
+    .next .inner{
+        background-image: url(../img/blog/olderpostspaginate.png);   
+    }
+    .prev .inner{
+        background-image: url(../img/blog/newerpostspaginate.png);   
+    }
+}
+
+.page_paginate{
+    clear: none;
+}
+
+.paginate_simple{
+    clear: both;
+    overflow: hidden;
+    margin-top: 20px;
+    .next, .prev{
+        background-repeat: no-repeat;
+        .transition (0.15s);
+        
+        font-family:    @esza_pag_font;
+        font-size:      @esza_pag_font_size;
+        line-height:    @esza_pag_line_height;
+        font-weight:    @esza_pag_font_weight;
+        font-style:     @esza_pag_font_style;
+        letter-spacing: @esza_pag_font_letterspacing;
+        color:          @esza_pag_color;
+    }
+    .next{
+        padding-right: 25px;
+        background-position: 96% 50%;
+        float: right;
+        background-image: url(../img/blog/olderposts.png);  
+        &:hover{
+            background-position: 100% 50%;
+            color: @esza_pag_active_color;
+        }
+    }
+    .prev{
+        margin-left: 30px;
+        padding-left: 25px;
+        background-position: 4% 50%;
+        float: left;
+        background-image: url(../img/blog/newerposts.png);  
+        &:hover{
+            background-position: 0% 50%;
+            color: @esza_pag_active_color;
+        } 
+    }
+}

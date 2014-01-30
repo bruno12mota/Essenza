@@ -1,0 +1,106 @@
+.fonts_picker{
+    position: relative;
+    .panel{
+        float: left;
+        
+        width: 49%;
+        height: 320px;
+        
+        background-color: #fdf2f8;
+        border: 1px solid #e5e5e5;
+        
+        overflow-x: hidden;
+        overflow-y: auto;
+        
+        &:last-child{
+            float: right;
+        }
+        &.active{
+            border-color: #80CCDC;
+        }
+    }
+    .panel-inner{
+        padding: 10px;
+    }
+}
+
+.font{
+    overflow: hidden;
+    display: block;
+    text-decoration: none;
+    outline: 0;
+    
+    background-color: #ffffff;
+    border: 2px solid #80cddd;
+    padding: 13px 13px;
+    margin-bottom: 2px;
+    
+    &>*{
+        font-family: "AllerRegular";
+        font-size: 14px;
+        line-height: 16px;
+    }
+    .font_title{
+        color: #111111 !important;
+        float: left;
+        a{
+            padding: 4px;
+            background-image: url(../UI_Elements/close_icon.png);
+            background-repeat: no-repeat;
+            margin-right: 8px;
+            display: none;
+        }
+    }
+    .expand{
+        float: right;
+        padding: 8px 8px;
+        background-image: url(../UI_Elements/maximize_icon.png);
+        background-repeat: no-repeat;
+        background-position: 50% 50%;
+        margin-left: 8px;
+        display: none;
+        &.opened{
+            background-image: url(../UI_Elements/minimize_icon.png);
+        }
+    }
+    .font_formats{
+        color: #333333 !important;
+        font-size: 11px;
+        float: right;
+        
+    }
+}
+.formats_holder{
+    position: relative;
+    overflow: hidden;
+    clear: both;
+    display: none;
+    
+    .format{
+        display: block;
+        text-decoration: none;
+        outline: 0;
+        font-family: "AllerRegular";
+        color: #ffffff;
+        font-size: 14px;
+        line-height: 14px;
+        padding: 5px 12px;
+        background-color: #FF797F;   
+        margin-bottom: 2px;
+        
+        &:first-child{
+            margin-top: 10px;   
+        }
+        &.selected{
+            background-color: #A1C348; 
+        }
+    }
+}
+.font.active{
+    .formats_holder{
+        //display: block !important;
+    }
+     .font_title a, .expand{
+            display: inline-block;
+     }
+}

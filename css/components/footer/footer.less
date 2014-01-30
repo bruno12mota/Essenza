@@ -1,0 +1,197 @@
+#mobile_footer{
+    z-index: 10;
+    position: fixed;
+    display: none;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    height: @esza_site_border_size;
+    background-color: @esza_site_border_color;
+}
+
+#footer{
+    z-index: 10;
+    display: block;
+    position: fixed;
+    height: @esza_footer_height;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    overflow: hidden;
+    background-color: @esza_site_border_color;
+    
+    padding: 0 30px;
+    
+    .social_icons, .copyright_text{
+        overflow: hidden;
+        float: right;   
+        &.center{
+            text-align: center;
+            float: none;
+            margin: 0 auto;
+        }
+    }
+    
+    p{
+        font-family: @esza_footer_font;
+        font-size: @esza_footer_font_size;
+		line-height: @esza_footer_height;   
+		color: @esza_footer_color1;
+    }
+	
+	.right>p{
+		padding-left: 20px;
+	}
+	
+	a{
+        color: @esza_footer_color2;
+	}
+	.sep{
+		padding: 0px 10px;    
+		font-size: 13px;
+	}
+    
+    #footer_twitter{
+        position: relative;
+        overflow: hidden;
+        height: @esza_footer_height; 
+        .tweet_small{
+            height: @esza_footer_height; 
+            margin: 0;
+            overflow: hidden;
+        }
+        >p{
+            float: left;    
+            font-size: 18px;
+            margin-right: 12px;
+            color: @esza_footer_twitter_bird_color;
+        }
+        span{
+            color: @esza_footer_color2;
+        }
+        .tweets{
+            position: relative; 
+            p{
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+        .tweets_holder{
+            overflow: hidden;
+            position: relative;
+        }
+    }
+}
+
+.two-image-button.socialButton{
+    height: @esza_footer_height;
+    width: 30px;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    .inner-image{
+        background-repeat: no-repeat;
+        background-position: 50% 50%;
+    }
+    
+    &.behance{
+        .at2x('../img/Social_Icons/bw_behance', 30px, 40px, '.png');
+        .inner-image{
+            .at2x('../img/Social_Icons/c_behance', 30px, 40px, '.png');
+        }
+    }
+    
+    &.google{
+        .at2x('../img/Social_Icons/bw_google+', 25px, 40px, '.png');
+        .inner-image{
+            .at2x('../img/Social_Icons/c_google+', 25px, 40px, '.png');
+        }
+    }
+    
+    &.dribbble{
+        .at2x('../img/Social_Icons/bw_dribbble', 28px, 40px, '.png');
+        .inner-image{
+            .at2x('../img/Social_Icons/c_dribbble', 28px, 40px, '.png');
+        }
+    }
+    
+    &.facebook{
+        .at2x('../img/Social_Icons/bw_facebook', 20px, 40px, '.png');
+        .inner-image{
+            .at2x('../img/Social_Icons/c_facebook', 20px, 40px, '.png');
+        }
+    }
+    
+    &.flickr{
+        .at2x('../img/Social_Icons/bw_flickr', 27px, 40px, '.png');
+        .inner-image{
+            .at2x('../img/Social_Icons/c_flickr', 27px, 40px, '.png');
+        }
+    }
+    
+    &.linkedin{
+        .at2x('../img/Social_Icons/bw_linkedin', 26px, 40px, '.png');
+        .inner-image{
+            .at2x('../img/Social_Icons/c_linkedin', 26px, 40px, '.png');
+        }
+    }
+    
+    &.pinterest{
+        .at2x('../img/Social_Icons/bw_pinterest', 29px, 40px, '.png');
+        .inner-image{
+            .at2x('../img/Social_Icons/c_pinterest', 29px, 40px, '.png');
+        }
+    }
+    
+    &.rss{
+        .at2x('../img/Social_Icons/bw_rss', 25px, 40px, '.png');
+        .inner-image{
+            .at2x('../img/Social_Icons/c_rss', 25px, 40px, '.png');
+        }
+    }
+    
+    &.twitter{
+        .at2x('../img/Social_Icons/bw_twitter', 31px, 40px, '.png');
+        .inner-image{
+            .at2x('../img/Social_Icons/c_twitter', 31px, 40px, '.png');
+        }
+    }
+    
+    &.vimeo{
+        .at2x('../img/Social_Icons/bw_vimeo', 26px, 40px, '.png');
+        .inner-image{
+            .at2x('../img/Social_Icons/c_vimeo', 26px, 40px, '.png');
+        }
+    }
+    
+    &.youtube{
+        .at2x('../img/Social_Icons/bw_youtube', 30px, 40px, '.png');
+        .inner-image{
+            .at2x('../img/Social_Icons/c_youtube', 30px, 40px, '.png');
+        }
+    }
+}
+
+
+
+
+@media (max-height: @footer_resize_at) {
+    #page-wraper{
+        padding-bottom: 0px !important;   
+    }
+    #page-wraper-full{
+        bottom: @esza_site_border_size;   
+    }
+    body{
+        margin-bottom: @esza_site_border_size !important;   
+    }
+    .info{
+        padding-bottom: @esza_site_border_size !important;   
+    }
+    #footer{
+        display: none;   
+    }
+    #mobile_footer{
+        display: block !important;   
+    }
+}

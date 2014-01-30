@@ -1,0 +1,101 @@
+@import "menu/normal.less";
+@import "menu/mobile.less";
+@import "menu/individual_submenus.less";
+
+.max_border (@a; @b) when (@a >= @b) { 
+    @value: @a+5px;
+    padding: 0 @value; 
+}
+.max_border (@a; @b) when (@a < @b) { padding: 0 @b; }
+#header{
+    z-index: 10;
+    position: fixed;
+    left: 0px;
+    right: 0px;
+    height: @esza_menu_height;
+    background-color: @esza_site_border_color;
+    overflow: hidden;
+    padding: 0 33px;
+    
+    //logo
+    #logo{
+        width: 128px;
+        height: @esza_menu_height;
+        background-position: 50% 50%;
+        //margin-right: 30px;
+        .display_inline_block();
+        margin-left: @esza_logo_hor_offset;
+        margin-top: @esza_logo_ver_offset;
+        position: relative;
+        .transformOrigin(0, 50%);
+    }
+    
+    &.mobile{
+        //padding: 0 @esza_site_border_size+5px;
+        .max_border(@esza_site_border_size, 12px);
+        
+        #logo{
+            position: absolute;
+            margin-left: @esza_logo_mobile_hor_offset;
+            margin-top: @esza_logo_mobile_ver_offset;
+        }
+    }
+}
+
+#toogleMenu{
+    position: relative;
+    top: 2px;
+    line-height: @esza_menu_height;  
+    img{
+        position: relative;
+        top: -1px;
+        margin-right: 10px;   
+    }
+}
+
+.searchButton, .toogleMenuMobile{
+    width: 46px;
+    height: @esza_menu_height; 
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    float: right;
+    left: 12px;
+    position: relative;
+}
+
+.headerButton{
+    text-align: center;
+    color: @esza_menu_buttons_color;
+    i{
+        font-size: 18px;
+        line-height: @esza_menu_height; 
+    }
+    &:hover{
+        color: @esza_menu_buttons_over_color;
+    }
+}
+
+.menuMobile .headerButton{ 
+    
+    i{
+        font-size: 22px;
+    }
+    
+    &.toogleMenuMobile i{
+        font-size: 19px;
+    }
+}
+
+.toogleMenuMobile{
+    text-align: center;
+}
+
+.menu_wraper{
+    position: relative;
+    .display_inline_block();
+    overflow: hidden;
+}
+
+
+
+

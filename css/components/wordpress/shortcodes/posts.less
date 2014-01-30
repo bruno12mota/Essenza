@@ -1,0 +1,56 @@
+// DISPLAY POSTS
+.display-posts-listing{
+    clear: both;
+    .listing-item{
+        overflow: hidden;    
+        padding: 10px 0;
+        border-bottom: 1px solid #1D1D1D;
+        
+        &:last-child{
+            border-bottom: 0;
+        }
+        .title p{
+            //font-size: 12px;
+            //line-height: 12px;
+            //margin-bottom: 3px;
+        }
+        .post_type{
+            width: 40px;
+            height: 40px;
+            
+            color: @esza_blog_type_color;
+            background-color: @esza_blog_type_background_color;
+            background-repeat: no-repeat;
+            
+            font-size: 23px;
+            line-height: 40px;
+            text-align: center;
+            
+            float: left;
+            margin-top: 5px;
+            position: relative;
+            
+            img{
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+        }
+        .comments{    
+            color: @esza_paragraphs_obfuscated_color;
+            i{
+                color: @esza_paragraphs_highlight_colord;
+            }
+            &.no_comments{
+                i{
+                    color: @esza_paragraphs_obfuscated_color;
+                }
+            }
+            font-size: 10px;      
+            line-height: 10px;     
+        }
+        .listing-item-content{
+            margin-left: 50px;   
+        }
+    }
+}

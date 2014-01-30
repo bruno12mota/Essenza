@@ -1,0 +1,358 @@
+@import "../libs/functions.less";
+
+//ALL STYLES
+h1, h2, h3, h4, h5, h6, p, a, ul li, ol li{
+    font-size: inherit;
+    font-style: normal;
+    font-weight: normal;
+    text-transform: none;
+    text-decoration: none;
+    word-spacing: 0;
+    letter-spacing: 0;
+    margin: 10px 0;
+    &:first-child{
+        margin-top:0;
+    }
+    &:last-child{
+        margin-bottom:0;
+    }
+    a:active{
+        background-color: transparent;
+    }
+    -ms-word-wrap: break-word;
+    word-wrap: break-word;
+}
+
+//H1: Quattrocento Sans, 37 px, linespacing 2
+h1{
+    font-family:    @esza_h1_font;
+    font-size:      @esza_h1_font_size;
+    line-height:    @esza_h1_line_height;
+    color:          @esza_h1_font_color ;
+    font-weight:    @esza_h1_font_weight;
+    font-style:     @esza_h1_font_style;
+    letter-spacing: @esza_h1_font_letterspacing;
+}
+
+//H2: Quattrocento Sans, 30 px, linespacing 2
+h2{
+    font-family:    @esza_h2_font;
+    font-size:      @esza_h2_font_size;
+    line-height:    @esza_h2_line_height;
+    color:          @esza_h2_font_color ;
+    font-weight:    @esza_h2_font_weight;
+    font-style:     @esza_h2_font_style;
+    letter-spacing: @esza_h2_font_letterspacing;
+}
+
+//H3: Open Sans, 20 pt, bold, linespacing 6
+h3{
+    font-family:    @esza_h3_font;
+    font-size:      @esza_h3_font_size;
+    line-height:    @esza_h3_line_height;
+    color:          @esza_h3_font_color ;
+    font-weight:    @esza_h3_font_weight;
+    font-style:     @esza_h3_font_style;
+    letter-spacing: @esza_h3_font_letterspacing;
+}
+
+//H4: Open Sans, 15 pt, bold, linespacing 6
+h4, dt{
+    font-family:    @esza_h4_font;
+    font-size:      @esza_h4_font_size;
+    line-height:    @esza_h4_line_height;
+    color:          @esza_h4_font_color ;
+    font-weight:    @esza_h4_font_weight;
+    font-style:     @esza_h4_font_style;
+    letter-spacing: @esza_h4_font_letterspacing;
+}
+
+//H5: Open Sans, 12 pt, bold, linespacing 6
+h5{
+    font-family:    @esza_h5_font;
+    font-size:      @esza_h5_font_size;
+    line-height:    @esza_h5_line_height;
+    color:          @esza_h5_font_color ;
+    font-weight:    @esza_h5_font_weight;
+    font-style:     @esza_h5_font_style;
+    letter-spacing: @esza_h5_font_letterspacing;
+}
+
+//H6: Open Sans, 10 pt, linespacing 6
+h6{
+    font-family:    @esza_h6_font;
+    font-size:      @esza_h6_font_size;
+    line-height:    @esza_h6_line_height;
+    color:          @esza_h6_font_color ;
+    font-weight:    @esza_h6_font_weight;
+    font-style:     @esza_h6_font_style;
+    letter-spacing: @esza_h6_font_letterspacing;
+}
+
+//A
+a{    
+    text-decoration: none;
+    border: 0;
+    outline: none !important;
+    font-weight: inherit;
+    margin: 0;
+    color: @esza_a_font_color;
+    &:hover{
+        text-decoration: none;
+        color: @esza_a_font_color_over;
+        outline: none;
+    }
+    &:focus,&:visited, &:active, &:link {
+        outline: none;
+        -moz-outline-style: none;
+        text-decoration: none;
+    }
+}
+
+
+.exception_page{
+    color: @esza_paragraphs_obfuscated_color !important;
+    a{
+        text-decoration: underline !important;  
+    }
+}
+
+.irrelevant_text{
+    color: @esza_paragraphs_irrelevant_color !important;
+}
+
+
+ul, ol{
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+    li{
+        border-bottom: 1px solid @esza_pages_lines_color;    
+        padding: 4px 0px;
+        margin: 0;
+        i{
+            padding: 0 5px;   
+        }
+        &:last-child{
+            border-bottom: 0;   
+        }
+    }
+    ul, ol{
+        border-top: 1px solid @esza_pages_lines_color;    
+        padding-left: 20px;    
+        position: relative;
+        top: 4px;
+    }
+}
+.ord{
+    background-color: #FE5656;
+    .roundedCorners ();
+    color: #FFFFFF;
+    margin-right: 7px;
+    margin-bottom: 7px;
+    padding: 2px 7px;
+    font-weight: bold; 
+}
+
+ul{
+    list-style-type: disc;
+    list-style-position: inside;
+}
+
+.unbulet{
+    list-style-type: none;
+}
+
+ol{
+    counter-reset:li;
+    //list-style-type: decimal;
+    >li:before{
+        content: counter(li)".";
+        counter-increment:li;
+        padding-right: 7px;
+        font-weight: bold;
+    }
+}
+
+p{
+    margin-top:0;
+    margin-bottom:15px;
+}
+
+span{
+    //color: @esza_span_font_color;
+}
+
+.dropcap { 
+    font-family: @esza_p_font;
+    font-size: 29px; 
+    font-weight: bold; 
+    line-height: 50px; 
+    color: @esza_dropcap1_font_color; 
+    text-align:center;
+    
+    float: left; 
+    background-color: @esza_dropcap1_background_color;
+    width: 50px;
+    height: 50px;
+    //border-radius: 25px;
+    .roundedCorners (25px, 25px, 25px, 25px);
+    margin-bottom: 0px; 
+    margin-right: 10px; 
+    margin-top: 6px; 
+}
+
+.dropcap1 { 
+    font-family: @esza_p_font;
+    font-size: 34px; 
+    font-weight: bold; 
+    line-height: 38px; 
+    color: @esza_dropcap2_font_color; 
+    
+    float: left; 
+    margin-bottom: 0px; 
+    margin-right: 10px; 
+    margin-top: 0px; 
+}
+
+.dropcap2 { 
+    font-family: @esza_p_font;
+    font-size: 29px; 
+    font-weight: bold; 
+    line-height: 50px; 
+    color: @esza_dropcap3_font_color; 
+    text-align: center;
+    
+    float: left; 
+    background-color: @esza_dropcap3_background_color;
+    width: 50px;
+    height: 50px;
+    margin-bottom: 0px; 
+    margin-right: 10px; 
+    margin-top: 6px; 
+}
+
+.blockquote{
+    width: 55%;
+    margin: 10px 10px 10px 0px;
+    float: left;
+    
+    i{
+        float: left;   
+        font-size: 28px;
+        color: @esza_inline_quote_icon_color;
+    }
+    
+    .blockquote_content{
+        font-family:    @esza_inline_quote_font;
+        font-size:      @esza_inline_quote_font_size;
+        line-height:    @esza_inline_quote_line_height;
+        font-weight:    @esza_inline_quote_font_weight;
+        font-style:     @esza_inline_quote_font_style;
+        color:          @esza_inline_quote_text_color;
+    }
+}
+
+.blockquote.right{
+    float: right;
+    margin: 10px 0px 10px 10px;
+}
+
+
+.beatufy_text{
+    .drop-shadow(0px, 0px, 0.5px, 255, 255, 255, 1);   
+}
+
+hr{
+    width: 50px;
+    max-width: 50px;
+    height: 0px;
+    background-color: @esza_hr_color;
+    text-align: left;
+    display: inline-block;
+    vertical-align: top;
+}
+hr.small{
+    width: 30px;
+    max-width: 30px;
+    margin: 15px 0;
+}
+hr.thin{
+    width: 100%;
+    max-width: 100%;
+    height: 1px;
+    border: 0;
+    padding: 0;
+    background-color: @esza_pages_lines_color;
+}
+hr.mini{
+    width: 25px;
+    max-width: 25px;
+    height: 1px;
+    border: 0;
+    padding: 0;
+    background-color: @esza_pages_lines_color;
+    margin: 0;
+}
+
+p, ul li, ol li, input, textarea, label, td, dd, th{
+    font-family: @esza_p_font;
+    font-size: @esza_p_font_size;
+    font-style: normal;
+    font-weight: @esza_p_font_weight;
+    font-style: @esza_p_font_style;
+    letter-spacing: @esza_p_font_letterspacing;
+    text-transform: none;
+    text-decoration: none;
+    word-spacing: 0em;
+    line-height: @esza_p_line_height;
+    color: @esza_paragraphs_color;
+    letter-spacing: 0;
+}
+
+td, th{
+    border: 1px solid @esza_pages_lines_color;
+    padding: 5px 10px;
+}
+
+textarea{
+    min-height: 170px;   
+}
+
+textarea, 
+input[type="text"], 
+input[type="password"], 
+input[type="datetime"], 
+input[type="datetime-local"], 
+input[type="date"], 
+input[type="month"], 
+input[type="time"], 
+input[type="week"], 
+input[type="number"], 
+input[type="email"], 
+input[type="url"], input[type="search"], input[type="tel"], input[type="color"]{
+    background-color: @esza_form_fields_background_color;
+    border: 1px solid @esza_form_fields_border_color;
+    color: @esza_form_fields_text_color;
+    
+    .roundedCorners (@esza_contact_forms_round_corners, @esza_contact_forms_round_corners, @esza_contact_forms_round_corners, @esza_contact_forms_round_corners);
+    
+    &:focus{
+        border-color: @esza_form_fields_border_over_color !important;
+        box-shadow: 0 0 !important;
+        outline: none !important;
+    }
+    
+    &.big{
+        font-size: 25px;   
+        height: 45px;
+        padding: 0px 12px;
+    }
+}
+
+
+//RICH EDITOR ALUSIVE
+.cke_panel_block{
+    background-color: @esza_pages_color;   
+}
+

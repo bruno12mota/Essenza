@@ -1,0 +1,45 @@
+//Line divider shortcode
+.divider{
+    position: relative;
+    margin-bottom: 10px; 
+    overflow: hidden;
+    clear: both;
+    
+    .line_text{
+        float: left;
+        >*{
+            margin:0;   
+            background-color: @esza_pages_color;
+            padding-right: 7px;
+        }
+        &.right{
+            float: right;
+            >*{
+                padding-right: 0px;
+                padding-left: 7px;
+            }
+        }
+        &.center{
+            text-align: center;
+            width: 100%;
+            >*{
+                .display_inline_block();
+                padding-right: 7px;
+                padding-left: 7px;
+            }
+        }
+    }
+    .line{
+        display: inline-block;
+        width: 100%;
+        height: 17px;   
+        border-bottom: 1px solid @esza_pages_lines_color;
+    }
+    
+}
+
+.continue-reading-button{
+    .line{
+        display: block;
+    }
+}

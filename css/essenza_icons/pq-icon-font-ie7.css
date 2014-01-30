@@ -1,0 +1,27 @@
+//DONT CHANGE THIS PART
+.esza-large{font-size:1.3333333333333333em;margin-top:-4px;padding-top:3px;margin-bottom:-4px;padding-bottom:3px;vertical-align:middle}.nav [class^="esza-"],.nav [class*=" esza-"]{vertical-align:inherit;margin-top:-4px;padding-top:3px;margin-bottom:-4px;padding-bottom:3px}.nav [class^="esza-"].esza-large,.nav [class*=" esza-"].esza-large{vertical-align:-25%}.nav-pills [class^="esza-"].esza-large,.nav-tabs [class^="esza-"].esza-large,.nav-pills [class*=" esza-"].esza-large,.nav-tabs [class*=" esza-"].esza-large{line-height:.75em;margin-top:-7px;padding-top:5px;margin-bottom:-5px;padding-bottom:4px}.btn [class^="esza-"].pull-left,.btn [class*=" esza-"].pull-left,.btn [class^="esza-"].pull-right,.btn [class*=" esza-"].pull-right{vertical-align:inherit}.btn [class^="esza-"].esza-large,.btn [class*=" esza-"].esza-large{margin-top:-0.5em}a [class^="esza-"],a [class*=" esza-"]{cursor:pointer}ul.icons{text-indent:-1.5em;margin-left:3em}
+
+/* 
+ * List of icons start HERE
+ * (content is the character associated, goes from f000 to feee)
+ * NOTICE: number go from 0-e -> example list below
+ * Its similar to the other one but has a bit more of text that doesn't need to be changed
+ */
+.esza-text{*zoom:expression(this.runtimeStyle['zoom'] = '1',this.innerHTML = '&#xf000;')}
+.esza-video{*zoom:expression(this.runtimeStyle['zoom'] = '1',this.innerHTML = '&#xf001;')}
+.esza-image{*zoom:expression(this.runtimeStyle['zoom'] = '1',this.innerHTML = '&#xf002;')}
+.esza-gallery{*zoom:expression(this.runtimeStyle['zoom'] = '1',this.innerHTML = '&#xf003;')}
+.esza-slider{*zoom:expression(this.runtimeStyle['zoom'] = '1',this.innerHTML = '&#xf004;')}
+.esza-headphones{*zoom:expression(this.runtimeStyle['zoom'] = '1',this.innerHTML = '&#xf005;')}
+.esza-tweet{*zoom:expression(this.runtimeStyle['zoom'] = '1',this.innerHTML = '&#xf006;')}
+.esza-quote{*zoom:expression(this.runtimeStyle['zoom'] = '1',this.innerHTML = '&#xf007;')}
+.esza-comment{*zoom:expression(this.runtimeStyle['zoom'] = '1',this.innerHTML = '&#xf008;')}
+.esza-lock{*zoom:expression(this.runtimeStyle['zoom'] = '1',this.innerHTML = '&#xf009;')}
+.esza-magnify{*zoom:expression(this.runtimeStyle['zoom'] = '1',this.innerHTML = '&#xf00a;')}
+.esza-nosound{*zoom:expression(this.runtimeStyle['zoom'] = '1',this.innerHTML = '&#xf00b;')}
+.esza-halfsound{*zoom:expression(this.runtimeStyle['zoom'] = '1',this.innerHTML = '&#xf00c;')}
+.esza-fullsound{*zoom:expression(this.runtimeStyle['zoom'] = '1',this.innerHTML = '&#xf00d;')}
+.esza-play{*zoom:expression(this.runtimeStyle['zoom'] = '1',this.innerHTML = '&#xf00e;')}
+.esza-pause{*zoom:expression(this.runtimeStyle['zoom'] = '1',this.innerHTML = '&#xf010;')}
+
+

@@ -1,0 +1,47 @@
+.ui-accordion{
+    position: relative;
+    
+    li{
+        overflow: hidden;
+        
+        .head{
+            text-decoration: none;
+    		display: block;
+			margin-bottom: 5px;
+		    overflow: hidden;
+            outline: none;
+        }
+        .headline{
+            background-color:#ffffff;
+    		float: left;
+			padding-right: 14px;
+            font-family: 'AllerBold';
+            font-size: 16px;
+            color: #111111;
+    	    overflow: hidden;
+            line-height: 19px;
+            .img{
+                float: left;
+                width: 19px; 
+                height: 19px; 
+                margin-right: 10px; 
+                position: relative; 
+                background-image: url(../UI_Elements/accordion_closed.png);
+                background-repeat: no-repeat;
+                &.active{
+                    background-image: url(../UI_Elements/accordion_opened.png);
+                }
+            }
+        }
+        .line{
+            border-bottom: 1px solid #E6E6E6;
+    		height: 10px;
+        }
+        .content{
+            overflow: hidden;
+            margin-bottom: 20px;
+    		margin-top: 20px;
+        }
+    }
+}
+

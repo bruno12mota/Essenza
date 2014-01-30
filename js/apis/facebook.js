@@ -1,0 +1,2 @@
+var plusquare_facebook_vars=vars;window.fbAsyncInit=function(){FB.init({appId:plusquare_facebook_vars.app_id,channelUrl:plusquare_facebook_vars.channel,status:!0,xfbml:!0});jQuery(document).ready(function(a){a("body").addClass("FacebookLoaded").trigger("FacebookLoaded")})};function refreshFacebookButtons(){void 0!=FB&&FB.XFBML.parse()}
+(function(a,b,c){var d=a.getElementsByTagName(b)[0];a.getElementById(c)||(a=a.createElement(b),a.id=c,a.src="//connect.facebook.net/en_US/all.js",d.parentNode.insertBefore(a,d))})(document,"script","facebook-jssdk");

@@ -1,0 +1,152 @@
+//.higherThanZero(@number) when (@number < 0px){ 0px }
+//.higherThanZero(@number) when (@number >= 0px){ @number }
+
+.mobile_min_margin(@value) when not(@value = 0px){
+    left: @value - 1px;
+    right: @value - 1px;
+}
+
+.mobile_min_margin(@value) when (@value = 0px) {
+    left: 0px;
+    right: 0px;
+}
+
+
+.menu_wraper.mobile{
+    display: block;
+    .mobile_min_margin(@esza_site_border_size);
+    //@value: (@esza_site_border_size == "0px") then 0px else @esza_site_border_size - 1px;
+    //left: @value;
+    //right: @esza_site_border_size - 1px;
+    top: 0;
+    padding-bottom: @esza_footer_height;
+    position: absolute;
+    margin-top: @esza_menu_height;
+    z-index: 9;
+    background-color: @esza_site_border_color;
+    overflow: hidden;
+    
+    @m: 12px - @esza_site_border_size;
+    padding-left: 5px + @m;
+    
+    .menu_mobile_background{
+        position: fixed;
+        top: @esza_menu_height;
+        bottom: @esza_footer_height;
+        left: 0;
+        right: 0;
+        background-color: @esza_site_border_color;
+    }
+
+    #menu_mobile{
+        display: block;
+        list-style-type: none;
+        padding: 0;
+        padding-bottom: 25px;
+        padding-top: 20px;
+        margin: 0;
+        overflow: hidden;
+    
+        position: relative;
+        left: 0px;
+        
+        a{
+            text-transform: uppercase;
+            font-family:    @esza_menu_font;
+            
+            font-size: @esza_mobile_menu_font_size;
+            line-height: @esza_mobile_menu_line_height;
+            letter-spacing: @esza_mobile_menu_font_letterspacing;
+            
+            font-weight:    @esza_menu_font_weight;
+            font-style:     @esza_menu_font_style;
+            color: @esza_mobile_menu_buttons_color;
+            .transition();
+            &:hover{
+                color: @esza_mobile_menu_buttons_over_color;
+            }
+        }
+        
+        >li ul a{
+            font-family:    @esza_submenu_font;
+            
+            font-size: @esza_mobile_submenu_font_size;
+            line-height: @esza_mobile_submenu_line_height;
+            letter-spacing: @esza_mobile_submenu_font_letterspacing;
+            
+            font-weight:    @esza_submenu_font_weight;
+            font-style:     @esza_submenu_font_style;
+            color: @esza_mobile_submenu_buttons_color;
+            &:hover{
+                color: @esza_mobile_submenu_buttons_over_color;
+            } 
+        }
+        >li >a{
+            white-space: nowrap;
+        }
+    
+        //main buttons
+        >li{
+            overflow: hidden;
+            margin-right: 15px;
+            margin-top: 20px;
+            margin-bottom: 0;
+            border: 0;
+            padding: 0;
+            
+            display: block;
+            max-width: 100%;
+            >a{
+                position: relative;
+            }
+            
+            ul{
+                position: relative;
+                border: 0;
+                list-style-type: none;   
+                margin: 0;
+                padding: 0;
+                padding-left: 20px;
+                
+                margin-top: 15px;
+                margin-bottom: 5px;
+                display: block;
+                
+                
+                //sub buttons
+                >li{
+                    position: relative;
+                    display: block;
+                    margin: 0;
+                    padding: 0;
+                    border: 0;
+                    margin-top: 8px;
+                    a{
+                        display: block;
+                        line-height: 20px;   
+                    }
+                }
+            }
+        }
+        >li:first-child{
+            margin-top: 0px;
+        }
+    }
+}
+
+#footer, .menu_wraper.mobile{
+    hr{
+        position: fixed;
+        background-color: transparent;
+        height: 0;
+        margin: 0;
+        max-width: none;
+        width: auto;   
+        left: @esza_site_border_size+5px;
+        right: @esza_site_border_size+5px;
+        display: none;
+        
+        border: none;
+        border-bottom: 1px solid @esza_mobile_submenu_buttons_color; //@esza_menu_buttons_color
+    }
+}

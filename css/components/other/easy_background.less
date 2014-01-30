@@ -1,0 +1,31 @@
+.fullSize(){
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.easyBackground{
+    margin: 0;
+    padding: 0;
+    position: fixed;
+    z-index: -1;
+    overflow: hidden;
+    .fullSize();
+    margin-top: @esza_menu_height;
+    margin-bottom: @esza_footer_height;
+    left: @esza_site_border_size;
+    right: @esza_site_border_size;
+    
+    .background-content{
+        position: absolute;
+        background-repeat : repeat;
+        .fullSize();
+    }
+}
+
+@media screen and (max-height: @footer_resize_at) {
+    .easyBackground{
+        margin-bottom: @esza_site_border_size;
+    }
+}
