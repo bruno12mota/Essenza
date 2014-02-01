@@ -31,8 +31,8 @@ if($essenza_is_old_ie !== true){
 
                             //is not link type
                             else{
-                                $categories = get_the_category_bytax($post->ID, 'galleries');
-                                $link = get_permalink(getPageToBack("gallery.php", $categories, "included_gallery_categories"));
+                                $categories = plusquare_get_the_category_bytax($post->ID, 'galleries');
+                                $link = get_permalink(plusquare_get_page_to_back("gallery.php", $categories, "included_gallery_categories"));
 
                                 if (strpos($link, '?') !== FALSE)
                                     $link .= '&item='.$post->ID;

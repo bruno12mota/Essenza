@@ -11,8 +11,8 @@ if($essenza_is_old_ie !== true){
 
 global $post; 
 
-$categories = get_the_category_bytax($post->ID, 'portfolio_category');
-$parentPage = getPageToBack("portfolio.php", $categories, "included_portfolio_categories");
+$categories = plusquare_get_the_category_bytax($post->ID, 'portfolio_category');
+$parentPage = plusquare_get_page_to_back("portfolio.php", $categories, "included_portfolio_categories");
 
 if($parentPage != NULL){
 	$linkBack = get_permalink( $parentPage );

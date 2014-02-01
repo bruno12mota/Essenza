@@ -37,13 +37,13 @@ if($essenza_is_old_ie !== true){
 
 	$categories = get_the_category();
 	
-	$parentPage = getPageToBack("blog.php", $categories, "included_blog_categories");
+	$parentPage = plusquare_get_page_to_back("blog.php", $categories, "included_blog_categories");
 
 	if($parentPage == NULL)
-		$parentPage = getPageToBack("blog-masonry.php", $categories, "included_blog_categories");
+		$parentPage = plusquare_get_page_to_back("blog-masonry.php", $categories, "included_blog_categories");
 
     if($parentPage == NULL)
-        $parentPage = getPageToBack("blog-mosaic.php", $categories, "included_blog_categories");
+        $parentPage = plusquare_get_page_to_back("blog-mosaic.php", $categories, "included_blog_categories");
 	
     if($parentPage != NULL)
         $linkBack = get_permalink( $parentPage );

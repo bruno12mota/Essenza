@@ -32,7 +32,7 @@ if(!isset($essenza_page_dynamically_loaded)){
 	<title><?php echo $essenza_title ?></title>
      
     <!-- Favicon -->
-    <?php echo getFavicon(); ?>
+    <?php echo plusquare_get_favicon(); ?>
 
 	<!-- RSS FEED -->
 	<link rel="alternate" type="application/rss+xml" title="RSS2.0" href="<?php bloginfo('rss2_url'); ?>" />
@@ -65,7 +65,7 @@ if(!isset($essenza_page_dynamically_loaded)){
     <!-- Header -->
 	<div id="header" class="<?php echo $submenu_type; ?>">
         <!-- LOGO -->
-    	<?php echo getLogo(); ?>
+    	<?php echo plusquare_get_logo(); ?>
 
     	<?php
     	$useSearch = get_option("esza_menu_search");

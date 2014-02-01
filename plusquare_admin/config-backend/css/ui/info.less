@@ -1,0 +1,29 @@
+.ui_info, .ui_alert{
+    position: relative;
+	display: block;
+	overflow: hidden;
+	margin-bottom: 10px;
+    
+    background-color: #F7E088;
+    background-image: url(../images/information_icon.png);
+    background-repeat: no-repeat;
+    background-position: 0 50%;
+    
+    &.ui_alert{
+        background-color: #feabab;    
+        background-position: 9px 40%;
+        background-image: url(../images/alert_icon.png);
+    }
+    
+    .ui_info_text, .ui_alert_text{
+        background-color: #FBFAA6;
+        margin-left: 37px;
+        padding: 10px 20px;
+        font-family: "AllerRegular";
+        color: #333333;
+        font-size: 12px;
+         &.ui_alert_text{
+            background-color: #ffd8d8;
+         }
+    }
+}

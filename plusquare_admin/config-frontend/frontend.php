@@ -1,142 +1,32 @@
 <?php
 
-function curl_exec_follow($ch, &$maxredirect = null) {
-  
-  // we emulate a browser here since some websites detect
-  // us as a bot and don't let us do our job
-  $user_agent = "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.7.5)".
-                " Gecko/20041107 Firefox/1.0";
-  curl_setopt($ch, CURLOPT_USERAGENT, $user_agent );
-
-  $mr = $maxredirect === null ? 5 : intval($maxredirect);
-
-  if (ini_get('open_basedir') == '' && ini_get('safe_mode') == 'Off') {
-
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, $mr > 0);
-    curl_setopt($ch, CURLOPT_MAXREDIRS, $mr);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-
-  } else {
-    
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
-
-    if ($mr > 0)
-    {
-      $original_url = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
-      $newurl = $original_url;
-      
-      $rch = curl_copy_handle($ch);
-      
-      curl_setopt($rch, CURLOPT_HEADER, true);
-      curl_setopt($rch, CURLOPT_NOBODY, true);
-      curl_setopt($rch, CURLOPT_FORBID_REUSE, false);
-      do
-      {
-        curl_setopt($rch, CURLOPT_URL, $newurl);
-        $header = curl_exec($rch);
-        if (curl_errno($rch)) {
-          $code = 0;
-        } else {
-          $code = curl_getinfo($rch, CURLINFO_HTTP_CODE);
-          if ($code == 301 || $code == 302) {
-            preg_match('/Location:(.*?)\n/', $header, $matches);
-            $newurl = trim(array_pop($matches));
-            
-            // if no scheme is present then the new url is a
-            // relative path and thus needs some extra care
-            if(!preg_match("/^https?:/i", $newurl)){
-              $newurl = $original_url . $newurl;
-            }   
-          } else {
-            $code = 0;
-          }
-        }
-      } while ($code && --$mr);
-      
-      curl_close($rch);
-      
-      if (!$mr)
-      {
-        if ($maxredirect === null)
-        trigger_error('Too many redirects.', E_USER_WARNING);
-        else
-        $maxredirect = 0;
-        
-        return false;
-      }
-      curl_setopt($ch, CURLOPT_URL, $newurl);
-    }
-  }
-  return curl_exec($ch);
-}
 
 
 /*
  *     Filter Menu
  */
-require_once( get_template_directory() . '/plusquare_admin/config-frontend/php/filter.php' );
+require_once( 'php/filter.php' );
 
 /*
  *     Posts
  */
-require_once( get_template_directory() . '/plusquare_admin/config-frontend/php/posts.php' );
-
-
-
-function getCategoriesAssociatedStr($categories, $option = "portfolio_category"){
-	$parents = array();
-	foreach($categories as $category){
-		//push current
-		array_push($parents, $category->term_id);
-		
-		//push all parents
-		if($category->parent != 0){
-			$term = $category;
-			do{
-				//Get parent
-				$term = get_term( $term->parent, $option );
-				array_push($parents, $term->term_id);
-			}while($term->parent != 0);
-		}
-	}
-	
-	$parentsStr = "";
-	foreach($parents as $index=>$parent){
-		if($index != 0)
-			$parentsStr .= ",";
-		
-		$parentsStr .= $parent;
-	}	
-	return $parentsStr;
-}
-
-
-
+require_once( 'php/posts.php' );
 
 /*
- *	Gets the categories of a taxonomy
+ *     Ajax
  */
-function get_the_category_bytax( $id = false, $tcat = 'category' ) {
-    $categories = get_the_terms( $id, $tcat );
-    if ( ! $categories )
-        $categories = array();
-		
-    $categories = array_values( $categories );
+require_once( 'php/ajax.php' );
 
-    foreach ( array_keys( $categories ) as $key ) {
-        _make_cat_compat( $categories[$key] );
-    }
-	
-    // Filter name is plural because we return alot of categories (possibly more than #13237) not just one
-    return apply_filters( 'get_the_categories', $categories );
-}
+
+
+
+
 
 
 /*
  *	Get Parent(Back) Page Of a Post
  */
-function getPageToBack($template, $categories, $meta_opt){
+function plusquare_get_page_to_back($template, $categories, $meta_opt){
 	$categoriesList = array();
 	if($categories)
 		foreach($categories as $category) 
@@ -274,7 +164,7 @@ function plusquare_get_page_css(){
 /*
  *	Get a social video iframe url from type and id
  */
-function getSocialVideoUrl($type, $id, $autoplay = "0"){
+function plusquare_get_social_video_url($type, $id, $autoplay = "0"){
 	if($type == "vimeo"){
 		//Vimeo options
 		$options = array(
@@ -364,7 +254,7 @@ function pq_get_video_fun() {
 	$id = $_POST['id'];	
 	$type = $_POST['type'];
 	
-	echo getSocialVideoUrl($type, $id);
+	echo plusquare_get_social_video_url($type, $id);
 
 	exit;
 }
@@ -380,24 +270,6 @@ function getMusicPlayerUrl($type, $sound, $title, $artist){
 }
 
 
-
-//Get Url Content with curl
-function curlFetchData($url){
-	if(function_exists('curl_init')){
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, 0);
-        curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, 0); 
-        $output = curl_exec($ch);
-        echo curl_error($ch);
-        curl_close($ch);
-        return $output;
-    }else{
-        return file_get_contents($url);
-    }
-}
 
 
 //Get time passed string
@@ -475,7 +347,7 @@ function getStringTimePassed($diff){
 
 
 //Get favicon
-function getFavicon(){
+function plusquare_get_favicon(){
 	global $pq_shortname;
 	$faviconId = get_option($pq_shortname."_favicon");
 	
@@ -487,8 +359,10 @@ function getFavicon(){
 	return '<link rel="shortcut icon" href="'.$faviconUrl.'">';
 }
 
+
+
 //Get logo
-function getLogo(){
+function plusquare_get_logo(){
 	global $pq_shortname;
 	$logoId = get_option($pq_shortname."_logo");
 	
@@ -506,177 +380,11 @@ function getLogo(){
 	return '<a href="'.get_home_url().'" id="logo" class="dynamic_loading" style="background:url('.$url.') no-repeat center center; background-size: '.$width.'px '.$height.'px; width:'.$width.'px;"></a>';
 }
 
-function pq_calculate_resized_url($args){
-	list($url, $width, $height, $original_width, $original_height, $crop, $retina, $snap, $snapValue, $align, $adjust) = $args;
-	$needsResize = false;
-
-	//Size with retina multiplier
-	$width = $width * ($retina ? 2 : 1);
-	$height = $height * ($retina ? 2 : 1);
-
-	//get width and height minimum values if no crop
-	if(!$crop && $original_width > $width && $original_height > $height){
-		if($width == NULL)
-			$ratio = $height/$original_height;
-		else if($height == NULL || $height === 0)
-			$ratio = $width/$original_width;
-		else if($adjust)
-			$ratio = min($width/$original_width, $height/$original_height);
-		else
-			$ratio = max($width/$original_width, $height/$original_height);
-
-		$width = ceil($original_width * $ratio);
-		$height = ceil($original_height * $ratio);
-
-		$needsResize = true;
-	}
-
-	//Snapping images sizes
-	if($needsResize && $snap){
-
-		//Snap vars
-		$widthSnap = $original_width;
-		$heightSnap = $original_height;
-		$ratio = $widthSnap / $heightSnap;
-
-		while(true){
-			if($ratio >= 1){
-				//landscape image
-				$tempWidth = $widthSnap-$snapValue;
-				$tempHeight = round($tempWidth / $ratio);
-			}
-			else{
-				//portrait image
-				$tempHeight = $heightSnap-$snapValue;
-				$tempWidth = round($tempHeight * $ratio);
-			}
-
-			//Check breaking point
-			if($tempWidth < $width || $tempHeight < $height)
-				break;
-
-			$widthSnap = $tempWidth;
-			$heightSnap = $tempHeight;
-		}
-
-		$width = $widthSnap;
-		$height = $heightSnap;
-	}
-
-	//Resize or crop if needed
-	if($needsResize || $crop)
-		$url = mr_image_resize($url, $width, $height, $crop, $align, false);
-	else{
-		$width = $original_width;
-		$height = $original_height;
-	}
-
-	return array(
-		"url"=> $url,
-		"width"=> $width,
-		"height"=> $height
-	);
-}
 
 
 
-//Get attachment
-add_action( 'wp_ajax_nopriv_pq_get_attachment', 'pq_get_attachment_fun' );
-add_action( 'wp_ajax_pq_get_attachment', 'pq_get_attachment_fun' );
-function pq_get_attachment_fun() {
-	// get the submitted parameters
-	$attachmentID = $_POST['attachmentID'];	
 
-	$retina = isset($_POST['retina']) ? ($_POST['retina']=="true"?true:false) : true;
-	$width = isset($_POST['width']) ? $_POST['width'] : NULL;
-	$height = isset($_POST['height']) ? $_POST['height'] : NULL;
-	$crop = isset($_POST['crop']) ? ($_POST['crop']=="true"?true:false) : false;
-	$snap = isset($_POST['snap']) ? ($_POST['snap']=="true"?true:false) : false;
-	$snapValue = isset($_POST['snap_value']) ? intval($_POST['snap_value']) : 100;
-	$align = isset($_POST['align']) ? $_POST['align'] : 'c';
-	$adjust = isset($_POST['adjust']) ? ($_POST['adjust']=="true"?true:false) : false;
 
-	$image = wp_get_attachment_image_src( $attachmentID, "full" );
-	
-	$url = $image[0];
-	$original_width = intval($image[1]);
-	$original_height = intval($image[2]);
-	
-	$json = pq_calculate_resized_url(array($url, $width, $height, $original_width, $original_height, $crop, $retina, $snap, $snapValue, $align, $adjust));
-
-	// response output
-	//if ( ! $attachment = wp_prepare_attachment_for_js( $attachmentID ) )
-		//wp_send_json_error();
-	$editUrl = get_edit_post_link( $attachmentID , '&');
-	$json["editLink"] = $editUrl;
-
-	wp_send_json_success( $json );
-
-	exit;
-}
-
-add_action( 'wp_ajax_nopriv_pq_get_resized', 'pq_get_resized_fun' );
-add_action( 'wp_ajax_pq_get_resized', 'pq_get_resized_fun' );
-function pq_get_resized_fun() {
-	$url = $_POST['url'];	
-	$retina = isset($_POST['retina']) ? ($_POST['retina']=="true"?true:false) : true;
-	$width = isset($_POST['width']) ? $_POST['width'] : NULL;
-	$height = isset($_POST['height']) ? $_POST['height'] : NULL;
-	$crop = isset($_POST['crop']) ? ($_POST['crop']=="true"?true:false) : false;
-	$snap = isset($_POST['snap']) ? ($_POST['snap']=="true"?true:false) : false;
-	$snapValue = isset($_POST['snap_value']) ? intval($_POST['snap_value']) : 100;
-	$align = isset($_POST['align']) ? $_POST['align'] : 'c';
-	$adjust = isset($_POST['adjust']) ? ($_POST['adjust']=="true"?true:false) : false;
-
-	$site_url = site_url();
-	if (strpos($url, $site_url) !== false) {
-	    $url = str_replace($site_url, "..", $url);
-	}
-
-	//Get image original size
-	$size = @getimagesize($url);
-
-	// If no size data obtained, return error or null
-	if ($size === FALSE) {
-		fb::log("Error getting image size!");
-		return is_user_logged_in() ? "getimagesize_error_common" : null;
-	}
-
-	// Set original width and height
-	list($original_width, $original_height, $orig_type) = $size;
-
-	$json = pq_calculate_resized_url(array($url, $width, $height, $original_width, $original_height, $crop, $retina, $snap, $snapValue, $align, $adjust));
-
-	wp_send_json_success( $json );
-
-	exit;
-}
-
-function pq_get_image_resized_fun($url, $width, $height, $crop, $retina, $snap, $snapValue, $align, $adjust){
-
-	$site_url = site_url();
-	if (strpos($url, $site_url) !== false) {
-	    $url = str_replace($site_url, "..", $url);
-	}
-
-	//Get image original size
-	$size = @getimagesize($url);
-
-	// If no size data obtained, return error or null
-	if ($size === FALSE) {
-		fb::log("Error getting image size!");
-		return array(
-			"url"=> $url,
-			"width"=> NULL,
-			"height"=> NULL
-		);
-	}
-
-	// Set original width and height
-	list($original_width, $original_height, $orig_type) = $size;
-
-	$json = pq_calculate_resized_url(array($url, $width, $height, $original_width, $original_height, $crop, $retina, $snap, $snapValue, $align, $adjust));
-}
 
 
 
@@ -763,8 +471,8 @@ function pq_get_portfolio_posts_fun() {
 			$imageUrl = $imageUrl[0];
 		}
 		
-		$categories = get_the_category_bytax($post->ID, 'portfolio_category');
-		$parentsStr = getCategoriesAssociatedStr($categories);
+		$categories = plusquare_get_the_category_bytax($post->ID, 'portfolio_category');
+		$parentsStr = plusquare_get_categories_str($categories);
 		
 
 		$item_external_link = get_post_meta($post->ID, "item_external_link", true);
@@ -843,8 +551,8 @@ function pq_get_blog_posts_fun() {
     if($posts->have_posts()): 
         while($posts->have_posts()):  $posts->the_post();
 
-	    $categories = get_the_category_bytax($post->ID, 'category');
-		$parentsStr = getCategoriesAssociatedStr($categories, "included_blog_categories");
+	    $categories = plusquare_get_the_category_bytax($post->ID, 'category');
+		$parentsStr = plusquare_get_categories_str($categories, "included_blog_categories");
             
         ?>
         
@@ -1014,8 +722,8 @@ function pq_get_blog_mosaic_posts_fun() {
 
             $title = '<h2 style="color: '.$mosaic_title_color.';">'.get_the_title().'</h2>';
 
-            $categories = get_the_category_bytax($post->ID, 'category');
-			$parentsStr = getCategoriesAssociatedStr($categories, "included_blog_categories");
+            $categories = plusquare_get_the_category_bytax($post->ID, 'category');
+			$parentsStr = plusquare_get_categories_str($categories, "included_blog_categories");
         ?>
         
         <a href="<?php the_permalink(); ?>" 
@@ -1097,7 +805,7 @@ function get_gallery_item_content($id){
 	else if( $item_type == "video"){
 		$type = get_post_meta($id, "item_video_type", true);
 		$video_id = get_post_meta($id, "item_video_id", true);
-		$href = getSocialVideoUrl($type, $video_id);
+		$href = plusquare_get_social_video_url($type, $video_id);
 	}
 	else if( $item_type == "sound"){
 		$sound = get_post_meta($id, "item_sound_url", true);
@@ -1172,7 +880,7 @@ function pq_get_gallery_posts_fun() {
 		else if( $item_type == "video"){
 			$type = get_post_meta($post->ID, "item_video_type", true);
 			$id = get_post_meta($post->ID, "item_video_id", true);
-			$href = getSocialVideoUrl($type, $id);
+			$href = plusquare_get_social_video_url($type, $id);
 		}
 		else if( $item_type == "sound"){
 			$sound = get_post_meta($post->ID, "item_sound_url", true);
@@ -1207,8 +915,8 @@ function pq_get_gallery_posts_fun() {
 		}
 		
 		
-		$categories = get_the_category_bytax($post->ID, 'galleries');
-		$parentsStr = getCategoriesAssociatedStr($categories);
+		$categories = plusquare_get_the_category_bytax($post->ID, 'galleries');
+		$parentsStr = plusquare_get_categories_str($categories);
 
 		$description = get_post_meta($post->ID, "item_description", true);
 
