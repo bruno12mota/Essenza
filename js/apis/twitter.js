@@ -1,1 +1,22 @@
-window.twttr=function(a,b,c){var d,e=a.getElementsByTagName(b)[0];if(!a.getElementById(c))return a=a.createElement(b),a.id=c,a.src="https://platform.twitter.com/widgets.js",e.parentNode.insertBefore(a,e),window.twttr||(d={_e:[],ready:function(a){d._e.push(a)}})}(document,"script","twitter-wjs");function refreshTweetButtons(){void 0!=window.twttr&&(void 0!=window.twttr.widgets?window.twttr.widgets.load():window.twttr.ready(function(a){window.twttr.widgets.load()}))}jQuery(document).ready(function(a){a("body").addClass("TwitterLoaded").trigger("TwitterLoaded")});
+window.twttr = (function (d,s,id) {
+	var t, js, fjs = d.getElementsByTagName(s)[0];
+	if (d.getElementById(id)) return; js=d.createElement(s); js.id=id;
+	js.src="https://platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs);
+	return window.twttr || (t = { _e: [], ready: function(f){ t._e.push(f) } });
+}(document, "script", "twitter-wjs"));
+
+function refreshTweetButtons(){
+	if(window.twttr == undefined)
+		return;
+
+	if(window.twttr.widgets != undefined)
+		window.twttr.widgets.load();
+	else
+		window.twttr.ready(function (twttr) {
+			window.twttr.widgets.load();
+		});
+}
+
+jQuery(document).ready(function($){
+	$("body").addClass("TwitterLoaded").trigger("TwitterLoaded");
+});

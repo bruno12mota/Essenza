@@ -1,0 +1,122 @@
+.items-grid-holder{
+    display: block;
+    position: relative;
+	overflow: auto;
+    overflow-y: hidden;
+	-ms-overflow-y: hidden;
+    margin-bottom: 10px;
+}
+
+.items-grid{
+    position: relative;
+    overflow: hidden;
+    margin: 10px 0;
+    
+}
+
+.item{    
+        margin-bottom: 10px;
+        margin-right:10px;
+        width: 155px;   
+        float: left;
+        background-color: #E5E5E5;
+        
+        .title{
+            margin-bottom: 5px !important;
+            font-family: "AllerBold";
+            color: #111111;
+            font-size: 15px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .sub{
+            font-family: "AllerBold";
+            font-size: 13px;
+            text-transform: capitalize;
+        }
+        .online{
+            color:#abd734 !important;
+        }
+        .offline{
+            color: #ff6666 !important;
+        }
+        
+        //holder of all the item's content
+        .item-inner{
+            position: relative;
+            margin: 10px;
+            
+            &>*{
+                margin-bottom:10px;   
+            }
+            &>*:last-child{
+                margin-bottom:0px;   
+            }
+        }
+        
+        //image holder
+        .img{
+            width: 135px;
+            height: 90px; 
+            background-color: #CCCCCC;
+            overflow: hidden;
+            position: relative;
+            background-repeat: no-repeat;
+            &.vvideo{
+                background-image: url(../images/ui/vimeo_icon.jpg); 
+            }
+            &.yvideo{
+                background-image: url(../images/ui/youtube_icon.jpg); 
+            }
+            &.dvideo{
+                background-image: url(../images/ui/dailymotion_icon.jpg); 
+            }
+            img{
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+            .dragArea{
+                position: absolute;
+                .stickAround();   
+                &:hover{
+                    cursor: url(../images/ui/mouse/grabhand_open.png) 12 12,auto;
+                }
+                &.active:hover{
+                    cursor: url(../images/ui/mouse/grabhand_closed.png) 12 12,auto;
+                }
+            }
+            .buttons{
+                position: relative;
+                float: right;
+                background-color: #ffffff;
+                top: 65px;
+                a{
+                    width: 25px;
+                    height: 25px;
+                    background-repeat: no-repeat;
+                    background-position: 50% 50%;
+                    float: left;
+                    background-color: #ffffff;
+                    .transition (0.3s);
+                    
+                    &.trash{
+                        background-image: url(../images/page_builder/Blocks/delete_icon.png);
+                    }
+                    &.remove{
+                        background-image: url(../images/page_builder/Blocks/delete_icon.png);
+                    }
+                    &.edit{
+                        background-image: url(../images/page_builder/Blocks/edit_icon.png);
+                    }
+                    &.restore{
+                        background-image: url(../images/page_builder/Blocks/recover_item.png);
+                    }
+                    &:hover{
+                        background-color: #EFEFEF;
+                    }
+                }
+            }
+        }
+    }

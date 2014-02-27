@@ -1,4 +1,110 @@
-define(["jquery"],function(){var c=function(b,a,d){this.width=a;this.height=d;void 0==this.width&&(this.width=400);void 0==this.height&&(this.height=250);jQuery(document).ready($.proxy(function(a){this.id=b;this.$input=a("#"+this.id).bind("update",a.proxy(this.updateImage,this));this.$button=a("#"+this.id+"_button");this.$grid=a("#"+this.id+"_grid");this.img=a("img",this.$grid);this.frame=wp.media({title:"Pick an image",multiple:!1,library:{type:"image"},button:{text:"Choose"}});this.$button.click(a.proxy(this.buttonClick,
-this));this.updateImage()},this))};c.prototype={buttonClick:function(b){this.frame.on("close",$.proxy(this.frameClose,this));this.frame.on("open",$.proxy(this.frameOpen,this));this.frame.open();return!1},frameOpen:function(){var b=this.frame.state().get("selection"),a=this.$input.val(),a=wp.media.attachment(a);a.fetch();b.add(a?[a]:[])},frameClose:function(){var b=null;this.frame.state().get("selection").forEach($.proxy(function(a){b=a.id;this.$input.val(b)},this));this.updateImage()},updateImage:function(b){var a=
-this.$input.val();""!=a&&null!=a?jQuery.post(adminAjax,{action:"pq_get_attachment",attachmentID:a,width:this.width,height:this.height,crop:"true"},$.proxy(function(a){console.log(a);!0==a.success&&(this.img.remove(),this.img=$("<img />").appendTo(this.$grid.find(".item-inner .img")),this.img.attr("src",a.data.url),this.$grid.find(".item-inner .img").data("src",a.data.url).data("width",a.data.width).data("height",a.data.height),void 0==b&&this.$input.trigger("change"))},this)):this.img.remove()}};
-return c});
+define(["jquery"], function($){
+	var Single_Pick = function(id, width, height){
+		this.width = width;
+		this.height = height;
+		
+		if(this.width == undefined)
+		this.width = 400;
+		
+		if(this.height == undefined)
+		this.height = 250;
+		
+		jQuery(document).ready($.proxy(function($){
+			this.id = id;
+			this.$input = $('#'+this.id).bind("update", $.proxy(this.updateImage, this));
+			this.$button = $('#'+this.id+'_button');
+			this.$grid = $('#'+this.id+'_grid');
+			this.img = $("img", this.$grid);
+			
+			//Prepare frame
+			this.frame = wp.media({
+				title : 'Pick an image',
+				multiple : false,
+				library : { type : 'image'},
+				button : { text : 'Choose' }
+			});
+			
+			this.$button.click($.proxy(this.buttonClick, this));
+			this.updateImage();
+		}, this)
+		);
+	}
+	
+	Single_Pick.prototype = {
+		//Button on click
+		buttonClick: function(e) {
+			
+			//On frame close -> save selected images
+			this.frame.on('close', $.proxy(this.frameClose, this));
+			this.frame.on('open', $.proxy(this.frameOpen, this));
+			this.frame.open();
+			
+			return false;
+		},
+		
+		//Frame on open
+		frameOpen: function(){
+			var selection = this.frame.state().get('selection');
+			//if(WP_DEBUG)console.log(frame);
+			
+			//Get ids array from
+			var id = this.$input.val();
+			var attachment = wp.media.attachment(id);
+			attachment.fetch();
+			selection.add( attachment ? [ attachment ] : [] );
+		},
+		
+		//Frame on close
+		frameClose: function(){
+			var id = null;
+			
+			var selection = this.frame.state().get('selection');
+			selection.forEach($.proxy(function(obj){
+				id = obj["id"];
+				this.$input.val(id);
+			}, this));
+			
+			//Get attachment
+			this.updateImage();
+			
+		},
+		
+		updateImage: function(e){
+			var attachmentId = this.$input.val();
+			
+			if(attachmentId != "" && attachmentId!= null)
+				jQuery.post(
+					adminAjax,
+					{
+						action 			: 'pq_get_attachment',
+						'attachmentID'	: attachmentId,
+						'width'			: this.width,
+						'height'		: this.height,
+						'crop'			: 'true'
+					},
+					$.proxy(function( response ) {
+						if(WP_DEBUG)console.log(response);
+						if(response["success"] == true){
+							this.img.remove();
+							this.img = $("<img />").appendTo(this.$grid.find(".item-inner .img"));
+							
+							this.img.attr("src", response["data"]["url"]);
+							
+							this.$grid.find(".item-inner .img")	.data("src", response["data"]["url"])
+																.data("width", response["data"]["width"])
+																.data("height", response["data"]["height"]);
+
+															
+							if(e==undefined)
+								this.$input.trigger("change");
+							
+						}
+					}, this)
+				);
+			else
+				this.img.remove();
+		}
+	}
+	
+	return Single_Pick;
+});

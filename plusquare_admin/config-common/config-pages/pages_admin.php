@@ -315,7 +315,7 @@ if(is_admin()){
 			//background color
 			"label" => "Background color",
 			"id" => "background_color",
-			"type" => "color_picker",
+			"type" => "color_palette_picker",
 			"help" => "Choose the background color of this page.",
 			"default" => "#d1d1d1"
 		),

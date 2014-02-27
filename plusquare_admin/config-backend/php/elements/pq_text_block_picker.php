@@ -70,7 +70,7 @@ class pq_text_block_picker {
 				array(
 					"label" => "Background Color",
 					"id" => $id."background_color",
-					"type" => "color_picker",
+					"type" => "color_palette_picker",
 					"default" => "#000000",
 					"help" => "Text block's background color."
 				),
@@ -79,7 +79,7 @@ class pq_text_block_picker {
 				array(
 					"label" => "Border Color",
 					"id" => $id."border_color",
-					"type" => "color_picker",
+					"type" => "color_palette_picker",
 					"default" => "#000000",
 					"help" => "Text block's border color."
 				),
@@ -117,7 +117,7 @@ class pq_text_block_picker {
 				array(
 					"label" => "Font Color",
 					"id" => $id."font_color",
-					"type" => "color_picker",
+					"type" => "color_palette_picker",
 					"default" => "#ffffff",
 					"help" => "Text block's font color."
 				)
@@ -289,7 +289,7 @@ class pq_text_block_picker {
 							var button = jQuery.parseJSON($input.val());
 							
 							if(button != undefined && button != null && button != "null"){
-								//console.log(button);
+								//if(WP_DEBUG)console.log(button);
 								changeByButton(button);
 							}
 						}
@@ -456,7 +456,7 @@ class pq_text_block_picker {
 							}
 							
 							//Debug
-							console.log(value);
+							if(WP_DEBUG)console.log(value);
 							
 							//save
 							save(value, name);

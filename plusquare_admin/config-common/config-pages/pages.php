@@ -14,3 +14,6 @@ require_once( 'posts_admin.php' );
 
 //Slider
 require_once( 'slider_admin.php' );
+
+//Slider
+require_once( 'sidebar.php' );

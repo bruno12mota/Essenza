@@ -1,10 +1,424 @@
-var esza_submenu_alignment=directory.esza_submenu_alignment,esza_submenu_start_opacity=parseFloat(directory.esza_submenu_start_opacity,10),esza_submenu_start_vertical_offset=parseFloat(directory.esza_submenu_start_vertical_offset,10),esza_submenu_animation_duration=1E3*parseFloat(directory.esza_submenu_animation_duration,10),esza_submenu_indication=directory.esza_submenu_indication,esza_submenu_indication_icon=directory.esza_submenu_indication_icon,esza_menu_min_margin=parseInt(directory.esza_menu_min_margin,
-10);
-require(["jquery","other/Dragable","jquery/jquery.mobile.vmouse","utils/utils","essenza/Cover"],function(b,H){function F(){var a=c.find(">li");"true"==esza_submenu_indication&&a.each(function(){var a=b(this);0<a.find(">ul").length&&a.find(">a").append("<i class='"+esza_submenu_indication_icon+"'></i>")});if(m){var f=a.length;a.each(function(a){var n=b(this),h=n.find(">ul"),c=n.find(">a").width(),d=0==h.length?0:h.width();0!=h.length&&(w=!1);a==f-1?n.css("width",c+"px"):n.css("width",c+esza_menu_min_margin+"px");
-0<h.length&&(n="left"==esza_submenu_alignment?0:"center"==esza_submenu_alignment?Math.round((c-d)/2):c-d,h.css({opacity:0,width:d+"px",left:n+"px"}).hide());e=a==f-1?e+c:e+(c+esza_menu_min_margin)});e+=parseInt(c.css("margin-left"),10);e+=parseInt(c.css("margin-right"),10)}else{var d=[];a.each(function(){var a=b(this),c=a.find("ul"),a=a.find("a"),h=0==c.length?0:c.width(),f=a.width();0!=c.length&&(w=!1);d.push({u:c,a:a,uw:h,aw:f})});var g=20;b.each(d,function(a,b){var c=Math.max(b.uw-b.aw,0);c>g&&
-(g=c)});b.each(d,function(b,a){var c=a.aw+g;0!=a.u.length&&a.u.css("width",c+"px");a.a.parent(".menu-item").css("width",c+"px");var d=parseInt(a.a.parent(".menu-item").css("margin-right"),10);e+=c+d})}}function G(){p?k():x();return!1}function x(){p=!0;if(0!=f||w)1==f&&(A=b(document).scrollTop(),a=y.show().height(),b("#page-wraper").css({height:a+"px",overflow:"hidden"}),b("#page-wraper-full").css({height:a+"px",overflow:"hidden"}),B.stop().css("top","-20px").animate({top:"0px"},300,"easeOutExpo"),
-b("#footer, .menu_wraper.mobile").find("hr").show(),z.css("display","block"),b("html, body").animate({scrollTop:0},400,"easeOutExpo"),esza_cover_menu&&contentCoverIn());else if(m){var a=b(this).find("ul");0<a.length&&a.stop().show().css({opacity:esza_submenu_start_opacity,top:esza_submenu_start_vertical_offset+"px"}).animate({opacity:1,top:"0px"},esza_submenu_animation_duration,"easeOutExpo")}else{d.show();g=25+c.height();var e=0;d.each(function(a,c){b(c).stop().css({opacity:0,top:"15px"}).delay(e).animate({opacity:1,
-top:"0px"},600,"easeOutExpo");e+=70});l.stop().css("height",g-15>q?g-15:q).animate({height:g+"px"},900,"easeOutExpo");esza_cover_menu&&contentCoverIn()}}function k(){p=!1;if(0!=f||w)1==f&&(y.hide(),b("#page-wraper").css({height:"",overflow:""}),b("#page-wraper-full").css({height:"",overflow:""}),b("#footer, .menu_wraper.mobile").find("hr").hide(),z.css("display",""),b("html, body").animate({scrollTop:A+"px"},400,"easeOutExpo"),esza_cover_menu&&contentCoverOut());else if(m){var a=b(this).find("ul");
-0<a.length&&a.hide()}else d.hide(),l.stop().css("height",q+15<g?q+15:g).animate({height:q+"px"},900,"easeOutExpo"),esza_cover_menu&&contentCoverOut()}function C(){var a=b(window).width()-66-s-D-30;E||e>=a?(t.css("display",""),a=r.offset().left+s-t.offset().left,0<a?(a=(s-a)/s,r.setTransform("scale("+a+", "+a+")")):r.setTransform("scale(1, 1)"),1!=f&&(p&&k(),c.unbind("hover"),u.hide(),l.addClass("mobile"),v.css("display","none"),t.css("display",""),p&&x(),f=1)):0!=f&&(p&&k(),l.removeClass("mobile"),
-y.css("display","none"),v.css("display",""),t.css("display","none"),u.css("height",""),u.show(),m?(c.find(">li").hover(x,k),esza_cover_menu&&c.hover(contentCoverIn,contentCoverOut)):(d.show(),g=c.height()+25,c.hover(x,k),d.hide()),f=0)}var f=-1,u,y,c,B,d,l,z,t,v,r,p=!1,s,D,E,g,q,A=0,e=0,w=!0,m=!1;jQuery(document).ready(function(){u=b(".menu_wraper").eq(0);y=b(".menu_wraper.mobile");z=b("#footer");c=b("#menu");B=b("#menu_mobile");d=c.find(".sub-menu");l=b("#header");t=b(".menuMobile");v=b(".menuNotMobile");
-d=c.find(".sub-menu");r=b("#logo");s=r.width()+parseInt(r.css("margin-left"),10);D=0<v.length?v.width():0;E=b("html").hasClass("touch");g=c.height()+25;q=l.height();m=l.hasClass("submenus_individual");F();m||d.stop().fadeTo(0,0);C();b(window).resize(C);b("#menu a").bind(clickBind,k);b("#menu_mobile a").bind(clickBind,k);b(".toogleMenuMobile").bind(clickBind,G);0==f&&u.fadeTo(300,1)})});
+var esza_submenu_alignment = directory["esza_submenu_alignment"];
+var esza_submenu_start_opacity = parseFloat(directory["esza_submenu_start_opacity"], 10);
+var esza_submenu_start_vertical_offset = parseFloat(directory["esza_submenu_start_vertical_offset"], 10);
+var esza_submenu_animation_duration = parseFloat(directory["esza_submenu_animation_duration"], 10) * 1000;
+var esza_submenu_indication = directory["esza_submenu_indication"];
+var esza_submenu_indication_icon = directory["esza_submenu_indication_icon"];
+var esza_menu_min_margin = parseInt(directory["esza_menu_min_margin"], 10);
+
+
+require(["jquery",
+		"other/Dragable", 
+		"jquery/jquery.mobile.vmouse",
+		"utils/utils",
+		"essenza/Cover"], function($, Dragable) {
+
+
+	//STATE 0 -> normal stance
+    //STATE 1 -> mobile stance
+	var menuState = -1;
+
+	//Holders
+	var $normalWraper, $mobileWraper, $normalMenu, $mobileMenu, $subMenus, $header, $subMenus, $footer;
+	var $mobileComp, $normalComp, $logo;
+
+
+	//Variables
+	var opened = false;		//true if menu is opened
+	var logoWidth, menuNotMobileWidth, isTouch, openedHeight, closedHeigth;
+	var previousTopPosition = 0;
+    var normalMenuHeight = 0;
+    var noSubmenu = true;
+
+    var submenusIndividual = false;
+
+
+	//Initiate Menu function (called after jquery ready event)
+	function initiateMenu(){
+		//Holders
+		$normalWraper = $(".menu_wraper").eq(0);
+		$mobileWraper = $(".menu_wraper.mobile");
+
+		$footer = $("#footer");
+
+		$normalMenu = $("#menu");
+		$mobileMenu = $("#menu_mobile");
+	    $subMenus = $normalMenu.find(".sub-menu");
+
+	    $header = $("#header");
+	    $mobileComp = $(".menuMobile"); 
+	    $normalComp = $(".menuNotMobile");
+
+	    $subMenus = $normalMenu.find(".sub-menu");
+
+		//Variables
+        $logo = $("#logo");
+		logoWidth = $logo.width() + parseInt( $logo.css("margin-left") , 10);
+	    menuNotMobileWidth = $normalComp.length > 0 ? $normalComp.width() : 0;
+	    isTouch = $("html").hasClass("touch");
+	    openedHeight = $normalMenu.height()+25;
+	    closedHeigth = $header.height();
+        submenusIndividual = $header.hasClass("submenus_individual");
+
+		//Arrange
+        arrangeMenu();
+
+		//Initial settings
+        if(!submenusIndividual)
+    	   $subMenus.stop().fadeTo(0, 0);
+	    onResize();
+
+    	//Bindings
+	    $(window).resize(onResize);
+
+	    $("#menu a").bind(clickBind, closeMenu);
+	    $("#menu_mobile a").bind(clickBind, closeMenu);
+	    $(".toogleMenuMobile").bind(clickBind, toogleMenu);
+
+        if(menuState == 0)
+            $normalWraper.fadeTo(300, 1);
+	}
+
+
+	//Arrange Menu Spacings
+	function arrangeMenu(){
+        var $lis = $normalMenu.find(">li");
+
+        if(esza_submenu_indication == "true")
+            $lis.each(function(){
+                var $this = $(this);
+                var $u = $this.find(">ul");
+
+                if($u.length > 0){
+                    $this.find(">a").append("<i class='"+esza_submenu_indication_icon+"'></i>");
+                }
+            });
+
+        
+
+        if(submenusIndividual){
+            var numLis = $lis.length;
+            $lis.each(function(index){
+                var $this = $(this);
+                var $u = $this.find(">ul");
+                var $a = $this.find(">a");
+
+                var aWidth = $a.width();
+                var uWidth = $u.length == 0 ? 0 : $u.width();
+
+                if($u.length != 0)
+                    noSubmenu = false;
+
+                if(index == numLis-1)
+                    $this.css("width", aWidth+"px");
+                else
+                    $this.css("width", aWidth+esza_menu_min_margin+"px");
+
+                if($u.length > 0){
+                    var left = esza_submenu_alignment == "left" ? 0 : (esza_submenu_alignment == "center" ? Math.round((aWidth-uWidth)/2) : aWidth-uWidth);
+
+                    $u.css({"opacity": 0, "width": uWidth+"px", "left":left+"px"}).hide();
+                }
+
+                if(index == numLis-1)
+                    normalMenuHeight += aWidth;
+                else
+                    normalMenuHeight += aWidth+esza_menu_min_margin;
+            });
+            normalMenuHeight += parseInt($normalMenu.css("margin-left"), 10);
+            normalMenuHeight += parseInt($normalMenu.css("margin-right"), 10);
+        }
+        else{
+            //Normal Menu Arrange
+            var objects = new Array();
+
+            //Get max width
+            $lis.each(function(){
+                var $this = $(this);
+                var $u = $this.find("ul");
+                var $a = $this.find("a");
+
+                var uWidth = $u.length == 0 ? 0 : $u.width();
+                var aWidth = $a.width();
+
+                if($u.length != 0)
+                    noSubmenu = false;
+
+                objects.push({
+                    "u": $u,
+                    "a": $a,
+                    "uw": uWidth,
+                    "aw": aWidth
+                });
+            });
+
+            //Get max gap
+            var maxGap = 20;    //Minimum gap
+            $.each(
+                objects,
+                function(index, obj){
+                    var gap = Math.max(obj.uw - obj.aw, 0);
+                    if(gap > maxGap)
+                        maxGap = gap;
+                }
+            );
+
+            //Arrange
+            $.each(
+                objects,
+                function(index, obj){
+                    var w = obj.aw + maxGap;
+
+                    if(obj.u.length != 0)
+                        obj.u.css("width", w+"px");
+                    obj.a.parent(".menu-item").css("width", w+"px");
+                    var margin = parseInt(obj.a.parent(".menu-item").css("margin-right"), 10);
+
+                    normalMenuHeight += w+margin;
+                }
+            );
+        }
+		
+	}
+
+
+
+	//Toogle Menu
+	function toogleMenu(){
+		if(opened)
+            //close menu
+            closeMenu();
+        else
+            //open menu
+            openMenu();
+        return false;
+	}
+
+
+
+	//Open Menu
+    function openMenu(){
+        opened = true;
+        
+        //If not the mobile
+        if(menuState == 0 && !noSubmenu){
+            //Individual submenu
+            if(submenusIndividual){
+                var $li = $(this);
+                var $submenu = $li.find("ul");
+
+                if($submenu.length > 0)
+                    $submenu.stop().show().css({"opacity": esza_submenu_start_opacity, "top": esza_submenu_start_vertical_offset+"px"}).animate({
+                            "opacity": 1,
+                            "top": "0px"
+                        }, esza_submenu_animation_duration, "easeOutExpo");
+            }
+            else{
+                $subMenus.show();
+                openedHeight = 25 + $normalMenu.height();
+
+                //Submenus vertical offset position
+                var del = 0;
+                $subMenus.each(function(i, subMenu){
+                    var $subMenu = $(subMenu);
+                    $subMenu.stop().css({"opacity": 0, "top": "15px"}).delay(del).animate({
+                        "opacity": 1,
+                        "top": "0px"
+                    }, 600, "easeOutExpo");
+                    del += 70;
+                });
+
+                $header.stop().css("height", (openedHeight-15 > closedHeigth) ? openedHeight-15 : closedHeigth).animate({
+                    "height":openedHeight+"px"
+                }, 900, "easeOutExpo");
+
+        
+                //Content cover in
+                if(esza_cover_menu)
+                    contentCoverIn();
+            }
+        }
+        
+        //If mobile
+        else if(menuState == 1){
+        	previousTopPosition = $(document).scrollTop();
+
+        	//Restrain page size
+        	var height = $mobileWraper.show().height();
+
+            //var available = $(".easyBackground").height();
+
+            //if(height > available){
+            $("#page-wraper").css({"height": height+"px", "overflow": "hidden"});
+            $("#page-wraper-full").css({"height": height+"px", "overflow": "hidden"});
+            //}
+
+        	//Show menu
+        	$mobileMenu.stop().css("top", "-20px").animate({"top": "0px"}, 300, "easeOutExpo");
+
+        	//Show hr
+        	$("#footer, .menu_wraper.mobile").find("hr").show();
+
+        	//Footer
+        	$footer.css("display", "block");
+
+        	//scroll top
+        	$('html, body').animate({"scrollTop":0}, 400, "easeOutExpo");
+        
+            //Content cover in
+            if(esza_cover_menu)
+                contentCoverIn();
+        }
+    }
+
+
+
+    //Close Menu
+    function closeMenu(){
+        opened = false;
+        
+        //If not the mobile
+        if(menuState == 0 && !noSubmenu){
+            if(submenusIndividual){
+                var $li = $(this);
+                var $submenu = $li.find("ul");
+
+                if($submenu.length > 0)
+                    $submenu.hide();
+            }
+            else{
+                $subMenus.hide();
+
+                $header.stop().css("height", (closedHeigth+15 < openedHeight) ? closedHeigth+15 : openedHeight).animate({
+                        "height":closedHeigth+"px"
+                }, 900, "easeOutExpo");
+        
+                //Content cover out
+                if(esza_cover_menu)
+                    contentCoverOut();
+            }
+		}
+		else if(menuState == 1){
+			$mobileWraper.hide();
+
+			$("#page-wraper").css({"height": "", "overflow": ""});
+			$("#page-wraper-full").css({"height": "", "overflow": ""});
+
+        	$("#footer, .menu_wraper.mobile").find("hr").hide();
+        	$footer.css("display", "");
+
+        	$('html, body').animate({"scrollTop":previousTopPosition+"px"}, 400, "easeOutExpo");
+        
+            //Content cover out
+            if(esza_cover_menu)
+                contentCoverOut();
+		}
+    }
+
+
+
+    //Normal Menu config
+    function normalMenu(){
+        if(menuState == 0)
+            return;
+        
+        if(opened)
+            closeMenu();
+        
+        smallMenuOut();
+
+        $normalWraper.show();
+
+        if(submenusIndividual){
+            var $lis = $normalMenu.find(">li");
+            $lis.hover(openMenu, closeMenu);
+
+            if(esza_cover_menu)
+                $normalMenu.hover(contentCoverIn, contentCoverOut);
+        }
+        else{
+            $subMenus.show();
+            openedHeight = $normalMenu.height()+25;
+            $normalMenu.hover(openMenu, closeMenu);
+            $subMenus.hide();
+        }
+
+
+        menuState = 0;
+    }
+
+    function normalMenuOut(){
+        $normalMenu.unbind("hover");
+        $normalWraper.hide();
+    }
+    
+    //Mobile Menu config
+    function smallMenu(){
+        $mobileComp.css("display", "");
+        var dif = ($logo.offset().left + logoWidth) - $mobileComp.offset().left;
+        if(dif > 0){
+            var w = (logoWidth - dif) / logoWidth;
+            $logo.setTransform("scale("+w+", "+w+")");
+        }
+        else{
+            $logo.setTransform("scale(1, 1)");
+        }
+
+
+        if(menuState == 1)
+            return;
+        
+        if(opened)
+            //close menu
+            closeMenu();
+        
+        //Leave previous state
+        normalMenuOut();
+            
+
+        $header.addClass("mobile");
+        
+        //Hide non mobile components
+        $normalComp.css("display", "none");
+        
+        //Show mobile components
+        $mobileComp.css("display", "");
+        
+        //If current state is opened, open menu
+        if(opened)
+            openMenu();
+        
+        //Change state
+        menuState = 1;
+            
+    }
+    function smallMenuOut(){
+        $header.removeClass("mobile");
+        
+        $mobileWraper.css("display", "none");
+        $normalComp.css("display", "");
+        $mobileComp.css("display", "none");
+        $normalWraper.css("height", "");
+    }
+
+
+	    
+	    
+    //On Resize Event Handler
+    function onResize(){
+    	var windowWidth = $(window).width();
+    	
+    	var bigWidth = windowWidth - (33*2) - logoWidth - menuNotMobileWidth - 30;
+    	
+        if(isTouch || normalMenuHeight >= bigWidth)
+            smallMenu();
+        else
+            normalMenu();
+    }
+	    
+
+
+	//On jquery ready initiate menu
+	jQuery(document).ready(initiateMenu);
+
+});

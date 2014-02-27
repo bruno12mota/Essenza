@@ -30,7 +30,7 @@ class pq_slider_builder {
 			//Slide Settings
     		array(
 				"name" => "Slide Configuration",
-          		"icon" => get_template_directory_uri()."/plusquare_admin/images/slider_builder/slide_configuration.png",
+          		"icon" => get_template_directory_uri()."/plusquare_admin/config-backend/images/slider_builder/slide_configuration.png",
 				"tabs" => array(
 					//Slide background
 					array(
@@ -281,7 +281,7 @@ class pq_slider_builder {
 			//Slider Configuration
     		array(
 				"name" => "Slider Configuration",
-          		"icon" => get_template_directory_uri()."/plusquare_admin/images/slider_builder/slider_configuration.png",
+          		"icon" => get_template_directory_uri()."/plusquare_admin/config-backend/images/slider_builder/slider_configuration.png",
 				"tabs" => array(
 					//Slide elements
 					array(
@@ -906,7 +906,7 @@ class pq_slider_builder {
                 <div class="info">Current selected slide: <span>1/3</span></div>
                 <a href="#" class="changeSlide next"></a>
 
-                <a id="slider_publish_button" class="ui-button livePreview" href="#"><img class="arrow-icon-left" src="<?php echo get_template_directory_uri(); ?>/plusquare_admin/images/live_preview_icon.png"/>Publish Slider</a>
+                <a id="slider_publish_button" class="ui-button livePreview" href="#"><img class="arrow-icon-left" src="<?php echo get_template_directory_uri(); ?>/plusquare_admin/config-backend/images/live_preview_icon.png"/>Publish Slider</a>
             
                 <a href='#' class='menu_btn remove_slide'>Remove this slide</a>
                 <a href='#' class='menu_btn add_new'>Add new slide</a>
@@ -1005,7 +1005,7 @@ class pq_slider_builder {
 							}
 						?>
 						];
-						//console.log(mainOptionsIds);
+						//if(WP_DEBUG)console.log(mainOptionsIds);
 						
 	                    new SliderBuilder("#<?php echo $id; ?>", "<?php echo get_template_directory_uri(); ?>/plusquare_admin/", mainOptionsIds, "<?php
 							global $post;

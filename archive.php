@@ -69,7 +69,7 @@ if($essenza_is_old_ie !== true){
 						if($post_media_type != "text"){
 							echo "<div class='featured-content'>";
 							//Make featured content (in functions.php)
-							make_featured_content($post_media_type, $post->ID, 650, true);
+							plusquare_make_featured_content($post_media_type, $post->ID, 650, true);
 							echo "</div>";
 						}
 						

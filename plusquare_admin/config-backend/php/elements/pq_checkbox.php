@@ -22,8 +22,8 @@ class pq_checkbox {
         
         <script type="text/javascript">
         	//Make checkbox
-			require(["elements/Checkbox"],
-				function(Checkbox) {
+			require(["jquery", "elements/Checkbox"],
+				function($, Checkbox) {
 					var checkbox = new Checkbox($("#<?php echo $id; ?>_checkbox"), "<?php echo $value; ?>", ["<?php echo $values[0]; ?>", "<?php echo $values[1]; ?>"]);
 					var $input = $("#<?php echo $id; ?>");
 					var onChange = function(){

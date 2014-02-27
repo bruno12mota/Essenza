@@ -40,7 +40,7 @@ function pq_make_regular_blog_post(){
 				$fullscreen = get_post_meta($post->ID, "page_fullscreen", true);
 				$fullscreen = $fullscreen === FALSE ? "false" : $fullscreen;
 
-				make_featured_content($post_media_type, $post->ID, $fullscreen ? null : $page_width, true);
+				plusquare_make_featured_content($post_media_type, $post->ID, $fullscreen ? null : $page_width, true);
 				echo "</div>";
 			}
 			

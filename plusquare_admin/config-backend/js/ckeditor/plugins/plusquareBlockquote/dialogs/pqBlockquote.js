@@ -48,7 +48,7 @@
 					//element.getChild(1).unselectable();
 					element.setStyle( "width", "50%" );
 					
-					console.log(text);
+					if(WP_DEBUG)console.log(text);
 					this.insertMode = true;
 				}
 				else

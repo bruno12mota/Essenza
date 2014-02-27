@@ -35,6 +35,7 @@ function addGlobal(){
       //Global variables
       template_directory = "<?php echo get_template_directory_uri() ?>";
       adminAjax = "<?php echo get_site_url(); ?>/wp-admin/admin-ajax.php";
+      WP_DEBUG = <?php echo WP_DEBUG ? "true" : "false"; ?>;
    </script>            
    <?php
 }
@@ -83,3 +84,21 @@ update_option('large_crop', 0);
 
 if ( ! isset( $content_width ) )
    $content_width = 1800;
+
+
+
+/*
+ *
+ *  Default Avatar
+ *
+ *  @description: Sets the default avatar
+ *
+ */
+add_filter( 'avatar_defaults', 'new_default_avatar' );
+function new_default_avatar ( $avatar_defaults ) {
+    //Set the URL where the image file for your avatar is located
+    $new_avatar_url = 'http://pt.gravatar.com/userimage/40519953/0921295dde73766afe618d0da03491ba.png?size=200';
+    //Set the text that will appear to the right of your avatar in Settings>>Discussion
+    $avatar_defaults[$new_avatar_url] = 'Essenza Default Avatar';
+    return $avatar_defaults;
+}

@@ -38,7 +38,7 @@ function pq_slider() {
 		'publicly_queryable' => true,
 		'exclude_from_search' => true,
 		'query_var' => true,
-		//'menu_icon'=>get_stylesheet_directory_uri() . '/images/Slider_icon.png',
+		'menu_icon'=> "dashicons-images-alt2",
 		'rewrite' => true,
 		'capability_type' => 'post',
 		'hierarchical' => false,

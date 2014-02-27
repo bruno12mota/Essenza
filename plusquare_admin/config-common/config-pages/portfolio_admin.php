@@ -38,7 +38,7 @@ function pq_portfolio() {
 		'publicly_queryable' => true,
 		'exclude_from_search' => false,
 		'query_var' => true,
-		//'menu_icon'=>get_stylesheet_directory_uri() . '/images/portfolio_icon.png',
+		'menu_icon'=> 'dashicons-portfolio',
 		'rewrite' => array("slug" => "portfolio"), // Permalinks format
 		'capability_type' => 'post',
 		'hierarchical' => false,
@@ -186,7 +186,7 @@ if(is_admin()){
 			//short
 			"label" => "Short Description Background Color",
 			"id" => "item_desc_back",
-			"type" => "color_picker",
+			"type" => "color_palette_picker",
 			"default" => $essenza_portfolio_description_background_color,
 			"help" => "Item short description background color."
 		),
@@ -307,7 +307,7 @@ if(is_admin()){
 			//background color
 			"label" => "Background Color",
 			"id" => "background_color",
-			"type" => "color_picker",
+			"type" => "color_palette_picker",
 			"default" => "#cccccc",
 			"info" => "This will be the background color of the slider!"
 		)

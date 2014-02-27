@@ -24,9 +24,9 @@ class pq_rich_editor {
         
 		<script type="text/javascript">
 			//Make ckeditor instance
-        	require(["ckeditor/ckeditor",
+        	require(["jquery", "ckeditor/ckeditor",
 					"ckeditor/jquery_adapter"],
-        		function(){
+        		function($){
         			var backgroundColor = "#111111";
 					var hEd = CKEDITOR.instances['<?php echo $id; ?>'];
 					if (hEd) {

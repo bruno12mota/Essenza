@@ -340,10 +340,10 @@ class pq_button_picker {
 						var changeByButton = function(button){
 							//Change according to combobox
 							for(var i = 0; i< numInputs; i++){
-								console.log(button['field'+i]);
+								if(WP_DEBUG)console.log(button['field'+i]);
 								$inputs.eq(i).val( button['field'+i] );
 								$inputs.eq(i).trigger("update");
-								console.log($inputs.eq(i).val());
+								if(WP_DEBUG)console.log($inputs.eq(i).val());
 							}
 							
 							update();
@@ -373,10 +373,10 @@ class pq_button_picker {
 								
 							
 							var button = jQuery.parseJSON($input.val());
-							console.log(button);
+							if(WP_DEBUG)console.log(button);
 							
 							if(button != undefined && button != null && button != "null"){
-								//console.log(button);
+								//if(WP_DEBUG)console.log(button);
 								changeByButton(button);
 							}
 						}
@@ -428,7 +428,7 @@ class pq_button_picker {
 							
 							$button.css(normalCSS);
 							$button.processColorAndPattern($inputs.eq(4).val(), parseFloat($inputs.eq(8).val(), 10)/100.0);
-							addEaseAll($button, $inputs.eq(14).val(), $inputs.eq(15).val(), ["border-color", "color", "background-color"]);
+							$button.addEaseAll($inputs.eq(14).val(), $inputs.eq(15).val(), ["border-color", "color", "background-color"]);
 							$button.text($inputs.eq(16).val());
 							
 							$button.unbind("hover");
@@ -585,7 +585,7 @@ class pq_button_picker {
 							}
 							
 							//Debug
-							console.log(value);
+							if(WP_DEBUG)console.log(value);
 
 							//save
 							save(value, name);

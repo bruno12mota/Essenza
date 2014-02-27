@@ -23,7 +23,7 @@ class pq_orderable_list {
         	<!-- 
             <div class="item">
         		<div class="dynamic_part">
-        			<span class="image" style="width: 11px; background-image: url(<?php echo get_template_directory_uri(); ?>/plusquare_admin/images/slider_builder/text_element.png);"></span>
+        			<span class="image" style="width: 11px; background-image: url(<?php echo get_template_directory_uri(); ?>/plusquare_admin/config-backend/images/slider_builder/text_element.png);"></span>
         			<p class="title">Text Element</p>
         			<a href="#" onclick="return false;">Edit animation</a>
         			<a href="#" onclick="return false;">Edit properties</a>

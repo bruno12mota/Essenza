@@ -29,7 +29,7 @@ class pq_category_picker {
 		<input id="<?php echo $this->id; ?>" name="<?php echo $this->id; ?>" type="text" value='<?php echo $value; ?>' style="display:none;"/>
         <?php
 		
-		//fb::log($categories);
+		//if(WP_DEBUG)fb::log($categories);
 		echo "<div id='".$this->id."_holder'  class='category_picker'>";
 		
 		//All option
@@ -45,7 +45,7 @@ class pq_category_picker {
 			$checkbox_id = "checkbox_".$taxonomy."_".$category->term_id;
 			$parent = $category->parent == 0;
 			$currentParent = !$parent ? $currentParent : $category->term_id;
-			fb::log($checkbox_id);
+			if(WP_DEBUG)fb::log($checkbox_id);
 			if($parent || $category->parent == $currentParent){
 				?>
 				<div class="category <?php echo $parent?"":" sub"; ?>">
@@ -245,7 +245,7 @@ class pq_category_picker {
 							
 							$(checkbox).bind("change", onChange);
 						});
-						console.log(checkboxes);
+						if(WP_DEBUG)console.log(checkboxes);
 						initialValue();
 					});
 				}

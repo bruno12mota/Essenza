@@ -116,7 +116,7 @@ if($essenza_is_old_ie !== true){
             //SIDEBAR
             ?>
             <div class="sidebar">
-            <?php echo do_shortcode(get_post_meta( $post->ID, "sidebar", true )); ?>
+            <?php echo plusquare_make_sidebar( get_post_meta( $post->ID, "sidebar", true ) ); ?>
             </div>
             <?php
 		    }

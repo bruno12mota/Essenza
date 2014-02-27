@@ -1,0 +1,40 @@
+
+
+@import "tabs.less";
+@import "menu.less";
+@import "view.less";
+@import "modules.less";
+
+//TO NOT OVERLAP OTHER CSS RULES, SCOPE IT
+.page_builder {
+    
+    *{
+        font-family: @font;   
+        font-size: 12px;
+        color:#ffffff;
+    }
+    
+    a{
+        .transition ();
+        font-family: @font;
+        color: #464646;
+        font-size: 12px;
+        line-height: 14px;
+		border-bottom: none;
+		text-decoration: none;
+        &:hover{
+            color: #464646;
+    	    text-decoration: none;
+        }
+    }
+    
+    .right{
+        float: right !important;   
+    }
+    
+    .wraper{
+        position: relative;
+		overflow: hidden;
+		width: 100%;
+    }
+}

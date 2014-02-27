@@ -144,6 +144,80 @@ function pq_get_add_element_fun() {
 
 
 
+
+/*
+ *
+ *  Admin Elements Options
+ *
+ *  @description: Functions called by admin elements
+ *
+ */
+
+//Get New/Edit Color options
+add_action( 'wp_ajax_nopriv_pq_get_color_options', 'pq_get_color_options_fun' );
+add_action( 'wp_ajax_pq_get_color_options', 'pq_get_color_options_fun' );
+function pq_get_color_options_fun() {
+  $plusquare_color_options = array(
+    array(
+      "label" => "Color Title",
+      "id" => "pq_color_option_title",
+      "info" => "This will be the indication that will appear on the color pickers accross the admin area",
+      "type" => "text"
+    ),
+    array(
+      "label" => "Color",
+      "id" => "pq_color_option_color",
+      "type" => "color_picker"
+    )
+  );
+  
+  // response output
+  foreach ( $plusquare_color_options as $option) {
+    //Make option
+    make_option($option);
+  }
+
+  exit;
+}
+
+//Get New/Edit Color options
+add_action( 'wp_ajax_nopriv_pq_get_pages_posts', 'pq_get_pages_posts_fun' );
+add_action( 'wp_ajax_pq_get_pages_posts', 'pq_get_pages_posts_fun' );
+function pq_get_pages_posts_fun() {
+  $option = array(
+      "label" => "Pages and Posts",
+      "id" => "pq_pages_posts_picker",
+      "type" => "pages_posts_picker"
+  );
+  
+  //Make option
+  make_option($option);
+  
+  exit;
+}
+
+//Get Post/Pages List
+add_action( 'wp_ajax_nopriv_pq_get_pages_posts_list', 'pq_get_pages_posts_list_fun' );
+add_action( 'wp_ajax_pq_get_pages_posts_list', 'pq_get_pages_posts_list_fun' );
+function pq_get_pages_posts_list_fun() {
+  $post_type = $_POST['post_type'];
+
+  $query = new WP_Query( array( 'post_type' => $post_type, 'nopaging' => true ) );
+  
+  while ( $query->have_posts() ) {
+    $query->the_post();
+    echo '<a href="#" data-id="'. get_the_ID() .'">' . get_the_title() . '</a>';
+  }
+
+  exit;
+}
+
+
+
+
+
+
+
 /*
  *
  *	Import Dummy Content
@@ -159,7 +233,7 @@ function pq_import_dummy_fun() {
    $folder = $_POST['folder'];
 
 	// get the submitted parameters
-	$sql_file = get_template_directory_uri()."/plusquare_admin/dummy/".$folder."/content.sql";
+	$sql_file = get_template_directory_uri()."/plusquare_admin/config-backend/dummy/".$folder."/content.sql";
 
 	$sql_query = curlFetchData($sql_file);
 	$sql_query = remove_comments($sql_query);
@@ -179,22 +253,48 @@ function pq_import_dummy_fun() {
     $sql = str_replace('`wp_term_taxonomy`', $wpdb->term_taxonomy , $sql);
     $sql = str_replace('`wp_term_relationships`', $wpdb->term_relationships  , $sql);
 
-    if($wpdb->query($sql) == FALSE)
-     fb::log("ERROR ON QUERY:". $wpdb->last_error);
+    if($wpdb->query($sql) == FALSE){
+      if(WP_DEBUG)fb::log("ERROR ON QUERY:". $wpdb->last_error);
+    }
 	}
 
 	exit;
 }
 
+
+
 // Move images
 add_action( 'wp_ajax_nopriv_pq_import_dummy_images', 'pq_import_dummy_images_fun' );
 add_action( 'wp_ajax_pq_import_dummy_images', 'pq_import_dummy_images_fun' );
 function pq_import_dummy_images_fun() {
-   $folder = $_POST['folder'];
+  echo "Loading ...";
+  $url = "http://plusquare.pt/Essenza_images/sidebar.zip";
+
+  echo '<div id="progress-bar">';
+  echo  '<div id="progress">0%</div>';
+  echo '</div>';
+
+  ob_flush();
+  flush();
+
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $url);  
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  curl_setopt($ch, CURLOPT_PROGRESSFUNCTION, 'progress_import_dummy');
+  curl_setopt($ch, CURLOPT_NOPROGRESS, false); // needed to make progress function work
+  curl_setopt($ch, CURLOPT_HEADER, 0);
+  curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
+  $html = curl_exec($ch);
+  curl_close($ch);
+
+  echo "Done";
+  ob_flush();
+  flush();
+  /*$folder = $_POST['folder'];
 
    //Uploads
    //$zip_path = get_template_directory_uri()."/plusquare_admin/dummy/light_images.zip";
-   $zip_path = "../wp-content/themes/essenza/plusquare_admin/dummy/".$folder."/media.zip";
+   $zip_path = "../wp-content/themes/essenza/plusquare_admin/config-backend/dummy/".$folder."/media.zip";
    $target_path = "../wp-content/uploads/";
 
    echo $zip_path;
@@ -214,7 +314,7 @@ function pq_import_dummy_images_fun() {
       $message = "There was a problem with the unpacking. Please try again.";
    }
 
-   echo $message;
+   echo $message;*/
 
    exit;
 }
@@ -226,7 +326,7 @@ function pq_import_options_fun() {
    $folder = $_POST['folder'];
 
   // get the submitted parameters
-  $sql_file = get_template_directory_uri()."/plusquare_admin/dummy/".$folder."/options.sql";
+  $sql_file = get_template_directory_uri()."/plusquare_admin/config-backend/dummy/".$folder."/options.sql";
 
   $sql_query = curlFetchData($sql_file);
   $sql_query = remove_comments($sql_query);
@@ -240,8 +340,9 @@ function pq_import_options_fun() {
   foreach($sql_query as $sql){
     $sql = str_replace('`wp_options`', $wpdb->options , $sql);
 
-    if($wpdb->query($sql) == FALSE)
-     fb::log("ERROR ON QUERY Options-> ". $wpdb->last_error);
+    if($wpdb->query($sql) == FALSE){
+     if(WP_DEBUG)fb::log("ERROR ON QUERY Options-> ". $wpdb->last_error);
+    }
   }
 
   exit;
@@ -255,7 +356,7 @@ function pq_import_dummy_css_fun() {
 
    //Uploads
    //$zip_path = get_template_directory_uri()."/plusquare_admin/dummy/light_images.zip";
-   $zip_path = "../wp-content/themes/essenza/plusquare_admin/dummy/".$folder."/css.zip";
+   $zip_path = "../wp-content/themes/essenza/plusquare_admin/config-backend/dummy/".$folder."/css.zip";
    $target_path = "../wp-content/themes/essenza/css/";
 
    echo $zip_path;
@@ -320,6 +421,29 @@ function ajax_update_posts_meta_stuff() {
 	exit;
 }
 
+
+/*
+*  Update post meta with ajax
+*
+*  @description: Make custom function to update post meta values with ajax
+*  @created: 03/01/13
+*/
+add_action( 'wp_ajax_ajax_update_meta', 'ajax_update_meta_stuff' ); // ajax for logged in users
+add_action( 'wp_ajax_nopriv_ajax_update_meta', 'ajax_update_meta_stuff' ); // ajax for not logged in users
+function ajax_update_meta_stuff() {
+  $post_id = $_POST['post_id']; // getting variables from ajax post
+  $value = $_POST['value']; // getting variables from ajax post
+  $key = $_POST['key']; // getting variables from ajax post
+  
+  $result = update_post_meta($post_id, $key, $value);
+  
+  if($result)
+    echo 'ajax submitted with positive result';
+  else
+    echo 'ajax submitted with negative result';
+
+  exit;
+}
 
 
 

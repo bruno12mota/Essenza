@@ -5,6 +5,10 @@ function get_google_fonts_link(){
    global $pq_shortname;
    
    $fontsJsonStr = get_option($pq_shortname."_google_fonts");
+
+   if($fontsJsonStr === FALSE){
+      return null;
+   }
    
    $fontsJson = json_decode($fontsJsonStr);
     $protocol = is_ssl() ? 'https' : 'http';
@@ -42,4 +46,50 @@ function get_google_fonts_link(){
    }
 
    return null;
+}
+
+
+
+// Returns a Google Font Object
+function getGoogleFontObject($font){
+   $obj = array();
+   
+   $parts = explode (":", $font, 2);
+
+   $fontFamily = isset($parts[0]) ? $parts[0] : "Arial";
+   $weight = isset($parts[1]) ? $parts[1] : "regular" ;
+
+   $obj["font"] = str_replace("_", " ", $fontFamily);
+   
+   //weight
+   $num = strpos($weight, "italic");
+   
+   if($num === false){
+      if($weight == "regular")
+         $obj["weight"] = "400";
+      else
+         $obj["weight"] = $weight;
+      $obj["style"] = "normal";
+   }
+   else if($num == 0){
+      $obj["weight"] = "400";
+      $obj["style"] = "italic";
+   }
+   else{
+      $obj["weight"] = substr($weight, 0, $num);
+      $obj["style"] = "italic";
+
+      if(WP_DEBUG)console.log("Weight: "+$obj["weight"]);
+   }
+   
+   return $obj;
+}
+
+
+
+//Returns a Google Font css as String
+function getFontCss($font){
+   $obj = getGoogleFontObject($font);
+   
+   return "font-family:".$obj["font"]."; font-weight:".$obj["weight"].";";
 }

@@ -268,7 +268,7 @@ class pq_contact_form_builder {
                                 		var matchedParametersStr = contactField.match(regexFieldParameters);
 										
 										if(matchedParametersStr == null){
-											console.log("Contact builder error");
+											if(WP_DEBUG)console.log("Contact builder error");
 											return;
 										}
 										matchedParametersStr = matchedParametersStr[0];

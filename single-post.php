@@ -138,7 +138,7 @@ if($essenza_is_old_ie !== true){
                                 $fullscreen = $fullscreen === FALSE ? "false" : $fullscreen;
 
                                 //Make featured content (in functions.php)
-                                make_featured_content($post_media_type, $post->ID, $fullscreen ? null : $page_width, false);
+                                plusquare_make_featured_content($post_media_type, $post->ID, $fullscreen ? null : $page_width, false);
     							echo "</div>";
     						}
 

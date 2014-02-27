@@ -358,7 +358,7 @@ if(is_admin()){
 						//background color
 						"label" => "Background color",
 						"id" => "background_color",
-						"type" => "color_picker",
+						"type" => "color_palette_picker",
 						"help" => "Choose the background color for this post.",
 						"default" => "#d1d1d1"
 					),
@@ -451,28 +451,28 @@ if(is_admin()){
 						//background color
 						"label" => "Mosaic Background Color",
 						"id" => "mosaic_background_color",
-						"type" => "color_picker",
+						"type" => "color_palette_picker",
 						"help" => "Choose the background color for this post.",
 						"default" => "#d1d1d1"
 					),
 					array(
 						"label" => "Mosaic Title Color",
 						"id" => "mosaic_title_color",
-						"type" => "color_picker",
+						"type" => "color_palette_picker",
 						"help" => "Choose the title color for this post mosaic.",
 						"default" => "#ffffff"
 					),
 					array(
 						"label" => "Mosaic Date Color",
 						"id" => "mosaic_date_color",
-						"type" => "color_picker",
+						"type" => "color_palette_picker",
 						"help" => "Choose the date color for this post mosaic.",
 						"default" => "#ffffff"
 					),
 					array(
 						"label" => "Mosaic Comment Icon Color",
 						"id" => "mosaic_comment_color",
-						"type" => "color_picker",
+						"type" => "color_palette_picker",
 						"help" => "Choose the comment icon color for this post mosaic.",
 						"default" => "#fe5656"
 					)

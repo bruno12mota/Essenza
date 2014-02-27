@@ -22,8 +22,8 @@ class pq_combobox {
         
         <script type="text/javascript">
         	//Make Combobox
-			require(["elements/Combobox"],
-				function(Combobox) {
+			require(["jquery", "elements/Combobox"],
+				function($, Combobox) {
 					var comboBox = new Combobox($("#<?php echo $id; ?>_combobox"), <?php echo (($value == "" || $value == NULL) ? 0 : "'".$value."'"); ?>, [<?php
 						$count = 0; 
 						foreach($options as $option){ 

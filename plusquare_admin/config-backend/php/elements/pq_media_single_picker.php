@@ -26,7 +26,7 @@ class pq_media_single_picker {
                </div>
           </div>
 		<input id="<?php echo $this->id; ?>" name="<?php echo $this->id; ?>" type="text" value="<?php echo $value; ?>" style="display:none;"/>
-		<a class="ui-button" id="<?php echo $this->id; ?>_button" href="#">Choose Image</a>
+		<a class="button button-primary button-large" id="<?php echo $this->id; ?>_button" href="#">Choose Image</a>
 		<script type="text/javascript">
 			jQuery(document).ready(function($){
 				//Global variables

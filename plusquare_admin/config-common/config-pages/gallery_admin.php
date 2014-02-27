@@ -38,7 +38,7 @@ function pq_gallery() {
 		'publicly_queryable' => true,
 		'exclude_from_search' => false,
 		'query_var' => true,
-		//'menu_icon'=>get_stylesheet_directory_uri() . '/images/Gallery_icon.png',
+		'menu_icon'=> 'dashicons-format-gallery',
 		'rewrite' => array("slug" => "gallery"), // Permalinks format
 		'capability_type' => 'post',
 		'hierarchical' => false,
@@ -109,11 +109,7 @@ if(is_admin()){
 		
 		wp_enqueue_script('wp-ajax-response');
 		?>
-	    
-	    <link href="<?php echo get_template_directory_uri(); ?>/plusquare_admin/css/meta_options.css" rel="stylesheet" type="text/css" />
-	    <link href="<?php echo get_template_directory_uri(); ?>/plusquare_admin/css/fonts/stylesheet.css" rel="stylesheet" type="text/css" />
-	    <script data-main="<?php echo get_template_directory_uri(); ?>/plusquare_admin/js/CustomGridListing" src="<?php echo get_template_directory_uri(); ?>/plusquare_admin/js/require-jquery.js"></script>
-	    
+		
 	    <style>
 			#posts-filter, .subsubsub{display: none;}
 		</style>

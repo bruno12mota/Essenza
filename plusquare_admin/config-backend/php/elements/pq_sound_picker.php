@@ -25,7 +25,7 @@ class pq_sound_picker {
 					'post_mime_type' => 'audio'
 				)
 			);
-		//FB::log($sounds);
+		//if(WP_DEBUG)fb::log($sounds);
 		foreach( $sounds as $sound_id => $sound ) :	
 			array_push($values, $sound->guid);
 			array_push($options, $sound->post_title);

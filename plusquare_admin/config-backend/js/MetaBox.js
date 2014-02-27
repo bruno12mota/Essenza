@@ -1,1 +1,29 @@
-requirejs.config({paths:{libraries:"libraries",ui:"ui",utils:"utils",SliderBuilder:"SliderBuilder",Lightbox:"Lightbox"}});requirejs("jquery ui-elements ui/Accordion ui/FontPicker libraries/inheritance utils/utils PageBuilder StackBuilder SliderBuilder/SliderEditor Lightbox/Lightbox".split(" "));
+//Define jQuery
+define('jquery', [], function() { return jQuery; });
+
+requirejs.config({
+    baseUrl : directory.path,
+    deps: [
+	    //Jquery
+		"jquery",  
+		
+		//UI Elements
+		"ui-elements",
+		"ui/Accordion",
+		"ui/FontPicker",
+		
+		//Other 
+		"libraries/inheritance", 
+		"utils/utils",
+		
+		//Page builder
+		"PageBuilder",
+		"StackBuilder",
+		
+		//Slider builder
+		"SliderBuilder/SliderEditor",
+
+		//Lightbox
+		"Lightbox/Lightbox"]
+});
+        

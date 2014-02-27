@@ -127,8 +127,8 @@ class pq_slide_element {
            		<div class="stage">
                     
                     <div class="option_main_holder" style="overflow:hidden;">
-                        <a href="#" class="ui-button left_part" id="element_match_previous" style="width: 253px;"><img class="arrow-icon-left" src="<?php echo get_template_directory_uri() ?>/plusquare_admin/images/match_previous_icon.png"/>Match Previous Position</a>
-                        <a href="#" class="ui-button right_part" id="element_match_following" style="width: 253px;">Match Following Position<img class="arrow-icon-right" src="<?php echo get_template_directory_uri() ?>/plusquare_admin/images/match_next_icon.png"/></a>
+                        <a href="#" class="ui-button left_part" id="element_match_previous" style="width: 253px;"><img class="arrow-icon-left" src="<?php echo get_template_directory_uri() ?>/plusquare_admin/config-backend/images/match_previous_icon.png"/>Match Previous Position</a>
+                        <a href="#" class="ui-button right_part" id="element_match_following" style="width: 253px;">Match Following Position<img class="arrow-icon-right" src="<?php echo get_template_directory_uri() ?>/plusquare_admin/config-backend/images/match_next_icon.png"/></a>
                     </div>
 
                 	<?php

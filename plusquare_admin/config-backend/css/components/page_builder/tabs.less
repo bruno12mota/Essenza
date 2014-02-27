@@ -1,0 +1,34 @@
+.page_builder {
+    //TABS
+    .tabs{
+        width : 100%;
+        position : relative;
+    	overflow: hidden;
+        
+        a{
+            .roundedCorners (3px, 3px, 0px, 0px);
+			padding: 5px 15px;
+			background-color:#F6F6F6;
+			float: right;
+			margin-right: 10px;
+			border: solid 1px #DFDFDF;
+            &.active{
+                background-color:#464646;
+    			border:solid 1px #464646;
+                color:#ffffff;
+            }
+            &:last-child{
+                padding-left: 35px;
+    			background-image: url(../images/page_builder/General/logo_small.png);
+				background-repeat: no-repeat;
+				background-position: 14px 4px;  
+            }
+        }
+    }
+    .tabs-holder{
+        position: relative;   
+        .tab{
+        	width : 100%;
+        }
+     }
+}

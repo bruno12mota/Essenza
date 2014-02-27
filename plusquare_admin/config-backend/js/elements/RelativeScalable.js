@@ -1,10 +1,336 @@
-define(["jquery","utils/utils"],function(a){var f=function(b,d,c,e,f,g){this.$target=b;this.enabled=!1;this.dragable=f;this.preserveRatio=g;void 0==this.preserveRatio&&(this.preserveRatio=!0);this.$holder=a('<div class="scalable_holder"></div>').appendTo(this.$target);this.left=parseInt(b.css("left"),10);this.top=parseInt(b.css("top"),10);this.width=b.width();this.height=b.height();this.ratio=this.width/this.height;console.log(this.width);this.minHeight=this.minWidth=5;this.horizontal=c;this.vertical=
-e;f&&(this.$dragArea=a('<div class="dragArea grabhand"></div>').appendTo(this.$holder),this.$dragArea.bind(mouseDownBind,a.proxy(this.dragDown,this)));c&&!e?this.$holder.append(a('<div class="scale_button"></div>').css({left:"0%",top:"50%"}).attr("rel","cl").bind(mouseDownBind,a.proxy(this.scaleDown,this))).append(a('<div class="scale_button"></div>').css({left:"100%",top:"50%"}).attr("rel","cr").bind(mouseDownBind,a.proxy(this.scaleDown,this))):!c&&e?this.$holder.append(a('<div class="scale_button"></div>').css({left:"0%",
-top:"50%"}).attr("rel","ct").bind(mouseDownBind,a.proxy(this.scaleDown,this))).append(a('<div class="scale_button"></div>').css({left:"100%",top:"50%"}).attr("rel","cb").bind(mouseDownBind,a.proxy(this.scaleDown,this))):this.$holder.append(a('<div class="scale_button"></div>').css({left:"0",top:"0"}).attr("rel","lt").bind(mouseDownBind,a.proxy(this.scaleDown,this))).append(a('<div class="scale_button"></div>').css({left:"100%",top:"0"}).attr("rel","rt").bind(mouseDownBind,a.proxy(this.scaleDown,this))).append(a('<div class="scale_button"></div>').css({left:"0%",
-top:"100%"}).attr("rel","lb").bind(mouseDownBind,a.proxy(this.scaleDown,this))).append(a('<div class="scale_button"></div>').css({left:"100%",top:"100%"}).attr("rel","rb").bind(mouseDownBind,a.proxy(this.scaleDown,this)));this.$dragElements=[];this.$dragElements.push(this.$dragArea);this.$scaleButtons=this.$holder.find(".scale_button");this.enabled||this.$holder.css("display","none")};f.prototype={enable:function(){this.$holder.css("display","block");this.enabled=!0;this.rebind()},disable:function(){this.$holder.css("display",
-"none");this.enabled=!1},rebind:function(){this.dragable&&(this.$dragArea.unbind(mouseDownBind),this.$dragArea.bind(mouseDownBind,a.proxy(this.dragDown,this)));this.$scaleButtons.unbind(mouseDownBind);this.$scaleButtons.bind(mouseDownBind,a.proxy(this.scaleDown,this))},addDragger:function(b){b.addClass("grabhand").bind(mouseDownBind,a.proxy(this.dragDown,this));this.$dragElements.push(b)},scaleDown:function(b){this.enabled&&(this.rel=a(b.target).attr("rel"),this.iniX=b.pageX,this.iniY=b.pageY,this.left=
-parseInt(this.$target.css("left"),10),this.top=parseInt(this.$target.css("top"),10),this.width=this.$target.width(),this.height=this.$target.height(),a(document).bind(mouseMoveBind,a.proxy(this.scaleMove,this)),a(document).bind(mouseUpBind,a.proxy(this.scaleUp,this)));return!1},scaleMove:function(a){var d=a.pageX-this.iniX,c=a.pageY-this.iniY;this.horizontal&&!this.vertical&&("cl"==this.rel?(this.left+=d,this.width-=d):this.width+=d,this.width<this.minWidth&&("cl"==this.rel&&(this.left-=this.minWidth-
-this.width),this.width=this.minWidth));!this.horizontal&&this.vertical&&("cb"==this.rel?(this.top+=c,this.height-=c):this.height+=c,this.height<this.minHeight&&("cb"==this.rel&&(this.top-=this.minHeight-this.height),this.height=this.minHeight));this.horizontal&&this.vertical&&("l"==this.rel.charAt(0)?(this.left+=d,this.width-=d):this.width+=d,"t"==this.rel.charAt(1)?(this.top+=c,this.height-=c):this.height+=c,this.width<this.minWidth&&("l"==this.rel.charAt(0)&&(this.left-=this.minWidth-this.width),
-this.width=this.minWidth),this.preserveRatio&&this.width/this.height!=this.ratio&&(d=this.height-this.width/this.ratio,"t"==this.rel.charAt(1)&&(this.top+=d),this.height=this.width/this.ratio));this.iniX=a.pageX;this.iniY=a.pageY;this.update();return!1},scaleUp:function(){unbindMoveAndUp();return!1},dragDown:function(b){this.enabled&&(this.currX=b.pageX,this.currY=b.pageY,this.left=parseInt(this.$target.css("left"),10),this.top=parseInt(this.$target.css("top"),10),this.width=this.$target.width(),
-this.height=this.$target.height(),a.each(this.$dragElements,function(b,c){a(c).addClass("down")}),a(document).bind(mouseMoveBind,a.proxy(this.dragMove,this)),a(document).bind(mouseUpBind,a.proxy(this.dragUp,this)));return!1},dragMove:function(a){var d=a.pageX;a=a.pageY;this.left+=d-this.currX;this.top+=a-this.currY;this.currX=d;this.currY=a;this.update();return!1},dragUp:function(b){unbindMoveAndUp();a.each(this.$dragElements,function(b,c){a(c).removeClass("down")});return!1},update:function(){var a=
-Math.round(this.left),d=Math.round(this.top),c=this.width,e=this.height;this.$target.css({left:a+"px",top:d+"px"});this.horizontal&&this.$target.css({width:c+"px"});this.vertical&&this.$target.css({height:e+"px"});this.$target.trigger("change",{left:a,top:d,width:c,height:e})},change:function(){}};return f});
+define(["jquery",
+		"utils/utils"], function($){
+	var RelativeScalable = function ($target, enabled, horizontal, vertical, dragable, preserveRatio){
+	    //Save parameters
+	    this.$target = $target;
+	    this.enabled = false;
+        this.dragable = dragable;
+	    this.preserveRatio = preserveRatio;
+	    if(this.preserveRatio == undefined)
+	    	this.preserveRatio = true;
+	    
+        //Make holder
+        this.$holder = $('<div class="scalable_holder"></div>').appendTo(this.$target);
+        
+	    //Get current attributes
+	    this.left = parseInt($target.css("left"), 10);
+        this.top = parseInt($target.css("top"), 10);
+        this.width = $target.width();
+        this.height = $target.height();
+        this.ratio = this.width / this.height;
+
+        if(WP_DEBUG)console.log(this.width);
+        
+        //Other
+        this.minWidth = 5;
+        this.minHeight = 5;
+        
+        //Save orientations
+        this.horizontal = horizontal;
+        this.vertical = vertical;
+	    
+	    
+        //Dragging
+        if(dragable){
+            this.$dragArea = $('<div class="dragArea grabhand"></div>').appendTo(this.$holder);
+            
+            //bind
+            this.$dragArea.bind(mouseDownBind, $.proxy(this.dragDown, this));
+        }
+	    
+	    
+		
+		//Make scale draggers
+        var img = '<div class="scale_button"></div>';
+	    
+	    //Only horizontal
+	    if(horizontal && !vertical)
+    	    this.$holder.append($(img)  .css({"left":"0%", "top":"50%"})
+                	                    .attr("rel", "cl")
+                	                    .bind(mouseDownBind, $.proxy(this.scaleDown, this)) )
+                	    .append($(img)  .css({"left":"100%", "top":"50%"})
+                	                    .attr("rel", "cr")
+                	                    .bind(mouseDownBind, $.proxy(this.scaleDown, this)) );
+    	                    
+    	//Only vertical
+        else if(!horizontal && vertical)
+            this.$holder.append($(img)  .css({"left":"0%", "top":"50%"})
+                                        .attr("rel", "ct")
+                                        .bind(mouseDownBind, $.proxy(this.scaleDown, this)) )
+                        .append($(img)  .css({"left":"100%", "top":"50%"})
+                                        .attr("rel", "cb")
+                                        .bind(mouseDownBind, $.proxy(this.scaleDown, this)) );
+                            
+        //Vertical & Horizontal
+        else
+            this.$holder.append($(img)  .css({"left":"0", "top":"0"})
+                                        .attr("rel", "lt")
+                                        .bind(mouseDownBind, $.proxy(this.scaleDown, this)) )
+                        .append($(img)  .css({"left":"100%", "top":"0"})
+                                        .attr("rel", "rt")
+                                        .bind(mouseDownBind, $.proxy(this.scaleDown, this)) )
+                        .append($(img)  .css({"left":"0%", "top":"100%"})
+                                        .attr("rel", "lb")
+                                        .bind(mouseDownBind, $.proxy(this.scaleDown, this)) )
+                        .append($(img)  .css({"left":"100%", "top":"100%"})
+                                        .attr("rel", "rb")
+                                        .bind(mouseDownBind, $.proxy(this.scaleDown, this)) );
+	    
+	    
+	    this.$dragElements = Array();
+	    this.$dragElements.push(this.$dragArea);
+
+	    this.$scaleButtons = this.$holder.find(".scale_button");
+	    
+		if(!this.enabled)
+		    this.$holder.css("display", "none");
+	    
+	}
+	
+	RelativeScalable.prototype = {
+	    //Enable/Disable
+		enable: function(){
+		    this.$holder.css("display", "block");
+		    this.enabled = true;
+		    this.rebind();
+		},
+		disable: function(){
+		    this.$holder.css("display", "none");
+	        this.enabled = false;
+		},
+		rebind: function(){
+ 			if(this.dragable){
+ 				this.$dragArea.unbind(mouseDownBind);
+            	this.$dragArea.bind(mouseDownBind, $.proxy(this.dragDown, this));
+        	}
+			this.$scaleButtons.unbind(mouseDownBind);
+        	this.$scaleButtons.bind(mouseDownBind, $.proxy(this.scaleDown, this));
+		},
+		
+		
+		//Add dummi dragger
+		addDragger: function($obj){
+            $obj.addClass("grabhand").bind(mouseDownBind, $.proxy(this.dragDown, this));
+            this.$dragElements.push($obj);
+		},
+		
+		
+		
+		
+		//Scale
+		scaleDown:function(e){
+		    if(this.enabled){
+	            this.rel = $(e.target).attr("rel");
+	            
+	            this.iniX = e.pageX;
+	            this.iniY = e.pageY;
+	            
+                this.left = parseInt(this.$target.css("left"), 10);
+                this.top = parseInt(this.$target.css("top"), 10);
+                this.width = this.$target.width();
+                this.height = this.$target.height();
+	            
+	            $(document).bind(mouseMoveBind, $.proxy(this.scaleMove, this));
+	            $(document).bind(mouseUpBind, $.proxy(this.scaleUp, this));
+		    }
+	        return false;
+		},
+		scaleMove:function(e){
+	        var difX = e.pageX - this.iniX ;
+	        var difY = e.pageY - this.iniY ;
+	        
+	        //Horizontal 
+	        if(this.horizontal && !this.vertical){
+		        if(this.rel == "cl"){
+		        	this.left += difX;
+		        	this.width -= difX;
+		        }
+		        else{
+		        	this.width += difX;
+		        }
+
+	        
+		        //Verifications
+		        if(this.width < this.minWidth){
+		        	if(this.rel == "cl")
+			        	this.left -= (this.minWidth-this.width);
+			        	
+		        	this.width = this.minWidth;
+		        }
+	        }
+
+	        //Vertical 
+	        if(!this.horizontal && this.vertical){
+		        if(this.rel == "cb"){
+		        	this.top += difY;
+		        	this.height -= difY;
+		        }
+		        else{
+		        	this.height += difY;
+		        }
+
+		        //Verifications
+		        if(this.height < this.minHeight){
+		        	if(this.rel == "cb")
+			        	this.top -= (this.minHeight-this.height);
+			        	
+		        	this.height = this.minHeight;
+		        }
+		    }
+
+		    //Vertical & Horizontal 
+	        if(this.horizontal && this.vertical){
+	        	//horizontal
+		        if(this.rel.charAt(0) == "l"){
+		        	this.left += difX;
+		        	this.width -= difX;
+		        }
+		        else{
+		        	this.width += difX;
+		        }
+
+		        //vertical
+		        if(this.rel.charAt(1) == "t"){
+		        	this.top += difY;
+		        	this.height -= difY;
+		        }
+		        else{
+		        	this.height += difY;
+		        }
+
+		        //Min width
+		        if(this.width < this.minWidth){
+		        	if(this.rel.charAt(0) == "l")
+			        	this.left -= (this.minWidth-this.width);
+			        	
+		        	this.width = this.minWidth;
+		        }
+
+		        //Ratio preserve
+		        if(this.preserveRatio){
+		        	if(this.width / this.height != this.ratio){
+		        		var dif = this.height - (this.width / this.ratio);
+
+		        		if(this.rel.charAt(1) == "t")
+		        			this.top += dif;
+		        		
+		        		this.height = this.width / this.ratio;
+		        	}
+		        }
+	        }
+
+			this.iniX = e.pageX;
+			this.iniY = e.pageY;
+	        
+            this.update();
+	        
+	        return false;
+		},	
+		scaleUp:function(){
+	        unbindMoveAndUp();
+	        return false;
+		},
+		
+		
+		
+		
+		//Dragable
+		dragDown: function(e){
+		    if(this.enabled){
+		        this.currX = e.pageX;
+                this.currY = e.pageY;
+                
+                this.left = parseInt(this.$target.css("left"), 10);
+                this.top = parseInt(this.$target.css("top"), 10);
+                this.width = this.$target.width();
+                this.height = this.$target.height();
+		        
+                //grabhand close
+                $.each(
+                    this.$dragElements,
+                    function(i, obj){
+                        $(obj).addClass("down");
+                    }
+                );
+		        
+		        //Bind on move and up
+                $(document).bind(mouseMoveBind, $.proxy(this.dragMove, this));
+                $(document).bind(mouseUpBind, $.proxy(this.dragUp, this));
+		    }
+		    return false;
+		},
+		dragMove: function(e){
+		    var x = e.pageX;
+            var y = e.pageY;
+            
+            //Update values
+            this.left += (x - this.currX);
+            this.top += (y - this.currY);
+            
+            //Update current
+            this.currX = x;
+            this.currY = y;
+            
+            this.update();
+            
+            return false;
+        },
+        dragUp: function(e){
+            unbindMoveAndUp();
+            
+            //grabhand open
+            $.each(
+                this.$dragElements,
+                function(i, obj){
+                    $(obj).removeClass("down");
+                }
+            );
+            
+            return false;
+        },
+		
+		
+		
+		//Validate and update current instance
+		update: function(){
+			var left = Math.round(this.left);
+			var top = Math.round(this.top);
+			var width = this.width;
+			var height = this.height;
+		   
+		    //update position 
+            this.$target.css({
+                "left":left+"px",
+                "top":top+"px"
+            });
+            
+            //Horizontal
+            if(this.horizontal)
+                this.$target.css({
+                    "width":width+"px"
+                });
+                
+                
+            //Vertical
+            if(this.vertical)
+                this.$target.css({
+                    "height":height+"px"
+                });
+		    
+		    //Trigger change
+		    this.$target.trigger("change", {"left": left,
+		                                    "top": top,
+                                            "width": width,
+                                            "height": height});
+		},
+		
+		
+		
+		
+
+		change:function(){
+		}
+	}
+	
+	return RelativeScalable;
+});

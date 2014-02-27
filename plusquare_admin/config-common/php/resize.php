@@ -128,7 +128,7 @@ function pq_get_image_resized_fun($url, $width, $height, $crop, $retina, $snap, 
 
 	// If no size data obtained, return error or null
 	if ($size === FALSE) {
-		fb::log("Error getting image size!");
+		if(WP_DEBUG)fb::log("Error getting image size!");
 		return array(
 			"url"=> $url,
 			"width"=> NULL,
@@ -164,7 +164,7 @@ function pq_get_resized_fun() {
 
 	// If no size data obtained, return error or null
 	if (!$size) {
-		fb::log("Error getting image size!");
+		if(WP_DEBUG)fb::log("Error getting image size!");
 		return is_user_logged_in() ? "getimagesize_error_common" : null;
 	}
 

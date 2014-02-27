@@ -1,0 +1,204 @@
+.page_builder {
+    .module{
+        transition : transform 0.5s cubic-bezier(0.190, 1.000, 0.220, 1.000);
+        -ms-transition: -ms-transform 0.5s cubic-bezier(0.190, 1.000, 0.220, 1.000);
+        -webkit-transition : -webkit-transform 0.5s cubic-bezier(0.190, 1.000, 0.220, 1.000);
+        -moz-transition : -moz-transform 0.5s cubic-bezier(0.190, 1.000, 0.220, 1.000);
+        -o-transition : -o-transform 0.5s cubic-bezier(0.190, 1.000, 0.220, 1.000);
+        
+        &.dragger{
+            transform: scale(0.7, 0.7);
+            -ms-transform: scale(0.7, 0.7); /* IE 9 */
+            -moz-transform: scale(0.7, 0.7); /* Firefox */
+            -webkit-transform: scale(0.7, 0.7); /* Safari and Chrome */
+            -o-transform: scale(0.7, 0.7); /* Opera */
+        }
+        
+        float: left;
+        position: relative;
+        width: 100%;
+        .headDragArea{
+            position: absolute;
+            top:0;
+            left:0;
+            bottom:0;
+            right:0;
+        }
+        .headArea{
+            padding: 8px 8px 0px 8px;
+            display: block;
+            background: none;    
+            overflow: hidden;
+            position: relative;
+        }
+        .menuArea{
+            position: relative;
+            margin: 8px 8px 5px 8px;
+            display: block;
+            overflow: hidden;
+            >*{
+                float: right;   
+            }
+        }
+    }
+    
+    .pagebreakModule{
+        *{
+            color: #555555;
+            font-size: 14px;
+        }
+        min-height: 90px;
+        margin: 0 5px;
+        background-color: #EEEEEE;
+        padding: 2px;
+        background-image: url(../images/page_builder/Placeholder/striping_pattern.png);
+        background-repeat: repeat;
+        
+        .pagebreakModule-inner{
+            background-color: #FFFFFF;
+            display: block;
+            margin: 0 190px;
+            padding: 12px 0;
+            position: relative;
+            text-align: center;
+            top: 22px;
+            
+            a{
+                float: right;
+                border-left: 1px solid #555555;    
+                padding: 1px 10px;
+            }
+        }
+    }
+    
+    .placeholderModule{
+        
+        *{
+            color:#999999;
+        }
+        min-height: 90px;
+        margin: 0 5px;
+        background-image: url(../images/page_builder/Placeholder/striping_pattern.png);
+        background-repeat: repeat;
+        padding: 2px;
+        .placeholder-inner{
+            position: relative;
+            background-color: #f6f6f6;
+            display: block;
+            //height: 100%;
+            padding-bottom: 1px;
+            min-height: 90px;
+            
+            >.headArea{
+                >*:last-child{
+                    position: relative;
+                    float: right;   
+                }
+                >*:nth-child(2){
+                    float: left;   
+                    font-size: 15px;
+                }
+            }
+        }
+        
+        .componentsHolder{
+            position: relative;
+            display: block;
+            margin: 0px 8px 0px 8px;
+        }
+        .dropArea{
+            .transition ();
+            position: relative;
+            margin: 8px 8px 0px 8px;
+            display: block;
+            min-height: 17px;
+            padding: 7px;
+            border: 2px solid #CCCCCC;
+        }
+        .dropAreaAlert{
+            position: absolute;
+           // .stickAround();
+            top:-2px;
+            left:-2px;
+            right:-2px;
+            bottom:-2px;
+            .transition (0s);
+            .opacity(1);
+            .transformOrigin();
+            .transformScale(1, 1);
+            border: 0px;
+            &.active{
+                .transition (1.0s);
+                .opacity(0);
+                .transformScale(1.1, 2);
+            }
+        }
+        
+        .size_text{
+            margin: 0 3px;
+        }
+    }
+    
+    .componentModule{
+        min-height: 80px;
+        *{
+            color:#cccccc;
+        }
+        border: solid 2px #cccccc; 
+        .headArea{
+            font-size: 15px;
+            img{
+                position: relative;
+                top: -2px;
+                margin-left: 5px;
+            }
+        }
+        .infoArea{
+            position: relative;
+            margin: 3px 8px 0px 8px;
+            display: block;
+            overflow: hidden;
+        }
+        .menuArea>*{
+            border-right: solid 1px #E1E1E1;
+            margin-right: 6px;
+        }
+        .menuArea>*:first-child{
+            border-right: 0px;
+            margin-right: 0px;
+        }
+    }
+    
+    .smallicon{
+         width: 14px;
+        height: 14px;
+        .transition ();
+        background-repeat: no-repeat;
+        background-position: center;
+        padding:2px;
+    }
+    
+    .plus-icon{
+        background-image: url(../images/page_builder/Blocks/increase_width_enabled.png);
+    }
+    .settings-icon{
+        background-image: url(../images/page_builder/Placeholder/settings_icon.png);
+    }
+    .decrease-icon{
+        background-image: url(../images/page_builder/Blocks/decrease_width_enabled.png);
+    }
+    .delete-icon{
+        background-image: url(../images/page_builder/Blocks/delete_icon.png);
+    }
+    .duplicate-icon{
+        width: 21px;
+        height: 14px;
+        background-image: url(../images/page_builder/Blocks/duplicate_icon.png);
+    }
+    .edit-icon{
+        width: 21px;
+        height: 14px;
+        background-image: url(../images/page_builder/Blocks/edit_icon.png);
+    }
+    
+}

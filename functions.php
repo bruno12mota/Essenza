@@ -1,8 +1,12 @@
 <?php
 
 //DEBUG
-require_once('plusquare_admin/config-backend/scripts/FirePHPCore/fb.php');
-ob_start();
+if(WP_DEBUG){
+	require_once('plusquare_admin/config-backend/scripts/FirePHPCore/fb.php');
+	ob_start();
+}
+
+if(WP_DEBUG)fb::log("DEBUG ON");
 
 //apis
 require_once( 'scripts/twitteroauth/twitteroauth.php');

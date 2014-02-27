@@ -66,7 +66,7 @@ if(!isset($essenza_page_dynamically_loaded) || (isset($essenza_page_dynamically_
     <div id="comments_replace_content_wraper">
 	    <?php
 		if($numberOfComments > 0)
-			wp_list_comments('type=comment&callback=pq_custom_comments');
+			wp_list_comments('type=comment&callback=plusquare_custom_comments');
 		else
 			echo $no_comments_Str;
 

@@ -85,7 +85,7 @@ $essenza_shortcodes_options["socialVideo"] = array(
 	"shortcode" => "socialVideo",
 	"name" => "Video Object",
 	"color" => "#eb3338",
-	"icon" => "images/Modules/video_object.png",
+	"icon" => "images/page_builder/Modules/video_object.png",
 	"options" => array(
 		//Video type (youtube, vimeo, dailymotion)
 		array(
@@ -160,7 +160,7 @@ $essenza_shortcodes_options["raw"] = array(
 	"shortcode" => "raw",
 	"name" => "Raw Code",
 	"color" => "#cccccc",
-	"icon" => "images/Modules/raw_code.png",
+	"icon" => "images/page_builder/Modules/raw_code.png",
 	"options" => array(
 		//Social video id
 		array(
@@ -219,7 +219,7 @@ $essenza_shortcodes_options["tabs"] = array(
 	"shortcode" => "tabs",
 	"name" => "Tabs",
 	"color" => "#cc66cc",
-	"icon" => "images/Modules/tabs.png",
+	"icon" => "images/page_builder/Modules/tabs.png",
 	"options" => array(
 		array(
 			"label" => "Tabs Constructor",
@@ -275,7 +275,7 @@ $essenza_shortcodes_options["accordion"] = array(
 	"shortcode" => "accordion",
 	"name" => "Accordion",
 	"color" => "#cc66cc",
-	"icon" => "images/Modules/accordion.png",
+	"icon" => "images/page_builder/Modules/accordion.png",
 	"options" => array(
 		array(
 			"label" => "Multiple Opened",
@@ -339,7 +339,7 @@ $essenza_shortcodes_options["text_divider"] = array(
 	"shortcode" => "text_divider",
 	"name" => "Text Divider",
 	"color" => "#ffff00",
-	"icon" => "images/Modules/text_divider.png",
+	"icon" => "images/page_builder/Modules/text_divider.png",
 	"options" => array(
 		array(
 			"label" => "Options Tabs",
@@ -505,7 +505,7 @@ $essenza_shortcodes_options["divider"] = array(
 	"shortcode" => "divider",
 	"name" => "Line Divider",
 	"color" => "#ffff00",
-	"icon" => "images/Modules/line_divider.png",
+	"icon" => "images/page_builder/Modules/line_divider.png",
 	"options" => array(
 		array(
 			"label" => "Options Tabs",
@@ -674,7 +674,7 @@ $essenza_shortcodes_options["music_player"] = array(
 	"shortcode" => "music_player",
 	"name" => "Music Object",
 	"color" => "#eb3338",
-	"icon" => "images/Modules/music_object.png",
+	"icon" => "images/page_builder/Modules/music_object.png",
 	"options" => array(
 		array(
 			"label" => "Music Type",
@@ -751,13 +751,7 @@ $essenza_shortcodes_options["music_player"] = array(
  */
 function plusquare_slider_func( $atts, $sliderId ){
 	
-	/*$id = get_the_ID();
-	setup_postdata(get_post( $sliderId ));
-	
-	$returnStr = get_the_content_with_formatting();*/
 	$returnStr = get_post_field('post_content', $sliderId);
-	
-	//setup_postdata(get_post( $id ));
 	
 	return $returnStr.'
     <script type="text/javascript">
@@ -778,7 +772,7 @@ $essenza_shortcodes_options["slider"] = array(
 	"shortcode" => "slider",
 	"name" => "Slider",
 	"color" => "#eb3338",
-	"icon" => "images/Modules/slider.png",
+	"icon" => "images/page_builder/Modules/slider.png",
 	"options" => array(
 		//Video type (youtube, vimeo, dailymotion)
 		array(
@@ -818,7 +812,7 @@ $essenza_shortcodes_options["message_box"] = array(
 	"shortcode" => "message_box",
 	"name" => "Message Box",
 	"color" => "#a7e200",
-	"icon" => "images/Modules/message_box.png",
+	"icon" => "images/page_builder/Modules/message_box.png",
 	"options" => array(
 		array(
 			"label" => "Message Type",
@@ -904,7 +898,7 @@ $essenza_shortcodes_options["pinterest"] = array(
 	"shortcode" => "pinterest",
 	"name" => "Pinterest Gallery",
 	"color" => "#ac1e1c",
-	"icon" => "images/Modules/pinterest.png",
+	"icon" => "images/page_builder/Modules/pinterest.png",
 	"options" => array(
 		array(
 			"label" => "Pinterest Username",
@@ -1004,7 +998,7 @@ $essenza_shortcodes_options["dribbble"] = array(
 	"shortcode" => "dribbble",
 	"name" => "Dribbble Gallery",
 	"color" => "#e6306b",
-	"icon" => "images/Modules/dribbble.png",
+	"icon" => "images/page_builder/Modules/dribbble.png",
 	"options" => array(
 		array(
 			"label" => "Dribbble User Id",
@@ -1061,7 +1055,7 @@ function plusquare_instagram_func( $atts, $content ){
 	$data = curlFetchData("https://api.instagram.com/v1/users/".$content."/media/recent/?access_token=".$token."&count=".$number);
 	
 	$returnStr = "";
-	//fb::log($data);
+	//if(WP_DEBUG)fb::log($data);
 	$json = json_decode($data);
 
 	//Pixel ratio
@@ -1103,7 +1097,7 @@ $essenza_shortcodes_options["instagram"] = array(
 	"shortcode" => "instagram",
 	"name" => "Instagram Gal.",
 	"color" => "#e6306b",
-	"icon" => "images/Modules/instagram.png",
+	"icon" => "images/page_builder/Modules/instagram.png",
 	"options" => array(
 		array(
 			"label" => "Instagram User Id",
@@ -1181,7 +1175,7 @@ $essenza_shortcodes_options["google_plus"] = array(
 	"shortcode" => "google_plus",
 	"name" => "Google+ Button",
 	"color" => "#c5351a",
-	"icon" => "images/Modules/google_plus.png",
+	"icon" => "images/page_builder/Modules/google_plus.png",
 	"options" => array(
 		array(
 			"label" => "Float",
@@ -1264,7 +1258,7 @@ $essenza_shortcodes_options["twitter_button"] = array(
 	"shortcode" => "twitter_button",
 	"name" => "Twitter Button",
 	"color" => "#4bc6f0",
-	"icon" => "images/Modules/twitter.png",
+	"icon" => "images/page_builder/Modules/twitter.png",
 	"options" => array(
 		array(
 			"label" => "Float",
@@ -1342,7 +1336,7 @@ $essenza_shortcodes_options["facebook_like"] = array(
 	"shortcode" => "facebook_like",
 	"name" => "Facebook Like",
 	"color" => "#395499",
-	"icon" => "images/Modules/facebook.png",
+	"icon" => "images/page_builder/Modules/facebook.png",
 	"options" => array(
 		array(
 			"label" => "Float",
@@ -1459,7 +1453,7 @@ $essenza_shortcodes_options["behance"] = array(
 	"shortcode" => "behance",
 	"name" => "Behance Gallery",
 	"color" => "#e6306b",
-	"icon" => "images/Modules/behance.png",
+	"icon" => "images/page_builder/Modules/behance.png",
 	"options" => array(
 		array(
 			"label" => "Behance User Id",
@@ -1590,7 +1584,7 @@ $essenza_shortcodes_options["flickr"] = array(
 	"shortcode" => "flickr",
 	"name" => "Flickr Gallery",
 	"color" => "#e6306b",
-	"icon" => "images/Modules/flickr.png",
+	"icon" => "images/page_builder/Modules/flickr.png",
 	"options" => array(
 		array(
 			"label" => "Flickr Username",
@@ -1667,7 +1661,7 @@ $essenza_shortcodes_options["tweet"] = array(
 	"shortcode" => "tweet",
 	"name" => "Single Tweet",
 	"color" => "#4bc6f0",
-	"icon" => "images/Modules/twitter.png",
+	"icon" => "images/page_builder/Modules/twitter.png",
 	"options" => array(
 		//Video type (youtube, vimeo, dailymotion)
 		array(
@@ -1693,7 +1687,7 @@ $essenza_shortcodes_options["tweet"] = array(
  */
 function getTweetHtml($tweet){
 	$html = $tweet->text;
-	//fb::log($tweet);
+	//if(WP_DEBUG)fb::log($tweet);
 	foreach($tweet->entities->urls as $urlObj){
 		$html = str_replace( $urlObj->url, "<a href='".$urlObj->expanded_url."'><span>".$urlObj->url."</span></a>", $html);
 	}
@@ -1736,7 +1730,7 @@ function plusquare_tweet_feed_func( $atts, $tweetUser ){
 						<div class="tweet_content">
 							<a href="https://twitter.com/'.$tweet->user->screen_name.'"><span>@'.$tweet->user->screen_name.':</span></a>
 							<p>'.getTweetHtml($tweet).'</p>
-							<a href="https://twitter.com/'.$tweet->user->screen_name.'/status/'.$tweet->id_str.'"><span>'.getStringTimePassed($diff).'</span></a>
+							<a href="https://twitter.com/'.$tweet->user->screen_name.'/status/'.$tweet->id_str.'"><span>'.plusquare_get_string_time_passed($diff).'</span></a>
 						</div>
 					</div>';
 	}
@@ -1750,7 +1744,7 @@ $essenza_shortcodes_options["tweet_feed"] = array(
 	"shortcode" => "tweet_feed",
 	"name" => "Tweet Feed",
 	"color" => "#4bc6f0",
-	"icon" => "images/Modules/twitter.png",
+	"icon" => "images/page_builder/Modules/twitter.png",
 	"options" => array(
 		array(
 			"label" => "Tweet's user",
@@ -1829,7 +1823,7 @@ $essenza_shortcodes_options["blog_gallery"] = array(
 	"shortcode" => "blog_gallery",
 	"name" => "Image Gallery",
 	"color" => "#eb3338",
-	"icon" => "images/Modules/image_gallery.png",
+	"icon" => "images/page_builder/Modules/image_gallery.png",
 	"options" => array(
 		array(
 			"label" => "Images Width",
@@ -1997,7 +1991,7 @@ $essenza_shortcodes_options["quote"] = array(
 	"shortcode" => "quote",
 	"name" => "Quote",
 	"color" => "#a7e200",
-	"icon" => "images/Modules/quote.png",
+	"icon" => "images/page_builder/Modules/quote.png",
 	"options" => array(
 		array(
 			"label" => "Quote Text",
@@ -2062,7 +2056,7 @@ $essenza_shortcodes_options["image"] = array(
 	"shortcode" => "image",
 	"name" => "Single Image",
 	"color" => "#eb3338",
-	"icon" => "images/Modules/single_image.png",
+	"icon" => "images/page_builder/Modules/single_image.png",
 	"options" => array(
 		array(
 			"label" => "Image",
@@ -2154,7 +2148,7 @@ $essenza_shortcodes_options["actionbox"] = array(
 	"shortcode" => "actionbox",
 	"name" => "Action Box",
 	"color" => "#00c5ec",
-	"icon" => "images/Modules/cta_button.png",
+	"icon" => "images/page_builder/Modules/cta_button.png",
 	"options" => array(
 		array(
 			"label" => "Options",
@@ -2343,7 +2337,7 @@ function plusquare_button_func( $atts, $content ){
 	//$content = sanitize_text_field( $content );
 	
 	$fields = json_decode($content, true);
-	//fb::log($fields);
+	//if(WP_DEBUG)fb::log($fields);
 	
 	$background = $fields["field4"];
 	$backgroundAlpha = $fields["field8"];
@@ -2411,7 +2405,7 @@ $essenza_shortcodes_options["button"] = array(
 	"shortcode" => "button",
 	"name" => "Button",
 	"color" => "#00c5ec",
-	"icon" => "images/Modules/button.png",
+	"icon" => "images/page_builder/Modules/button.png",
 	"options" => array(
 		array(
 			"label" => "Button Float",
@@ -2558,7 +2552,7 @@ $essenza_shortcodes_options["image_button"] = array(
 	"shortcode" => "image_button",
 	"name" => "Image Button",
 	"color" => "#00c5ec",
-	"icon" => "images/Modules/image_button.png",
+	"icon" => "images/page_builder/Modules/image_button.png",
 	"options" => array(
 		array(
 			"label" => "Image Button Link",
@@ -2856,11 +2850,12 @@ function plusquare_contact_form_func( $atts, $content ){
 		
 
 	}
-	else
-		fb::log("Error occured getting submit button");
+	else{
+		if(WP_DEBUG)fb::log("Error occured getting submit button");
+	}
 
 
-	fb::log($button);
+	if(WP_DEBUG)fb::log($button);
 	
 	return '<form class="mainform form_shortcode '.($labels_pos == "top" ? "labels_top" : "").'">
 				<input type="hidden" name="pq_email_to" value="'.$to.'"/>
@@ -2903,7 +2898,7 @@ $essenza_shortcodes_options["contact_form"] = array(
 	"shortcode" => "contact_form",
 	"name" => "Contact Form",
 	"color" => "#3366cc",
-	"icon" => "images/Modules/contact_form.png",
+	"icon" => "images/page_builder/Modules/contact_form.png",
 	"options" => array(
 		array(
 			"label" => "Email To",
@@ -3003,7 +2998,7 @@ $essenza_shortcodes_options["text"] = array(
 	"shortcode" => "text",
 	"name" => "Text Block",
 	"color" => "#a7e200",
-	"icon" => "images/Modules/text_block.png",
+	"icon" => "images/page_builder/Modules/text_block.png",
 	"options" => array(
 		array(
 			"label" => "Text Editor",
@@ -3116,7 +3111,7 @@ $essenza_shortcodes_options["google_maps"] = array(
 	"shortcode" => "google_maps",
 	"name" => "Google Maps",
 	"color" => "#b2d516",
-	"icon" => "images/Modules/google_maps.png",
+	"icon" => "images/page_builder/Modules/google_maps.png",
 	"options" => array(
 		//Height
 		array(
@@ -3269,7 +3264,7 @@ $essenza_shortcodes_options["text_box"] = array(
 	"shortcode" => "text_box",
 	"name" => "Text Box Block",
 	"color" => "#a7e200",
-	"icon" => "images/Modules/text_box.png",
+	"icon" => "images/page_builder/Modules/text_box.png",
 	"options" => array(
 		array(
 			"label" => "Options",
@@ -3418,7 +3413,7 @@ $essenza_shortcodes_options["text_header"] = array(
 	"shortcode" => "text_header",
 	"name" => "Text Header",
 	"color" => "#a7e200",
-	"icon" => "images/Modules/text_header_icon.png",
+	"icon" => "images/page_builder/Modules/text_header_icon.png",
 	"options" => array(
 		array(
 			"label" => "Options",
@@ -3626,7 +3621,7 @@ $essenza_shortcodes_options["vertical_space"] = array(
 	"shortcode" => "vertical_space",
 	"name" => "Vertical Space",
 	"color" => "#ffff00",
-	"icon" => "images/Modules/vertical_space.png",
+	"icon" => "images/page_builder/Modules/vertical_space.png",
 	"options" => array(
 		array(
 			"label" => "Vertical Space Amount",
@@ -3941,7 +3936,7 @@ $essenza_shortcodes_options["display-posts"] = array(
 	"shortcode" => "display-posts",
 	"name" => "Display Posts",
 	"color" => "#00cc00",
-	"icon" => "images/Modules/display_posts.png",
+	"icon" => "images/page_builder/Modules/display_posts.png",
 	"options" => array(
 		array(
 			"label" => "Number Of Posts To Display",

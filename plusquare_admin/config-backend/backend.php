@@ -1,7 +1,5 @@
 <?php
 
-//Metabox
-include_once('php/pq_meta_box.php');
 
 //Ajax functions
 include_once('php/ajax.php');
@@ -9,11 +7,20 @@ include_once('php/ajax.php');
 //Ajax functions
 include_once('config-templatecustomizer/template_customizer.php');
 
+//Enqueues
+include_once('php/enqueues.php');
+
+//Metabox
+include_once('php/pq_options.php');
+include_once('php/pq_meta_box.php');
 
 
 
 //Prevent user from rich editing
 add_filter ( 'user_can_richedit' , create_function ( '$a' , 'return false;' ) , 50 );
+
+
+
 
 
 
@@ -36,7 +43,7 @@ function get_google_fonts_list(){
         $mainCount = 0;
         $list = "[";
         foreach($fontsJson->items as $item){
-            fb::log($item);
+            if(WP_DEBUG)fb::log($item);
 
             $fontName = $item->family; 
             $fontName = str_replace("_", " ", $fontName);
@@ -95,49 +102,6 @@ function get_google_fonts_list(){
 
     return "[]";
 }
-
-// Returns a Google Font Object
-function getGoogleFontObject($font){
-   $obj = array();
-   
-   $parts = explode (":", $font, 2);
-
-   $fontFamily = isset($parts[0]) ? $parts[0] : "Arial";
-   $weight = isset($parts[1]) ? $parts[1] : "regular" ;
-
-   $obj["font"] = str_replace("_", " ", $fontFamily);
-   
-   //weight
-   $num = strpos($weight, "italic");
-   
-   if($num === false){
-      if($weight == "regular")
-         $obj["weight"] = "400";
-      else
-         $obj["weight"] = $weight;
-      $obj["style"] = "normal";
-   }
-   else if($num == 0){
-      $obj["weight"] = "400";
-      $obj["style"] = "italic";
-   }
-   else{
-      $obj["weight"] = substr($weight, 0, $num);
-      $obj["style"] = "italic";
-
-      console.log("Weight: "+$obj["weight"]);
-   }
-   
-   return $obj;
-}
-
-//Returns a Google Font css as String
-function getFontCss($font){
-   $obj = getGoogleFontObject($font);
-   
-   return "font-family:".$obj["font"]."; font-weight:".$obj["weight"].";";
-}
-
 
 
 

@@ -30,7 +30,7 @@ function plusquare_make_filter_menu($meta, $tax, $all){
 			foreach($categoriesArray as $cat)
 				array_push($categories, $cat->term_id);
 		}
-		//fb::log($categories);
+		//if(WP_DEBUG)fb::log($categories);
 	}
 	else{
 		$categories = explode(",", $cats);

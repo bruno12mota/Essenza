@@ -1,6 +1,179 @@
-var esza_portfolio_title_font_size_max=parseInt(directory.esza_portfolio_title_font_size_max,10),esza_portfolio_title_font_size_min=parseInt(directory.esza_portfolio_title_font_size_min,10);
-define(["jquery","utils/utils","other/modernizr"],function(a){var k=function(){jQuery(document).ready(a.proxy(function(a){this.initiate()},this))};k.prototype={initiate:function(){var b=a("#portfolio .work.new");b.removeClass("new");if(!Modernizr.touch){var f;b.data("resized","false");var g=this.resizeDescription,b=a("#portfolio .work");b.each(function(){var c=a(this);c.find(".hitarea").hover(function(){c.addClass("over");var l=-20,m=-10;"false"==c.data("resized")&&g(c);b.addClass("inactive");c.removeClass("inactive");
-0>parseInt(a(".description-wraper",c).css("left"))&&(l=20,m=10);a(".portfolio-wraper").hasClass("above_position")||(a(".description",c).stop().css("left",l+"px").animate({left:"0px"},800,"easeOutExpo"),a(".content",c).stop().css({left:m+"px"}),clearTimeout(f),f=setTimeout(a.proxy(function(){a(this).animate({left:"0px"},300,"easeOutExpo")},a(".content",c)),100))},function(){if(Modernizr.touch)return!1;c.removeClass("over");b.removeClass("inactive");clearTimeout(f)})});a(window).resize(function(){b.data("resized",
-"false")})}},resizeDescription:function(b){b.data("resized","true");var f=25,g=esza_portfolio_title_font_size_max,c=esza_portfolio_title_font_size_min,l=a(".description .content h1",b),m=a(".description .content hr",b),k=a(".description .content p:first",b),n=a(".description .content p.category",b);l.css({"font-size":g+"px","line-height":g+3+"px"});m.css("display","");k.css("display","");n.css("display","");var h=a(".description",b).height(),e=a(".description .content",b),d=e.outerHeight(!0);if(d>
-h){do if(e.css({margin:f+"px"}),d=e.outerHeight(!0),20<f)f-=5;else break;while(d>h)}d>h&&(n.css("display","none"),d=e.outerHeight(!0),d>h&&(n.css("display",""),k.css("display","none"),d=e.outerHeight(!0),d>h&&(n.css("display","none"),m.css("display","none"),d=e.outerHeight(!0))));if(d>h){do l.css({"font-size":g+"px","line-height":g+3+"px"}),d=e.outerHeight(!0),g-=1;while(d>h&&g>=c)}"center"==e.css("text-align")&&(b=a(".description",b),e.css("top",(b.height()-2*f)/2-e.outerHeight()/2-3),e.css("left",
-"-1px"))}};return k});
+var esza_portfolio_title_font_size_max = parseInt(directory["esza_portfolio_title_font_size_max"], 10);
+var esza_portfolio_title_font_size_min = parseInt(directory["esza_portfolio_title_font_size_min"], 10);
+
+define(["jquery", 
+		"utils/utils",
+		"other/modernizr"], function($) {
+			
+	var portfolio = function(){
+		jQuery(document).ready($.proxy(function ($){
+			this.initiate();
+		}, this));
+	};
+	
+	portfolio.prototype = {
+		initiate: function(){
+			var $works = $("#portfolio .work.new");
+			$works.removeClass("new");
+
+			if (Modernizr.touch)
+				return;
+			
+			var timeout;
+			$works.data("resized", "false");
+			
+			var resizeDescription = this.resizeDescription;
+			$works = $("#portfolio .work");
+			$works.each(function(){
+	            var $work = $(this);
+
+				$work.find(".hitarea").hover(function(){
+					$work.addClass("over");
+
+					//work over
+				    var from = -20;
+		            var from1 = -10;
+		            
+		            if($work.data("resized")=="false")
+		            	resizeDescription($work);
+
+					$works.addClass("inactive");
+					$work.removeClass("inactive");
+		            
+		            //Check if it's from the far end
+		            if(parseInt($(".description-wraper", $work).css("left")) < 0){
+		                from = 20;
+		                from1 = 10;
+		            }
+		            
+		            if( !$(".portfolio-wraper").hasClass("above_position") ){
+			            //Animate description
+						$(".description", $work).stop().css("left", from+"px").animate({
+						    "left":"0px"
+						}, 800, "easeOutExpo");
+						
+						//Animate content
+						$(".content", $work).stop().css({
+						    "left": from1+"px"
+					    });
+
+					    //Animate text
+					    function textIn(){
+			               $(this).animate({
+			                    "left":"0px"
+			               }, 300, "easeOutExpo");
+			            }
+		            
+			            clearTimeout(timeout);
+					    timeout = setTimeout($.proxy(textIn, $(".content", $work)), 100 );
+		            }
+				    
+				}, function(){
+					if (Modernizr.touch)
+						return false;
+
+					$work.removeClass("over");
+					$works.removeClass("inactive");
+					//work out
+		            clearTimeout(timeout);
+				});
+			});
+		
+			$(window).resize(function(){
+				$works.data("resized", "false");
+			});
+		},
+		resizeDescription: function($work){
+		    //$works.each(function(){
+	    	$work.data("resized", "true");
+	        var margin = 25;
+	        var minMargin = 20;
+	        
+	        var fontSize = esza_portfolio_title_font_size_max;
+	        var minFontSize = esza_portfolio_title_font_size_min;
+	            
+	        var h1 = $(".description .content h1", $work);
+	        var hr = $(".description .content hr", $work);
+	        var firstP = $(".description .content p:first", $work);
+	        var secondP = $(".description .content p.category", $work);
+	        
+	        h1.css({
+	            "font-size": fontSize+"px",
+	            "line-height": fontSize+3+"px"
+	        });
+	        hr.css("display","");
+	        firstP.css("display","");
+	        secondP.css("display","");
+	        
+	        
+	        var height = $(".description", $work).height();
+	        var $content = $(".description .content", $work);
+	        var contentHeight = $content.outerHeight(true);
+	        
+	        
+	        
+	        //RESIZE MARGIN
+	        if(contentHeight > height){
+		         do{
+		            $content.css({
+		                "margin": margin+"px"
+		            });
+		            
+		            contentHeight = $content.outerHeight(true);
+		            
+		            if(margin > minMargin)
+		                margin-=5;
+		            else
+		                break;
+		        }while(contentHeight > height);
+	        }
+	        
+	        //REMOVE CATEGORY
+	        if(contentHeight > height){
+	            secondP.css("display","none");
+	            
+	            //REMOVE PAR
+	            contentHeight = $content.outerHeight(true);
+	            if(contentHeight > height){
+	                
+	                secondP.css("display","");
+	                firstP.css("display","none");
+	                
+	                contentHeight = $content.outerHeight(true);
+	                
+	                if(contentHeight > height){
+	                    secondP.css("display","none");
+	                    hr.css("display","none");
+	                    contentHeight = $content.outerHeight(true);
+	                }
+	            }
+	        }
+	        
+	        //RESIZE H1 FONT
+	        if(contentHeight > height){
+	            do{
+	                h1.css({
+	                    "font-size": fontSize+"px",
+	                    "line-height": fontSize+3+"px"
+	                });
+	                
+	                contentHeight = $content.outerHeight(true);
+	                fontSize -= 1;
+	            }while(contentHeight > height && fontSize >= minFontSize);
+	            
+	            
+	        }
+
+
+	        if($content.css("text-align") == "center"){
+	        	var $description = $(".description", $work);
+
+	        	$content.css("top", ($description.height() - margin*2)/2 - $content.outerHeight()/2 - 3 );
+	        	$content.css("left", "-1px");
+	        }
+
+	       // });     
+		}
+	}
+	return portfolio;
+});

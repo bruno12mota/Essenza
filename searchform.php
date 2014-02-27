@@ -8,10 +8,21 @@
     </div>
 </form>
 <script>
-	jQuery(document).ready(function(){
+	jQuery(document).ready(function($){
 		$("#searchform").find(".big_submit_button").click(function(){
+
 			$("#searchform").submit();
 			return false;
+		});
+
+		$("#searchform").submit(function(event){
+			alert("'"+$("#search").val()+"'");
+			if( $("#search").val() == "" ){
+				alert("mkm");
+  				event.preventDefault();
+				return false;
+
+			}
 		});
 	});
 </script>

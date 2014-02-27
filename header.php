@@ -221,7 +221,7 @@ if(!isset($essenza_page_dynamically_loaded)){
 						delay:    0 }
 					});
 					if(!<?php echo is_search() ? "true" : "false"; ?>){
-						<?php changeEasyBackground(); ?>
+						<?php plusquare_change_easy_background(); ?>
 					}
 				}
 			);
@@ -263,7 +263,7 @@ else if($essenza_page_dynamically_loaded == "ajax"){
 		//Easy background instanciation
 		require(["essenza/EasyBackground"],
 			function(EasyBackground) {
-				<?php changeEasyBackground(); ?>
+				<?php plusquare_change_easy_background(); ?>
 			});
 	</script>
     <?php

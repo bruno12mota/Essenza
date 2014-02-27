@@ -1,3 +1,94 @@
-define(["jquery","essenza/Cover"],function(a){var c=function(b,d){this.$obj=b;this.shown=d;a(document).ready(a.proxy(this.initiate,this))};c.prototype={initiate:function(){this.$container=this.$obj.find(".container");a(".close_btn",this.$obj).click(a.proxy(this.close,this));this.$obj.find(".click_area").click(a.proxy(this.close,this));this.shown?this.open():this.$obj.fadeTo(0,0).css("display","none");this.$obj.bind("open",a.proxy(this.open,this));this.$obj.bind("close",a.proxy(this.close,this))},
-toogle:function(){this.shown?this.close():this.open()},close:function(){this.$obj.stop().fadeTo(200,0,function(){a(this).css("display","none")});contentCoverOut(!0);a(window).unbind("resize",a.proxy(this.resize,this));a("#page-wraper").css({height:"",overflow:""});a("#page-wraper-full").css({height:"",overflow:""});return!1},open:function(){contentCoverIn(!0)&&(this.$obj.css("display",""),this.resize(),this.$obj.stop().fadeTo(200,1),a(window).resize(a.proxy(this.resize,this)))},resize:function(){this.$obj.removeClass("mobile");
-var b=this.$container.height(),d=a(".easyBackground").height(),c=d/2-b/2-30;console.log(b);console.log(d);console.log(a(".easyBackground").length);0>c?(this.$obj.addClass("mobile"),this.$container.css({top:""}),a("#page-wraper").css({height:b+"px",overflow:"hidden"}),a("#page-wraper-full").css({height:b+"px",overflow:"hidden"})):(this.$container.css({top:c+"px"}),a("#page-wraper").css({height:"",overflow:""}),a("#page-wraper-full").css({height:"",overflow:""}))}};return c});
+define(["jquery", "essenza/Cover"], function($) {
+
+    var Info = function($obj, shown){
+		this.$obj = $obj;
+		this.shown = shown;
+    	$(document).ready($.proxy(this.initiate, this));
+    }
+    
+    Info.prototype = {
+    	initiate: function(){
+			//wait page ready
+			this.$container = this.$obj.find(".container");
+	    	
+	    	//add close action
+			$(".close_btn", this.$obj).click($.proxy(this.close, this));
+		    this.$obj.find(".click_area").click($.proxy(this.close, this));
+		    
+		    if(!this.shown)
+		    	this.$obj.fadeTo(0, 0).css("display", "none");
+		    else
+		    	this.open();
+		    	
+		    this.$obj.bind("open", $.proxy(this.open, this));
+		    this.$obj.bind("close", $.proxy(this.close, this));
+    	},
+
+    	//toogle open/close
+    	toogle: function(){
+    		if(this.shown)
+    			this.close();
+			else
+    			this.open();
+    	},
+    	
+    	//Close Info
+	    close : function(){
+			this.$obj.stop().fadeTo(200, 0, function(){
+				$(this).css("display", "none");
+			});    
+	        //Content cover in
+	        contentCoverOut(true);
+	        
+	        $(window).unbind("resize", $.proxy(this.resize, this));
+
+			$("#page-wraper").css({"height": "", "overflow": ""});
+			$("#page-wraper-full").css({"height": "", "overflow": ""});
+			
+			return false;
+	    },
+	    
+	    //open Info
+	    open : function(){
+	        //Content cover in
+	        if(contentCoverIn(true)){
+	        	this.$obj.css("display", "");
+	    		this.resize();
+	        	this.$obj.stop().fadeTo(200, 1);
+	        	
+	    		$(window).resize($.proxy(this.resize, this));
+	        }  
+	    },
+	    
+	    resize : function(){
+    		this.$obj.removeClass("mobile");
+	    	var height = this.$container.height();
+	    	var totalHeight = $(".easyBackground").height();
+	    	var top = totalHeight/2-height/2-30;
+	    	if(WP_DEBUG)console.log(height);
+	    	if(WP_DEBUG)console.log(totalHeight);
+	    	if(WP_DEBUG)console.log($(".easyBackground").length);
+
+	    	if(top < 0){
+	    		this.$obj.addClass("mobile");
+	    		this.$container.css({
+		    		"top": ""
+		    	});
+
+    			$("#page-wraper").css({"height": height+"px", "overflow": "hidden"});
+    			$("#page-wraper-full").css({"height": height+"px", "overflow": "hidden"});
+	    	}
+	    	else{
+	    		this.$container.css({
+		    		"top": top+"px"
+		    	});
+
+    			$("#page-wraper").css({"height": "", "overflow": ""});
+    			$("#page-wraper-full").css({"height": "", "overflow": ""});
+	    	}
+
+	    }
+    }
+    
+    return Info;
+});

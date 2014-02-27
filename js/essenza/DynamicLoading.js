@@ -1,6 +1,189 @@
-var esza_url=directory.esza_url;
-define(["jquery","utils/utils"],function(b){function p(a){var c=0;f?(m.remove(),b(a).insertAfter(n),c="comments"==g?b("#comments_replace_content_wraper").offset().top-80:0):(b("#page-wraper").remove(),b("#page-wraper-full").remove(),b(a).insertAfter(b("#header")));b("body").hasClass("runtime_javascript_ready")&&plusquare_runtime_javascript(!0,f,c);h=f=!1}var k=!1,h=!1,f=!1,m,n,g,e=function(a,c,d,f){this.href=a.attr("href");-1!=this.href.indexOf(esza_url)&&(a.addClass("dynamic_binded"),this.$holder=
-c,this.$afterThis=d,this.idAction=f,a.removeClass("dynamic_loading"),void 0==this.idAction&&-1<this.href.indexOf("rel=ajax")?(this.href=this.href.replace("&rel=ajax",""),this.href=this.href.replace("?rel=ajax",""),a.attr("href",this.href)):void 0!=this.idAction&&(this.href=this.href.replace("&rel=ajax",""),this.href=this.href.replace("?rel=ajax",""),this.href=this.href.replace("&rel="+this.idAction,""),this.href=this.href.replace("?rel="+this.idAction,""),a.attr("href",this.href)),a.bind(clickBind,
-b.proxy(this.onClick,this)))},l=function(a){k=h=!0;contentLoadingIn();if(-1===a.indexOf("rel=")){var c=f?g:"ajax",d=a+"?rel="+c,d=a.match(RegExp(".*?\\?(.+\\=.+)+","gi")),e=a.match(RegExp("\\#.+","gi"));null!=e&&(a=a.substring(0,a.length-e[0].length));d=null!=d?a+"&rel="+c:a+"?rel="+c;null!=e&&(d+=e[0])}else d=a,a=a.replace("&rel=ajax",""),a=a.replace("?rel=ajax",""),void 0!=g&&(a=a.replace("&rel="+g,""),a=a.replace("?rel="+g,""));b.ajax({url:d,success:p});a!=window.location&&void 0!=window.history.pushState&&
-window.history.pushState({path:a},"",a)};e.prototype={onClick:function(a){a.preventDefault();h||(void 0!=this.idAction?(m=this.$holder,n=this.$afterThis,g=this.idAction,f=!0):f=!1,l(this.href));return!1}};b(document).ready(function(){b("#menu a").each(function(){new e(b(this))});b("#menu_mobile a").each(function(){new e(b(this))});b("#searchform").submit(function(){b("#search_info").trigger("close");var a=b(this).attr("action"),c=b(this).find("#search").val(),a=a+"?s="+c;l(a,a+"&rel=ajax");return!1});
-b(window).bind("popstate",function(a){k?l(location.pathname):k=!0})});return e});
+var esza_url = directory["esza_url"];
+
+define(["jquery", "utils/utils"], function($) {
+    var popped = false;
+    var loadingPage = false;
+
+    var customVars = false;
+    var $holder_load;
+    var $afterThis_load;
+    var idAction_load;
+
+	function changeContent(data){
+		var to = 0;
+		if(customVars){
+			$holder_load.remove();
+	        $(data).insertAfter($afterThis_load);
+	        to = (idAction_load=="comments" ? $("#comments_replace_content_wraper").offset().top-80 : 0);
+		}
+		else{
+			//Remove current page
+	    	$('#page-wraper').remove();
+	    	$('#page-wraper-full').remove();
+	    	
+	    	//New page loaded
+	        $(data).insertAfter($("#header"));
+		}
+        
+        //Remove loading state
+    	if($("body").hasClass("runtime_javascript_ready"))
+    		plusquare_runtime_javascript(true, customVars, to);
+
+    	customVars = false;
+		loadingPage = false;
+	}
+	
+	var dynamicLoadingButton = function($obj, $holder, $afterThis, idAction){
+		this.href = $obj.attr('href');
+
+		if(this.href.indexOf(esza_url) == -1 || this.href.indexOf(".pdf") != -1)
+			return;
+
+		$obj.addClass("dynamic_binded");
+
+		this.$holder = $holder;
+		this.$afterThis = $afterThis;
+		this.idAction = idAction;
+		$obj.removeClass("dynamic_loading");
+
+		if(this.idAction == undefined && this.href.indexOf("rel=ajax") > -1){
+			this.href = this.href.replace("&rel=ajax","");
+			this.href = this.href.replace("?rel=ajax","");
+			$obj.attr('href', this.href); 
+		}
+		else if(this.idAction != undefined){
+			this.href = this.href.replace("&rel=ajax","");
+			this.href = this.href.replace("?rel=ajax","");
+			this.href = this.href.replace("&rel="+this.idAction, "");
+			this.href = this.href.replace("?rel="+this.idAction,"");
+			$obj.attr('href', this.href); 
+		}
+
+		$obj.bind(clickBind, $.proxy(this.onClick, this) );
+
+	}
+
+	var loadUrlDynamic = function(pageurl){
+		loadingPage = true;
+        popped = true;
+
+        //Add loading state
+        contentLoadingIn();
+
+        //get the link location that was clicked
+        if(pageurl.indexOf("rel=") === -1){
+			var action = customVars ? idAction_load : "ajax";
+	        var loadUrl = pageurl+'?rel='+action;
+
+	        var regexStr = ".*?\\?(.+\\=.+)+";
+	        var regex = new RegExp(regexStr, "gi");
+	        var matched = pageurl.match(regex);
+
+	        var regStr = "\\#.+";
+	        var regx = new RegExp(regStr, "gi");
+	        var match = pageurl.match(regx);
+
+	        if(match != null){
+	        	var hash = match[0];
+				pageurl = pageurl.substring(0, pageurl.length-hash.length);
+			}
+
+	        if(matched != null)
+	            loadUrl = pageurl+'&rel='+action;
+	        else
+				loadUrl = pageurl+'?rel='+action;
+
+			if(match != null)
+				loadUrl += match[0];
+		}
+		else{
+			var loadUrl = pageurl;
+			pageurl = pageurl.replace("&rel=ajax","");
+			pageurl = pageurl.replace("?rel=ajax","");
+			if(idAction_load != undefined){
+				pageurl = pageurl.replace("&rel="+idAction_load,"");
+				pageurl = pageurl.replace("?rel="+idAction_load,"");
+			}
+		}
+		
+		  
+        //Load new page
+        $.ajax({url:loadUrl ,success: changeContent});
+        
+    
+        //to change the browser URL to the given link location
+        if(pageurl!=window.location){
+        	if ( window.history.pushState != undefined )
+            	window.history.pushState({path:pageurl},'',pageurl);
+        }
+	}
+
+	dynamicLoadingButton.prototype = {
+		onClick:function(e){
+			e.preventDefault();
+	        /*
+	        if uncomment the above line, html5 nonsupported browers won't change the url but will display the ajax content;
+	        if commented, html5 nonsupported browers will reload the page to the specified link.
+	        */
+	       
+	       	if(!loadingPage){
+
+		    	if(this.idAction != undefined){
+		    		$holder_load = this.$holder;
+		    		$afterThis_load = this.$afterThis;
+		    		idAction_load = this.idAction;
+		    		customVars = true;
+		    	}
+		    	else{
+		    		customVars = false;
+		    	}
+
+				loadUrlDynamic(this.href);
+			}
+	    
+	        return false;
+		}
+		
+	}
+	
+	//For menu links
+	$(document).ready(function(){
+		$("#menu a").each(function(){
+			new dynamicLoadingButton($(this));
+		});
+
+		$("#menu_mobile a").each(function(){
+			new dynamicLoadingButton($(this));
+		});
+
+
+		$("#searchform").submit(function(){
+		    $("#search_info").trigger("close");
+
+			var href= $(this).attr("action");
+			var search = $(this).find("#search").val();
+
+			var url = href+"?s="+search;
+			var load = url+'&rel=ajax';
+
+			loadUrlDynamic(url, load);
+
+			return false;
+		});
+		
+	    /* the below code is to override back button to get the ajax content without page reload*/
+	    $(window).bind('popstate', function(e) {
+	    	if(!popped){
+	    		popped = true;
+	    		return;
+	    	}
+	    	
+	        //load page
+			loadUrlDynamic(location.pathname);
+
+	    });
+	});
+	
+    
+    return dynamicLoadingButton;
+});

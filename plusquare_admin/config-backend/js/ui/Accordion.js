@@ -1,1 +1,31 @@
-jQuery(document).ready(function(){$(".ui-accordion").each(function(){var d=$(this);$("li",d).each(function(){var a=$(this),c=$(".content",a),b=$(".img",a);c.is(":hidden")?b.removeClass("active"):b.addClass("active");$(".head",a).click(function(a){a.preventDefault();c.not(":animated").slideToggle(150,$.proxy(function(){c.is(":hidden")?b.removeClass("active"):b.addClass("active");return!1},this));return!1})})})});
+jQuery(document).ready(function($) {
+    $(".ui-accordion").each(function(){
+        var $accordion = $(this);
+        
+        $("li", $accordion).each(function(){
+            var $li = $(this);
+            var $content = $(".content", $li);
+            var $img = $(".img", $li);
+                
+            if ($content.is(':hidden'))
+                $img.removeClass("active");
+            else 
+                $img.addClass("active");
+            
+            $(".head", $li).click(function(e){
+                e.preventDefault();
+                
+                $content.not(':animated').slideToggle(150, $.proxy(function(){
+                    if ($content.is(':hidden'))
+                        $img.removeClass("active");
+                    else 
+                        $img.addClass("active");
+                    
+                    return false;
+                }, this));
+                
+                return false;
+            });
+        });
+    });
+});

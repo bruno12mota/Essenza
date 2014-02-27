@@ -20,8 +20,6 @@ class pq_meta_box {
 		$this->meta_options = $meta_options;
 		$this->post_type_option = $post_type_option;
 		
-		include_once("pq_options.php");
-		
 		//Add hooks
 		add_action( 'admin_init', array($this, 'add_metabox'));
 	}
@@ -62,15 +60,11 @@ class pq_meta_box {
 		wp_enqueue_media();
 
 		?>
-		
-        <link href="<?php echo get_template_directory_uri(); ?>/plusquare_admin/css/fonts/stylesheet.css" rel="stylesheet" type="text/css" />
-		<link href="<?php echo get_template_directory_uri(); ?>/plusquare_admin/css/meta_options.css" rel="stylesheet" type="text/css" />
-        
-        <script data-main="<?php echo get_template_directory_uri(); ?>/plusquare_admin/js/MetaBox" src="<?php echo get_template_directory_uri(); ?>/plusquare_admin/js/require-jquery.js"></script>
         
 		<style>
 			#postdivrich, #postdivrich{display: none !important;}
 			#pq-metabox h3, #pq-metabox .handlediv{display: none !important;}
+			<?php if(strcmp($post_type, "sidebar") === 0) echo "#edit-slug-box, #minor-publishing{display:none}"; ?>
 			#pq-metabox{
 				background:transparent;
 				border:none;
@@ -106,7 +100,6 @@ class pq_meta_box {
 		
 		if($option["type"] != NULL && $option["type"] != "page_builder" ){
 			$value = $_POST[$option["id"]];
-			update_post_meta( $post->ID, $option["id"], $value );
 			
 			if($option["type"] == "media_picker"){
 				$value = $_POST[$option["id"]."_sizing"];
@@ -136,6 +129,9 @@ class pq_meta_box {
 					}
 				}
 			}
+			else{
+				update_post_meta( $post->ID, $option["id"], $value );
+			}
 		}
 	}
 	
@@ -144,6 +140,7 @@ class pq_meta_box {
 	 */
 	function save_metas($post_id) {	
 		global $post_type;
+		
 		if(strcmp($post_type, $this->post_type_option) !== 0)
 			return;
 		
@@ -151,9 +148,10 @@ class pq_meta_box {
 		if ( !current_user_can( 'edit_post', $post_id ))
 			return $post_id;
 		
-		if( $_POST ) 
+		if( $_POST ) {
 			//Go through tabs
 			foreach ( $this->meta_options as $option) 
 				$this->save_meta($option);
+		}
 	}
 }

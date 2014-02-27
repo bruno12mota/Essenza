@@ -1,6 +1,181 @@
-define(["jquery"],function(){var g=function(a,b,c,f,e){if("string"==typeof b){for(var d=0;d<f.length;d++)if(f[d]==b){b=d;break}isNaN(b)&&(b=0)}"string"==typeof b&&(b=0);this.active=parseInt(b,10);this.opened=!1;this.values=f;this.options=[];this.$combobox=a;void 0!=e&&a.css({width:e,"min-width":e});if(void 0==c)$(".combobox-option",a).each($.proxy(function(a,b){this.options.push($(b));$(b).attr("rel",a)},this)),this.hasOptions=!0;else for(d=0;d<c.length;d++)b=$('<div class="combobox-option">'+c[d]+
-"</div>").appendTo(a),b.attr("rel",d),this.options.push(b),this.hasOptions=!0;a.addClass("ui-combobox");this.$options=$(".combobox-option",a).remove();this.$holder=$("<div class='combobox-holder'></div>").appendTo(a);this.$selectedText=$("<div class='selected-text'></div>").appendTo(this.$holder);this.$optionsHolder=$("<div class='combobox-options-holder'></div>").appendTo(this.$holder);this.$options.appendTo(this.$optionsHolder);this.rebind();this.hasOptions?this.update(!1):(a.stop().fadeTo(200,
-0.7),this.$selectedText.text("no options"));a.bind("changeOptions",$.proxy(this.changeOptions,this))};g.prototype={rebind:function(){this.$holder.click($.proxy(this.click,this)).hover($.proxy(this.interruptClose,this),$.proxy(this.closeDelay,this));for(var a=this,b=this.$combobox,c=0;c<this.options.length;c++)this.options[c].click(function(){a.active=parseInt($(this).attr("rel"));a.update(!0);$(a).trigger("change");b.trigger("change")})},changeOptions:function(a,b,c,f){this.options=[];this.values=
-c;for(a=0;a<b.length;a++)c=$('<div class="combobox-option">'+b[a]+"</div>").appendTo(this.$combobox),c.attr("rel",a),this.options.push(c);this.$options.remove();this.$options=$(".combobox-option",this.$combobox).remove();this.$options.appendTo(this.$optionsHolder);var e=this;for(a=0;a<this.options.length;a++)this.options[a].click(function(){e.active=parseInt($(this).attr("rel"));e.update(!0);$(e).trigger("change");e.$combobox.trigger("change")});void 0!=f?this.val(f):this.update(!1)},update:function(a){var b=
-0;a&&(b=150);this.$selectedText.fadeTo(b,0,$.proxy(function(){if(0>this.active||this.active>=this.options.length)this.active=0;this.$selectedText.html(this.options[this.active].html()).fadeTo(b,1)},this));$(this).trigger("change")},open:function(){this.$holder.css({height:28+parseInt(this.$optionsHolder.height(),10)+"px"}).addClass("opened");this.opened=!0},close:function(){this.$holder.css({height:"28px"}).removeClass("opened");this.opened=!1},closeDelay:function(){this.timer=setTimeout($.proxy(this.close,
-this),300)},interruptClose:function(){clearTimeout(this.timer)},click:function(){this.opened?this.close():this.open();return!1},val:function(a){if(void 0==a)return this.values[this.active];for(var b=0;b<this.values.length;b++)if(this.values[b]==a){this.active=b;this.update();break}},info:function(){return this.options[this.active]}};return g});
+define(["jquery"], function($){
+	var Combobox = function ($this, active, options, values, width){
+		if(typeof active == "string"){
+			for(var i = 0; i < values.length; i++)
+				if(values[i] == active){
+					active = i;
+					break;
+				}
+			if(isNaN(active))
+				active = 0;
+		}
+		if(typeof active == "string")
+			active = 0;
+
+		this.active = parseInt(active, 10);
+		this.opened = false;	
+		this.values = values;
+		this.options = new Array();
+		this.$combobox = $this;
+		
+		//Set min width by parameter
+		if(width != undefined)
+			$this.css({
+				"width": width,
+				"min-width": width
+			});
+			
+		
+		//Parse options
+		if(options == undefined){
+			$(".combobox-option", $this).each($.proxy(function(id, val){
+				this.options.push($(val));
+				$(val).attr("rel", id);
+			}, this));
+			this.hasOptions = true;
+		}
+		else{
+			for(var i = 0;  i<options.length ; i++){
+				var $val = $('<div class="combobox-option">'+options[i]+'</div>').appendTo($this);
+				$val.attr("rel", i);
+				this.options.push($val);
+				this.hasOptions = true;
+			}
+		}
+		
+		
+		$this.addClass("ui-combobox");
+		this.$options = $(".combobox-option", $this).remove();
+		
+		//holder
+		this.$holder = $("<div class='combobox-holder'></div>").appendTo($this);
+		
+		//selected text
+		this.$selectedText = $("<div class='selected-text'></div>").appendTo(this.$holder);
+		
+		this.$optionsHolder = $("<div class='combobox-options-holder'></div>").appendTo(this.$holder);
+		
+		this.$options.appendTo(this.$optionsHolder);
+
+		//First bind events
+		this.rebind();
+		
+		//IF HAS OPTIONS
+		if(this.hasOptions){
+			this.update(false);
+		}
+		else{
+			$this.stop().fadeTo(200, 0.7);
+			this.$selectedText.text("no options");
+		}
+		
+		//Bind options change
+		$this.bind("changeOptions", $.proxy(this.changeOptions, this));
+	}
+	
+	Combobox.prototype = {
+		rebind: function(){
+			this.$holder.click($.proxy(this.click, this)).hover($.proxy(this.interruptClose, this), $.proxy(this.closeDelay, this));
+
+			var _this = this;
+			var $this = this.$combobox;
+			for(var i=0 ; i < this.options.length ; i++)
+				this.options[i].click(function(){
+					_this.active = parseInt($(this).attr("rel"));
+					_this.update(true);
+		        
+		            	$(_this).trigger('change');
+		            	$this.trigger('change');
+				});
+		},
+		changeOptions: function(e, options, values, value){
+			this.options = new Array();
+			this.values = values;
+			
+			for(var i = 0;  i<options.length ; i++){
+				var $val = $('<div class="combobox-option">'+options[i]+'</div>').appendTo(this.$combobox);
+				$val.attr("rel", i);
+				this.options.push($val);
+			}
+			this.$options.remove();
+			this.$options = $(".combobox-option", this.$combobox).remove();
+			this.$options.appendTo(this.$optionsHolder);
+			
+			var _this = this;
+			for(var i=0 ; i < this.options.length ; i++)
+			this.options[i].click(function(){
+				_this.active = parseInt($(this).attr("rel"));
+				_this.update(true);
+	        
+            	$(_this).trigger('change');
+            	_this.$combobox.trigger('change');
+			});
+		
+			if(value != undefined)
+				this.val(value);
+			else
+				this.update(false);
+		},
+		update: function(animate){
+			var time = 0;
+			
+			if(animate)
+				time = 150;
+			
+			this.$selectedText.fadeTo(time, 0, $.proxy(function(){
+				if(this.active < 0 || this.active >= this.options.length)
+					this.active = 0;
+				
+				this.$selectedText.html(this.options[this.active].html()).fadeTo(time, 1);
+			}, this));
+			
+			$(this).trigger('change');
+		},
+		open: function(){
+			this.$holder.css({
+				"height":28+parseInt(this.$optionsHolder.height(), 10)+"px"
+			}).addClass("opened");
+			
+			this.opened = true;
+		},
+		close: function(){
+			this.$holder.css({
+				"height":28+"px"
+			}).removeClass("opened");
+			
+			this.opened = false;
+		},
+		closeDelay:function(){
+			this.timer = setTimeout($.proxy(this.close, this), 300);
+		},
+		interruptClose:function(){
+			clearTimeout(this.timer);
+		},
+		click: function(){
+			if(this.opened)
+				this.close();
+			else
+				this.open();
+				
+			return false;
+		},
+		val:function(value){
+			//GET VALUE
+			if(value == undefined)
+				return this.values[this.active];
+				
+			//SET VALUE
+			for(var i= 0; i<this.values.length; i++)
+				if(this.values[i] == value){
+					this.active = i;
+					this.update();
+					break;
+				}
+	     },
+		info:function(){
+			return this.options[this.active];
+		}
+	}
+	
+	return Combobox;
+});

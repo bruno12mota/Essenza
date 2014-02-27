@@ -1,2 +1,48 @@
-define(["jquery","essenza/DynamicLoading","jquery/jquery.easing.1.3"],function(b,d){b(document).ready(function(){var a=b("#content-cover");a.data("priority",!1);contentCoverIn=function(b){return a.data("priority")?!1:(a.stop().css("display","").fadeTo(600,1,"easeOutExpo"),!0===b&&a.data("priority",!0),!0)};contentLoadingIn=function(){a.addClass("loading");contentCoverIn()};contentCoverOut=function(c){return!a.data("priority")&&!c||c?(a.hasClass("loading")||a.stop().fadeTo(600,0,"easeOutExpo",function(){b(this).css("display",
-"none")}),a.data("priority",!1),!0):!1};contentLoadingOut=function(){a.removeClass("loading");contentCoverOut();b(".dynamic_loading").each(function(){new d(b(this))})}})});
+define(["jquery", "essenza/DynamicLoading", "jquery/jquery.easing.1.3"], function($, dynamicLoadingButton) {
+
+	$(document).ready(function(){
+		var $cover = $("#content-cover");
+		$cover.data("priority", false);
+		
+		contentCoverIn = function(priority){
+			if(!$cover.data("priority")){
+				$cover.stop().css("display", "").fadeTo(600, 1, "easeOutExpo");
+					
+				if(priority === true)
+					$cover.data("priority", true);
+					
+				return true;
+			}
+				
+			return false;
+		};
+		contentLoadingIn = function(){
+			$cover.addClass("loading");
+			contentCoverIn();
+		};
+
+		contentCoverOut = function(priority){
+			if( ((!$cover.data("priority") && !priority) || priority) ){
+
+				//Not loading
+				if(!$cover.hasClass("loading"))
+					$cover.stop().fadeTo(600, 0, "easeOutExpo", function(){
+						$(this).css("display", "none");	
+					});
+				
+				$cover.data("priority", false);
+				return true;
+			}
+			return false;
+		};
+		contentLoadingOut = function(){
+			$cover.removeClass("loading");
+			contentCoverOut();
+
+			$(".dynamic_loading").each(function(){
+				new dynamicLoadingButton($(this));
+			});
+		};
+	});
+	
+});

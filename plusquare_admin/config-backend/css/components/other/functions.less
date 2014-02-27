@@ -1,0 +1,94 @@
+//css functions
+
+.stickAround(){
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+}
+
+/*Inline Block Fix*/
+.display_inline_block(){
+    display: inline-block;
+    vertical-align: top;
+    
+    /* For IE 7 */
+    zoom: 1;
+    *display: inline;
+}
+
+/*Gradient*/
+.gradient(@color1, @color2, @perc1: 50%, @perc2: 50%, @deg: 90deg){
+     background-color: @color2;
+    
+    background-image: linear-gradient(@deg, @color1 @perc1, @color2 @perc2);
+    background-image: -o-linear-gradient(@deg, @color1 @perc1, @color2 @perc2);
+    background-image: -moz-linear-gradient(@deg, @color1 @perc1, @color2 @perc2);
+    background-image: -webkit-linear-gradient(@deg, @color1 @perc1, @color2 @perc2);
+    background-image: -ms-linear-gradient(@deg, @color1 @perc1, @color2 @perc2);
+    background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,@color1), color-stop(100%,@color2));
+    
+}
+
+/*Drop Shadow*/
+.drop-shadow(@x-axis: 0, @y-axis: 1px, @blur: 2px, @r: 0, @g: 0, @b: 0, @alpha: 0.1) {
+  -webkit-text-shadow: @x-axis @y-axis @blur rgba(@r, @g, @b, @alpha);
+  -moz-text-shadow: @x-axis @y-axis @blur rgba(@r, @g, @b, @alpha);
+  text-shadow: @x-axis @y-axis @blur rgba(@r, @g, @b, @alpha);
+}
+
+/*Rounded Corners*/
+.roundedCorners (@tl_rad: 2px, @tr_rad: 2px, @br_rad: 2px, @bl_rad: 2px) {
+    -webkit-border-radius : @tl_rad @tr_rad @br_rad @bl_rad;
+     -moz-border-radius : @tl_rad @tr_rad @br_rad @bl_rad;
+     -o-border-radius : @tl_rad @tr_rad @br_rad @bl_rad;
+     border-radius : @tl_rad @tr_rad @br_rad @bl_rad;
+}
+
+.transformScale(@val: 2, @val1: 2){
+    transform:scale(@val, @val1);
+    -ms-transform:scale(@val, @val1); /* IE 9 */
+    -moz-transform:scale(@val, @val1); /* Firefox */
+    -webkit-transform:scale(@val, @val1); /* Safari and Chrome */
+    -o-transform:scale(@val, @val1); /* Opera */   
+}
+
+.transformRotation(@val: 90deg){
+    transform:rotate(@val);
+    -ms-transform:rotate(@val); /* IE 9 */
+    -moz-transform:rotate(@val); /* Firefox */
+    -webkit-transform:rotate(@val); /* Safari and Chrome */
+    -o-transform:rotate(@val); /* Opera */   
+}
+
+.transformOrigin(@val: 50%, @val1: 50%){
+    transform-origin: @val @val1;
+    -ms-transform-origin: @val @val1; /* IE 9 */
+    -webkit-transform-origin: @val @val1; /* Safari and Chrome */
+    -moz-transform-origin: @val @val1; /* Firefox */
+    -o-transform-origin: @val @val1; /* Opera */   
+}
+
+/*Transition*/
+.transition (@time: 0.2s, @to: all, @ease: cubic-bezier(0.190, 1.000, 0.220, 1.000)) {
+     transition : @to @time @ease;
+    -webkit-transition : @to @time @ease;
+     -moz-transition : @to @time @ease;
+     -o-transition : @to @time @ease;
+}
+
+/*Transition Delay*/
+.transitionDelay (@time: 0.2s) {
+    transition-delay : @time;
+    -webkit-transition-delay : @time;
+    -moz-transition-delay : @time;
+    -o-transition-delay : @time;
+}
+
+/*Opacity*/
+.opacity(@opacity: 0.5) {
+  -moz-opacity: @opacity;
+  -khtml-opacity: @opacity;
+  -webkit-opacity: @opacity;
+  opacity: @opacity;
+}

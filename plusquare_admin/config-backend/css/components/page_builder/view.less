@@ -1,0 +1,175 @@
+
+.page_builder {
+    @linesMargin: 15px;
+    @holderMargin: 22px;
+    position: relative;
+    
+    .sectioning{
+        
+		background-color: #333333;
+        bottom: 0;
+        float: left;
+        min-height: 150px;
+        position: absolute;
+        top: 36px;
+        width: 37px;
+		
+		.section{
+		    display: block;
+		    //background-repeat: no-repeat;
+		    //.at2x("../images/page_builder/onepager/sm_divider", 37px, 21px, ".png");
+		    min-height: 100px;
+		    //background-position: 0 -20px;
+		    border-top: 1px solid #666666;
+		    
+		    &:first-child{
+		        border-top: 0;
+		        .section_link{
+		            display: none;
+		        }
+		    }
+		    
+		    .section_link, .section_back, .section_nav{
+		        display: block;
+		        margin: 0 auto;
+		        background-repeat: no-repeat;
+		        width: 25px;
+		        height: 25px;
+		        .transition();
+		        
+		        &:hover{
+		            
+		        }
+		    }
+		    .section_link{
+		        margin-top: -13px;
+		        .at2x("../images/page_builder/onepager/sm_unlinked", 25px, 25px, ".png");
+		        &:hover{
+		           .at2x("../images/page_builder/onepager/sm_unlinked_hover", 25px, 25px, ".png");
+		        }
+		    }
+		    
+		    &.linked{
+		        .section_link{
+		            .at2x("../images/page_builder/onepager/sm_linked", 25px, 25px, ".png");
+		            &:hover{
+    		           .at2x("../images/page_builder/onepager/sm_linked_hover", 25px, 25px, ".png");
+    		        }
+		        }
+		        .section_back, .section_nav{
+		            display: none;
+		        }
+		    }
+		    
+		    .section_back{
+		        margin-top: 7px;
+		        .at2x("../images/page_builder/onepager/sm_background", 25px, 25px, ".png");
+		        &:hover{
+		           .at2x("../images/page_builder/onepager/sm_background_hover", 25px, 25px, ".png");
+		        }
+		    }
+		    .section_nav{
+		        margin-top: 7px;
+		        .at2x("../images/page_builder/onepager/sm_anchor", 25px, 25px, ".png");
+		        &:hover{
+		           .at2x("../images/page_builder/onepager/sm_anchor_hover", 25px, 25px, ".png");
+		        }
+		    }
+		}
+    }
+    
+    .view{
+        position: relative;
+        background-color: #f6f6f6;
+		min-height : 150px;
+		position : relative;
+		top: 0px;
+		border: solid 1px #CCCCCC;
+		border-top: none;
+		
+		&.sectioned{
+		    width: ~"calc(100% - 39px)";
+		    margin-left: 38px;
+		    border-left: 0;
+		}
+		
+        .roundedCorners (0px, 0px, 3px, 3px);
+        .transition();
+    }
+    .snap_button{
+	    position: absolute;
+	    
+	    background-image: url(../images/page_builder/Blocks/snap.png);
+	    background-repeat: no-repeat;
+	    
+	    width: 25px;
+	    height: 25px;
+	    
+	    display: inline-block;
+	    
+	    .transformOrigin();
+	    
+	    &:hover, &.active{
+	        background-image: url(../images/page_builder/Blocks/snap_active.png);
+	    }
+	    
+	    &.vertical{
+	        background-image: url(../images/page_builder/Blocks/snap_vertical.png);
+	        left: -13px;
+            margin-left: 50%;
+	        top: -9px;
+	        z-index: 1;
+	        &:hover, &.active{
+    	        background-image: url(../images/page_builder/Blocks/snap_vertical_active.png);
+    	    }
+	    }
+	    &.to_left{
+	        left: -1px;
+	    }
+	    &.to_top{
+	        left: -13px;
+            margin-left: 50%;
+	        top: -1px;
+	        .transformRotation();
+	    }
+	    &.to_right{
+	        right: -1px;
+	        .transformRotation(180deg);
+	    }
+	    &.to_bottom{
+	        left: -13px;
+            margin-left: 50%;
+	        bottom: -1px;
+	        .transformRotation(-90deg);
+	    }
+	}
+    .componentsHolder{
+    	overflow: hidden;   
+    }
+    .linesHolderInner{
+		overflow: hidden;
+    }
+    .linesHolder{
+        position: relative;   
+    }
+    .line-holder{
+        min-height:100px;
+    	overflow: hidden;
+    	
+    	
+    }
+    .lineBase{
+        position : relative;
+    	width : 100%;
+		height : 9px;    
+        &:first-child{
+            margin-top: -4px;
+        }
+        
+        .transition();
+    }
+    .viewHolder{
+        padding: @linesMargin;
+        position: relative;
+    }
+}

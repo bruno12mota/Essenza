@@ -32,7 +32,7 @@ class pq_media_multiple_picker {
 		}
 		?>
 
-		<a class="ui-button" id="<?php echo $this->id; ?>_button" href="#" onclick="return false;">Add Images</a>
+		<a class="button button-primary button-large" id="<?php echo $this->id; ?>_button" href="#" onclick="return false;">Add Images</a>
         
         <?php
 		if($media_type != "image"){

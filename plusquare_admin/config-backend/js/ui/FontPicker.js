@@ -1,8 +1,263 @@
-define(["jquery","utils/utils"],function(b){var f,c,l,n=function(a,p){l=b("#"+a);this.$picker=b("#"+a+"_picker");f=this.$picker.find(".panel:first-child");c=this.$picker.find(".panel:last-child");f.find(".font").each(function(a,c){new m(b(c))});c.bind("change",b.proxy(this.changed,this));this.setValue(p)};n.prototype={setValue:function(a){b.each(a.items,function(a,e){var h=e.family,d=f.find(".font[rel="+h+"]");if(0==d.length)console.log("Error loading google font!");else{d=d.clone();c.find(".panel-inner").append(d);
-var q=e.variants;d.find(".format").removeClass("selected");b.each(q,function(a,b){d.find(".format[rel="+b+"]").addClass("selected")});new k(d);f.find(".font[rel="+h+"]").css("display","none")}})},changed:function(){var a=[],f=[],e='{"items": [',h=0;c.find(".font").each(function(){var d=b(this),c=b(this).attr("rel"),g=[];0==d.find(".format").length?g.push(d.find(".font_formats").attr("rel")):(d=d.find(".format.selected"),0<d.length&&d.each(function(){g.push(b(this).attr("rel"))}));if(0<g.length){0!=
-h&&(e+=",");e+='{ "family": "'+c+'","variants": [';for(d=0;d<g.length;d++)e+='"'+g[d]+'"',d!=g.length-1&&(e+=","),a.push(c+" ("+g[d]+")"),f.push(c+":"+g[d]);e+="]}";h++}});e+="]}";l.val(e);this.$picker.trigger("changeFonts",[a,f])}};var m=function(a){this.$font=a;this.$font.bind(mouseDownBind,b.proxy(this.startDrag,this))};m.prototype={updateDragPosition:function(){this.$dragObj.css({top:this.posTop+"px",left:this.posLeft+"px"})},startDrag:function(a){this.$dragObj=this.$font.clone().appendTo("body").css({position:"absolute",
-width:this.$font.width()+"px"}).addClass("down");this.posLeft=this.$font.offset().left;this.posTop=this.$font.offset().top;this.currentLeft=a.pageX;this.currentTop=a.pageY;this.panelRangeMinLeft=c.offset().left;this.panelRangeMinTop=c.offset().top;this.panelRangeMaxLeft=this.panelRangeMinLeft+c.width();this.panelRangeMaxTop=this.panelRangeMinTop+c.height();this.updateDragPosition();b(document).bind(mouseMoveBind,b.proxy(this.drag,this));b(document).bind(mouseUpBind,b.proxy(this.stopDrag,this));return!1},
-drag:function(a){this.posLeft+=a.pageX-this.currentLeft;this.posTop+=a.pageY-this.currentTop;this.currentLeft=a.pageX;this.currentTop=a.pageY;this.currentLeft>=this.panelRangeMinLeft&&this.currentLeft<=this.panelRangeMaxLeft&&this.currentTop>=this.panelRangeMinTop&&this.currentTop<=this.panelRangeMaxTop?c.addClass("active"):c.removeClass("active");this.updateDragPosition();return!1},stopDrag:function(a){unbindMoveAndUp();this.$dragObj.removeClass("down").stop().fadeTo(200,0,b.proxy(this.fate,this));
-return!1},fate:function(){var a=this.$dragObj.attr("rel");this.$dragObj.remove();c.hasClass("active")&&0==c.find(".font[rel="+a+"]").length&&(f.find(".font[rel="+a+"]").slideUp(200),c.find(".panel-inner").append(this.$dragObj.css({position:"relative",width:"",top:"0",left:"0"}).fadeTo(200,1)),new k(this.$dragObj));c.removeClass("active")}};var k=function(a){this.$font=a.removeClass("grabhand").addClass("active");this.rel=a.attr("rel");this.$formatsHolder=this.$font.find(".formats_holder");this.num_formats=
-this.$formatsHolder.find(".format").click(b.proxy(this.clicked,this)).length;this.font_formats=this.$font.find(".font_formats");this.$closeButton=this.$font.find(".font_title a").click(b.proxy(this.remove,this));this.$expandButton=this.$font.find(".expand").click(b.proxy(this.expand,this));this.changeFormatsText();c.trigger("change")};k.prototype={changeFormatsText:function(){if(1<this.num_formats){var a=this.$font.find(".formats_holder .format.selected").length;this.font_formats.text(a+"/"+this.num_formats+
-" formats")}},expand:function(){var a=this.$expandButton;this.$formatsHolder.slideToggle(300,function(){b(this).is(":visible")?a.addClass("opened"):a.removeClass("opened")});return!1},clicked:function(a){a=b(a.target);a.hasClass("selected")?a.removeClass("selected"):a.addClass("selected");this.changeFormatsText();c.trigger("change");return!1},remove:function(){this.$font.slideUp(200,function(){b(this).remove();c.trigger("change")});f.find(".font[rel="+this.rel+"]").slideDown(200);return!1}};return n});
+define(["jquery", "utils/utils"], function($){
+	var $availablesPanel;
+	var $selectedPanel;
+	var $input;
+		
+	var FontPicker = function (id, value){
+		$input = $("#"+id);
+		this.$picker = $("#"+id+"_picker");
+		$availablesPanel = this.$picker.find(".panel:first-child");
+		$selectedPanel = this.$picker.find(".panel:last-child");
+		
+		//Add actions to available fonts
+		$availablesPanel.find(".font").each(function(index, font){
+			new DragableFont($(font));
+		});
+		
+		$selectedPanel.bind("change", $.proxy(this.changed, this));
+		
+		this.setValue(value);
+	}
+	
+	FontPicker.prototype = {
+		setValue: function(value){
+			var items = value["items"];
+			$.each(
+				items,
+				function(index, item){
+					var fontFamily = item["family"];
+					
+					//Fetch font object
+					var $fontObj = $availablesPanel.find(".font[rel="+fontFamily+"]");
+					
+					if($fontObj.length == 0){
+						if(WP_DEBUG)console.log("Error loading google font!");
+					}
+					else{
+						$fontObj = $fontObj.clone();
+						$selectedPanel.find(".panel-inner").append($fontObj);
+						
+						var variants = item["variants"];
+						$fontObj.find(".format").removeClass("selected");
+						//Check variants
+						$.each(
+							variants,
+							function(index, variant){
+								$fontObj.find(".format[rel="+variant+"]").addClass("selected");
+							}
+						);
+						
+						new SelFont($fontObj);
+						
+						$availablesPanel.find(".font[rel="+fontFamily+"]").css("display", "none");
+					}
+					
+				}
+			)
+		},
+		changed: function(){
+			//vars for returning in event
+			var options = new Array();
+			var values = new Array();
+			
+			//vars for Parsing for input
+			var value = '{"items": [';
+			var count = 0;
+			
+			//For each font object
+			$selectedPanel.find(".font").each(function(){
+				var $font = $(this);
+				var fontFamily = $(this).attr("rel");
+				var formats = new Array();
+				
+				var $formats = $font.find(".format");
+				if($formats.length == 0){
+					formats.push( $font.find(".font_formats").attr("rel") );
+				}
+				else{
+					var $selecteds = $font.find(".format.selected");
+					if($selecteds.length > 0){
+						$selecteds.each(function(){
+							formats.push( $(this).attr("rel") );
+						});
+					}
+				}
+				
+				//Parse to json string
+				if(formats.length > 0){
+					if(count != 0)
+						value += ",";
+					value += '{ "family": "'+fontFamily+'","variants": [';
+					for(var i = 0; i<formats.length; i++){
+						value += '"'+formats[i]+'"';
+						if(i != formats.length-1)
+							value += ',';
+							
+						options.push(fontFamily+" ("+formats[i]+")");
+						values.push(fontFamily+":"+formats[i]);
+					}
+					value += ']}';
+					count++;
+				}
+			});
+			value+=']}';
+			$input.val(value);
+			
+			//trigger event
+			this.$picker.trigger("changeFonts", [options, values]);
+		}
+	}
+	
+	var DragableFont = function($font){
+		this.$font = $font;
+		
+		//Bind drag
+		this.$font.bind(mouseDownBind, $.proxy(this.startDrag, this));
+	}
+	DragableFont.prototype = {
+		//Update dragging object position
+		updateDragPosition: function(){
+			
+			this.$dragObj.css({
+				"top": this.posTop + "px",
+				"left": this.posLeft + "px"
+			})
+		},
+		
+		//Start dragging object
+		startDrag: function(e){
+			this.$dragObj = this.$font.clone().appendTo("body").css({
+				"position": "absolute",
+				"width": this.$font.width()+"px"
+			}).addClass("down");
+			
+			this.posLeft = this.$font.offset().left;
+			this.posTop = this.$font.offset().top;
+			
+			this.currentLeft = e.pageX;
+			this.currentTop = e.pageY;
+			
+			this.panelRangeMinLeft = $selectedPanel.offset().left;
+			this.panelRangeMinTop = $selectedPanel.offset().top;
+			this.panelRangeMaxLeft = this.panelRangeMinLeft + $selectedPanel.width();
+			this.panelRangeMaxTop = this.panelRangeMinTop + $selectedPanel.height();
+			
+			this.updateDragPosition();
+			
+			$(document).bind(mouseMoveBind, $.proxy(this.drag, this));
+			$(document).bind(mouseUpBind, $.proxy(this.stopDrag, this));
+			
+			return false;
+		},
+		
+		//On Drag move
+		drag: function(e){
+			//update positions
+			this.posLeft = this.posLeft + (e.pageX - this.currentLeft);
+			this.posTop = this.posTop + (e.pageY - this.currentTop);
+			
+			this.currentLeft = e.pageX;
+			this.currentTop = e.pageY;
+			
+			if(	this.currentLeft >= this.panelRangeMinLeft && this.currentLeft <= this.panelRangeMaxLeft &&
+				this.currentTop >= this.panelRangeMinTop && this.currentTop <= this.panelRangeMaxTop)
+				$selectedPanel.addClass("active");
+			else
+				$selectedPanel.removeClass("active");
+			
+			//Update dragging object position
+			this.updateDragPosition();
+			return false;
+		},
+		stopDrag: function(e){
+			//Unbind mouse move and up
+			unbindMoveAndUp();
+			
+			this.$dragObj.removeClass("down").stop().fadeTo(200, 0, $.proxy(this.fate, this));
+			
+			return false;
+		},
+		fate: function(){
+			var rel = this.$dragObj.attr("rel");
+			this.$dragObj.remove();
+			
+			if($selectedPanel.hasClass("active") && $selectedPanel.find(".font[rel="+rel+"]").length == 0){
+				//Remove from available ones
+				$availablesPanel.find(".font[rel="+rel+"]").slideUp(200);
+				
+				//Add to selected ones
+				$selectedPanel.find(".panel-inner").append(this.$dragObj.css({
+					"position": "relative",
+					"width": "",
+					"top": "0",
+					"left": "0"
+				}).fadeTo(200, 1));
+				new SelFont(this.$dragObj);
+			}
+			$selectedPanel.removeClass("active");
+		}
+	}
+	
+	var SelFont = function($font){
+		this.$font = $font.removeClass("grabhand").addClass("active");
+		
+		this.rel = $font.attr("rel");
+		
+		this.$formatsHolder = this.$font.find(".formats_holder");
+		this.num_formats = this.$formatsHolder.find(".format").click($.proxy(this.clicked, this)).length;
+		this.font_formats = this.$font.find(".font_formats");
+		this.$closeButton = this.$font.find(".font_title a").click($.proxy(this.remove, this));
+		this.$expandButton = this.$font.find(".expand").click($.proxy(this.expand, this));
+		
+		this.changeFormatsText();
+		$selectedPanel.trigger("change");
+	}
+	SelFont.prototype = {
+		changeFormatsText: function(){
+			if(this.num_formats > 1){
+				var selectedNum = this.$font.find(".formats_holder .format.selected").length;
+				
+				this.font_formats.text(selectedNum+"/"+this.num_formats+" formats");
+			}
+		},
+		expand: function(){
+			var btn = this.$expandButton;
+			this.$formatsHolder.slideToggle(300, function(){
+				if($(this).is(":visible"))
+					btn.addClass("opened");
+				else
+					btn.removeClass("opened");
+			});
+			
+			return false;
+		},
+		clicked: function(e){
+			var format = $(e.target);
+			
+			if(format.hasClass("selected"))
+				format.removeClass("selected");
+			else
+				format.addClass("selected");
+		
+			this.changeFormatsText();
+			
+			$selectedPanel.trigger("change");
+				
+			return false;
+		},
+		remove: function(){
+			//Fade out selected
+			this.$font.slideUp(200, function(){
+				$(this).remove();
+				$selectedPanel.trigger("change");
+			});
+			
+			//Fade in in availables
+			$availablesPanel.find(".font[rel="+this.rel+"]").slideDown(200);
+			
+			return false;
+		}
+	}
+	
+	return FontPicker;
+});

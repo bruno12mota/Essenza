@@ -1,0 +1,148 @@
+
+.page_builder {
+    //Menu
+    .menu{
+        position: relative;
+        padding:0 !important;
+        .roundedCorners (3px, 3px, 0px, 0px);
+		position: relative;
+		height: 35px;
+		background-color: #464646;
+		border: solid 1px #464646;
+		z-index: 2;
+    }
+    
+    //Menu button
+    .menu-button{
+        float: left;
+		height: 35px;
+            
+        //Button
+        &:hover >a{
+            background-color: #373737;
+        }
+        >a{
+            float: left;
+			color : #F1F1F1;
+			height : 15px;
+			padding : 10px 15px 10px 37px;
+            margin: 0 !important;
+			overflow: hidden;
+            background-color: #464646;
+            &:hover{
+    		    color : #F1F1F1;
+                background-color: #373737;
+            }
+        }
+        
+        
+    }
+            
+    //Menu Button Drop Down
+    .menu-dropdown{
+        position: absolute;
+	    background-color: #373737;
+	    top: 35px;
+	    z-index: 1;
+	    padding: 20px 15px;
+	    display: none;
+        .opacity(0);
+        .roundedCorners (0px, 0px, 3px, 3px);
+    }
+        
+    //Drop Down Info
+    .info-small-pb{
+        float : left;
+		padding : 6px 0px;
+		width: 35px;
+        color:#ffffff;
+    }
+    .info-pb{
+        font-family: @fontIt;
+        color:#CCCCCC;
+        border-left: solid 1px #464646;
+		position: relative;
+		float: left;
+		width: 87%;
+		text-align: justify;
+		padding-left: 10px;
+    }
+    p.title_menu{
+        display: block;
+        color:#ffffff;
+        font-size: 16px;
+        line-height: 18px;
+    }
+    //Drop Down Columns
+    .columns-wraper{
+        margin-top: 15px;
+        left: -3px;
+        
+        
+    }
+    #placeholderDrop{
+        width: 358px;
+    }
+    #modulesDrop{
+        width: 574px;
+    }
+    #loadDrop{
+        right: -1px; 
+        width: 300px;
+        padding: 20px 0;
+        p{
+            padding: 0 20px;
+        }
+        div{
+            background-color: #373737;
+            display: block;
+            line-height: 27px;    
+            padding: 0 20px;
+            cursor: pointer;
+        
+            &:hover{
+                background-color: #464646;
+            }
+        }
+        a{
+            background-image: url(../images/page_builder/MainMenu/delete_icon.png);
+            background-position: 50% 50%;
+            background-repeat: no-repeat;
+            display: inline-block;
+            float: right;
+            height: 27px;
+            width: 20px;
+            &:hover{
+                background-color: #111111;
+            }
+        }
+    }
+    #saveDrop{
+        right: 0px; 
+        width: 270px;
+        padding: 15px;
+        input{
+            background-color: #262626;
+            border: none;
+            .roundedCorners (0px,0px, 0px, 0px);
+            color: #FFFFFF;
+            padding: 7px;
+            width: 200px;
+        }
+        a{
+            margin-left: 25px;
+        }
+    }
+    #saveDrop, #loadDrop{
+        &:hover a{
+			color : #FFFFFF;
+        }
+        a{
+			color : #F1F1F1;
+        }
+    }
+    .column{
+        border-top: solid 1px #464646;
+    }
+    
+}

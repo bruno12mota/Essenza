@@ -54,8 +54,8 @@ class pq_tabs {
         
         <script type="text/javascript">
         	//Make Combobox
-			require(["elements/Tabs"],
-				function(Tabs) {
+			require(["jquery", "elements/Tabs"],
+				function($, Tabs) {
 					var tabs = new Tabs(
 						//id
 						$("#<?php echo $id; ?>_tabs"), 

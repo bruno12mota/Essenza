@@ -21,21 +21,42 @@ foreach (glob(get_theme_root()."/essenza/plusquare_admin/config-backend/php/elem
 function make_option($option, $typeOption = "post_meta", $init_value = NULL){
     
     $hidden = isset($option["hidden"]) ? "display: none;" : "";
+    $type = isset($option["type"]) ? $option["type"] : "";
     
-    //LABEL
     ?>
 	<div id="<?php echo $option["id"]; ?>_option_main_holder" class="option_main_holder">
-    <h2 class="option_label" style="<?php echo $hidden; ?>"><?php echo $option["label"]; ?></h2>
     <?php
+
+    //LABEL
+    if(isset($option["label"])){
+
+
+        ?>
+        <h2 class="option_label" style="<?php echo $hidden; ?>">
+            <?php echo $option["label"]; ?>
+            <?php
+                if($type == "color_palette"){
+                    ?>
+                    <a href="#" id="add_new_color_to_palette">Add new color</a>
+                    <?php
+                }
+                else if($type == "text_formats"){
+                    ?>
+                    <a href="#" id="add_new_style_to_palette">Add new style</a>
+                    <?php
+                }
+            ?>
+        </h2>
+        <?php
+    }
     
     
     //Open option holder
     
     //OPTION
-    $type = isset($option["type"]) ? $option["type"] : "";
 	
     ?>
-    <div class="option_holder" style=" <?php echo ($type=='page_builder' || $type=='sidebar_picker' || $type=='tabs_unbinded')  ? 'overflow:visible;' : ''; ?><?php echo $hidden; ?>">
+    <div class="option_holder" style=" <?php echo ($type=='page_builder' || $type=='sidebar_builder' || $type=='tabs_unbinded')  ? 'overflow:visible;' : ''; ?><?php echo $hidden; ?>">
     
     <?php
     //INFO
@@ -61,14 +82,14 @@ function make_option($option, $typeOption = "post_meta", $init_value = NULL){
     }
     
     ?>
-    <div class="meta_option<?php echo (($type == "page_builder" || $type == "orderable_list" || $type == "contact_form_builder" || $type == "button_picker" || $type == "tabbing_builder" || $type == "accordion_builder" || $type == "sidebar_picker" || $type == "slide_element" || $type == "text_block_picker" || $type == "tabs" || $type == "ken_burns" || $type == "rich_editor" || $type == "slider_builder" || $type == "tabs_unbinded" || $type == "media_picker" || $type == "google_fonts_picker") ? "_full" : ""); ?>">
+    <div class="meta_option<?php echo (($type == "page_builder" || $type == "import_dummy" || $type == "pages_posts_picker" || $type == "orderable_list" || $type == "color_palette" || $type == "contact_form_builder" || $type == "button_picker" || $type == "tabbing_builder" || $type == "accordion_builder" || $type == "sidebar_picker" || $type == "slide_element" || $type == "text_block_picker" || $type == "tabs" || $type == "ken_burns" || $type == "rich_editor" || $type == "slider_builder" || $type == "tabs_unbinded" || $type == "media_picker" || $type == "google_fonts_picker") ? "_full" : ""); ?>">
     <?php
     
     $value = "";
     if($type == ""){
         $value = "";
     }
-	else if($typeOption == "option"){
+    else if($typeOption == "option"){
 		$value = get_option($option["id"], isset($option["default"]) ? $option["default"] : "");
 	}
 	else if($typeOption == "post_meta"){
@@ -76,19 +97,17 @@ function make_option($option, $typeOption = "post_meta", $init_value = NULL){
 
         if(isset($post))
     	   $value = get_post_meta( $post->ID, $option["id"], true );
-
-        if( $value === FALSE || $value == NULL)
-            $value = isset($option["default"]) ? $option["default"] : "";
 	}
 	else{
 		//By parameter
 		$value = $init_value;
-
-        if( $value === FALSE || $value == NULL)
-            $value = isset($option["default"]) ? $option["default"] : "";
 	}
     
 		
+
+    if( $value === FALSE || $value === NULL){
+        $value = isset($option["default"]) ? $option["default"] : "";
+    }
     
     
     //Text input types
@@ -171,8 +190,15 @@ function make_option($option, $typeOption = "post_meta", $init_value = NULL){
     }
 		
     //Color Picker
-    else if($type == "color_picker")
+    else if($type == "color_picker"){
         new pq_color_picker($option["id"], $value);
+    }
+    else if($type == "color_palette"){
+        new pq_color_palette($option["id"], $value);
+    }
+    else if($type == "color_palette_picker"){
+        new pq_color_palette_picker($option["id"], $value);
+    }
 		
     //Button Picker
     else if($type == "button_picker")
@@ -181,6 +207,10 @@ function make_option($option, $typeOption = "post_meta", $init_value = NULL){
     //Slider Picker
     else if($type == "sidebar_picker")
         new pq_sidebar_picker($option["id"], $value);
+        
+    //Slider Builder
+    else if($type == "sidebar_builder")
+        new pq_sidebar_builder($option["id"], $value);
 		
     //Text Block Picker
     else if($type == "text_block_picker")
@@ -228,6 +258,12 @@ function make_option($option, $typeOption = "post_meta", $init_value = NULL){
 
     else if($type == "import_dummy")
         new pq_import_dummy();
+
+    else if($type == "frontpage_picker")
+        new pq_frontpage_picker($option["id"], $value);
+
+    else if($type == "pages_posts_picker")
+        new pq_pages_posts_picker($option["id"], $value);
 	
     ?>
     </div>

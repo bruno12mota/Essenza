@@ -1,38 +1,1217 @@
-define("jquery libraries/jquery.mobile.vmouse ./PageBuilder/ModuleButton ./PageBuilder/Module ./PageBuilder/Line ./PageBuilder/Tooltip utils/utils ui-elements".split(" "),function(d,n,t,s,v){var u=[{name:"Text Block",column:0,color:"#b2d516",icon:"images/Modules/module_textbox.png",shortcode:"text",info:"#0",content:0,parameters:[{id:"text",name:"Text",type:"editor",value:""},{id:"switch",name:"Switch",type:"switch",value:!1},{id:"checkbox",name:"Checkbox",type:"checkbox",value:!0},{id:"combobox",
-name:"Combobox",type:"combobox",value:"1",options:["Option 1","Option 2","Option 3","Option 4"]}]},{name:"Image Gallery",column:0,color:"#04aedf",icon:"images/Modules/module_image_gallery.png",info:"Holding <span>#0</span> images...",content:-1,shortcode:"gallery",parameters:[{id:"image",name:"Image Selector",type:"image",value:""}]},{name:"Line Divider",column:0,color:"#fce72a",icon:"images/Modules/module_divider.png",content:-1,shortcode:"",parameters:[]},{name:"Image Slider",column:0,color:"#fc59ac",
-icon:"images/Modules/module_image_slider.png",info:"Holding <span>#0</span> slides...",content:0,shortcode:"slider",parameters:[{id:"slider",name:"Slider Editor",type:"slider",value:""}]},{name:"Accordion",column:0,color:"#14be44",icon:"images/Modules/module_accordion.png",content:-1,shortcode:"",parameters:[]},{name:"Tabs & Tours",column:0,color:"#0177c1",icon:"images/Modules/module_tabs_tours.png",content:-1,shortcode:"",parameters:[]},{name:"Video Object",column:1,color:"#ff2500",icon:"images/Modules/module_video_object.png",
-content:-1,shortcode:"",parameters:[]},{name:"Single Image",column:1,color:"#8b1cb8",icon:"images/Modules/module_single_image.png",content:-1,shortcode:"",parameters:[]},{name:"Lightbox",column:1,color:"#ff9104",icon:"images/Modules/module_lightbox.png",content:-1,shortcode:"",parameters:[]},{name:"MessageBox",column:1,color:"#f41e66",icon:"images/Modules/module_message_box.png",content:-1,shortcode:"",parameters:[]},{name:"Button",column:1,color:"#00fffb",icon:"images/Modules/module_buttons.png",
-content:-1,shortcode:"",parameters:[]},{name:"List",column:1,color:"#9c6338",icon:"images/Modules/module_list.png",content:-1,shortcode:"",parameters:[]},{name:"Togglebox",column:2,color:"#be9bf9",icon:"images/Modules/module_togglebox.png",content:-1,shortcode:"",parameters:[]},{name:"Social Icons",column:2,color:"#969696",icon:"images/Modules/module_social_icons.png",content:-1,shortcode:"",parameters:[]},{name:"Twitter Widget",column:3,color:"#4bc6f0",icon:"images/Modules/twitter_icon.png",content:-1,
-shortcode:"",parameters:[]},{name:"Facebook Like",column:3,color:"#395499",icon:"images/Modules/facebook_icon.png",content:-1,shortcode:"",parameters:[]},{name:"Google+",column:3,color:"#c5351a",icon:"images/Modules/google+_icon.png",content:-1,shortcode:"",parameters:[]},{name:"Pinterest Button",column:3,color:"#ac1e1c",icon:"images/Modules/pinterest_icon.png",content:-1,shortcode:"",parameters:[]},{name:"Tweetme Button",column:3,color:"#4bc6f0",icon:"images/Modules/twitter_icon.png",content:-1,
-shortcode:"",parameters:[]},{name:"Flickr Gallery",column:3,color:"#e6306b",icon:"images/Modules/flickr_icon.png",content:-1,shortcode:"",parameters:[]}];n=function(a,b){u=b;this.modules=[];this.lineNum=0;this.lines=[];this.lineOver=0;this.$pageBuilderTab=a;this.build();this.moduleDragging=-1;d(window).resize(d.proxy(this.onResize,this));d("#post").submit(d.proxy(this.makeHtml,this));this.fromHtml();this.menuFromTop=this.$pageBuilderMenu.offset().top;this.menuOffTop=d("#wpbody").offset().top;d(window).scroll(d.proxy(this.onScroll,
-this))};n.prototype={build:function(){this.$pageBuilderMenu=d("<div class='menu'></div>").appendTo(this.$pageBuilderTab);this.$pageBuilderTab.bind("save",d.proxy(this.makeHtml,this));var a=d("<div class='menu-button'></div>").appendTo(this.$pageBuilderMenu),b=d("<a href='#'>Add new placeholder</a>").appendTo(a);processIcon(b,builderPath+"images/MainMenu/placeholder_icon.png");var b=d("<div class='menu-button'></div>").appendTo(this.$pageBuilderMenu),c=d("<a href='#'>Add new module</a>").appendTo(b);
-processIcon(c,builderPath+"images/MainMenu/add_icon.png");c=d("<div class='menu-button right'></div>").appendTo(this.$pageBuilderMenu);c=d("<a href='#' class='right'>Load page</a>").appendTo(c);processIcon(c,builderPath+"images/MainMenu/load_icon.png");c=d("<div class='menu-button right'></div>").appendTo(this.$pageBuilderMenu);c=d("<a href='#' class='right'>Save page</a>").appendTo(c);processIcon(c,builderPath+"images/MainMenu/save_icon.png");c=d("<div class='menu-button right'></div>").appendTo(this.$pageBuilderMenu);
-c=d("<a href='#'>Clear page</a>").appendTo(c).click(d.proxy(this.clearAll,this));processIcon(c,builderPath+"images/MainMenu/delete_icon.png");var h=d("<div class='menu-dropdown' id='placeholderDrop'></div>").appendTo(a);a.hover(function(){h.stop().css("display","block").fadeTo(200,1)},function(){h.stop().fadeTo(200,0,function(){d(this).css("display","none")})});var a=d("<div class='wraper'></div>").appendTo(h).append(d("<div class='info-small-pb'>Info</div>")).append(d("<div class='info-pb'>Drag and drop these placeholders on the canvas to create spaces in which you can later drag and drop modules.</div>")),
-e=d("<div class='row-fluid columns-wraper'></div>").appendTo(h),c=d("<div class='span6'></div>").appendTo(e),e=d("<div class='span6'></div>").appendTo(e),f=[c,e];d.each([{image:"images/Placeholder/1-1.png",column:0,label:"1",sizes:[12]},{image:"images/Placeholder/1-2.png",column:0,label:"1/2",sizes:[6]},{image:"images/Placeholder/1-2_1-2.png",column:0,label:"1/2 + 1/2",sizes:[6,6]},{image:"images/Placeholder/1-3.png",column:0,label:"1-3",sizes:[4]},{image:"images/Placeholder/1-3_1-3_1-3.png",column:0,
-label:"1-3 + 1-3 + 1-3",sizes:[4,4,4]},{image:"images/Placeholder/1-3_2-3.png",column:1,label:"1/3 + 2/3",sizes:[4,8]},{image:"images/Placeholder/2-3_1-3.png",column:1,label:"2/3 + 1/3",sizes:[8,4]},{image:"images/Placeholder/1-6.png",column:1,label:"1/6",sizes:[2]},{image:"images/Placeholder/1-6_1-6_1-6_1-6_1-6_1-6.png",column:1,label:"1/6 + 1/6 + 1/6 + 1/6 + 1/6 + 1/6",sizes:[2,2,2,2,2,2]}],d.proxy(function(a,b){var c=new t.PlaceholderButton(builderPath+b.image,b.label,b.sizes);f[b.column].append(c.$obj);
-d(c).bind("moduleButtonDown",d.proxy(this.createPlaceholder,this))},this));var g=d("<div class='menu-dropdown' id='modulesDrop'></div>").appendTo(b);b.hover(function(){g.stop().css("display","block").fadeTo(200,1)},function(){g.stop().fadeTo(200,0,function(){d(this).css("display","none")})});b=a.clone().appendTo(g);d("div.info-pb",b).text("Drag and drop these modules on the canvas. Modules can be placed directly on the canvas or within placeholders. Once placed, you can edit the modules by pressing the edit icon.");
-b=d("<div class='row-fluid columns-wraper'></div>").appendTo(g);a=d("<div class='span9'></div>").appendTo(b);b=d("<div class='span3'></div>").appendTo(b);d("<p>Custom</p>").appendTo(a);e=d("<div class='row-fluid'></div>").appendTo(a);a=d("<div class='span4 column'></div>").appendTo(e);c=d("<div class='span4 column'></div>").appendTo(e);e=d("<div class='span4 column'></div>").appendTo(e);d("<p>Social</p>").appendTo(b);var b=d("<div class='span12 column'></div>").appendTo(b),k=[a,c,e,b];d.each(u,d.proxy(function(a,
-b){var c=new t.ComponentButton(b);k[b.column].append(c.$obj);d(c).bind("moduleButtonDown",d.proxy(this.createComponent,this))},this));this.$view=d("<div class='view'></div>").appendTo(this.$pageBuilderTab);this.$viewHolder=d("<div class='viewHolder'></div>").appendTo(this.$view);this.$linesHolderOuter=d("<div class='linesHolder'></div>").appendTo(this.$viewHolder);this.$linesHolder=d("<div class='linesHolderInner'></div>").appendTo(this.$linesHolderOuter);this.$baseLine=d("<div class='lineBase'></div>").appendTo(this.$linesHolder);
-b=100*(1/6);for(a=0;7>a;a++)d("<div></div>").css({position:"absolute",width:"9px",height:"9px",left:-4-0.2*a+"px","margin-left":b*a+"%","background-image":"url("+builderPath+"images/General/grid_plus.png)","background-repeat":"no-repeat"}).appendTo(this.$baseLine);this.addLine();this.addLine();this.addLine()},fromHtml:function(){var a=d("#content").val().toString();console.log("CONTENT:"+a);if(null!=a&&void 0!=a){a=a.match(RegExp("\\[row\\][\\s\\S]*?\\[\\/row\\]","gi"));if(null!=a)for(var b=0;b<a.length;b++){console.log("ROW:"+
-a[b]);var c=a[b].match(RegExp("\\[column.*?\\][\\s\\S]*?\\[\\/column\\]","gi"));if(null!=c)for(var h=0,e=0;e<c.length;e++){console.log("COLUMN:"+c[e]);var f=c[e].match(RegExp("\\[column.*?\\]","gi"));if(null==f){console.log("Page Builder error");return}var g='size=".*?"',g=RegExp(g,"i"),k=f[0].match(g),k=k[0],g=6,l=k.length-1,k=parseInt(k.substring(g,l),10),g='offset=".*?"',g=RegExp(g,"i"),m=f[0].match(g),m=m[0],g=8,l=m.length-1,g=parseInt(m.substring(g,l),10),h=h+g;console.log("Size: "+k);console.log("Column: "+
-h);g=new s.Placeholder(k,h,this.modules.length);this.lines[b].addModule(g);g.show();this.modules.push(g);d(g).bind("moduleDown",d.proxy(this.placeholderDown,this));d(g).bind("moduleDelete",d.proxy(this.placeholderDelete,this));h+=k;f=c[e].substring(f[0].length,c[e].length-9);console.log("column content: "+f);f=f.match(RegExp("\\[.*?\\][\\s\\S]*?\\[\\/.*?\\]","gi"));if(null!=f)for(k=0;k<f.length;k++){console.log("content: "+f[k]);for(var l=f[k],q="",m=1;" "!=l.charAt(m)&&"]"!=l.charAt(m);)q+=l.charAt(m),
-m++;var n=null;d.each(u,function(a,b){b.shortcode==q&&(n=b)});if(null==n){console.log("Page builder: Couldn't find a shortcode!");break}else console.log("Creating component with shortcode: "+q);var p=t.copyInfo(n);p.type="module";var r=l.match(RegExp("\\["+q+".*?\\]","i"));if(null==r){console.log("Page Builder: error reading shortcode parameters!");return}r=r[0];d.each(p.parameters,function(a,b){var c=r.match(RegExp("\\s"+b.id+'=".*?"',"i"));null!=c&&(c=c[0],c=c.substring(b.id.length+2,c.length-1),
-console.log("Value: "+c),p.parameters[a].value=c)});-1!=p.content&&(l=l.substring(r.length,l.length-(q.length+3)),console.log("shortcode content:"+l),p.parameters[p.content].value=l);l=new s.Component(p);g.addComponent(l);l.build();d(l).bind("moduleDown",d.proxy(this.componentDown,this))}}this.checkNumLines()}this.correctGrid()}},makeHtml:function(){for(var a="",b=0;b<this.lines.length;b++)if(!this.lines[b].isEmpty()){var a=a+"[row]",c=this.lines[b].getOrderedModules(),h=0;d.each(c,d.proxy(function(b,
-c){var d=this.modules[c],k=0;h!=d.column&&(k=d.column-h);a+=d.getHtml(k);h+=d.column+d.size},this));a+="[/row]"}d("#content").val(a);console.log(a);return!0},createComponent:function(a,b){this.module=new s.Component(b);this.type="module";this.targetPlaceholder=-1;d(a.target).bind("moduleButtonMove",d.proxy(this.movingComponentInit,this));d(a.target).bind("moduleButtonUp",d.proxy(this.createModuleFinal,this))},processComponentMoving:function(a,b){if(-1!=a){if(this.targetPlaceholder!=a){var c=this.modules[a];
--1!=this.targetPlaceholder&&this.modules[this.targetPlaceholder].cancelAbove();c.componentAbove(b);this.targetPlaceholder=a}}else-1!=this.targetPlaceholder&&this.modules[this.targetPlaceholder].cancelAbove(),this.targetPlaceholder=-1},movingComponentInit:function(a,b,c){b=this.getGridPos(b,c);b=this.hittedPlaceholder(b.line,b.column);this.processComponentMoving(b,a.target.info.color)},getCenteredRelativeGridPosition:function(a,b,c){b=this.getGridPos(a,b);a=b.line;b=Math.round(b.column-c/2);0>b&&(b=
-0);12<b+c&&(b=12-c);return{column:b,line:a}},movingPlaceholdersBlock:function(a){if(a!=this.currentLine){var b=this.lines[this.currentLine].popModules(),c=this.lines[a].popModules();this.lines[this.currentLine].pushModules(c,!1);this.lines[a].pushModules(b,!1)}this.currentLine=a},createPlaceholder:function(a,b,c,h,e){this.placeholders=[];this.combinedSize=0;this.sizes=b;this.size=c;for(c=this.getCenteredRelativeGridPosition(h,e,c).line;this.lines[c].isEmpty()&&0!=c;)c--;this.currentLine=c;for(h=this.lines.length-
-1;h>c;h--)e=this.lines[h-1].popModules(),this.lines[h].pushModules(e,!1);for(h=0;h<b.length;h++)e=new s.Placeholder(b[h],0+this.combinedSize,this.modules.length),this.modules.push(e),this.placeholders.push(e),this.combinedSize+=b[h],this.lines[c].addModule(e);this.type="placeholder";d(a.target).bind("moduleButtonMove",d.proxy(this.movingPlaceholderInit,this));d(a.target).bind("moduleButtonUp",d.proxy(this.createModuleFinal,this));this.correctGrid()},movingPlaceholderInit:function(a,b,c){for(a=this.getCenteredRelativeGridPosition(b,
-c,this.size).line;this.lines[a].isEmpty()&&0!=a;)a--;a!=this.currentLine&&(this.movingPlaceholdersBlock(a),this.correctGrid());return!1},createModuleFinal:function(a){d(a.target).unbind("moduleButtonMove");d(a.target).unbind("moduleButtonUp");if("module"==this.type)-1!=this.targetPlaceholder&&(this.modules[this.targetPlaceholder].addComponent(this.module),this.module.build(),d(this.module).bind("moduleDown",d.proxy(this.componentDown,this)));else for(a=0;a<this.sizes.length;a++)this.placeholders[a].show(),
-this.placeholders[a].priority=0,d(this.placeholders[a]).bind("moduleDown",d.proxy(this.placeholderDown,this)),d(this.placeholders[a]).bind("moduleDelete",d.proxy(this.placeholderDelete,this)),d(this.placeholders[a]).bind("moduleResize",d.proxy(this.correctGrid,this));this.checkNumLines();this.correctGrid();return!1},placeholderDelete:function(a,b){this.lines[this.modules[b].line].removeModule(b);this.modules=removePositionInArray(this.modules,b);for(var c=0;c<this.modules.length;c++)this.modules[c].number=
-c;this.correctGrid();this.checkNumLines()},placeholderDown:function(a,b,c,h){console.log("placeholderDown");this.currentLine=c;this.currentColumn=h;this.moduleDragging=b;this.modules[b].priority=2;d(a.target).bind("moduleMove",d.proxy(this.movingPlaceholder,this));d(a.target).bind("moduleUp",d.proxy(this.placePlaceholder,this));return!1},movingPlaceholder:function(a,b,c){b=this.getGridPos(b,c);a=b.line;b=b.column;c=this.modules[this.moduleDragging];12<b+c.size&&(b=12-c.size);if(a!=this.currentLine||
-b!=this.currentColumn)a!=this.currentLine&&(this.lines[this.currentLine].removeModule(this.moduleDragging),this.lines[a].addModule(c)),b!=this.currentColumn&&(c.column=b),this.currentLine=a,this.currentColumn=b,this.correctGrid();return!1},placePlaceholder:function(a){d(a.target).unbind("moduleMove");d(a.target).unbind("moduleUp");this.correctGrid();this.modules[this.moduleDragging].priority=0;this.moduleDragging=-1;return!1},componentDown:function(a){console.log("componentDown");this.targetPlaceholder=
-a.target.placeholder;d(a.target).bind("moduleMove",d.proxy(this.movingComponent,this));d(a.target).bind("moduleUp",d.proxy(this.placeComponent,this));return!1},movingComponent:function(a,b,c){a=a.target;b=this.getGridPos(b,c);b=this.hittedPlaceholder(b.line,b.column);b!=a.placeholder?this.processComponentMoving(b,a.info.color):(this.modules[a.placeholder].movingComponent(c,a.number),this.targetPlaceholder!=a.placeholder&&this.modules[this.targetPlaceholder].cancelAbove(),this.targetPlaceholder=a.placeholder);
-return!1},placeComponent:function(a){d(a.target).unbind("moduleMove");d(a.target).unbind("moduleUp");var b=a.target.placeholder;-1!=this.targetPlaceholder&&this.targetPlaceholder!=b&&(this.modules[b].removeComponent(a.target.number),this.modules[this.targetPlaceholder].addComponent(a.target));return!1},checkIntersection:function(a){for(var b=0;b<this.modules.length;b++)if(this.modules[b].line==a)return!0;return!1},resolveIntersection:function(a){for(var b=0;b<a;){if(this.lineEmpty(b)){for(var c=0;c<
-this.modules.length;c++)this.modules[c].line==a&&this.modules[c].changeLine(b);return}b++}b=a;this.checkIntersection(b+1)&&this.resolveIntersection(b+1);for(c=0;c<this.modules.length;c++)this.modules[c].line==b&&this.modules[c].changeLine(b+1)},hittedPlaceholder:function(a,b){for(var c=0;c<this.modules.length;c++)if(this.modules[c].line==a&&b>=this.modules[c].column&&b<this.modules[c].column+this.modules[c].size)return c;return-1},onScroll:function(){var a=d(window).scrollTop();this.menuFromTop=this.$pageBuilderTab.offset().top;
-a>this.menuFromTop-this.menuOffTop?this.$pageBuilderMenu.css({top:a-this.menuFromTop+this.menuOffTop+"px"}):this.$pageBuilderMenu.css({top:"0px"})},clearAll:function(){for(var a=0;a<this.modules.length;a++)this.modules[a].$obj.fadeTo(300,0);this.modules=[];this.checkNumLines();return!1},currentOverLine:function(a,b){this.lineOver=b;return!1},addLine:function(){var a=new v.newLine(this.$linesHolder,this.lines.length,this.$baseLine);d(a).bind("overThis",d.proxy(this.currentOverLine,this));this.lines.push(a)},
-removeLine:function(){},correctGrid:function(){d.each(this.lines,d.proxy(function(a,b){var c=b.organize();c&&0<c.length&&(0!=a&&this.lines[a-1].isEmpty()?(this.lines[a-1].pushModules(c),this.lines[a-1].organize()):this.lines[a+1].pushModules(c))},this));this.clearBlankLines();this.checkNumLines()},clearBlankLines:function(){for(var a=0;a<this.lines.length;a++)this.lines[a].isEmpty()&&this.pushAllTop(a+1)},pushAllTop:function(a){if(0!=a)for(;a<this.lines.length;a++){var b=this.lines[a].popModules();
-this.lines[a-1].pushModules(b);this.lines[a-1].organize();this.lines[a].organize()}},checkNumLines:function(){var a=0;d.each(this.lines,function(b,c){c.isEmpty()&&a++});if(1>=a)this.addLine();else for(;2<a;)this.removeLine(),a--},getNumberEmptyLines:function(){for(var a=0,b=0;b<this.modules.length;b++)this.modules[b].line>a&&(a=this.modules[b].line);return gridLines.length-(a+1)},getGridPos:function(a,b){var c=this.$linesHolder.offset();a-=c.left;c=this.$linesHolder.width();c=Math.round(12*(a/c));
-0>c?c=0:10<c&&(c=10);for(var d=this.lines.length-1,e=1;e<this.lines.length;e++)if(b<this.lines[e].getOffsetY()){d=e-1;break}return{column:c,line:d}},getPriorityRow:function(){var a=0,b=0,c=[];this.getModulesFromLine(a);var d=0,e=0;do{var f=this.getModulesHittingPos(b,a);if(0!=f.length){if(1==f.length)if(f[0]==this.moduleDragging)addIfDoesnExist(f[0],c);else{var g=this.modCollidesWithDrag(f[0]);if(-1==g)addIfDoesnExist(f[0],c);else{var k=this.modules[f[0]].size;e>=k?(addIfDoesnExist(f[0],c),e-=k):
-(d>=k-g||addIfDoesnExist(this.moduleDragging,c),addIfDoesnExist(f[0],c))}}else for(;0!=f.length;){var g=this.getHighestPriority(f),l=f[g],f=removePositionInArray(f,g);l==this.moduleDragging&&0<f.length&&(g=this.getHighestPriority(f),k=this.modules[f[g]].size,e>=k?(addIfDoesnExist(f[g],c),f=removePositionInArray(f,g),e-=k):d>=k&&(addIfDoesnExist(f[g],c),f=removePositionInArray(f,g),d-=k));addIfDoesnExist(l,c)}d=0}else d++;b++;12==b&&(b=0,a++,this.getModulesFromLine(a),e=d,d=0)}while(c.length!=this.modules.length);
-return c},getHighestPriority:function(a){for(var b=0;b<a.length;b++)if(a[b]==this.moduleDragging)return b;for(var c=20,d=-1,b=0;b<a.length;b++)this.modules[a[b]].column<c&&(c=this.modules[a[b]].column,d=b);return d},modCollidesWithDrag:function(a){if(-1==this.moduleDragging)return-1;var b=this.modules[this.moduleDragging];a=this.modules[a];return b.line==a.line&&b.column>=a.column&&b.column<a.column+a.size?b.column-a.column:-1},getModulesFromLine:function(a){var b=[];d.each(this.modules,function(c,
-d){d.line==a&&b.push(d)});return b},getModulesHittingPos:function(a,b){var c=[];d.each(this.modules,function(d,e){e.line==b&&e.column==a&&c.push(d)});return c}};return n});
+define(["jquery", 
+        "libraries/jquery.mobile.vmouse", 
+        "./PageBuilder/ModuleButton", 
+        "./PageBuilder/Module" , 
+        "./PageBuilder/Line",
+        "./PageBuilder/Tooltip",
+        "utils/utils", 
+        "ui-elements"], function($, Vmouse, ModuleButton, Module, Line) {
+    
+    //Shortcodes info
+    var shortcodes = [
+        {name:"Text Block", column:0, color:"#b2d516", icon:"images/page_builder/Modules/module_textbox.png", shortcode:"text", info:"#0" ,content:0, parameters:[
+                {id:"text", name:"Text", type:"editor", value:""},
+                {id:"switch", name:"Switch", type:"switch", value: false},
+                {id:"checkbox", name:"Checkbox", type:"checkbox", value: true},
+                {id:"combobox", name:"Combobox", type:"combobox", value: "1", options: ["Option 1", "Option 2", "Option 3", "Option 4"]}
+        ]},
+        
+        {name:"Image Gallery", column:0, color:"#04aedf", icon:"images/page_builder/Modules/module_image_gallery.png", info:"Holding <span>#0</span> images...", content:-1, shortcode:"gallery", parameters:[
+                {id:"image", name:"Image Selector", type:"image", value:""}
+        ]},
+        {name:"Line Divider", column:0, color:"#fce72a", icon:"images/page_builder/Modules/module_divider.png", content:-1, shortcode:"", parameters:[]},
+        {name:"Image Slider", column:0, color:"#fc59ac", icon:"images/page_builder/Modules/module_image_slider.png", info:"Holding <span>#0</span> slides...", content:0, shortcode:"slider", parameters:[
+                {id:"slider", name:"Slider Editor", type:"slider", value:""}
+        ]},
+        {name:"Accordion", column:0, color:"#14be44", icon:"images/page_builder/Modules/module_accordion.png", content:-1, shortcode:"", parameters:[]},
+        {name:"Tabs & Tours", column:0, color:"#0177c1", icon:"images/page_builder/Modules/module_tabs_tours.png", content:-1, shortcode:"", parameters:[]},
+        {name:"Video Object", column:1, color:"#ff2500", icon:"images/page_builder/Modules/module_video_object.png", content:-1, shortcode:"", parameters:[]},
+        {name:"Single Image", column:1, color:"#8b1cb8", icon:"images/page_builder/Modules/module_single_image.png", content:-1, shortcode:"", parameters:[]},
+        {name:"Lightbox", column:1, color:"#ff9104", icon:"images/page_builder/Modules/module_lightbox.png", content:-1, shortcode:"", parameters:[]},
+        {name:"MessageBox", column:1, color:"#f41e66", icon:"images/page_builder/Modules/module_message_box.png", content:-1, shortcode:"", parameters:[]},
+        {name:"Button", column:1, color:"#00fffb", icon:"images/page_builder/Modules/module_buttons.png", content:-1, shortcode:"", parameters:[]},
+        {name:"List", column:1, color:"#9c6338", icon:"images/page_builder/Modules/module_list.png", content:-1, shortcode:"", parameters:[]},
+        {name:"Togglebox", column:2, color:"#be9bf9", icon:"images/page_builder/Modules/module_togglebox.png", content:-1, shortcode:"", parameters:[]},
+        {name:"Social Icons", column:2, color:"#969696", icon:"images/page_builder/Modules/module_social_icons.png", content:-1, shortcode:"", parameters:[]},
+        {name:"Twitter Widget", column:3, color:"#4bc6f0", icon:"images/page_builder/Modules/twitter_icon.png", content:-1, shortcode:"", parameters:[]},
+        {name:"Facebook Like", column:3, color:"#395499", icon:"images/page_builder/Modules/facebook_icon.png", content:-1, shortcode:"", parameters:[]},
+        {name:"Google+", column:3, color:"#c5351a", icon:"images/page_builder/Modules/google+_icon.png", content:-1, shortcode:"", parameters:[]},
+        {name:"Pinterest Button", column:3, color:"#ac1e1c", icon:"images/page_builder/Modules/pinterest_icon.png", content:-1, shortcode:"", parameters:[]},
+        {name:"Tweetme Button", column:3, color:"#4bc6f0", icon:"images/page_builder/Modules/twitter_icon.png", content:-1, shortcode:"", parameters:[]},
+        {name:"Flickr Gallery", column:3, color:"#e6306b", icon:"images/page_builder/Modules/flickr_icon.png", content:-1, shortcode:"", parameters:[]}
+    ];
+    
+    
+    //Variables
+    var modulesMovementSpeed = 400;
+    var modulesSizeSpeed = 400;
+    
+    
+    var PageBuilder = function($tab, _shortcodes){
+    	shortcodes = _shortcodes;
+    	
+        //Modules
+        this.modules = new Array();
+        this.lineNum = 0;
+        
+        //Lines
+        this.lines = new Array();
+        this.lineOver = 0;
+        
+        this.$pageBuilderTab = $tab;
+        
+        this.build();
+        this.moduleDragging = -1;
+        
+        $(window).resize($.proxy(this.onResize, this));
+            
+        $("#post").submit( $.proxy(this.makeHtml, this) );
+        this.fromHtml();
+        
+        this.menuFromTop = this.$pageBuilderMenu.offset().top;
+        this.menuOffTop = $("#wpbody").offset().top;
+        $(window).scroll( $.proxy(this.onScroll, this) );
+    }
+    
+    PageBuilder.prototype = {
+        //Build page builder grid
+        build: function(){
+            //Page Builder Menu
+            this.$pageBuilderMenu = $("<div class='menu'></div>").appendTo(this.$pageBuilderTab);
+            
+            this.$pageBuilderTab.bind("save", $.proxy(this.makeHtml, this));
+    
+            ///////////////place holder button
+            var $addPlaceholder = $("<div class='menu-button'></div>").appendTo(this.$pageBuilderMenu);
+            var $addPlaceholderButton = $("<a href='#'>Add new placeholder</a>").appendTo($addPlaceholder);
+            processIcon($addPlaceholderButton, builderPath+"images/page_builder/MainMenu/placeholder_icon.png");
+    
+            ///////////////add module button
+            var $addModule = $("<div class='menu-button'></div>").appendTo(this.$pageBuilderMenu);
+            var $addModuleButton = $("<a href='#'>Add new module</a>").appendTo($addModule);
+            processIcon($addModuleButton, builderPath+"images/page_builder/MainMenu/add_icon.png");
+    
+            ///////////////load page button
+            var $loadModule = $("<div class='menu-button right'></div>").appendTo(this.$pageBuilderMenu);
+            var $loadPageButton = $("<a href='#' class='right'>Load page</a>").appendTo($loadModule);
+            processIcon($loadPageButton, builderPath+"images/page_builder/MainMenu/load_icon.png");
+    
+            ///////////////load page button
+            var $saveModule = $("<div class='menu-button right'></div>").appendTo(this.$pageBuilderMenu);
+            var $savePageButton = $("<a href='#' class='right'>Save page</a>").appendTo($saveModule);
+            processIcon($savePageButton, builderPath+"images/page_builder/MainMenu/save_icon.png");
+    
+            ///////////////clear page button
+            var $clearModule = $("<div class='menu-button right'></div>").appendTo(this.$pageBuilderMenu);
+            var $clearPageButton = $("<a href='#'>Clear page</a>").appendTo($clearModule).click($.proxy(this.clearAll, this));
+            processIcon($clearPageButton, builderPath+"images/page_builder/MainMenu/delete_icon.png");
+            
+            
+            //PLACEHOLDER MENU
+            var $placeholderMenu = $("<div class='menu-dropdown' id='placeholderDrop'></div>").appendTo($addPlaceholder);
+            
+            $addPlaceholder.hover(function() {
+                $placeholderMenu.stop().css("display", "block").fadeTo(200, 1);
+            }, function() {
+                $placeholderMenu.stop().fadeTo(200, 0, function(){$(this).css("display", "none")});
+            });
+            
+            var $placeHolderHideable =  $("<div class='wraper'></div>").appendTo($placeholderMenu)
+                                                .append($("<div class='info-small-pb'>Info</div>"))
+                                                .append($("<div class='info-pb'>Drag and drop these placeholders on the canvas to create spaces in which you can later drag and drop modules.</div>"))
+            
+            var $placeHolderColumns = $("<div class='row-fluid columns-wraper'></div>").appendTo($placeholderMenu);
+            
+            //columns
+            var $leftColumn = $("<div class='span6'></div>").appendTo($placeHolderColumns);
+            var $rightColumn = $("<div class='span6'></div>").appendTo($placeHolderColumns);
+            var columnsPlaceholders = [$leftColumn, $rightColumn];
+            
+            var placeholdersConstructor = [
+                {image: "images/page_builder/Placeholder/1-1.png",                       column:0,   label:"1"   ,                               sizes:[12]},
+                {image: "images/page_builder/Placeholder/1-2.png",                       column:0,   label:"1/2" ,                               sizes:[6]},
+                {image: "images/page_builder/Placeholder/1-2_1-2.png",                   column:0,   label:"1/2 + 1/2" ,                         sizes:[6, 6]},
+                {image: "images/page_builder/Placeholder/1-3.png",                       column:0,   label:"1-3" ,                               sizes:[4]},
+                {image: "images/page_builder/Placeholder/1-3_1-3_1-3.png",               column:0,   label:"1-3 + 1-3 + 1-3" ,                   sizes:[4, 4, 4]},
+                {image: "images/page_builder/Placeholder/1-3_2-3.png",                   column:1,   label:"1/3 + 2/3" ,                         sizes:[4, 8]},
+                {image: "images/page_builder/Placeholder/2-3_1-3.png",                   column:1,   label:"2/3 + 1/3" ,                         sizes:[8, 4]},
+                {image: "images/page_builder/Placeholder/1-6.png",                       column:1,   label:"1/6" ,                               sizes:[2]},
+                {image: "images/page_builder/Placeholder/1-6_1-6_1-6_1-6_1-6_1-6.png",   column:1,   label:"1/6 + 1/6 + 1/6 + 1/6 + 1/6 + 1/6" , sizes:[2, 2, 2, 2, 2, 2]}
+            ]
+            
+            //make buttons
+            $.each(
+                placeholdersConstructor,
+                $.proxy(function(index, obj){
+                    var placeholderButton = new ModuleButton.PlaceholderButton(builderPath+obj.image, obj.label, obj.sizes); 
+                    columnsPlaceholders[obj.column].append( placeholderButton.$obj );
+                    
+                    $(placeholderButton).bind("moduleButtonDown", $.proxy(this.createPlaceholder, this));
+                }  , this)
+            );
+            
+            
+            //MODULES MENU
+            var $modulesMenu = $("<div class='menu-dropdown' id='modulesDrop'></div>").appendTo($addModule);
+            
+            $addModule.hover(function() {
+                $modulesMenu.stop().css("display", "block").fadeTo(200, 1);
+            }, function() {
+                $modulesMenu.stop().fadeTo(200, 0, function(){$(this).css("display", "none")});
+            });
+            
+            var $modulesHideable = $placeHolderHideable.clone().appendTo($modulesMenu);
+            $('div.info-pb', $modulesHideable).text("Drag and drop these modules on the canvas. Modules can be placed directly on the canvas or within placeholders. Once placed, you can edit the modules by pressing the edit icon.");
+            
+            var $mainrow = $("<div class='row-fluid columns-wraper'></div>").appendTo($modulesMenu);
+            
+            //Custom & Social Columns
+            var $modulesCustomColumn = $("<div class='span9'></div>").appendTo($mainrow);
+            var $modulesSocialColumn = $("<div class='span3'></div>").appendTo($mainrow);
+            
+            
+            //Custom Column
+            var $customColumnText = $("<p>Custom</p>").appendTo($modulesCustomColumn);
+            
+            var $customColumns = $("<div class='row-fluid'></div>").appendTo($modulesCustomColumn);
+            
+            var $customColumn1 = $("<div class='span4 column'></div>").appendTo($customColumns);
+            var $customColumn2 = $("<div class='span4 column'></div>").appendTo($customColumns);
+            var $customColumn3 = $("<div class='span4 column'></div>").appendTo($customColumns);
+            
+            
+            //Social Column
+            var $socialColumnText = $("<p>Social</p>").appendTo($modulesSocialColumn);
+            var $customColumn4 = $("<div class='span12 column'></div>").appendTo($modulesSocialColumn);
+            
+            var componentsColumns = [$customColumn1, $customColumn2, $customColumn3, $customColumn4];
+            
+            //make buttons
+            $.each(
+                shortcodes,
+                $.proxy(function(index, obj){
+                    var moduleButton = new ModuleButton.ComponentButton( obj ); 
+                    componentsColumns[obj.column].append( moduleButton.$obj );
+                    
+                    $(moduleButton).bind("moduleButtonDown", $.proxy(this.createComponent, this));
+                }  , this)
+            );
+            
+    
+            //CONSTRUCT VIEW
+            this.$view = $("<div class='view'></div>").appendTo(this.$pageBuilderTab);
+    
+            //VIEW HOLDER
+            this.$viewHolder = $("<div class='viewHolder'></div>").appendTo(this.$view);
+    
+            //LINES
+            this.$linesHolderOuter = $("<div class='linesHolder'></div>").appendTo(this.$viewHolder);
+            
+            //Draggers
+            this.$linesHolder = $("<div class='linesHolderInner'></div>").appendTo(this.$linesHolderOuter);
+            
+            //Lines Controller
+            
+        
+            //Make Baseline
+            this.$baseLine = $("<div class='lineBase'></div>").appendTo(this.$linesHolder);
+            var numPluses = 7;
+            var marginLeft = (1/6) * 100;
+            for (var i = 0; i < numPluses; i++)
+                var $plus = $("<div></div>").css({
+                    "position" : "absolute",
+                    "width" : "9px",
+                    "height" : "9px",
+                    "left" : (- 4 - 0.2*i) + "px",
+                    "margin-left":marginLeft*i+"%",
+                    "background-image" : "url("+builderPath+"images/page_builder/General/grid_plus.png)",
+                    "background-repeat":"no-repeat"
+                }).appendTo(this.$baseLine);
+            this.addLine();
+            this.addLine();
+            this.addLine();
+        },
+        
+        
+        //GET MODULES FROM HTML
+        fromHtml: function(){
+            var content = $("#content").val().toString();
+            
+            if(WP_DEBUG)console.log("CONTENT:"+content);
+            
+            if(content != null && content != undefined){
+                //GET ROWS
+                var regexStr = "\\[row\\][\\s\\S]*?\\[\\/row\\]";
+                var regex = new RegExp(regexStr, "gi");
+                
+                var matched = content.match(regex);
+                
+                //Iterate rows
+                if(matched != null){
+                    
+                    //for each row
+                    for(var rowId = 0; rowId < matched.length ; rowId ++){
+                        if(WP_DEBUG)console.log("ROW:"+matched[rowId]);
+                        //Process row
+                        
+                        //GET COLUMNS IN ROWID
+                        var regexColumnsStr = "\\[column.*?\\][\\s\\S]*?\\[\\/column\\]";
+                        var regexColumns = new RegExp(regexColumnsStr, "gi");
+                        
+                        var matchedColumns = matched[rowId].match(regexColumns);
+                        
+                        //Iterate columns in rowId
+                        if(matchedColumns != null){
+                            
+                            //for each column in rowId
+                            var column = 0;
+                            for(var columnId = 0; columnId < matchedColumns.length ; columnId ++){
+                                if(WP_DEBUG)console.log("COLUMN:"+matchedColumns[columnId]);
+                                //Get column parameters part
+                                var regexColumnParametersStr = "\\[column.*?\\]";
+                                var regexColumnParameters = new RegExp(regexColumnParametersStr, "gi");
+                                
+                                var matchedParameters = matchedColumns[columnId].match(regexColumnParameters);
+                                
+                                if(matchedParameters == null){
+                                    if(WP_DEBUG)console.log("Page Builder error");
+                                    return;
+                                }
+                                
+                                //Get column size
+                                var regexParStr = 'size=".*?"';
+                                var regexPar = new RegExp(regexParStr, "i");
+                                
+                                var sizeStr = matchedParameters[0].match(regexPar);
+                                sizeStr = sizeStr[0];
+                                
+                                var from = 6;
+                                var to = sizeStr.length-1;
+                                var size = parseInt(sizeStr.substring(from, to), 10);
+                                
+                                //Get column offset
+                                regexParStr = 'offset=".*?"';
+                                regexPar = new RegExp(regexParStr, "i");
+                                
+                                var offStr = matchedParameters[0].match(regexPar);
+                                offStr = offStr[0];
+                                
+                                from = 8;
+                                to = offStr.length-1;
+                                var offset = parseInt(offStr.substring(from, to), 10);
+                                
+                                column += offset;
+                                
+                                if(WP_DEBUG)console.log("Size: "+size);
+                                if(WP_DEBUG)console.log("Column: "+column);
+                                
+                                //Make placeholder
+                                var placeholder = new Module.Placeholder(size, column, this.modules.length);
+                                this.lines[rowId].addModule(placeholder);
+                                placeholder.show();
+                                this.modules.push(placeholder);
+                                $(placeholder).bind("moduleDown", $.proxy(this.placeholderDown, this));
+                                $(placeholder).bind("moduleDelete", $.proxy(this.placeholderDelete, this));
+                                
+                                column += size;
+                                
+                                //GET COLUMNID content string
+                                var columnContent = matchedColumns[columnId].substring(matchedParameters[0].length, matchedColumns[columnId].length-9);
+                                if(WP_DEBUG)console.log("column content: "+columnContent);
+                                
+                                //GET COMPONENTS in COLUMNID content
+                                var regexComponentsStr = "\\[.*?\\][\\s\\S]*?\\[\\/.*?\\]";
+                                var regexComponents = new RegExp(regexComponentsStr, "gi");
+                                
+                                var matchedComponents = columnContent.match(regexComponents);
+                                
+                                //Iterate columns in rowId
+                                if(matchedComponents != null){
+                                    for(var componentId = 0; componentId < matchedComponents.length ; componentId ++){
+                                        if(WP_DEBUG)console.log("content: "+matchedComponents[componentId]);
+                                        var str = matchedComponents[componentId];
+                                        
+                                        //Get shortcode name
+                                        var shortcodeStr = "";
+                                        var count = 1;
+                                        while(str.charAt(count) != ' ' && str.charAt(count) != ']'){
+                                            shortcodeStr += str.charAt(count);
+                                            count ++;
+                                        }
+                                        
+                                        //Which shortcode
+                                        var shortcode = null;
+                                        $.each(
+                                            shortcodes,
+                                            function(index, obj){
+                                                if(obj.shortcode == shortcodeStr){
+                                                    shortcode = obj;
+                                                    return ;
+                                                }
+                                            }
+                                        );
+                                        
+                                        if(shortcode == null){
+                                            if(WP_DEBUG)console.log("Page builder: Couldn't find a shortcode!");
+                                            break;
+                                        }
+                                        else{
+                                            if(WP_DEBUG)console.log("Creating component with shortcode: "+shortcodeStr);
+                                        }
+                                        
+                                        //Info
+                                        var infoCopy = ModuleButton.copyInfo( shortcode );
+                                        infoCopy.type = "module";
+                                        
+                                        //Update Info Parameters
+                                        var regexIPStr = "\\["+shortcodeStr+".*?\\]";
+                                        var regexIP = new RegExp(regexIPStr, "i");
+                                        var matchedIP = str.match(regexIP);
+                                
+                                        if(matchedIP == null){
+                                            if(WP_DEBUG)console.log("Page Builder: error reading shortcode parameters!");
+                                            return;
+                                        }
+                                        matchedIP = matchedIP[0];
+                                        
+                                        $.each(
+                                          infoCopy.parameters,
+                                          function(index, obj){
+                                                var regexParStr = "\\s"+obj.id+'=".*?"';
+                                                var regexPar = new RegExp(regexParStr, "i");
+                                                
+                                                var matchedPar = matchedIP.match(regexPar);
+                                                if(matchedPar != null){
+                                                    matchedPar = matchedPar[0];
+                                    
+                                                    var from = obj.id.length+2;
+                                                    var to = matchedPar.length-1;
+                                                    var value = matchedPar.substring(from, to);
+                                                    if(WP_DEBUG)console.log("Value: "+value);
+                                                    
+                                                    infoCopy.parameters[index].value = value;
+                                                }
+                                          }  
+                                        );
+                                        
+                                        //content
+                                        if(infoCopy.content != -1){
+                                            //Has content
+                                            var fromContent = matchedIP.length;
+                                            var toContent = str.length - (shortcodeStr.length + 3);
+                                            var value = str.substring(fromContent, toContent);
+                                            
+                                            if(WP_DEBUG)console.log("shortcode content:"+ value);
+                                            infoCopy.parameters[infoCopy.content].value = value;
+                                        }
+                                        
+                                        
+                                        //Make component
+                                        var component = new Module.Component( infoCopy );
+                                        
+                                        //Add to the targeted placeholder
+                                        placeholder.addComponent( component );
+                                        
+                                        //build module
+                                        component.build();
+                                        
+                                        //Bind module down
+                                        $(component).bind("moduleDown", $.proxy(this.componentDown, this));
+                                    }
+                                }
+                            }
+                        }
+                                
+                        this.checkNumLines();
+                                
+                    }
+                }
+                
+                this.correctGrid();
+            }
+                
+        },
+        
+        //GET HTML FROM MODULES
+        makeHtml: function () {
+            // Shortcodes
+            // [page_builder_column][/page_builder_column]
+            
+            var content = "";
+            
+            for(var i= 0; i< this.lines.length ; i++){
+                if(!this.lines[i].isEmpty()){
+                    //Start row
+                    content += "[row]";
+                    
+                    //Iterate columns
+                    var lineModules = this.lines[i].getOrderedModules();
+                    var shouldBe = 0;
+                    $.each(
+                        lineModules,
+                        $.proxy(function(index, moduleId){
+                            var module = this.modules[moduleId];
+                            var offset = 0;
+                            if(shouldBe != module.column)
+                                offset = module.column - shouldBe;
+                                
+                            //Get module html
+                            content += module.getHtml(offset);
+                            
+                            //Increment should be
+                            shouldBe += module.column + module.size;
+                        }, this)
+                    )
+                    
+                    //End row
+                    content += "[/row]";
+                }
+            }
+            
+            $("#content").val(content);
+            if(WP_DEBUG)console.log(content);
+            
+            return true;
+        },
+        
+        
+        
+        //Component Initial Create
+        createComponent: function(e, info){
+            
+            //Create Module
+            this.module = new Module.Component(info);
+            
+            this.type = "module";
+            this.targetPlaceholder = -1;
+            
+            //Mouse Events
+            $(e.target).bind("moduleButtonMove", $.proxy(this.movingComponentInit, this));
+            $(e.target).bind("moduleButtonUp", $.proxy(this.createModuleFinal, this));
+        },
+        
+        //Process component moving
+        processComponentMoving: function(hittedPlaceholder, color){
+            if(hittedPlaceholder != -1){
+                if(this.targetPlaceholder != hittedPlaceholder){
+                    //Above placeholder
+                    var placeholder = this.modules[hittedPlaceholder];
+                    
+                    //Cancel above on previous
+                    if(this.targetPlaceholder != -1)
+                        this.modules[this.targetPlaceholder].cancelAbove();
+                        
+                    //warn placeholder
+                    placeholder.componentAbove( color );
+                    
+                    this.targetPlaceholder = hittedPlaceholder;
+                }
+            }
+            else{
+                if(this.targetPlaceholder != -1)
+                    this.modules[this.targetPlaceholder].cancelAbove();
+                
+                this.targetPlaceholder = -1;
+            }
+        },
+        
+        //Component Initial on move
+        movingComponentInit: function(e, newX, newY){
+            //get grid pos
+            var gridPos = this.getGridPos(newX, newY);
+            var line = gridPos["line"];
+            var column = gridPos["column"];
+            
+            //check if above placeholder 
+            var hittedPlaceholder = this.hittedPlaceholder(line, column);
+            
+            this.processComponentMoving( hittedPlaceholder , e.target.info.color );
+        },
+        
+        
+        //Get grid position relative
+        getCenteredRelativeGridPosition: function(x, y, size){
+            var gridPos = this.getGridPos(x, y);
+            var line = gridPos.line;
+            var column = Math.round(gridPos.column - size/2);
+            
+             //limit left
+            if(column < 0)
+                column = 0;
+            
+            //limit right
+            if(column + size > 12)
+                column = 12 - size;
+                
+            return {"column":column , "line":line};
+        },
+        
+        //Moving the initial placeholders block
+        movingPlaceholdersBlock: function(line){
+            if(line != this.currentLine){
+                //Pop moving placeholders
+                var mods = this.lines[this.currentLine].popModules();
+                
+                //Pop line where the placeholder is going
+                var beforeMods = this.lines[line].popModules();
+                
+                //Transfer
+                this.lines[this.currentLine].pushModules(beforeMods, false);
+                this.lines[line].pushModules(mods, false);
+            }
+            this.currentLine = line;
+        },
+        
+        //Placeholder Initial Create
+        createPlaceholder: function(e, sizes, size, newX, newY){
+            //Create Placeholders
+            this.placeholders = new Array();
+            this.combinedSize = 0;
+            this.sizes = sizes;
+            this.size = size;
+            
+            //Initial position
+            var gridPos = this.getCenteredRelativeGridPosition(newX, newY, size);
+            var line = gridPos.line;
+            var column = 0;
+            
+            while(this.lines[line].isEmpty() && line != 0)
+                line--;
+            
+            this.currentLine = line;
+            
+            //Push modules bot
+            for(var i= this.lines.length-1; i>line ; i--){
+                var mods = this.lines[i-1].popModules();
+                this.lines[i].pushModules(mods, false);
+            }
+            
+            for(var i=0 ; i< sizes.length ; i++){
+                //Create placeholder
+                var placeholder = new Module.Placeholder(sizes[i], column+this.combinedSize, this.modules.length);
+                
+                this.modules.push( placeholder );
+                this.placeholders.push( placeholder );
+                this.combinedSize += sizes[i];
+                
+                //Add to line
+                this.lines[line].addModule(placeholder);
+            }
+            
+            this.type = "placeholder";
+            
+            //Mouse Events
+            $(e.target).bind("moduleButtonMove", $.proxy(this.movingPlaceholderInit, this));
+            $(e.target).bind("moduleButtonUp", $.proxy(this.createModuleFinal, this));
+            
+            this.correctGrid();
+        },
+        
+        //Placeholder Initial on move
+        movingPlaceholderInit: function(e, newX, newY){
+            //
+            var gridPos = this.getCenteredRelativeGridPosition(newX, newY, this.size);
+            var line = gridPos.line;
+            
+            while(this.lines[line].isEmpty() && line != 0)
+                line--;
+                
+            //If something has changed
+            if(line != this.currentLine){
+                this.movingPlaceholdersBlock(line);
+                
+                this.correctGrid();
+            }
+            
+            return false;
+        },
+        
+        //Create Module (both)
+        createModuleFinal: function(e){
+            //unbind
+            $(e.target).unbind("moduleButtonMove");
+            $(e.target).unbind("moduleButtonUp");
+        
+            if(this.type == "module"){
+                
+                if(this.targetPlaceholder != -1){
+                    //Valid position
+                    
+                    //Add to the targeted placeholder
+                    this.modules[this.targetPlaceholder].addComponent( this.module );
+                    
+                    //build module
+                    this.module.build();
+                    
+                    //Bind module down
+                    $(this.module).bind("moduleDown", $.proxy(this.componentDown, this));
+                }
+                
+            }
+            else{
+                for(var i=0 ; i<this.sizes.length ; i++){
+                    this.placeholders[i].show();
+                    this.placeholders[i].priority = 0;
+
+                    $(this.placeholders[i]).bind("moduleDown", $.proxy(this.placeholderDown, this));
+                    $(this.placeholders[i]).bind("moduleDelete", $.proxy(this.placeholderDelete, this));
+                    $(this.placeholders[i]).bind("moduleResize", $.proxy(this.correctGrid, this));
+                }
+            }
+            
+            this.checkNumLines();
+            this.correctGrid();
+            
+            return false;
+        },
+        
+        
+        
+        //ALREADY CREATED MODULES EVENTS
+        //Placeholder delete
+        placeholderDelete: function(e, number){
+            //Remove from line
+            this.lines[this.modules[number].line].removeModule(number);
+            
+            //Remove from array
+            this.modules = removePositionInArray(this.modules, number);
+            
+            //Update modules serial
+            for(var a = 0; a < this.modules.length ; a++)
+                this.modules[a].number = a;
+    
+            this.correctGrid();
+            this.checkNumLines();
+        },
+        
+        //Placeholder start drag
+        placeholderDown: function(e, number, line, column){
+            if(WP_DEBUG)console.log("placeholderDown");
+            this.currentLine = line;
+            this.currentColumn = column;
+            
+            this.moduleDragging = number;
+            this.modules[ number ].priority = 2; 
+            
+            //Placeholder Events
+            $(e.target).bind("moduleMove", $.proxy(this.movingPlaceholder, this));
+            $(e.target).bind("moduleUp"  , $.proxy(this.placePlaceholder, this));
+            
+            return false;
+        },
+        
+        //Placeholder On Move 
+        movingPlaceholder: function(e, newX, newY){
+            var gridPos = this.getGridPos(newX, newY);
+            var line = gridPos.line;
+            var column = gridPos.column;
+            
+            var placeholder = this.modules[this.moduleDragging];
+                
+            if(column + placeholder.size > 12)
+                column = 12-placeholder.size;
+                
+            //If something has changed
+            if(line != this.currentLine || column != this.currentColumn){
+                if(line != this.currentLine){
+                    //Change line
+                    
+                    //remove from current line
+                    this.lines[this.currentLine].removeModule( this.moduleDragging );
+                    
+                    //add to new line
+                    this.lines[line].addModule( placeholder );
+                }
+                if(column != this.currentColumn){
+                    //Change column
+                    placeholder.column = column;
+                }
+                
+                this.currentLine = line;
+                this.currentColumn = column;
+                
+                this.correctGrid();
+            }
+            
+            return false;
+        },
+        
+        //Placeholder Place 
+        placePlaceholder: function(e){
+            $(e.target).unbind("moduleMove");
+            $(e.target).unbind("moduleUp");
+            
+            this.correctGrid();
+            this.modules[ this.moduleDragging ].priority = 0; 
+            this.moduleDragging = -1;  
+            
+            return false;
+        },
+       
+        //Placeholder start drag
+        componentDown: function(e){
+            if(WP_DEBUG)console.log("componentDown");
+            
+            this.targetPlaceholder = e.target.placeholder;
+            
+            //Placeholder Events
+            $(e.target).bind("moduleMove", $.proxy(this.movingComponent, this));
+            $(e.target).bind("moduleUp"  , $.proxy(this.placeComponent, this));
+            
+            return false;
+        },
+        
+        //Component On Move 
+        movingComponent: function(e, newX, newY){
+            var component = e.target;
+            
+            //get grid pos
+            var gridPos = this.getGridPos(newX, newY);
+            var line = gridPos["line"];
+            var column = gridPos["column"];
+            
+            //check if above placeholder 
+            var hittedPlaceholder = this.hittedPlaceholder(line, column);
+            
+            var componentPlaceholder = component.placeholder;
+            
+            if(hittedPlaceholder != componentPlaceholder){
+                //Different placeholder
+                this.processComponentMoving(hittedPlaceholder, component.info.color );
+            }
+            else{
+                //Same placeholder
+                this.modules[component.placeholder].movingComponent(newY, component.number);
+                
+                if(this.targetPlaceholder != component.placeholder)
+                    this.modules[this.targetPlaceholder].cancelAbove();
+                
+                this.targetPlaceholder = component.placeholder;
+            }
+            
+            
+            return false;
+        },
+        
+        //Placeholder Place 
+        placeComponent: function(e){
+            $(e.target).unbind("moduleMove");
+            $(e.target).unbind("moduleUp");
+            
+            var placeholder = e.target.placeholder;
+            
+            if(this.targetPlaceholder != -1 && this.targetPlaceholder != placeholder){
+                //Add to different placeholder
+                
+                //remove from current one
+                this.modules[placeholder].removeComponent(e.target.number);
+                
+                //add to new placeholder
+                this.modules[this.targetPlaceholder].addComponent(e.target);
+            }
+            
+            return false;
+        },
+       
+        
+        
+        /////////////////////////////////////////////////////////////////
+        //GRID FUNCTIONS
+        //checks if there is at least one module in a line (Revised)
+        checkIntersection: function (line){
+            for(var i = 0; i < this.modules.length ; i++)
+                if(this.modules[i].line == line)
+                    return true;
+            return false;
+        },
+        
+        //Resolves an intersection (Revised)
+        resolveIntersection: function (line){
+            var lineTemp = 0;
+            
+            //check if there is space to top
+            while(lineTemp < line){
+                if(this.lineEmpty(lineTemp)){
+                    for(var i = 0; i < this.modules.length ; i++){
+                        if(this.modules[i].line == line)
+                            this.modules[i].changeLine( lineTemp );
+                    }
+                    return;
+                }
+                lineTemp++;
+            }
+            
+            //go to the bottom
+            lineTemp = line;
+            //while(lineTemp <= builder.lineNum){
+                var intersection = false;
+                
+                //Check intersection in the line below
+                if(this.checkIntersection(lineTemp+1)){
+                    this.resolveIntersection(lineTemp+1);
+                    intersection = true;
+                }
+                
+                for(var i = 0; i < this.modules.length ; i++){
+                    if(this.modules[i].line == lineTemp)
+                        this.modules[i].changeLine( lineTemp+1 );
+                }
+                
+                if(!intersection)
+                    return;
+                
+                //lineTemp++;
+            //}
+        },
+        
+        //check if position is hitting a placeholder
+        hittedPlaceholder: function (line, column){
+            for(var i = 0; i < this.modules.length ; i++)
+                if(this.modules[i].line == line && (column >= this.modules[i].column  && column < this.modules[i].column + this.modules[i].size  ))
+                    return i;
+            return -1;
+        },
+
+        //Menu on scroll
+        onScroll : function(){
+            var scrollTop = $(window).scrollTop();
+            
+	        this.menuFromTop = this.$pageBuilderTab.offset().top;
+            
+            if(scrollTop>(this.menuFromTop-this.menuOffTop)){
+                this.$pageBuilderMenu.css({
+                    "top":scrollTop-this.menuFromTop+this.menuOffTop+"px"
+                });
+            }
+            else{
+                this.$pageBuilderMenu.css({
+                    "top":0+"px"
+                });
+            }
+        },
+        
+        //Clear all modules
+        clearAll: function (){
+            for(var i = 0; i< this.modules.length ; i++){
+                this.modules[i].$obj.fadeTo(300, 0);
+            }
+            this.modules = new Array();
+            this.checkNumLines();
+            return false;
+        },
+        
+        //On current line over change
+        currentOverLine: function(e, num){
+            this.lineOver = num;
+            return false;
+        },
+        
+         //Add new line
+        addLine: function () {
+            var line = new Line.newLine(this.$linesHolder, this.lines.length, this.$baseLine);
+            
+            $(line).bind("overThis", $.proxy(this.currentOverLine, this));
+            
+            this.lines.push(line);
+        },
+        
+        
+        //Remove a line
+        removeLine: function (){
+            
+        },
+        
+        //Correct grid
+        correctGrid: function(){
+            
+            //Check grid consistency
+            $.each(
+                this.lines,
+                $.proxy(
+                    function(index, line){
+                        //Organize line
+                        var excedentModules = line.organize();
+                        
+                        //Add excedent modules to next line
+                        if(excedentModules && excedentModules.length > 0){
+                            //if line above
+                            if(index != 0 && this.lines[index-1].isEmpty()){
+                                this.lines[index-1].pushModules( excedentModules );
+                                this.lines[index-1].organize();
+                            }
+                            else
+                                this.lines[index+1].pushModules( excedentModules );
+                        }
+                    }
+                    ,this
+                )
+            );
+            
+            //Clear blank lines
+            this.clearBlankLines();
+            
+            //Check available lines number
+            this.checkNumLines();
+        },
+        
+        //Clears Blank Rows
+        clearBlankLines: function (){
+            for(var i = 0; i< this.lines.length ; i++)
+                if(this.lines[i].isEmpty())
+                    this.pushAllTop(i+1);
+                
+        },
+        
+        //push all modules up from a linne down (Revised)
+        pushAllTop: function (line){
+            if(line == 0)
+                return ;
+                
+            for(var i = line; i < this.lines.length ; i++){
+                var mods = this.lines[i].popModules();
+                this.lines[i-1].pushModules(mods);
+                this.lines[i-1].organize();
+                this.lines[i].organize();
+            }
+        },
+    
+        //checks the number of empty lines in the grid
+        checkNumLines: function(){
+            var num = 0;
+            
+            $.each(
+                this.lines,
+                function(index, line){
+                    if(line.isEmpty())
+                        num++;
+                }
+            );
+            
+            if(num <= 1){
+                var number = this.addLine();  
+                return;
+            }
+            
+            while(num > 2){
+                this.removeLine();
+                num--;
+            }
+        },
+        
+        //returns number of empty lines in the grid
+        getNumberEmptyLines: function(){
+            var max = 0;
+            for(var i = 0; i < this.modules.length; i++){
+                if(this.modules[i].line>max)
+                    max = this.modules[i].line;
+            }
+            
+            return gridLines.length - (max+1);
+        },
+        
+        //Get position in grid (Revised)
+        getGridPos : function(posX, posY){
+            
+            //RELATIVE POSITIONS
+            var off = this.$linesHolder.offset();
+            var posX = posX - off.left;
+            
+            //Column
+            var width = this.$linesHolder.width();
+            var perc = posX / width;
+            var column = Math.round(12*perc);
+            if(column < 0)
+                column = 0;
+            else if(column > 10)
+                column = 10;
+                
+            //Line
+            var line = this.lines.length-1;
+            for(var i=1 ; i<this.lines.length; i++){
+                if(posY < this.lines[i].getOffsetY()){
+                    line = i-1;
+                    break;
+                }
+            }
+            
+            return {"column":column, "line":line};
+        },
+        
+        
+        //Get grid priority row (Revised)
+        getPriorityRow: function(){
+            var line = 0;
+            var column = 0;
+            
+            var priorityRow = new Array();
+            var mods = this.getModulesFromLine(line);
+            var blankSpaceLeft = 0;
+            var blankSpaceAbove = 0;
+            
+            //GET PRIORITY ROW OF MODULES
+            do{
+                var modsHitting = this.getModulesHittingPos(column, line);
+                
+                if(modsHitting.length != 0){
+                    if(modsHitting.length==1){
+                        //hitted only one module
+                        
+                        if(modsHitting[0] == this.moduleDragging){
+                            addIfDoesnExist(modsHitting[0], priorityRow);
+                        }
+                        else{
+                            //if doesnt collide with dragging add it
+                            var dragCollideAt = this.modCollidesWithDrag(modsHitting[0]);
+                            
+                            if(dragCollideAt == -1)
+                                //doesnt collide
+                                addIfDoesnExist(modsHitting[0], priorityRow);
+                            else{
+                                var modSize = this.modules[modsHitting[0]].size;
+                                //check if blank space enough
+                                if(blankSpaceAbove >= modSize){
+                                    //space above
+                                    addIfDoesnExist(modsHitting[0], priorityRow);
+                                    blankSpaceAbove -= modSize;
+                                }
+                                else if(blankSpaceLeft >= modSize - dragCollideAt){
+                                    //space left
+                                    addIfDoesnExist(modsHitting[0], priorityRow);
+                                    blankSpaceLeft -= (modSize - dragCollideAt);
+                                }
+                                else{
+                                    //dragging must be first
+                                    addIfDoesnExist(this.moduleDragging, priorityRow);
+                                    addIfDoesnExist(modsHitting[0], priorityRow);
+                                }
+                                
+                            }
+                        }
+                        
+                    }
+                    else{
+                        //Collision between 2 or more modules
+                        var priority = 0;
+                        var counter = 0;
+                        while(modsHitting.length != 0){
+                            //get one with highest priority
+                            var num = this.getHighestPriority(modsHitting);
+                            
+                            var numberToAdd = modsHitting[num];
+                            
+                            //remove it from the array
+                            modsHitting = removePositionInArray(modsHitting, num);
+                            
+                            if(numberToAdd == this.moduleDragging)
+                                if(modsHitting.length > 0){
+                                    //might have space to the left for another component
+                                    num = this.getHighestPriority(modsHitting);
+                                    
+                                    var modSize = this.modules[modsHitting[num]].size;
+                                    //check if blank space enough
+                                    if(blankSpaceAbove >= modSize){
+                                        //space above
+                                        addIfDoesnExist(modsHitting[num], priorityRow);
+                                        modsHitting = removePositionInArray(modsHitting, num);
+                                        blankSpaceAbove -= modSize;
+                                    }
+                                    else if(blankSpaceLeft >= modSize){
+                                        //space left
+                                        addIfDoesnExist(modsHitting[num], priorityRow);
+                                        modsHitting = removePositionInArray(modsHitting, num);
+                                        blankSpaceLeft -= modSize;
+                                    }
+                                }
+                            
+                            addIfDoesnExist(numberToAdd, priorityRow);
+                        }
+                    }
+                    
+                    blankSpaceLeft = 0;
+                }
+                else
+                    blankSpaceLeft++;
+                
+                
+                
+                //Change to next pos
+                column ++;
+                if(column == 12){
+                    column = 0;
+                    line ++;
+                    mods = this.getModulesFromLine(line);
+                    
+                    blankSpaceAbove = blankSpaceLeft;
+                    blankSpaceLeft = 0;
+                }
+            }while(priorityRow.length != this.modules.length);
+            
+            return priorityRow;
+        },
+        
+        //Return Highest Priority Module in the parameter array position (Revised)
+        getHighestPriority: function (mods){
+            //Check if any is dragging
+            for(var i=0; i<mods.length ; i++)
+                if(mods[i] == this.moduleDragging)
+                    return i;
+            
+            //Check which one comes first
+            var minColumn = 20;
+            var whichOne = -1;
+            for(var i=0; i < mods.length ; i++)
+                if(this.modules[mods[i]].column < minColumn){
+                    minColumn = this.modules[mods[i]].column;
+                    whichOne = i;
+                }
+            
+            return whichOne;
+        },
+        
+        //Check if module collides with the one dragging (Revised)
+        modCollidesWithDrag: function (modId){
+            if(this.moduleDragging == -1)
+                return -1;
+            
+            var modDrag = this.modules[this.moduleDragging];
+            var mod = this.modules[modId];   
+            if(modDrag.line == mod.line && modDrag.column >= mod.column && modDrag.column < mod.column + mod.size)
+                return modDrag.column - mod.column;
+            
+            return -1;
+        },
+        
+        
+        
+        //Get all modules from a line (Revised)
+        getModulesFromLine: function (line){
+            var mods = new Array();
+            $.each(
+                this.modules,
+                function(index, module){
+                    if(module.line == line)
+                        mods.push(module);
+                }
+            );
+                
+            return mods;        
+        },
+        
+        //Return array of modules numbers (Revised)
+        getModulesHittingPos: function (column, line){
+            var modsHitting = new Array();
+            
+            $.each(
+                this.modules,
+                function(index, module){
+                    if(module.line == line && module.column == column)
+                        modsHitting.push(index);
+                }
+            );
+            
+            return modsHitting;
+        }
+    }
+    
+    return PageBuilder;
+});

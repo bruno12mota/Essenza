@@ -1,0 +1,63 @@
+.ui_tabs{
+    //Menu buttons
+    .ui_tabs_menu{
+        overflow: hidden;
+        background-color: #EEEEEE;
+        
+        a{
+            float: left;
+            padding: 15px 25px;
+            text-decoration: none;
+            background-color: #EEEEEE;
+            
+            font-family: 'AllerRegular';
+            font-size: 12px;
+            color: #111111;
+            outline: 0;   
+            border: 0;
+            
+            .transition ();
+            
+            &.active, &:hover{
+                background-color: #cccccc;
+            }
+        }
+    }
+    
+    //Menu tabs
+    >.ui_tabs{
+        overflow: hidden;
+        border: 2px solid #cccccc;
+        padding: 20px;
+        
+        .ui_tab{
+            display: none;
+            &.active{
+                display: block;   
+            }
+        }
+    }
+    
+    &.binded{
+        >.ui_tabs{
+            border-left: 0;
+            border-right: 0;
+            padding: 20px 10px;
+        }
+        .ui_tabs_menu{
+            background-color: transparent;
+            a{
+                background-color: transparent;
+                padding: 10px 25px;
+                transition : none;
+                -webkit-transition : none;
+                 -moz-transition : none;
+                 -o-transition : none;
+            
+                &.active, &:hover{
+                    border-bottom: 3px solid #2991bf;
+                }
+            }
+        }
+    }
+}

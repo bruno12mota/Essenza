@@ -20,9 +20,9 @@ class pq_font_picker {
 		//Get fonts
 		$fontsJsonStr = get_option($pq_shortname."_google_fonts");
 		$fontsJson = json_decode($fontsJsonStr);
-		fb::log($pq_shortname);
-		fb::log($fontsJsonStr);
-		fb::log($fontsJson);
+		//if(WP_DEBUG)fb::log($pq_shortname);
+		//if(WP_DEBUG)fb::log($fontsJsonStr);
+		//if(WP_DEBUG)fb::log($fontsJson);
 		
 		$options = array();
 		$values = array();

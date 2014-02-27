@@ -1,2 +1,87 @@
-define(["jquery"],function(){var d=function(b,a,d,e){if(isNaN(a)){for(var c=0;c<e.length;c++)if(e[c]==a){a=c;break}isNaN(a)&&(a=0)}this.active=parseInt(a,10);this.values=e;this.options=d;this.tabs=$(">.ui_tabs >.ui_tab",b);this.tabsButtons=$(">.ui_tabs_menu >a",b).each(function(a){$(this).attr("rel",a)}).click($.proxy(this.click,this));this.update()};d.prototype={update:function(){this.tabsButtons.each($.proxy(function(b,a){this.active==b?$(a).addClass("active"):$(a).removeClass("active")},this));
-this.tabs.each($.proxy(function(b,a){this.active==b?$(a).addClass("active"):$(a).removeClass("active")},this));$(this).trigger("change")},click:function(b){b=$(b.target).attr("rel");this.active=parseInt(b,10);this.update();return!1},val:function(b){if(void 0==b)return this.values[this.active];for(var a=0;a<this.values.length;a++)if(this.values[a]==b){this.active=a;this.update();break}}};return d});
+define(["jquery"], function($){
+	var Tabs = function ($this, active, options, values){
+		//Get numeric value of current tab
+		if(isNaN(active)){
+			for(var i = 0; i < values.length; i++)
+				if(values[i] == active){
+					active = i;
+					break;
+				}
+			if(isNaN(active))
+				active = 0;
+		}
+		
+		//initial values
+		this.active = parseInt(active, 10);
+		this.values = values;
+		this.options = options;
+		this.tabs = $(">.ui_tabs >.ui_tab" ,$this);
+		this.tabsButtons = $(">.ui_tabs_menu >a", $this).each(function(index){
+			$(this).attr("rel", index);
+		}).click($.proxy(this.click, this));
+		
+		//initial update
+		this.update();
+	}
+	
+	Tabs.prototype = {
+		
+		//Update current
+		update: function(){
+			
+			//Iterate tabs buttons
+			this.tabsButtons.each($.proxy(function(index, button){
+				
+				if(this.active == index)
+					$(button).addClass("active");
+				else
+					$(button).removeClass("active");
+				
+			}, this));
+			
+			//Iterate tabs
+			this.tabs.each($.proxy(function(index, tab){
+				
+				if(this.active == index)
+					$(tab).addClass("active");
+				else
+					$(tab).removeClass("active");
+				
+			}, this));
+			
+			//Trigger change event
+			$(this).trigger('change');
+		},
+
+		//On tab button clicked
+		click: function(e){
+			//Get which tab button was clicked
+			var rel = $(e.target).attr("rel");
+			
+			//Update active
+			this.active = parseInt(rel, 10);
+			
+			//update
+			this.update();
+				
+			return false;
+		},
+		
+		//Get or set value
+		val:function(value){
+			//GET VALUE
+			if(value == undefined)
+				return this.values[this.active];
+				
+			//SET VALUE
+			for(var i= 0; i<this.values.length; i++)
+				if(this.values[i] == value){
+					this.active = i;
+					this.update();
+					break;
+				}
+	     }
+	}
+	
+	return Tabs;
+});
