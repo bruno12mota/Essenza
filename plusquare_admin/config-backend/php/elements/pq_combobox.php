@@ -16,6 +16,10 @@ class pq_combobox {
 	function __construct($id, $options, $values, $value){
 		$this->id = $id;
 		
+		if( !in_array($value, $values) ){
+			$value = "";
+		}
+
 		?>
         <input class="ui-textbox for-text" type="text" value="<?php echo $value; ?>" id="<?php echo $id; ?>" name="<?php echo $id; ?>" style="display:none;" />
         <div id="<?php echo $id; ?>_combobox"></div>
@@ -29,7 +33,7 @@ class pq_combobox {
 						foreach($options as $option){ 
 							if($count != 0)
 								echo ",";
-							echo "'".str_replace("'", "\'", $option)."'";
+							echo "'".plusquare_single_quotes_html($option)."'";
 							$count++;
 						} 
 					?>], [<?php 

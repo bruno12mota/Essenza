@@ -36,6 +36,9 @@ require_once( 'php/enqueues.php' );
  */
 function plusquare_make_sidebar($sidebar_id){
 	$content_post = get_post($sidebar_id);
+	if($content_post == null){
+		return;
+	}
 	$content = $content_post->post_content;
 	$content = apply_filters('the_content', $content);
 	$content = str_replace(']]>', ']]&gt;', $content);

@@ -1,4 +1,5 @@
 var esza_url = directory["esza_url"];
+var esza_disable_ajax = directory["esza_disable_ajax"];
 
 define(["jquery", "utils/utils"], function($) {
     var popped = false;
@@ -26,7 +27,7 @@ define(["jquery", "utils/utils"], function($) {
 		}
         
         //Remove loading state
-    	if($("body").hasClass("runtime_javascript_ready"))
+    	if($("body").hasClass("runtime_javascript_ready") )
     		plusquare_runtime_javascript(true, customVars, to);
 
     	customVars = false;
@@ -36,7 +37,7 @@ define(["jquery", "utils/utils"], function($) {
 	var dynamicLoadingButton = function($obj, $holder, $afterThis, idAction){
 		this.href = $obj.attr('href');
 
-		if(this.href.indexOf(esza_url) == -1 || this.href.indexOf(".pdf") != -1)
+		if(this.href.indexOf(esza_url) == -1 || this.href.indexOf(".pdf") != -1 || esza_disable_ajax == "true")
 			return;
 
 		$obj.addClass("dynamic_binded");
@@ -157,11 +158,17 @@ define(["jquery", "utils/utils"], function($) {
 		});
 
 
-		$("#searchform").submit(function(){
-		    $("#search_info").trigger("close");
+		$("#searchform").submit(function(e){
+			var search = $(this).find("#search").val();
+
+			if(search == ""){
+				e.preventDefault();
+				return false;
+			}
 
 			var href= $(this).attr("action");
-			var search = $(this).find("#search").val();
+			
+		    $("#search_info").trigger("close");
 
 			var url = href+"?s="+search;
 			var load = url+'&rel=ajax';

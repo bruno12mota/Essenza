@@ -53,7 +53,10 @@ define(["jquery",
     		if(WP_DEBUG)console.log("Trying to load "+this.number+" items");
 
     		//Load posts by ajax
+    		var startTime = new Date().getTime();
 			$.post( adminAjax, objSend, $.proxy(function(data, textStatus){
+				var time = new Date().getTime();
+				console.log("Time: "+(time-startTime));
 				var $data = $(data);
 
 				//Append new objects

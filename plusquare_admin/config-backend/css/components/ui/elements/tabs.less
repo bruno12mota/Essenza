@@ -1,25 +1,36 @@
 .ui_tabs{
     //Menu buttons
     .ui_tabs_menu{
-        overflow: hidden;
-        background-color: #EEEEEE;
-        
+        overflow: hidden;    
+        position: relative;
+        top: 1px;
+        z-index: 1;
         a{
             float: left;
             padding: 15px 25px;
             text-decoration: none;
-            background-color: #EEEEEE;
+            background-color: #F6F6F6;
             
             font-family: 'AllerRegular';
             font-size: 12px;
-            color: #111111;
+            color: #555555;
             outline: 0;   
             border: 0;
             
-            .transition ();
+            border-top: 1px solid #E5E5E5;
+            border-right: 1px solid #E5E5E5;
+            &:first-child{
+                border-left: 1px solid #E5E5E5;   
+                .roundedCorners (3px, 0px, 0px, 0px);
+            }
+            &:last-child{
+                .roundedCorners (0px, 3px, 0px, 0px);
+            }
             
             &.active, &:hover{
-                background-color: #cccccc;
+                background-color: #FFFFFF;
+                border-bottom: 2px solid #0074A2;
+                color: #000000;
             }
         }
     }
@@ -27,8 +38,9 @@
     //Menu tabs
     >.ui_tabs{
         overflow: hidden;
-        border: 2px solid #cccccc;
-        padding: 20px;
+        padding: 20px;    
+        background-color: #FFFFFF;
+        border: 1px solid #E5E5E5;
         
         .ui_tab{
             display: none;

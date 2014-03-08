@@ -34,7 +34,7 @@ if(is_admin()){
 /*
  *     FRONTEND
  */
-else{
+if(!is_admin() || (defined('DOING_AJAX') && DOING_AJAX)){
 	require_once( get_template_directory() . '/plusquare_admin/config-frontend/frontend.php' );
 }
 

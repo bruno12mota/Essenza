@@ -8,16 +8,10 @@ if(isset($_GET["rel"]))
 $essenza_title = get_bloginfo('name').wp_title(" | ", FALSE);
 
 //IE version check
-preg_match('/MSIE (.*?);/', $_SERVER['HTTP_USER_AGENT'], $matches);
-global $essenza_is_old_ie;
-$essenza_is_old_ie = false;
-if (count($matches)>1){
-  //Then we're using IE
-  $version = $matches[1];
-  if($version<8){
-	$essenza_is_old_ie = true;
-  }
-}
+$essenza_is_old_ie = is_unsupported_browser();
+
+
+
 
 //START OF FRESH LOADED PAGE CODE
 if(!isset($essenza_page_dynamically_loaded)){
@@ -44,14 +38,31 @@ if(!isset($essenza_page_dynamically_loaded)){
 	<?php wp_head(); ?>
 </head>
 
+
+
+<?php
+//Not For IE <8
+if($essenza_is_old_ie === true){
+	?>
+	<body>
+		<div class="upgrade_browser">
+			<p>This is a modern site which require a more recent browser to work properly. <a href="https://www.google.com/intl/en/chrome/browser/">Please upgrade now</a>!</p>
+		</div>
+	</body>
+	</html>
+	<?php
+	exit();
+}
+?>
+
+
+
 <body <?php body_class(); ?>>
 
 	<?php
-	//Not For IE <8
-	if($essenza_is_old_ie !== true){
 
-		//Options
-		$submenu_type = get_option("esza_submenu_type");
+	//Options
+	$submenu_type = get_option("esza_submenu_type");
 
 	?>
 
@@ -228,25 +239,6 @@ if(!isset($essenza_page_dynamically_loaded)){
 		});
 	</script>
 
-
-
-
-		<?php
-    }
-    
-    	
-    //Is ie 7 or lower
-    else{
-
-    	?>
-
-    	<div class="upgrade_browser">
-    		<p>This is a modern site which require a more recent browser to work properly. <a href="https://www.google.com/intl/en/chrome/browser/">Please upgrade now</a>!</p>
-    	</div>
-
-    	<?php
-    }
-    ?>
 
 <?php
 }

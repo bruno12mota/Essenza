@@ -1,12 +1,16 @@
 .ui_progress{
-    background-color: #fdfdfd;
+    background-color: #222222;
     height: 40px;
     display: block;
+    position: relative;
     
     .progress{
+        position: absolute;
+        top:0;left:0;
         height: 40px;
         display: inline-block;
         width: 0;
         background-color: #0074A2;
+        .transition(1s);
     }
 }

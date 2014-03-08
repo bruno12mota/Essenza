@@ -100,6 +100,9 @@ function pq_calculate_resized_url($args){
 		$height = $heightSnap;
 	}
 
+	$width = round($width);
+	$height = round($height);
+
 	//Resize or crop if needed
 	if($needsResize || $crop)
 		$url = mr_image_resize($url, $width, $height, $crop, $align, false);
@@ -118,17 +121,22 @@ function pq_calculate_resized_url($args){
 
 function pq_get_image_resized_fun($url, $width, $height, $crop, $retina, $snap, $snapValue, $align, $adjust){
 
-	$site_url = site_url();
-	if (strpos($url, $site_url) !== false) {
-	    $url = str_replace($site_url, "..", $url);
+	// Get the image file path
+	$urlinfo = parse_url($url);
+	$wp_upload_dir = wp_upload_dir();
+
+	if (preg_match('/\/[0-9]{4}\/[0-9]{2}\/.+$/', $urlinfo['path'], $matches)) {
+		$file_path = $wp_upload_dir['basedir'] . $matches[0];
+	} else {
+		return $url;
 	}
 
 	//Get image original size
-	$size = @getimagesize($url);
+	$size = @getimagesize($file_path);
 
 	// If no size data obtained, return error or null
 	if ($size === FALSE) {
-		if(WP_DEBUG)fb::log("Error getting image size!");
+		if(WP_DEBUG)fb::log("Error getting image size: "+$url);
 		return array(
 			"url"=> $url,
 			"width"=> NULL,
@@ -159,12 +167,22 @@ function pq_get_resized_fun() {
 	$align = isset($_POST['align']) ? $_POST['align'] : 'c';
 	$adjust = isset($_POST['adjust']) ? ($_POST['adjust']=="true"?true:false) : false;
 
+	// Get the image file path
+	$urlinfo = parse_url($url);
+	$wp_upload_dir = wp_upload_dir();
+
+	if (preg_match('/\/[0-9]{4}\/[0-9]{2}\/.+$/', $urlinfo['path'], $matches)) {
+		$file_path = $wp_upload_dir['basedir'] . $matches[0];
+	} else {
+		return $url;
+	}
+
 	//Get image original size
-	$size = @getimagesize($url);
+	$size = @getimagesize($file_path);
 
 	// If no size data obtained, return error or null
 	if (!$size) {
-		if(WP_DEBUG)fb::log("Error getting image size!");
+		if(WP_DEBUG)fb::log("Error getting image size: ".$file_path);
 		return is_user_logged_in() ? "getimagesize_error_common" : null;
 	}
 

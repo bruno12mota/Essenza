@@ -42,6 +42,7 @@ function pq_send_email_fun() {
 }
 
 
+
 //Get portfolio posts ajax
 add_action( 'wp_ajax_nopriv_pq_get_portfolio_posts', 'pq_get_portfolio_posts_fun' );
 add_action( 'wp_ajax_pq_get_portfolio_posts', 'pq_get_portfolio_posts_fun' );
@@ -85,17 +86,10 @@ function pq_get_portfolio_posts_fun() {
 		$stdHeight = 275 * $pixel_ratio;
 		$stdWidth = 400 * $pixel_ratio;
 		
-		$imageUrl = wp_get_attachment_image_src( get_post_meta($post->ID, "thumbnail", true), $pixel_ratio == 1 ? "medium" : "full" );
+		$imageUrl = wp_get_attachment_image_src( get_post_meta($post->ID, "thumbnail", true), "full" );
 		$imageWidth = $imageUrl[1];
 		$imageHeight = $imageUrl[2];
 		$imageUrl = $imageUrl[0];
-
-		if(intval($imageHeight) < $stdHeight){
-			$imageUrl = wp_get_attachment_image_src( get_post_meta($post->ID, "thumbnail", true), "full" );
-			$imageWidth = $imageUrl[1];
-			$imageHeight = $imageUrl[2];
-			$imageUrl = $imageUrl[0];
-		}
 		
 		$categories = plusquare_get_the_category_bytax($post->ID, 'portfolio_category');
 		$parentsStr = plusquare_get_categories_str($categories);
@@ -145,6 +139,7 @@ function pq_get_portfolio_posts_fun() {
 	wp_reset_query();
 	wp_reset_postdata();
 }
+
 
 
 //Get blog posts ajax
@@ -333,6 +328,7 @@ function pq_get_blog_mosaic_posts_fun() {
         while($posts->have_posts()):  $posts->the_post();
 
 			//Mosaic options
+    		$post_mosaic_use_image = get_post_meta( $post->ID, "post_mosaic_use_image", true );
             $background_image = get_post_meta( $post->ID, "post_mosaic_image", true );
             $background_color = get_post_meta( $post->ID, "mosaic_background_color", true );
             $mosaic_height = get_post_meta( $post->ID, "post_mosaic_height", true );
@@ -344,7 +340,7 @@ function pq_get_blog_mosaic_posts_fun() {
             $mosaic_content_padding = get_post_meta( $post->ID, "mosaic_content_padding", true );
             $post_mosaic_title_first = get_post_meta( $post->ID, "post_mosaic_title_first", true );
 
-            $hasImage = $background_image != FALSE && $background_image != "";
+            $hasImage = $background_image != "" && ($post_mosaic_use_image === "true" || $post_mosaic_use_image === "");
 
             $title = '<h2 style="color: '.$mosaic_title_color.';">'.get_the_title().'</h2>';
 

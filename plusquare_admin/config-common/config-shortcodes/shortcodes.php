@@ -2824,55 +2824,71 @@ $essenza_shortcodes_options["image_button"] = array(
  *  @content: Contact form fields
  */
 function plusquare_contact_form_func( $atts, $content ){
-	extract( shortcode_atts( array(
-		"to" => get_bloginfo('admin_email'),
-		"title" => "email from my site",
-		"labels_pos" => "left",
-		"success" => "Message sent! Thanks for contacting us!",
-		"error" => "One or more fields are invalid!",
-		"submit_margin" => "0px",
-		"submit_align" => "left"
-	), $atts ) );
-	
-	if( preg_match ( "/\\[button.*?\\][\\s\\S]*?\\[\\/button\\]/" ,$content , $matches, PREG_OFFSET_CAPTURE ) === 1){
-		$button = $matches[0][0];
-		$content = substr($content, 0, $matches[0][1]);
 
-		$button = str_replace("&laquo;&nbsp;", '"', $button);
-		$button = str_replace("&laquo;", '"', $button);
-		$button = str_replace("&Prime;", '"', $button);
-		$button = str_replace("&nbsp;&raquo;", '"', $button);
-		$button = str_replace("&raquo;", '"', $button);
-		$button = str_replace("«", '"', $button);
-		$button = str_replace("»", '"', $button);
-		$button = str_replace("&#8243;", '"', $button);
-		$button = str_replace("&#8222;", '"', $button);
-		
+	$post_id = $content;
 
+	//Contact form meta
+	$to = 			get_post_meta($post_id, "contact_form_to", true);
+	$title = 		get_post_meta($post_id, "contact_form_title", true);
+	$labels_pos = 	get_post_meta($post_id, "contact_form_labels_position", true);
+	$success = 		get_post_meta($post_id, "contact_form_success", true);
+	$error = 		get_post_meta($post_id, "contact_form_error", true);
+	$submit_margin= get_post_meta($post_id, "contact_form_button_margin", true);
+	$submit_align = get_post_meta($post_id, "contact_form_button_align", true);
+	$button = 		get_post_meta($post_id, "submit_button", true);
+
+	//Content (form fields)
+	$content_post = get_post($post_id);
+	if($content_post == null){
+		return;
 	}
-	else{
-		if(WP_DEBUG)fb::log("Error occured getting submit button");
+	$content = $content_post->post_content;
+	$content = apply_filters('the_content', $content);
+	$content = str_replace(']]>', ']]&gt;', $content);
+
+	//Get fields array
+	$fields = json_decode($content);
+
+	//open form element
+	$return = 	'<form class="mainform form_shortcode '.($labels_pos == "top" ? "labels_top" : "").'">';
+	$return .=		"<input type='hidden' name='pq_email_to' value='$to'/>";
+	$return .=		"<input type='hidden' name='pq_title' value='$title'/>";
+
+	//make fields
+	foreach($fields as $field){
+		$return .=	plusquare_contact_field_func($field);
 	}
 
+	//Success and error message
+	$return .= 		'<div class="row on_success" style="display:none;"><div class="col-md-10 col-md-offset-2">'.do_shortcode("[message_box type='success']".$success."[/message_box]").'</div></div>';
+	$return .= 		'<div class="row on_error" style="display:none;"><div class="col-md-10 col-md-offset-2">'.do_shortcode("[message_box type='error']".$error."[/message_box]").'</div></div>';
 
-	if(WP_DEBUG)fb::log($button);
+
+	//Sanitize button
+	$button = str_replace("&laquo;&nbsp;", '"', $button);
+	$button = str_replace("&laquo;", '"', $button);
+	$button = str_replace("&Prime;", '"', $button);
+	$button = str_replace("&nbsp;&raquo;", '"', $button);
+	$button = str_replace("&raquo;", '"', $button);
+	$button = str_replace("«", '"', $button);
+	$button = str_replace("»", '"', $button);
+	$button = str_replace("&#8243;", '"', $button);
+	$button = str_replace("&#8222;", '"', $button);
+
+	//button
+	$return .= 		'<div class="row"><div class="col-md-2"><p>&nbsp;</p></div><div class="col-md-10" style="margin: '.$submit_margin.'; text-align: '.$submit_align.';">'.do_shortcode("[button]".$button."[/button]").'</div></div>';
 	
-	return '<form class="mainform form_shortcode '.($labels_pos == "top" ? "labels_top" : "").'">
-				<input type="hidden" name="pq_email_to" value="'.$to.'"/>
-				<input type="hidden" name="pq_title" value="'.$title.'"/>
-				'.do_shortcode($content).'
-				<div class="row on_success" style="display:none;"><div class="col-md-10 col-md-offset-2">'.do_shortcode("[message_box type='success']".$success."[/message_box]").'</div></div>
-				<div class="row on_error" style="display:none;"><div class="col-md-10 col-md-offset-2">'.do_shortcode("[message_box type='error']".$error."[/message_box]").'</div></div>
-				<div class="row"><div class="col-md-10 col-md-offset-2" style="margin: '.$submit_margin.'; text-align: '.$submit_align.';">'.do_shortcode($button).'</div></div>
-			</form>';
+	//close form
+	$return .=	'</form>';
+
+	return $return;
 }
 add_shortcode( 'contact_form', 'plusquare_contact_form_func' );
 
-function plusquare_contact_field_func( $atts, $content ){
-	extract( shortcode_atts( array(
-		"type" => "text",
-		"required" => "true"
-	), $atts ) );
+function plusquare_contact_field_func( $field ){
+	$type = $field->type;
+	$required = $field->required;
+	$content = $field->label;
 	
 	//Label
 	$label = '<div class="col-md-2"><p>'.$content.'</p></div>';
@@ -2891,7 +2907,6 @@ function plusquare_contact_field_func( $atts, $content ){
 		
 	return '<div class="row">'.$label.'<div class="col-md-10">'.$input.'</div></div>';
 }
-add_shortcode( 'contact_field', 'plusquare_contact_field_func' );
 			
 //Contact form shortcode options
 $essenza_shortcodes_options["contact_form"] = array(
@@ -2901,72 +2916,10 @@ $essenza_shortcodes_options["contact_form"] = array(
 	"icon" => "images/page_builder/Modules/contact_form.png",
 	"options" => array(
 		array(
-			"label" => "Email To",
-			"id" => "contact_form_to",
-			"type" => "text",
-			"default" => get_bloginfo('admin_email'),
-			"associate" => "to",
-			"help" => "Email to where the emails are sent to!",
-			"alert" => "Emails might go to your spam box on some mail services!"
-		),
-		array(
-			"label" => "Email Title",
-			"id" => "contact_form_title",
-			"type" => "text",
-			"default" => "Email from one of my site's user",
-			"associate" => "title",
-			"info" => "You can add a subject field on the form to let the users put a subject for each email!",
-			"help" => "The title that each email will have when arriving you email box by default"
-		),
-		array(
-			"label" => "Labels Positioning",
-			"id" => "contact_form_labels_position",
-			"type" => "combobox",
-			"options" => array("Left", "Top"),
-			"values" => array("left", "top"),
-			"default" => "left",
-			"associate" => "labels_pos",
-			"help" => "The position of the fields' labels. On the left of the input field or over the top."
-		),
-		array(
-			"label" => "On Success Text",
-			"id" => "contact_form_success",
-			"type" => "text",
-			"default" => "Message sent! Thanks for contacting us!",
-			"associate" => "success",
-			"help" => "Text to display when message has been sent successfuly"
-		),
-		array(
-			"label" => "On Error Text",
-			"id" => "contact_form_error",
-			"type" => "text",
-			"default" => "One or more fields are invalid!",
-			"associate" => "error",
-			"help" => "Text to display when message has NOT been sent successfuly"
-		),
-		array(
-			"label" => "Contact Form Fields",
-			"id" => "contact_form_builder",
-			"type" => "contact_form_builder",
+			"label" => "Contact Form",
+			"id" => "contact_form_picker",
+			"type" => "contact_form_picker",
 			"associate" => "content"
-		),
-
-		array(
-			"label" => "Submit Button Margin",
-			"id" => "contact_form_button_margin",
-			"type" => "text",
-			"default" => "0px",
-			"associate" => "submit_margin",
-			"info" => "Margin in css format (-top-px -right-px -bottom-px -left-px  OR  -vertical-px -horizontal-px  OR  -all-px)"
-		),
-		array(
-			"label" => "Submit Button Align",
-			"id" => "contact_form_button_align",
-			"type" => "combobox",
-			"options" => array("Left", "Center", "Right"),
-			"values" => array("left", "center", "right"),
-			"default" => "left",
-			"associate" => "submit_align"
 		)
 	)
 );
@@ -3059,10 +3012,11 @@ function plusquare_google_maps_func( $atts, $styles ){
 
 	return '<div style="height:'.$height.'px;"><div id="g_map_'.$mapId.'" class="g_map" style="height:'.$height.'px; margin:0;"></div></div>
 			<script>
-				function plusquare_initialize() {
-					$("body").addClass("googleInitiated").trigger("googleInitiated");
-				}
-				(function(){
+				require(["jquery"], function($){ $(document).ready(function(){
+					window.plusquare_initialize = function() {
+						$("body").addClass("googleInitiated").trigger("googleInitiated");
+					}
+
 					var body = $("body");
 					
 					function plusquare_initiateThis(){
@@ -3101,7 +3055,7 @@ function plusquare_google_maps_func( $atts, $styles ){
 						plusquare_initiateThis();
 					else
 						body.bind("googleInitiated", plusquare_initiateThis);
-				})();
+				})});
 			</script>';
 }
 add_shortcode( 'google_maps', 'plusquare_google_maps_func' );

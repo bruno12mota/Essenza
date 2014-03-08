@@ -45,6 +45,11 @@ function make_option($option, $typeOption = "post_meta", $init_value = NULL){
                     <a href="#" id="add_new_style_to_palette">Add new style</a>
                     <?php
                 }
+                else if($type == "contact_form_builder"){
+                    ?>
+                    <a href="#" id="add_new_contact_field">Add new field</a>
+                    <?php
+                }
             ?>
         </h2>
         <?php
@@ -56,7 +61,7 @@ function make_option($option, $typeOption = "post_meta", $init_value = NULL){
     //OPTION
 	
     ?>
-    <div class="option_holder" style=" <?php echo ($type=='page_builder' || $type=='sidebar_builder' || $type=='tabs_unbinded')  ? 'overflow:visible;' : ''; ?><?php echo $hidden; ?>">
+    <div class="option_holder" style=" <?php echo ($type=='page_builder' || $type=='sidebar_builder' || $type=='contact_form_builder' || $type=='tabs_unbinded')  ? 'overflow:visible;' : ''; ?><?php echo $hidden; ?>">
     
     <?php
     //INFO
@@ -82,7 +87,7 @@ function make_option($option, $typeOption = "post_meta", $init_value = NULL){
     }
     
     ?>
-    <div class="meta_option<?php echo (($type == "page_builder" || $type == "import_dummy" || $type == "pages_posts_picker" || $type == "orderable_list" || $type == "color_palette" || $type == "contact_form_builder" || $type == "button_picker" || $type == "tabbing_builder" || $type == "accordion_builder" || $type == "sidebar_picker" || $type == "slide_element" || $type == "text_block_picker" || $type == "tabs" || $type == "ken_burns" || $type == "rich_editor" || $type == "slider_builder" || $type == "tabs_unbinded" || $type == "media_picker" || $type == "google_fonts_picker") ? "_full" : ""); ?>">
+    <div class="meta_option<?php echo (($type == "page_builder" || $type == "import_dummy" || $type == "pages_posts_picker" || $type == "orderable_list" || $type == "color_palette" || $type == "contact_form_builder" || $type == "contact_form_picker" || $type == "button_picker" || $type == "tabbing_builder" || $type == "accordion_builder" || $type == "sidebar_picker" || $type == "slide_element" || $type == "text_block_picker" || $type == "tabs" || $type == "ken_burns" || $type == "rich_editor" || $type == "slider_builder" || $type == "tabs_unbinded" || $type == "media_picker" || $type == "google_fonts_picker") ? "_full" : ""); ?>">
     <?php
     
     $value = "";
@@ -105,7 +110,7 @@ function make_option($option, $typeOption = "post_meta", $init_value = NULL){
     
 		
 
-    if( $value === FALSE || $value === NULL){
+    if( $value === FALSE || $value === NULL || $value === ""){
         $value = isset($option["default"]) ? $option["default"] : "";
     }
     
@@ -227,6 +232,10 @@ function make_option($option, $typeOption = "post_meta", $init_value = NULL){
 	//Contact form builder
 	else if($type == "contact_form_builder")
         new pq_contact_form_builder($option["id"], $value);
+        
+    //Contact form picker
+    else if($type == "contact_form_picker")
+        new pq_contact_form_picker($option["id"], $value);
 		
     //Kenburns
     else if($type == "ken_burns")

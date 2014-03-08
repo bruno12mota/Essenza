@@ -112,7 +112,7 @@ class pq_fonts_picker {
 				//FontPicker
 				require(["ui/FontPicker"],
 					function(FontPicker){
-						new FontPicker("<?php echo $id; ?>", <?php echo $value === FALSE || $value === "" ? '{"items":[]}' : $value; ?>);
+						new FontPicker("<?php echo $id; ?>", <?php echo ($value === FALSE || $value === "" ? '{"items":[]}' : $value); ?>);
 					}
 				);
 			

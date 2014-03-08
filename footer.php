@@ -47,7 +47,10 @@ if($essenza_is_old_ie !== true){
 					"behance",
 					"flickr",
 					"rss",
-          "linkedin"
+          "linkedin",
+          "envato",
+          "tumblr",
+          "instagram"
 				);
 				
 				$has_social = false;

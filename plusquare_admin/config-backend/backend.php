@@ -14,6 +14,8 @@ include_once('php/enqueues.php');
 include_once('php/pq_options.php');
 include_once('php/pq_meta_box.php');
 
+include_once("config-pages/pages.php");
+
 
 
 //Prevent user from rich editing

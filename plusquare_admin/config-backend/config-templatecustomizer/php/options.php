@@ -10,8 +10,7 @@ $plusquare_template_options = array(
           "tabs" => array(
 
 			//Dummy content/options import
-				// -> Add images of each preview
-          		// -> Change import method
+				// -> New import method graphics
 			array(
 				"name" => "Dummy Content",
 				"options" => array(
@@ -24,10 +23,18 @@ $plusquare_template_options = array(
 			),
 
 			//Navigation
-				// -> Disable ajax pages loading option
 			array(
 				"name" => "Navigation",
 				"options" => array(
+					array(
+						"label" => "Disable",
+						"id" => $pq_shortname."_disable_ajax",
+						"type" => "checkbox",
+						"values"=> array("false", "true"),
+						"default" => "false",
+						"info" => "Disable ajax pages loading, this will make your site to reload every time a user visists a different page."
+					),
+
 					array(
 						"label" => "Use Static Page/Post",
 						"id" => "show_on_front",
@@ -428,6 +435,24 @@ $plusquare_template_options = array(
 						"id" => $pq_shortname."_rss_link",
 						"type" => "text",
 						"help" => "The link for your rss feed, leave blank if you don't want this button on the site's footer."
+					),
+					array(
+						"label" => "Envato Link",
+						"id" => $pq_shortname."_envato_link",
+						"type" => "text",
+						"help" => "The link for your envato profile, leave blank if you don't want this button on the site's footer."
+					),
+					array(
+						"label" => "Tumblr Link",
+						"id" => $pq_shortname."_tumblr_link",
+						"type" => "text",
+						"help" => "The link for your tumblr profile, leave blank if you don't want this button on the site's footer."
+					),
+					array(
+						"label" => "Instagram Link",
+						"id" => $pq_shortname."_instagram_link",
+						"type" => "text",
+						"help" => "The link for your instagram profile, leave blank if you don't want this button on the site's footer."
 					)
 				)
 			),

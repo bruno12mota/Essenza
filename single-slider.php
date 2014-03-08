@@ -1,13 +1,15 @@
+<?php /* Template Name: Slider */ ?>
+
 <?php get_header(); ?>
 
-<?php
-//Not For IE <8
-global $essenza_is_old_ie;
-if($essenza_is_old_ie !== true){
+
+<?php global $post; fb::log($post); 
+
+if($post->post_type == "page"){
+	$post = get_post( get_post_meta($post->ID, "slider_option", true) );
+	fb::log($post);
+}
 ?>
-
-
-<?php global $post; ?>
 
 <!-- make it full window -->
 <div id="page-wraper-full" class="full-window">
@@ -42,8 +44,5 @@ if($essenza_is_old_ie !== true){
 </div>
 <!-- END PAGE WRAPER -->
 
-<?php
-}
-?>
 
 <?php get_footer();

@@ -180,6 +180,50 @@ function pq_get_color_options_fun() {
   exit;
 }
 
+
+//Get New/Edit Contact field options
+add_action( 'wp_ajax_pq_get_contact_field_options', 'pq_get_contact_field_options_fun' );
+function pq_get_contact_field_options_fun(){
+  $type = isset($_POST['type']) ? $_POST['type'] : "text";
+  $required = isset($_POST['required']) ? $_POST['required'] : "true";
+  $label = isset($_POST['label']) ? $_POST['label'] : "";
+
+  $plusquare_color_options = array(
+    array(
+      "label" => "Field Type",
+      "id" => "pq_field_option_type",
+      "info" => "The type of field you want this option to be.",
+      "type" => "combobox",
+      "options" => array("Text", "Name", "Email", "Subject", "Textarea", "Checkbox", "Combobox"),
+      "values" => array("text", "name", "email", "subject", "textarea", "checkbox", "combobox"),
+      "default" => $type
+    ),
+    array(
+      "label" => "Required Field",
+      "id" => "pq_field_option_required",
+      "help" => "Check if you want this fiel to be required to fill by your users.",
+      "type" => "checkbox",
+      "values" => array("false", "true"),
+      "default" => $required
+    ),
+    array(
+      "label" => "Field Label",
+      "id" => "pq_field_option_label",
+      "info" => "The text that describes the option.",
+      "type" => "text",
+      "default" => $label
+    )
+  );
+  
+  // response output
+  foreach ( $plusquare_color_options as $option) {
+    //Make option
+    make_option($option);
+  }
+
+  exit;
+}
+
 //Get New/Edit Color options
 add_action( 'wp_ajax_nopriv_pq_get_pages_posts', 'pq_get_pages_posts_fun' );
 add_action( 'wp_ajax_pq_get_pages_posts', 'pq_get_pages_posts_fun' );
@@ -187,7 +231,9 @@ function pq_get_pages_posts_fun() {
   $option = array(
       "label" => "Pages and Posts",
       "id" => "pq_pages_posts_picker",
-      "type" => "pages_posts_picker"
+      "type" => "pages_posts_picker",
+      "info" => "We recommend you select a page type, selecting a post of other type will make the url of your homepage redirect to the choosen post.",
+      "alert" => "For fullscreen sliders you need to create a page and select the slider template and choose the slider you want in the options, then it'll show up for you to choose here."
   );
   
   //Make option

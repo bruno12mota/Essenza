@@ -8,14 +8,13 @@
 <?php
 set_time_limit(0);
 
-$url = "http://plusquare.pt/Essenza_images/sidebar.zip";
-
-$zip_path = "../wp-content/uploads/media.zip";
+$url = "http://plusquare.pt/Essenza_images/creative.zip";
+$target_file = "media.zip";
 $target_path = "../../../../../uploads/";
 
-echo '<div class="ui_progress" style="height:40px; display:block; background-color: #efefef;">';
-echo  '<div class="progress" id="load-progress-bar"></div>';
-echo '</div>';
+//echo '<div class="ui_progress" style="height:40px; display:block; background-color: #efefef;">';
+//echo  '<div class="progress" id="load-progress-bar"></div>';
+//echo '</div>';
 
 ob_flush();
 flush();
@@ -23,30 +22,37 @@ flush();
 $it = 0;
 function progress_import_dummy($download_size, $downloaded, $upload_size, $uploaded = null){
 	global $it;
-    if($download_size > 0 && $it++ > 50){
-    	$it = 0;
-		$percentage = $downloaded/$download_size * 100;
-		echo '<script>document.getElementById("load-progress-bar").setAttribute("style", "background-color:#0074A2; height: 40px; width:'.$percentage.'%;");</script>';
+  $it++;
+  if($it > 200 || $download_size == $downloaded){
+    if($download_size > 0){
+      $it = 0;
+      $percentage = $downloaded/$download_size * 100;
+      echo '<script>window.parent.progressOptions('.$percentage.');</script>';
+      
+      ob_flush();
+      flush();
     }
-         //echo $downloaded / $download_size  * 100;
+  }
 }
 
-$ch = curl_init();
 
-$file = fopen('item.zip','w');
+$file = fopen($target_file, 'w');
+
+$ch = curl_init($url);
 curl_setopt($ch, CURLOPT_FILE, $file); //auto write to file
 
-curl_setopt($ch, CURLOPT_URL, $url);  
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_PROGRESSFUNCTION, 'progress_import_dummy');
 curl_setopt($ch, CURLOPT_NOPROGRESS, false); // needed to make progress function work
+//curl_setopt($ch, CURLOPT_TIMEOUT, 400);
+/*curl_setopt($ch, CURLOPT_URL, $url);  
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_HEADER, 0);
 curl_setopt($ch, CURLOPT_BINARYTRANSFER,true);
 curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
 curl_setopt($ch, CURLOPT_TIMEOUT, 400);
  curl_setopt($ch, CURLOPT_FAILONERROR, true);
  curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, 0);  
- curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, 0);   
+ curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, 0);  */ 
 
 $page = curl_exec($ch);
 
@@ -67,7 +73,7 @@ if (! $zip) {
   exit;  
 }  
 
-$x = $zip->open("$file");
+$x = $zip->open($target_file);
 if ($x === true) {
   $zip->extractTo($target_path);
   $zip->close();
@@ -79,6 +85,16 @@ else {
 }
 
 echo $message;
+
+echo "<script>
+    // we're deeper than one down
+    window.parent.loadOptions();
+</script>";
+
+ob_flush();
+flush();
+
+unlink($target_file);
 
 ?>
 	</body>

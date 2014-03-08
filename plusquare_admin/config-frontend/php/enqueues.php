@@ -64,6 +64,7 @@ function essenza_scripts() {
 		'esza_submenu_indication' => get_option("esza_submenu_indication", "true"),
 		'esza_submenu_indication_icon' => get_option("esza_submenu_indication_icon", "fa-angle-down"),
 		'esza_menu_min_margin' => get_option("esza_menu_min_margin", "25px"),
+		'esza_disable_ajax' => get_option("esza_disable_ajax", "false"),
 		'esza_url' => home_url()
 	);
 	wp_localize_script( 'essenza-js', 'directory', $WP_DIRECTORY );

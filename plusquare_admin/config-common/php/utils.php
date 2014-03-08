@@ -1,6 +1,38 @@
 <?php
 
 
+
+/*
+ *  Returns true if user's browser is unsupported
+*/
+function is_unsupported_browser(){
+  preg_match('/MSIE (.*?);/', $_SERVER['HTTP_USER_AGENT'], $matches);
+  
+  if (count($matches)>1){
+    //Then we're using IE
+    $version = $matches[1];
+    if($version<8){
+      return true;
+    }
+  }
+
+  return false;
+}
+
+
+
+
+/*
+ *  Sanitize Strings
+*/
+function plusquare_single_quotes_html($str){
+  return str_replace("'", "&#39;", $str);
+}
+
+
+
+
+
 /*
  *  Gets the pixel ratio
 */

@@ -19,14 +19,17 @@ class pq_pages_posts_picker{
 		?>
         <input type="text" value="" id="<?php echo $id; ?>" name="<?php echo $id; ?>" style="display:none;"/>
 
-        <div class="pp_picker_filter">
-        	<a href="#" data-type="page">Pages</a>
-        	<a href="#" data-type="slider">Sliders</a>
-        	<a href="#" data-type="post">Blog Posts</a>
-        	<a href="#" data-type="portfolio">Portfolio Works</a>
-        </div>
-        <div class="pp_picker_loading">Loading Posts <img src="<?php echo get_template_directory_uri(); ?>/plusquare_admin/config-backend/images/ui/loading.gif" /></div>
-        <div class="pp_picker_list"></div>
+        <div class="ui_tabs">
+	        <div class="ui_tabs_menu pp_picker_filter">
+	        	<a href="#" data-type="page">Pages</a>
+	        	<a href="#" data-type="post">Blog Posts</a>
+	        	<a href="#" data-type="portfolio">Portfolio Works</a>
+	        </div>
+	        <div class="ui_tabs">
+	        	<div class="pp_picker_loading">Loading Posts <img src="<?php echo get_template_directory_uri(); ?>/plusquare_admin/config-backend/images/ui/loading.gif" /></div>
+	        	<div class="pp_picker_list"></div>
+	        </div>
+	    </div>
 
 
         <script type="text/javascript">

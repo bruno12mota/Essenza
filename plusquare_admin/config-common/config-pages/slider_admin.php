@@ -40,7 +40,7 @@ function pq_slider() {
 		'query_var' => true,
 		'menu_icon'=> "dashicons-images-alt2",
 		'rewrite' => true,
-		'capability_type' => 'post',
+		'capability_type' => 'page',
 		'hierarchical' => false,
 		'supports' => array( 'title', 'editor')
 		)
@@ -50,22 +50,3 @@ function pq_slider() {
 	flush_rewrite_rules();
 }
 
-
-
-/*
-*  Actions performed only in the backend
-*/
-if(is_admin()){
-	/*
-	*  Create new pq meta box with the options set
-	*/
-	$slider_meta_options = array(
-	    array(
-			"label" => "Slider Builder",
-	         "id" => "slider_builder_id",
-			"type" => "slider_builder"
-		)
-	);
-
-	new pq_meta_box($slider_meta_options, "slider", false);
-}
