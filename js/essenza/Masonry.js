@@ -89,19 +89,26 @@ define(["jquery",
     	},
 
     	ensureLoad: function(){
-    		var $loadableItems = this.$holder.find('img, .slider');
+    		var $loadableItems = this.$holder.find('img, .slider').not(".slider img");
     		// get number of loadable elements
 			var num = $loadableItems.length;
 			// counter to keep track of number of elements that are done loading
 			var counter = 0;
 
+			var load_timeout;
+
 			// if there are one or more elements that need to load, bind events to them.
 			if (num > 0) {
+			    load_timeout = setTimeout($.proxy(this.allElementsAreLoaded, this), 2000);
 			    $loadableItems.ensureLoad($.proxy(function(){
-			            counter++;
-			            if(WP_DEBUG)console.log("loaded "+counter+"/"+num);
-			            if (counter == num) 
-			                  this.allElementsAreLoaded();
+			    	clearTimeout(load_timeout);
+		            counter++;
+		            if(WP_DEBUG)console.log("loaded "+counter+"/"+num);
+
+		            if (counter == num && this.loadingFurnace) 
+		                  this.allElementsAreLoaded();
+		            else
+			    		load_timeout = setTimeout($.proxy(this.allElementsAreLoaded, this), 2000);
 			      }, this));
 			} 
 			else 
@@ -150,12 +157,14 @@ define(["jquery",
     		//Clear timeout (precaution)
     		clearTimeout(this.showItemsTimeout);
     		
-    		//Show item
-    		this.items[this.itemsShown++].addClass("appear");
-    		
-    		//Show next
-    		if(this.itemsShown < this.items.length)
-    			this.showItemsTimeout = setTimeout($.proxy(this.showItem, this), 60);
+    		if(this.items[this.itemsShown] != undefined){
+	    		//Show item
+	    		this.items[this.itemsShown++].addClass("appear");
+	    		
+	    		//Show next
+	    		if(this.itemsShown < this.items.length)
+	    			this.showItemsTimeout = setTimeout($.proxy(this.showItem, this), 60);
+    		}
     	},
     	
     	

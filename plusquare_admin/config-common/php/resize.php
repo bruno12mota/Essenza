@@ -148,6 +148,8 @@ function pq_get_image_resized_fun($url, $width, $height, $crop, $retina, $snap, 
 	list($original_width, $original_height, $orig_type) = $size;
 
 	$json = pq_calculate_resized_url(array($url, $width, $height, $original_width, $original_height, $crop, $retina, $snap, $snapValue, $align, $adjust));
+
+	return $json;
 }
 
 

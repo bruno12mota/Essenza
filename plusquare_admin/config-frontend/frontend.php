@@ -556,6 +556,7 @@ function plusquare_make_featured_content($post_media_type, $postId, $maxWidth = 
 	if($post_media_type == "image"){
 		$image = wp_get_attachment_image_src( get_post_meta($postId, "post_image", true) , "full");
 		$imageUrl = $image[0];
+
 		if($imageUrl != ""){
 			//Has an image available
 			if($overview)
@@ -577,7 +578,7 @@ function plusquare_make_featured_content($post_media_type, $postId, $maxWidth = 
 			$height =intval($height);
 			
 			$resized_obj = pq_get_image_resized_fun($imageUrl, $maxWidth, $height, !($height==0), $pixel_ratio>1, false, false, $crop_align, false);
-
+			
 			$imageUrl = $resized_obj["url"];
 			?>
             <a class="dynamic_loading" href="<?php echo get_permalink( $postId ); ?>">

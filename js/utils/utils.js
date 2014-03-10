@@ -54,7 +54,7 @@ jQuery.fn.extend({
                 handler.call(this);
             }
             else {
-                $(this).load(handler);
+                $(this).one("load", handler);
 
                 if(isIE && this.src.indexOf("?") == -1)
                     this.src = this.src+ "?" + new Date().getTime();
