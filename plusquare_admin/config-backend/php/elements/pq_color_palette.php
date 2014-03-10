@@ -22,7 +22,7 @@ class pq_color_palette {
 		//Check if empty
 		$unslashed_value = $unslashed_value === "" || $unslashed_value === FALSE ? "[]" : $unslashed_value;
 
-		fb::log($unslashed_value);
+		if(WP_DEBUG)fb::log($unslashed_value);
 		?>
         <input type="text" value="" id="<?php echo $id; ?>" name="<?php echo $id; ?>" style="display:none;"/>
 
