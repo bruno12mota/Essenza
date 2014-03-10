@@ -11,6 +11,17 @@ $essenza_title = get_bloginfo('name').wp_title(" | ", FALSE);
 $essenza_is_old_ie = is_unsupported_browser();
 
 
+//Welcome Message
+$useWelcome = get_option("esza_use_welcome");
+if($useWelcome == "true"){
+	$whenWelcome = get_option("esza_when_welcome");
+	
+	if( empty($_COOKIE['first_time']) ) {
+		$refreshIn = ($whenWelcome == "once_day" ? 86400 : ($whenWelcome == "once_week" ? 604800 : 157680000 ) );
+		setcookie("first_time", 1, time()+$refreshIn);  /* (seconds)*/
+	}
+}
+
 
 
 //START OF FRESH LOADED PAGE CODE
@@ -145,7 +156,6 @@ if($essenza_is_old_ie === true){
 
     <?php
 	//Welcome Message
-	$useWelcome = get_option("esza_use_welcome");
 	
 	function showWelcomeMessage(){
 		?>
@@ -163,15 +173,11 @@ if($essenza_is_old_ie === true){
 	}
 	
 	if($useWelcome == "true"){
-		$whenWelcome = get_option("esza_when_welcome");
-		
-		if ( $whenWelcome == "everytime")
+		if ( $whenWelcome == "everytime"){
 			showWelcomeMessage();
+		}
 		else if( empty($_COOKIE['first_time']) ) {
 			showWelcomeMessage();
-			
-			$refreshIn = ($whenWelcome == "once_day" ? 86400 : ($whenWelcome == "once_week" ? 604800 : 157680000 ) );
-			setcookie("first_time", 1, time()+$refreshIn);  /* (seconds)*/
 		}
 	}
 	//Welcome Message End
