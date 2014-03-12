@@ -1,0 +1,1 @@
+SocialVideosSerial=0;function onYouTubeIframeAPIReady(){jQuery(document).ready(function(a){a("body").addClass("YouTubeLoaded").trigger("YouTubeLoaded")})}window.dmAsyncInit=function(){jQuery(document).ready(function(a){a("body").addClass("DailymotionLoaded").trigger("DailymotionLoaded")})};

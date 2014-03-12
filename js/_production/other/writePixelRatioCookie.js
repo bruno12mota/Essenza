@@ -1,0 +1,1 @@
+function setCookie(c,d,a){var b=new Date;b.setTime(b.getTime()+864E5*a);a="expires="+b.toGMTString();document.cookie=c+"="+d+"; "+a}window.devicePixelRatio=window.devicePixelRatio||Math.round(window.screen.availWidth/document.documentElement.clientWidth);setCookie("pixel_ratio",window.devicePixelRatio,300);

@@ -1,0 +1,1 @@
+define("jquery",[],function(){return jQuery});requirejs.config({baseUrl:directory.path,deps:"jquery ui-elements ui/Accordion ui/FontPicker libraries/inheritance utils/utils PageBuilder StackBuilder SliderBuilder/SliderEditor Lightbox/Lightbox".split(" ")});
