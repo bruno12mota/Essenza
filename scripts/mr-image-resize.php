@@ -36,6 +36,7 @@ function mr_image_resize($url, $width=null, $height=null, $crop=true, $align='c'
   // ... Otherwise, return error, null or image
   else return $common;
 
+
   if($ext == 'ico')
     return $url;
 

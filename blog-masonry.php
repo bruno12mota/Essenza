@@ -28,12 +28,16 @@ if($essenza_is_old_ie !== true){
     
 	<script>
 		jQuery(document).ready(function ($){
-			require(["essenza/Masonry", "essenza/DynamicLoading", "essenza/Lightbox"],
+			require(["essenza/Masonry", "essenza/DynamicLoading", "essenza/Lightbox", "jquery/jquery.easing.1.3"],
 				function(Masonry, dynamicLoadingButton, Lightbox){
 					var masonryGrid = new Masonry( $( '#masonry-holder' ) , ".masonry-post" , 440, 1, "pq_get_blog_posts", "<?php echo $post->ID; ?>");
 
 					var $works = $( '#masonry-holder' ).find(">.masonry-post");
-					<?php plusquare_get_filter_menu_js(); ?>
+					<?php 
+	    			if($filterMenu == "true"){
+	    				plusquare_get_filter_menu_js();
+	    			}
+	    			?>
 
 					var first = true;
 					$(masonryGrid).bind("added", function(){

@@ -10,6 +10,7 @@ var esza_menu_min_margin = parseInt(directory["esza_menu_min_margin"], 10);
 require(["jquery",
 		"other/Dragable", 
 		"jquery/jquery.mobile.vmouse",
+        "jquery/jquery.easing.1.3",
 		"utils/utils",
 		"essenza/Cover"], function($, Dragable) {
 

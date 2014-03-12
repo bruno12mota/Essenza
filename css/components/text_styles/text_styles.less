@@ -319,37 +319,6 @@ textarea{
     min-height: 170px;   
 }
 
-textarea, 
-input[type="text"], 
-input[type="password"], 
-input[type="datetime"], 
-input[type="datetime-local"], 
-input[type="date"], 
-input[type="month"], 
-input[type="time"], 
-input[type="week"], 
-input[type="number"], 
-input[type="email"], 
-input[type="url"], input[type="search"], input[type="tel"], input[type="color"]{
-    background-color: @esza_form_fields_background_color;
-    border: 1px solid @esza_form_fields_border_color;
-    color: @esza_form_fields_text_color;
-    
-    .roundedCorners (@esza_contact_forms_round_corners, @esza_contact_forms_round_corners, @esza_contact_forms_round_corners, @esza_contact_forms_round_corners);
-    
-    &:focus{
-        border-color: @esza_form_fields_border_over_color !important;
-        box-shadow: 0 0 !important;
-        outline: none !important;
-    }
-    
-    &.big{
-        font-size: 25px;   
-        height: 45px;
-        padding: 0px 12px;
-    }
-}
-
 
 //RICH EDITOR ALUSIVE
 .cke_panel_block{

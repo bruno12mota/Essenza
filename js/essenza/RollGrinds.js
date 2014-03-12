@@ -3,8 +3,8 @@ require(["jquery"], function($){
 	plusquare_runtime_javascript = function(dynamic_loaded, animate_scroll, to_scroll){
 
 		//Shortcodes
-		require(["jquery", "essenza/Shortcodes"],
-			function($){
+		require(["essenza/Shortcodes"],
+			function(){
 				$(document).ready(function(){
 					runShortcodes();
 
@@ -49,8 +49,8 @@ require(["jquery"], function($){
 		);
 
 		//Lightbox
-		require(["jquery", "essenza/Lightbox"],
-			function($, Lightbox){
+		require(["essenza/Lightbox"],
+			function(Lightbox){
 				$(document).ready(function(){
 					Lightbox.getElements();
 				});
@@ -58,7 +58,7 @@ require(["jquery"], function($){
 		);
 
 		//To top buttons
-		require(["jquery", "other/modernizr", "jquery/jquery.easing.1.3"], function($){
+		require(["other/modernizr", "jquery/jquery.easing.1.3"], function(){
 			jQuery(document).ready(function() {
 				var $to_top = $(".to_top_btn");
 				var $top_button = $(".to_top_btn");
@@ -97,7 +97,7 @@ require(["jquery"], function($){
 
 
 		//Window scroll with ease
-		require(["jquery", "other/modernizr", "jquery/jquery.mousewheel.min", "jquery/jquery.easing.1.3"], function($){
+		require(["other/modernizr", "jquery/jquery.mousewheel.min", "jquery/jquery.easing.1.3"], function(){
 			$(document).ready(function() {  
 				if(!Modernizr.touch && vars.mw_scroll == "true"){
 					var currentTop = $(window).scrollTop();
@@ -110,8 +110,8 @@ require(["jquery"], function($){
 
 					function scrollStep(){
 		            	var sum = (currentTop - current)/vars.mw_ease;
-		            	if(WP_DEBUG)console.log(current);
-		            	if(WP_DEBUG)console.log(currentTop);
+		            	//if(WP_DEBUG)console.log(current);
+		            	//if(WP_DEBUG)console.log(currentTop);
 
 		            	current += sum;
 
@@ -203,6 +203,7 @@ require(["jquery"], function($){
 				}
 			});
 		});
+
 	}
 
 	plusquare_runtime_javascript();

@@ -59,11 +59,17 @@ function plusquare_get_filter_menu_js(){
 	
 	$filter_horizontal = get_post_meta( $post->ID, "filter_horizontal", true );
 	$filter_vertical = get_post_meta( $post->ID, "filter_vertical", true );
+    $filter_always_open = get_post_meta( $post->ID, "filter_always_open", true);
 	$border = get_option("esza_site_border_size");
+
+    if($filter_always_open == ""){
+        $filter_always_open = "false";
+    }
 	
 	?>
     var horizontal = <?php echo $filter_horizontal; ?>/100;
     var vertical = <?php echo $filter_vertical; ?>/100;
+    var always_open = <?php echo $filter_always_open ?>;
     var $pageWraperFull = $(".easyBackground");
     var $filterMenu = $(".fitler_menu");
     var $header = $("#header");
@@ -175,6 +181,9 @@ function plusquare_get_filter_menu_js(){
                     .animate({"padding-right": "20px", "left": leftTo+<?php echo $border; ?> + "px"}, 400, "easeOutExpo");
     }
     function close(){
+        if(always_open){
+            return;
+        }
         clearInterval(closeInterval);
         opened = false;
         openButton.show();
@@ -193,12 +202,18 @@ function plusquare_get_filter_menu_js(){
     }
     openButton.click(openToggle);
     
-    $filterMenu.hover(function(){
-        clearInterval(closeInterval);
-    }, function(){
-        if(opened)
-        closeInterval = setInterval(close, 500);
-    });
+    if(!always_open){
+        $filterMenu.hover(function(){
+            clearInterval(closeInterval);
+        }, function(){
+            if(opened)
+            closeInterval = setInterval(close, 500);
+        });
+    }
+    else{
+        open();
+    }
+    
     
     function resize(){
     	var width = $filterMenu.outerWidth();

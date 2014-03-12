@@ -41,12 +41,17 @@ if($essenza_is_old_ie !== true){
 	<script>
 		jQuery(document).ready(function ($){
 			//Masonry grid
-			require(["essenza/Masonry", "essenza/Lightbox"],
+			require(["essenza/Masonry", "essenza/Lightbox", "jquery/jquery.easing.1.3"],
 				function(Masonry, Lightbox){
 					var masonryGrid = new Masonry( $( '#gallery-holder' ) , ".gallery-item" , <?php echo $max_thumb_width; ?>, 2, 'pq_get_gallery_posts', "<?php echo $post->ID; ?>");
 					
 					var $works = $( '#gallery-holder' ).find(">.gallery-item");
-					<?php plusquare_get_filter_menu_js(); ?>
+					
+					<?php 
+	    			if($filterMenu == "true"){
+	    				plusquare_get_filter_menu_js();
+	    			}
+	    			?>
 
 					var first = true;
 					$(masonryGrid).bind("added", function(){

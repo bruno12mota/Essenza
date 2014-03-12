@@ -10,6 +10,8 @@ define(["jquery", "utils/utils"], function($) {
     var $afterThis_load;
     var idAction_load;
 
+    var backs = [document.URL];
+
 	function changeContent(data){
 		var to = 0;
 		if(customVars){
@@ -117,6 +119,7 @@ define(["jquery", "utils/utils"], function($) {
         	if ( window.history.pushState != undefined )
             	window.history.pushState({path:pageurl},'',pageurl);
         }
+        backs.push(pageurl);
 	}
 
 	dynamicLoadingButton.prototype = {
@@ -184,9 +187,19 @@ define(["jquery", "utils/utils"], function($) {
 	    		popped = true;
 	    		return;
 	    	}
+
+	    	if(backs.length == 1){
+	    		return true;
+	    	}
+
+        	backs.pop();
+	    	var to = backs[backs.length-1];
+
+        	if(backs.length > 0)
+        		backs.pop();
 	    	
 	        //load page
-			loadUrlDynamic(location.pathname);
+			loadUrlDynamic(to);
 
 	    });
 	});

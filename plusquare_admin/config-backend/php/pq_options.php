@@ -87,7 +87,7 @@ function make_option($option, $typeOption = "post_meta", $init_value = NULL){
     }
     
     ?>
-    <div class="meta_option<?php echo (($type == "page_builder" || $type == "import_dummy" || $type == "pages_posts_picker" || $type == "orderable_list" || $type == "color_palette" || $type == "contact_form_builder" || $type == "contact_form_picker" || $type == "button_picker" || $type == "tabbing_builder" || $type == "accordion_builder" || $type == "sidebar_picker" || $type == "slide_element" || $type == "text_block_picker" || $type == "tabs" || $type == "ken_burns" || $type == "rich_editor" || $type == "slider_builder" || $type == "tabs_unbinded" || $type == "media_picker" || $type == "google_fonts_picker") ? "_full" : ""); ?>">
+    <div class="meta_option<?php echo (($type == "page_builder" || $type == "import_dummy" || $type == "combobox_options" || $type == "pages_posts_picker" || $type == "orderable_list" || $type == "color_palette" || $type == "contact_form_builder" || $type == "contact_form_picker" || $type == "button_picker" || $type == "tabbing_builder" || $type == "accordion_builder" || $type == "sidebar_picker" || $type == "slide_element" || $type == "text_block_picker" || $type == "tabs" || $type == "ken_burns" || $type == "rich_editor" || $type == "slider_builder" || $type == "tabs_unbinded" || $type == "media_picker" || $type == "google_fonts_picker") ? "_full" : ""); ?>">
     <?php
     
     $value = "";
@@ -237,6 +237,10 @@ function make_option($option, $typeOption = "post_meta", $init_value = NULL){
     else if($type == "contact_form_picker")
         new pq_contact_form_picker($option["id"], $value);
 		
+    else if($type == "combobox_options"){
+        new pq_combobox_options($option["id"], $value);
+    }
+
     //Kenburns
     else if($type == "ken_burns")
         new pq_ken_burns($option["id"], $value, isset($option["noRatio"]) ? $option["noRatio"] : false);

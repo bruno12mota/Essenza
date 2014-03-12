@@ -2843,8 +2843,6 @@ function plusquare_contact_form_func( $atts, $content ){
 		return;
 	}
 	$content = $content_post->post_content;
-	$content = apply_filters('the_content', $content);
-	$content = str_replace(']]>', ']]&gt;', $content);
 
 	//Get fields array
 	$fields = json_decode($content);
@@ -2904,6 +2902,29 @@ function plusquare_contact_field_func( $field ){
 		$input = "<input value='' data-required='".$required."' type='text' name='pq_email_subject'/>";
 	else if($type == "textarea")
 		$input = "<textarea data-required='".$required."' name='".$name."'></textarea>";
+	else if($type == "checkbox")
+		$input = "<a href='#' onclick='return false;' class='checkbox'><div class='checkbox_inner'></div><input value='' style='display:none;' data-required='".$required."' type='text' name='".$name."'/></a>";
+	else if($type == "combobox"){
+		$input  =	"<div class='combobox'>";
+		$input .= 		"<div class='combobox-holder'>";
+		$input .=			"<div class='selected-text'></div>";
+		$input .=			"<div class='status'><i class='fa-angle-down closed-status'></i><i class='fa-angle-up opened-status' style='display:none;'></i></div>";
+		$input .= 			"<div class='combobox-options-holder'>";
+
+		$options = json_decode($field->combobox);
+		if($options !== false){
+			foreach($options as $option){
+				$input .= "<div class='combobox-option'>$option</div>";
+			}	
+		}
+
+
+		$input .= 			"</div>";
+		$input .= 		"</div>";
+		$input .= 		"<input value='' style='display:none;' data-required='".$required."' type='text' name='".$name."'/>";
+		$input .= 	"</div>";
+		
+	}
 		
 	return '<div class="row">'.$label.'<div class="col-md-10">'.$input.'</div></div>';
 }

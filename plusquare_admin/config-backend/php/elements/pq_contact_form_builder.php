@@ -71,7 +71,7 @@ class pq_contact_form_builder {
 							$.each(
 								current_items,
 								function(index, item){
-									add_item(item["type"], item["label"], item["required"]);
+									add_item(item["type"], item["label"], item["required"], item["combobox"]);
 								}
 							);
 
@@ -88,7 +88,7 @@ class pq_contact_form_builder {
 
 
 						//Add Item Function
-						function add_item(type, label, required){
+						function add_item(type, label, required, combobox){
 							var icon = get_icon_by_type(type);
 
 							var $item = $(	'<i class="'+icon+'" style="line-height: 50px; font-size: 16px; text-align: center; width: 20px;"></i>'+
@@ -102,7 +102,8 @@ class pq_contact_form_builder {
 								current_items.push({
 									"type": type,
 									"label": label,
-									"required": required
+									"required": required,
+									"combobox": combobox
 								});
 								update_value();
 							}
@@ -142,8 +143,9 @@ class pq_contact_form_builder {
 							var type = $("#pq_field_option_type").val();
 							var label = $("#pq_field_option_label").val();
 							var required = $("#pq_field_option_required").val();
+							var combobox = $("#pq_field_option_combobox").val();
 
-							add_item(type, label, required);
+							add_item(type, label, required, combobox);
 
 							//Close lightbox
 							if(lightbox !== false)
@@ -165,11 +167,13 @@ class pq_contact_form_builder {
 							var type = $("#pq_field_option_type").val();
 							var label = $("#pq_field_option_label").val();
 							var required = $("#pq_field_option_required").val();
+							var combobox = $("#pq_field_option_combobox").val();
 
 							//Change on array
 							current_items[editing_id]["type"] = type;
 							current_items[editing_id]["label"] = label;
 							current_items[editing_id]["required"] = required;
+							current_items[editing_id]["combobox"] = combobox;
 
 							//Change on list item
 							orderable_list.changeTitle(null, editing_id, label);
@@ -200,7 +204,8 @@ class pq_contact_form_builder {
 					                'action' : 'pq_get_contact_field_options',
 					                'type' : current_items[id]["type"],
 					                'required': current_items[id]["required"],
-					                'label': current_items[id]["label"]
+					                'label': current_items[id]["label"],
+					                'combobox': current_items[id]["combobox"]
 					            },
 					            $.proxy(function( response ) {
 					                lightbox.addContent(response);

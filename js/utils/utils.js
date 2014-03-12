@@ -56,7 +56,7 @@ jQuery.fn.extend({
             else {
                 $(this).one("load", handler);
 
-                if(isIE && this.src.indexOf("?") == -1)
+                if(isIE && this.src != undefined && this.src.indexOf("?") == -1)
                     this.src = this.src+ "?" + new Date().getTime();
 
             }

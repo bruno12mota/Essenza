@@ -648,6 +648,12 @@ define(["jquery",
                         
                     
                 }
+                else{
+                    $("#content").val('[row snaps="0000"][column size="12" offset="0" content_align="left" use_paddings="false" padding=""] [raw ]'+content+'[/raw][/column][/row]')
+                    
+                    this.fromHtml();
+                    return;
+                }
                 
                 this.correctGrid();
             }         

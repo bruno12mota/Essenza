@@ -1,4 +1,4 @@
-define(["jquery", "essenza/MusicPlayer"], function($, MusicPlayer) {
+define(["jquery", "essenza/MusicPlayer", "utils/utils"], function($, MusicPlayer) {
     var tabsTweenSpeed = 150;
     var accordionTweenSpeed = 150;
 	
@@ -147,6 +147,242 @@ define(["jquery", "essenza/MusicPlayer"], function($, MusicPlayer) {
             return false;
         }
     }
+
+
+
+    //Checkbox
+    var Checkbox = function ($this){
+		this.values = ["Unchecked", "Checked"];
+		this.active = 0;
+		this.$checkbox = $this;
+		
+		$this.click($.proxy(this.click, this));
+	
+		//Make active (checked image)
+		this.$active = this.$checkbox.find(".checkbox_inner");
+
+		this.$input = this.$checkbox.find("input");
+		
+		//First update
+		this.update(false);
+	}
+	
+	Checkbox.prototype = {
+		update: function(animate){
+			var opc = 0
+			var time = 0;
+			
+			if(this.active)
+				opc = 1;
+				
+			if(animate)
+				time = 150;
+			
+			this.$active.fadeTo(time, opc);
+
+			this.$input.val(this.values[this.active==true?1:0]);
+		},
+
+		click: function(){
+			if(this.active)
+				this.active = false;
+			else
+				this.active = true;
+				
+	        $(this).trigger('change');
+			this.update(true);
+			
+			return false;
+		},
+		val:function(to){
+			//get
+		    if(to == undefined)
+	           return (this.active ? this.values[1]: this.values[0]);
+	        
+	        //change
+	        this.active = (to===this.values[1]);
+	        
+	        //update
+	        this.update();
+	    },
+		info:function(){
+			return this.active.toString();
+		}
+	}
+
+
+
+	//Combobox
+	var Combobox = function ($this){
+		this.active = 0;
+		this.opened = false;	
+		this.values = [];
+		this.options = new Array();
+		this.$combobox = $this;
+		
+		this.$input = this.$combobox.find("input");
+
+		//Set min width by parameter
+		var width = 150;
+		if(width != undefined){
+			$this.css({
+				"width": width,
+				"min-width": width
+			});
+		}
+			
+		
+		//Parse options
+		$(".combobox-option", $this).each($.proxy(function(id, val){
+			var $option = $(val);
+			this.options.push( $option );
+			$option.attr("rel", id);
+			this.hasOptions = true;
+
+			this.values.push($option.text());
+		}, this));
+
+		
+		//holder
+		this.$holder = this.$combobox.find(".combobox-holder");
+		
+		//selected text
+		this.$selectedText = this.$combobox.find(".selected-text");
+		
+		this.$optionsHolder = this.$combobox.find(".combobox-options-holder");
+
+		this.$closed_status = this.$combobox.find(".closed-status");
+		this.$opened_status = this.$combobox.find(".opened-status");
+
+		//First bind events
+		this.rebind();
+		
+		//IF HAS OPTIONS
+		if(this.hasOptions){
+			this.update(false);
+		}
+		else{
+			$this.stop().fadeTo(200, 0.7);
+			this.$selectedText.text("no options");
+		}
+		
+		//Bind options change
+		$this.bind("changeOptions", $.proxy(this.changeOptions, this));
+	}
+	
+	Combobox.prototype = {
+		rebind: function(){
+			this.$holder.click($.proxy(this.click, this)).hover($.proxy(this.interruptClose, this), $.proxy(this.closeDelay, this));
+
+			var _this = this;
+			var $this = this.$combobox;
+			for(var i=0 ; i < this.options.length ; i++)
+				this.options[i].click(function(){
+					_this.active = parseInt($(this).attr("rel"));
+					_this.update(true);
+		        
+		            	$(_this).trigger('change');
+		            	$this.trigger('change');
+				});
+		},
+		changeOptions: function(e, options, values, value){
+			this.options = new Array();
+			this.values = values;
+			
+			for(var i = 0;  i<options.length ; i++){
+				var $val = $('<div class="combobox-option">'+options[i]+'</div>').appendTo(this.$combobox);
+				$val.attr("rel", i);
+				this.options.push($val);
+			}
+			this.$options.remove();
+			this.$options = $(".combobox-option", this.$combobox).remove();
+			this.$options.appendTo(this.$optionsHolder);
+			
+			var _this = this;
+			for(var i=0 ; i < this.options.length ; i++)
+			this.options[i].click(function(){
+				_this.active = parseInt($(this).attr("rel"));
+				_this.update(true);
+	        
+            	$(_this).trigger('change');
+            	_this.$combobox.trigger('change');
+			});
+		
+			if(value != undefined)
+				this.val(value);
+			else
+				this.update(false);
+		},
+		update: function(animate){
+			var time = 0;
+			
+			if(animate)
+				time = 150;
+
+			if(this.active < 0 || this.active >= this.options.length)
+				this.active = 0;
+			
+			this.$selectedText.fadeTo(time, 0, $.proxy(function(){
+				this.$selectedText.html(this.options[this.active].html()).fadeTo(time, 1);
+			}, this));
+
+			this.$input.val( this.options[this.active].html() );
+			
+			$(this).trigger('change');
+		},
+		open: function(){
+			this.$holder.css({
+				"height":28+parseInt(this.$optionsHolder.height(), 10)+"px"
+			}).addClass("opened");
+
+			this.$closed_status.hide();
+			this.$opened_status.show();
+			
+			this.opened = true;
+		},
+		close: function(){
+			this.$holder.css({
+				"height":28+"px"
+			}).removeClass("opened");
+
+			this.$closed_status.show();
+			this.$opened_status.hide();
+			
+			this.opened = false;
+		},
+		closeDelay:function(){
+			if(!ismobile)
+			this.timer = setTimeout($.proxy(this.close, this), 300);
+		},
+		interruptClose:function(){
+			if(!ismobile)
+			clearTimeout(this.timer);
+		},
+		click: function(){
+			if(this.opened)
+				this.close();
+			else
+				this.open();
+				
+			return false;
+		},
+		val:function(value){
+			//GET VALUE
+			if(value == undefined)
+				return this.values[this.active];
+				
+			//SET VALUE
+			for(var i= 0; i<this.values.length; i++)
+				if(this.values[i] == value){
+					this.active = i;
+					this.update();
+					break;
+				}
+	     },
+		info:function(){
+			return this.options[this.active];
+		}
+	}
 	
 
 
@@ -571,6 +807,7 @@ define(["jquery", "essenza/MusicPlayer"], function($, MusicPlayer) {
 						$.post( adminAjax, objSend, function(data, textStatus){
 							if((data == "1" || data == 1) && textStatus == "success"){
 								$form.find(".on_success").slideDown(250);
+								$form.find("input, textarea").val("");
 							}
 							else{
 								$form.find(".on_error").slideDown(250);
@@ -588,6 +825,17 @@ define(["jquery", "essenza/MusicPlayer"], function($, MusicPlayer) {
 	    //TABS
         $(".tabs").each(function(){
             new Tabs($(this));
+        });
+
+        //Checkbox
+        $(".checkbox").each(function(){
+        	new Checkbox($(this));
+        });
+        
+        
+        // Combobox
+        $(".combobox").each(function(){
+            new Combobox($(this));
         });
         
         

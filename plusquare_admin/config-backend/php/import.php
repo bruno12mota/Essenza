@@ -12,10 +12,6 @@ $url = "http://plusquare.pt/Essenza_images/creative.zip";
 $target_file = "media.zip";
 $target_path = "../../../../../uploads/";
 
-//echo '<div class="ui_progress" style="height:40px; display:block; background-color: #efefef;">';
-//echo  '<div class="progress" id="load-progress-bar"></div>';
-//echo '</div>';
-
 ob_flush();
 flush();
 
@@ -43,16 +39,6 @@ curl_setopt($ch, CURLOPT_FILE, $file); //auto write to file
 
 curl_setopt($ch, CURLOPT_PROGRESSFUNCTION, 'progress_import_dummy');
 curl_setopt($ch, CURLOPT_NOPROGRESS, false); // needed to make progress function work
-//curl_setopt($ch, CURLOPT_TIMEOUT, 400);
-/*curl_setopt($ch, CURLOPT_URL, $url);  
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_HEADER, 0);
-curl_setopt($ch, CURLOPT_BINARYTRANSFER,true);
-curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
-curl_setopt($ch, CURLOPT_TIMEOUT, 400);
- curl_setopt($ch, CURLOPT_FAILONERROR, true);
- curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, 0);  
- curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, 0);  */ 
 
 $page = curl_exec($ch);
 

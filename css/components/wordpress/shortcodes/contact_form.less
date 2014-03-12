@@ -1,0 +1,117 @@
+.checkbox{
+    display: inline-block;
+    position: relative;
+    width: 20px;
+    height: 20px;
+    border: 1px solid @esza_form_fields_border_color;
+    .roundedCorners(3px);
+    
+    .checkbox_inner{
+        top: 4px;
+        left: 5px;
+        background-color: @esza_form_fields_border_over_color;
+        position: absolute;
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        .roundedCorners(3px);
+    }
+}
+
+.combobox{
+    *{
+        font-size: 12px;
+	    color: @esza_form_fields_text_color;
+    }
+    min-width: 150px;
+	position: relative;
+	display: inline-block;
+	cursor: pointer;
+    
+    .combobox-holder{
+        height: 28px;
+    	position: relative;
+    	
+		border: solid 1px @esza_form_fields_border_color;
+		overflow: hidden;
+		
+	    background-color:@esza_form_fields_background_color;
+        
+        .roundedCorners (3px);
+        .transition();
+        
+        &.opened{
+    		//border-color: #74B8C9;
+        }
+    }
+    .selected-text{
+		padding: 6px;
+		color: @esza_form_fields_text_color;
+    }
+    .status{
+        position: absolute;
+        right:0;top:-1px;
+        display: inline-block;
+        width: 28px;
+        height: 28px;
+        .roundedCorners (3px);
+		border-left: solid 1px @esza_form_fields_border_color;
+		border-bottom: solid 1px @esza_form_fields_border_color;
+		text-align: center;
+		line-height: 27px;
+		i{
+		    font-size: 16px;
+		    line-height: 28px;
+		}
+    }
+    .combobox-options-holder{
+        position: relative;
+    	left: 0;
+		display: block;
+    }
+}
+
+.combobox-option{
+	color: @esza_paragraphs_color;
+	padding: 6px 37px 6px 7px;
+	display: block;
+	
+	background-color:@esza_form_fields_background_color;
+    
+    .transition(0.3s);
+    
+    &:hover, &.active{
+    	color: @esza_form_fields_border_over_color;
+    }
+}
+
+textarea, 
+input[type="text"], 
+input[type="password"], 
+input[type="datetime"], 
+input[type="datetime-local"], 
+input[type="date"], 
+input[type="month"], 
+input[type="time"], 
+input[type="week"], 
+input[type="number"], 
+input[type="email"], 
+input[type="url"], input[type="search"], input[type="tel"], input[type="color"]{
+    background-color: @esza_form_fields_background_color;
+    border: 1px solid @esza_form_fields_border_color;
+    color: @esza_form_fields_text_color;
+    
+    .roundedCorners (@esza_contact_forms_round_corners, @esza_contact_forms_round_corners, @esza_contact_forms_round_corners, @esza_contact_forms_round_corners);
+    
+    &:focus{
+        border-color: @esza_form_fields_border_over_color !important;
+        box-shadow: 0 0 !important;
+        outline: none !important;
+    }
+    
+    &.big{
+        font-size: 25px;   
+        height: 45px;
+        padding: 0px 12px;
+    }
+}

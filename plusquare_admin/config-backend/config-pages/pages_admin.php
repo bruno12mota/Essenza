@@ -38,19 +38,20 @@ if(is_admin()){
 								"#show_filter_menu_option_main_holder, "+				//19
 								"#filter_horizontal_option_main_holder, "+				//20
 								"#filter_vertical_option_main_holder, "+				//21
-								"#page_background_color_transparent_option_main_holder, "+	//22
-								"#background_color_option_main_holder, "+				//23
-								"#background_images_option_main_holder,"+				//24
-								"#slider_option_main_holder");				//25
+								"#filter_always_open_option_main_holder, "+				//22
+								"#page_background_color_transparent_option_main_holder, "+	//23
+								"#background_color_option_main_holder, "+				//24
+								"#background_images_option_main_holder,"+				//25
+								"#slider_option_main_holder");				//26
 				
 				var templatesOptions = {
-					"default":[0, 3, 4, 5, 6, 7, 8, 9, 10, 14, 15, 22, 23, 24],
-					"gallery.php":[12, 16, 19, 20, 21, 23],
-					"blog-masonry.php":[13, 19, 20, 21, 23],
-					"blog-mosaic.php":[13, 19, 20, 21, 23],
-					"portfolio.php":[11, 17, 18, 19, 20, 21, 23],
-					"blog.php":[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 13, 14, 15, 23, 24],
-					"single-slider.php":[25]
+					"default":[0, 3, 4, 5, 6, 7, 8, 9, 10, 14, 15, 23, 24, 25],
+					"gallery.php":[12, 16, 19, 20, 21, 22, 24],
+					"blog-masonry.php":[13, 19, 20, 21, 22, 24],
+					"blog-mosaic.php":[13, 19, 20, 21, 22, 24],
+					"portfolio.php":[11, 17, 18, 19, 20, 21, 22, 24],
+					"blog.php":[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 13, 14, 15, 24, 25],
+					"single-slider.php":[26]
 				};
 				
 				//Update tabs available for the current page template
@@ -297,6 +298,15 @@ if(is_admin()){
 			"type" => "percentage",
 			"default" => "95",
 			"help" => "The Vertical percentage position you want the menu to have."
+		),
+		array(
+			//Filter always opened
+			"label" => "Filter Always Opened",
+			"id" => "filter_always_open",
+			"type" => "checkbox",
+			"values" => array("false", "true"),
+			"default" => "false",
+			"help" => "Check to have the filter menu always opened."
 		),
 
 

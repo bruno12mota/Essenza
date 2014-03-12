@@ -27,7 +27,7 @@
     
     
     <script>
-		require(["jquery", "essenza/Portfolio", "essenza/Masonry", "essenza/DynamicLoading"], function($, portfolio, Masonry, dynamicLoadingButton){
+		require(["jquery", "essenza/Portfolio", "essenza/Masonry", "essenza/DynamicLoading", "jquery/jquery.easing.1.3"], function($, portfolio, Masonry, dynamicLoadingButton){
 			$(document).ready(function(){
 				var $portfolio = $( '#portfolio' );
 				var $works = $portfolio.find(">.work");
@@ -36,7 +36,11 @@
 				var masonryGrid = new Masonry( $portfolio , ".work" , 400, 2, 'pq_get_portfolio_posts', "<?php echo $post->ID; ?>");
 				
 
-				<?php plusquare_get_filter_menu_js(); ?>
+				<?php 
+    			if($filterMenu == "true"){
+    				plusquare_get_filter_menu_js();
+    			}
+    			?>
 
 
 				var first = true;

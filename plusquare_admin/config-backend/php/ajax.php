@@ -187,6 +187,7 @@ function pq_get_contact_field_options_fun(){
   $type = isset($_POST['type']) ? $_POST['type'] : "text";
   $required = isset($_POST['required']) ? $_POST['required'] : "true";
   $label = isset($_POST['label']) ? $_POST['label'] : "";
+  $combobox = isset($_POST['combobox']) ? $_POST['combobox'] : "";
 
   $plusquare_color_options = array(
     array(
@@ -212,6 +213,13 @@ function pq_get_contact_field_options_fun(){
       "info" => "The text that describes the option.",
       "type" => "text",
       "default" => $label
+    ),
+    array(
+      "label" => "Combobox Options",
+      "id" => "pq_field_option_combobox",
+      "alert" => "This option is for combobox field type only.",
+      "type" => "combobox_options",
+      "default" => $combobox
     )
   );
   

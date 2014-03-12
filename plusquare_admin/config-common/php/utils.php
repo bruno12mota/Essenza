@@ -11,7 +11,7 @@ function is_unsupported_browser(){
   if (count($matches)>1){
     //Then we're using IE
     $version = $matches[1];
-    if($version<8){
+    if($version<9){
       return true;
     }
   }

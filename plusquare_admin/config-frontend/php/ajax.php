@@ -523,8 +523,9 @@ function pq_get_gallery_posts_fun() {
 		
 		//Thumbnail
 		$imageThumb = wp_get_attachment_image_src( get_post_meta($post->ID, "item_thumb", true) , "full");
-		if($imageThumb === FALSE && isset($imageBig))
+		if($imageThumb === FALSE && isset($imageBig)){
 			$imageThumb = $imageBig;
+		}
 		$imageThumbUrl = $imageThumb[0];
 		$imageThumbWidth = $imageThumb[1];
 		$imageThumbHeight = $imageThumb[2];
@@ -542,10 +543,9 @@ function pq_get_gallery_posts_fun() {
 
 		$description = get_post_meta($post->ID, "item_description", true);
 
-      if(WP_DEBUG)fb::log($imageThumbUrl);
 		$imageThumbUrl = mr_image_resize($imageThumbUrl, $maxWidth, $useLimit==="true" ? $height : null, $useLimit=="true", $useLimit=="true" ? $alignment:'c', $pixel_ratio > 1);
 		
-      if(WP_DEBUG)fb::log($imageThumbUrl);?>
+      ?>
 		
 	    <!-- Gallery item -->
 		<a 	href="<?php echo $href; ?>" 
