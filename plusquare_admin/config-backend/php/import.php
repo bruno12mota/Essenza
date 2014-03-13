@@ -8,7 +8,8 @@
 <?php
 set_time_limit(0);
 
-$url = "http://plusquare.pt/Essenza_images/creative.zip";
+$folder = $_GET["folder"];
+$url = "http://plusquare.pt/Essenza_images/".$folder.".zip";
 $target_file = "media.zip";
 $target_path = "../../../../../uploads/";
 

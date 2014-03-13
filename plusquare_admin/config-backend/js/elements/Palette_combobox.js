@@ -1,4 +1,4 @@
-define(["jquery"], function(){
+define(["jquery"], function($){
 	var Palette_combobox = function (id, active, options){
 		//Parameters
 		this.active = active;

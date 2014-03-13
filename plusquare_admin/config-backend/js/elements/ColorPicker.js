@@ -154,6 +154,8 @@ define(["jquery", "utils/utils"], function($){
 			this.active = color;
 			this.$currentColor.css("background-color", this.active);
 			this.$currentText.val(this.active);
+			console.log("COOOOLORsssss RGB");
+			console.log(rgb);
 			
 			
 			var trueRgb = hsvToRgb(this.h, 100, 100);
@@ -179,10 +181,12 @@ define(["jquery", "utils/utils"], function($){
 
 			var rgb = hex2rgb(hex);
 			var hsv = rgbToHsv(rgb.red, rgb.green, rgb.blue);
-			
-			this.h = Math.round(hsv[0]*10)/10;
-			this.s = Math.round(hsv[1]*10)/10;
-			this.v = Math.round(hsv[2]*10)/10;
+			console.log(rgb);
+			console.log(hsv);
+
+			this.h =hsv[0];
+			this.s = hsv[1];
+			this.v = hsv[2];
 			
 			this.updatePickers();
 		},

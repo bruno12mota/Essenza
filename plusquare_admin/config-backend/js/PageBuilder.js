@@ -340,7 +340,7 @@ define(["jquery",
             );
             shortcodesConditional += ")";
             
-            if(content != null && content != undefined){
+            if(content != null && content != undefined && content != ""){
                 //GET ROWS
                 var regexStr = "(\\[row.*?\\][\\s\\S]*?\\[\\/row\\]|\\<\\!\\-\\-nextpage\\-\\-\\>)";
                 var regex = new RegExp(regexStr, "gi");

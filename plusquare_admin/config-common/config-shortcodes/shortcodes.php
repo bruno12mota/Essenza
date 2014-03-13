@@ -1243,12 +1243,14 @@ function plusquare_twitter_button_func( $atts ){
 			<a href="https://twitter.com/share" data-url="'.get_permalink().'" class="twitter-share-button" data-related="plusquare" data-size="'.$size.'" data-count="'.$count.'">Tweet</a>
 			</div>
 			<script>
-				if($("body").hasClass("TwitterLoaded"))
-					refreshTweetButtons();
-				else
-					$("body").bind("TwitterLoaded", function(){
+				require(["jquery"], function($){
+					if($("body").hasClass("TwitterLoaded"))
 						refreshTweetButtons();
-					});
+					else
+						$("body").bind("TwitterLoaded", function(){
+							refreshTweetButtons();
+						});
+				});
 			</script>';
 }
 add_shortcode( 'twitter_button', 'plusquare_twitter_button_func' );
@@ -1321,12 +1323,14 @@ function plusquare_facebook_like_func( $atts ){
 			<div class="fb-like" data-href="'.get_permalink().'" data-send="false" data-layout="'.$layout.'" data-width="'.$width.'" data-show-faces="false" data-font="arial"></div>
 			</div>
 			<script>
-				if($("body").hasClass("FacebookLoaded"))
-					refreshFacebookButtons();
-				else
-					$("body").bind("FacebookLoaded", function(){
+				require(["jquery"], function($){
+					if($("body").hasClass("FacebookLoaded"))
 						refreshFacebookButtons();
-					});
+					else
+						$("body").bind("FacebookLoaded", function(){
+							refreshFacebookButtons();
+						});
+				});
 			</script>';
 }
 add_shortcode( 'facebook_like', 'plusquare_facebook_like_func' );

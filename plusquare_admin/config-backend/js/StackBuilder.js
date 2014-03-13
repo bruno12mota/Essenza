@@ -386,7 +386,6 @@ define(["jquery",
             	return;
             
             var content = "";
-            
             	
         		
             for(var i= 0; i< this.modules.length ; i++){

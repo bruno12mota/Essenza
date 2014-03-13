@@ -27,6 +27,8 @@ class pq_contact_form_picker {
 			array_push($values, $post->ID);
 		endwhile;
 		wp_reset_postdata();
+
+		if(WP_DEBUG)fb::log($value);
 		
 		//pq_combobox
 		new pq_combobox($id, $options, $values, $value);

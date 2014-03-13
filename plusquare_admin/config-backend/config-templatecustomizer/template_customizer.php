@@ -71,12 +71,19 @@ function plusquare_template_customizer_init(){
 		$less = new lessc;
 		
 		try {
+			chmod (dirname(realpath(__FILE__))."/../../../css", 0777);
+			chmod (dirname(realpath(__FILE__))."/../../../css/main.css", 0777);
+			chmod (dirname(realpath(__FILE__))."/../../../css/text_styles.css", 0777);
+			
 			//Get variables
 			$vars = getLessVariables();
 			if(WP_DEBUG)fb::log("Parsing Css!");
+
+			$filename = dirname(realpath(__FILE__))."/../../../css/main.css";
+
     		$less->setFormatter("compressed");
 			$less->setVariables($vars);
-			$less->compileFile(dirname(realpath(__FILE__))."/../../../css/main.less", dirname(realpath(__FILE__))."/../../../css/main.css");
+			$less->compileFile(dirname(realpath(__FILE__))."/../../../css/main.less", $filename);
 			$less->compileFile(dirname(realpath(__FILE__))."/../../../css/components/text_styles/text_styles.less", dirname(realpath(__FILE__))."/../../../css/text_styles.css");
 		} catch (exception $e) {
 		  	if(WP_DEBUG)fb::log("fatal error compiling less: " . $e->getMessage());
@@ -175,7 +182,7 @@ function plusquare_template_customizer_init(){
 		</div>
 	</form>
 	
-	<div id="saving_cover_tc" class="saving_cover" style="display: none;">
+	<div id="saving_cover_tc" class="saving_cover options_save" style="display: none;">
 		<div>
 			<p>Saving options <img src="<?php echo get_template_directory_uri(); ?>/plusquare_admin/config-backend/images/ui/loading.gif" /></p>
 		</div>

@@ -41,8 +41,8 @@ if(is_admin()){
 								"#filter_always_open_option_main_holder, "+				//22
 								"#page_background_color_transparent_option_main_holder, "+	//23
 								"#background_color_option_main_holder, "+				//24
-								"#background_images_option_main_holder,"+				//25
-								"#slider_option_main_holder");				//26
+								"#background_images_option_main_holder, "+				//25
+								"#slider_option_option_main_holder");				//26
 				
 				var templatesOptions = {
 					"default":[0, 3, 4, 5, 6, 7, 8, 9, 10, 14, 15, 23, 24, 25],

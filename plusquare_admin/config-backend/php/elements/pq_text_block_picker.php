@@ -194,7 +194,7 @@ class pq_text_block_picker {
 					$(document).ready(function(){
 						var $input = $("#<?php echo $id; ?>");
 					
-						var saveOptionPath = "<?php echo get_template_directory_uri() ?>/plusquare_admin/php/save-option-ajax.php";
+						var saveOptionPath = "<?php echo get_template_directory_uri() ?>/plusquare_admin/config-backend/php/save-option-ajax.php";
 						var $saveInput = $("#<?php echo $id; ?>_save_style_name");
 						var buttonsJson = <?php echo ($savedTextBlocks != FALSE ? $savedTextBlocks : '{"buttons":[]}'); ?>;
 						var buttons = buttonsJson["buttons"];

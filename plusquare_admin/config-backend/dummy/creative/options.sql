@@ -2,8 +2,9 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 REPLACE INTO `wp_options` (`option_name`, `option_value`, `autoload`) VALUES
-('permalink_structure', '/%postname%/', 'yes');
-REPLACE INTO `wp_options` (`option_name`, `option_value`, `autoload`) VALUES
+('permalink_structure', '/%postname%/', 'yes'),
+('show_on_front', 'page', 'yes'),
+('page_on_front', '102', 'yes'),
 ('theme_mods_essenza', 'a:2:{i:0;b:0;s:18:"nav_menu_locations";a:1:{s:11:"primary_nav";i:2;}}', 'yes'),
 ('esza_submenu_type', 'submenus_group', 'no'),
 ('esza_h1_font', 'Open_Sans:300', 'yes'),
@@ -93,7 +94,7 @@ REPLACE INTO `wp_options` (`option_name`, `option_value`, `autoload`) VALUES
 ('esza_welcome_text', 'This is an optionable welcome message. It is easy to change it or remove it completely. Nullam condimentum mauris id massa vulputate phatra vitae id sapien. Cras hendrerit, ipsum a aliquam feugiat, urna mi intedum lectus, at vehicula sem leo porttitor massa. Duis sodales, velit et egestas feugiat, turpis risus pharetra leo.', 'yes'),
 ('esza_portfolio_work_numbering', 'works', 'yes'),
 ('esza_favicon', '62', 'yes'),
-('esza_comment_submit_button', '{"field0":"20","field1":"10","field2":"0","field3":"0","field4":"#fa5654","field5":"#222222","field6":"#fa5654","field7":"#222222","field8":"100","field9":"100","field10":"Open_Sans:regular","field11":"13","field12":"#ffffff","field13":"#ffffff","field14":"0.2","field15":"ease-out","field16":"POST COMMENT  [i]fa-angle-right[/i]","field17":"center"}', 'yes'),
+('esza_comment_submit_button', '{"field0":"20","field1":"10","field2":"0","field3":"0","field4":"#310b0a","field5":"#222222","field6":"#310b0a","field7":"#222222","field8":"100","field9":"100","field10":"Open_Sans:regular","field11":"13","field12":"#ffffff","field13":"#ffffff","field14":"0.2","field15":"ease-out","field16":"POST COMMENT  [i]fa-angle-right[/i]","field17":"center"}', 'yes'),
 ('esza_menu_height', '60', 'yes'),
 ('esza_menu_top_off', '2', 'yes'),
 ('esza_submenu_margin', '20', 'yes'),
@@ -368,3 +369,10 @@ REPLACE INTO `wp_options` (`option_name`, `option_value`, `autoload`) VALUES
 ('esza_tabs_title_color', '#cccccc', 'yes'),
 ('esza_tabs_title_active_color', '#ffffff', 'yes'),
 ('esza_tabs_border_background_color', '#333333', 'yes');
+REPLACE INTO `wp_options` (`option_name`, `option_value`, `autoload`) VALUES
+('esza_disable_ajax', 'false', 'yes'),
+('esza_linkedin_link', '', 'yes'),
+('esza_envato_link', '', 'yes'),
+('esza_tumblr_link', '', 'yes'),
+('esza_instagram_link', '', 'yes'),
+('esza_color_palette', '[]', 'yes');
