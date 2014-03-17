@@ -39,6 +39,9 @@ define(["jquery", "utils/utils"], function($) {
 	var dynamicLoadingButton = function($obj, $holder, $afterThis, idAction){
 		this.href = $obj.attr('href');
 
+		if(this.href == undefined)
+			return
+
 		if(this.href.indexOf(esza_url) == -1 || this.href.indexOf(".pdf") != -1 || esza_disable_ajax == "true")
 			return;
 
