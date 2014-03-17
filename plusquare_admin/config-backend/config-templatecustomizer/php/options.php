@@ -2492,6 +2492,21 @@ $plusquare_template_options = array(
 						"type" => "google_fonts_picker",
 						"info" => "You can choose which fonts you want to use simply by dragging the ones you want from the left to the right panel.",
 						"default" => '{"items": [{ "family": "Open_Sans","variants": ["regular","italic","700","700italic"]},{ "family": "Quattrocento_Sans","variants": ["regular","italic","700","700italic"]},{ "family": "Lato","variants": ["italic"]}]}'
+					),
+
+					array(
+						"label" => "Characters Set",
+						"id" => $pq_shortname."_google_fonts_set",
+						"type" => "checkbox_options",
+						"options" => array(
+							"latin" => "Latin",
+							"greek-ex" => "Greek Extended",
+							"cyrillic" => "Cyrillic",
+							"cyrillic-ext" => "Cyrillic Extended",
+							"greek" => "Greek",
+							"greek-ext" => "Greek Extended"
+						),
+						"info" => "The fonts subsets you want to be imported for each selected font."
 					)
 				)
 			),

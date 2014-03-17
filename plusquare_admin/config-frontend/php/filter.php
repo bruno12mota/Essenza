@@ -228,11 +228,13 @@ function plusquare_get_filter_menu_js(){
     	if(vertical < 1)
         	top = Math.round(allowedHeight*vertical)+ $header.height();
 
+        console.log("top:"+vertical);
+
         $filterMenu.css({
-            "top": (horizontal < 1 ? top +"px" : "auto"),
-            "bottom": (horizontal == 1 ? "0px" : "auto"),
-            "left": (vertical < 1 ? left +"px" : "auto"),
-            "right": (vertical == 1 ? "0px" : "auto")
+            "top": (vertical < 1 ? top +"px" : "auto"),
+            "bottom": (vertical == 1 ? "0px" : "auto"),
+            "left": (horizontal < 1 ? left +"px" : "auto"),
+            "right": (horizontal == 1 ? "0px" : "auto")
         });
     }
     resize();

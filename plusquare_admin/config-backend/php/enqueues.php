@@ -6,7 +6,10 @@
 /**
  * Enqueues
  */
-function plusquare_admin_enqueue_scripts() {
+function plusquare_admin_enqueue_scripts($hook) {
+  if(WP_DEBUG)fb::log($hook);
+  if($hook != "toplevel_page_template_customizer" && $hook != "post-new.php" && $hook != "post.php" && $hook != "edit.php")
+    return;
 
   //Media Uploader Scripts
   wp_enqueue_media();

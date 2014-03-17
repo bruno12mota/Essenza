@@ -193,6 +193,10 @@ function make_option($option, $typeOption = "post_meta", $init_value = NULL){
             $option["values"] = array("false", "true");
         new pq_checkbox($option["id"], $value, $option["values"]);
     }
+
+    else if($type == "checkbox_options"){
+        new pq_checkbox_options($option["id"], $value, $option["options"]);
+    }
 		
     //Color Picker
     else if($type == "color_picker"){

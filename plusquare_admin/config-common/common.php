@@ -56,7 +56,7 @@ add_filter( "show_admin_bar" , "my_function_admin_bar");
 
 
 //Add Support for Navigation Menus
-add_theme_support( 'menus' );
+//add_theme_support( 'menus' );
 if(function_exists('register_nav_menu')){
   register_nav_menu( 'primary_nav', 'Primary Navigation');
 }

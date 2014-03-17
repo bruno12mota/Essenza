@@ -46,10 +46,6 @@ if(is_admin()){
 		wp_enqueue_script('wp-ajax-response');
 		?>
 	    
-	    <link href="<?php echo get_template_directory_uri(); ?>/plusquare_admin/css/meta_options.css" rel="stylesheet" type="text/css" />
-	    <link href="<?php echo get_template_directory_uri(); ?>/plusquare_admin/css/fonts/stylesheet.css" rel="stylesheet" type="text/css" />
-	    <script data-main="<?php echo get_template_directory_uri(); ?>/plusquare_admin/js/CustomGridListing" src="<?php echo get_template_directory_uri(); ?>/plusquare_admin/js/require-jquery.js"></script>
-	    
 	    <style>
 			#posts-filter, .subsubsub{display: none;}
 		</style>

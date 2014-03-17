@@ -102,8 +102,8 @@ class pq_meta_box {
 			$value = $_POST[$option["id"]];
 			
 			if($option["type"] == "media_picker"){
-				$value = $_POST[$option["id"]."_sizing"];
-				update_post_meta( $post->ID, $option["id"]."_sizing", $value );
+				$value_sizing = $_POST[$option["id"]."_sizing"];
+				update_post_meta( $post->ID, $option["id"]."_sizing", $value_sizing );
 			}
 		
 			//Tabs

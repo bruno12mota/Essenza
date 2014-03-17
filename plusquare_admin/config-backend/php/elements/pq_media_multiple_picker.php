@@ -15,6 +15,9 @@ class pq_media_multiple_picker {
 		
 	function __construct($id, $value, $value_sizing, $media_type){
 		$this->id = $id;
+
+		if(WP_DEBUG)fb::log("MP: ".$value);
+		if(WP_DEBUG)fb::log("MP: ".$value_sizing);
 		 
 		?>
         <div class="items-grid-holder" id="<?php echo $this->id; ?>_grid_holder">
@@ -37,7 +40,7 @@ class pq_media_multiple_picker {
         <?php
 		if($media_type != "image"){
 			?>
-			<a class="ui-button" id="<?php echo $this->id; ?>_button_other" href="#" onclick="return false;">Add Other Content</a>
+			<a class="button button-primary button-large" id="<?php echo $this->id; ?>_button_other" href="#" onclick="return false;">Add Other Content</a>
             <div id="<?php echo $this->id; ?>_add_other" class="sub-options-holder" style="display:none;">
             	<?php 
 				//Video Picker
@@ -67,8 +70,8 @@ class pq_media_multiple_picker {
 					"info" => "Image will be used for the slide itself and for the thumbnail of the slider!"
 				)); 
 				?>
-                <a class="ui-button add_video" href="#" onclick="return false;">Add video</a>
-                <a class="ui-button cancel_add_video" href="#" onclick="return false;">Cancel</a>
+                <a class="button button-primary button-large add_video" href="#" onclick="return false;" style="margin-top:20px;">Add video</a>
+                <a class="button button-primary button-large cancel_add_video" href="#" onclick="return false;" style="margin-top:20px;">Cancel</a>
             </div>
 			<?php
 		}
