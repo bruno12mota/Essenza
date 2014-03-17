@@ -5,13 +5,19 @@ function get_google_fonts_link(){
    global $pq_shortname;
    
    $fontsJsonStr = get_option($pq_shortname."_google_fonts");
+   $fontsSetJsonStr = get_option($pq_shortname."_google_fonts_set");
 
    if($fontsJsonStr === FALSE){
       return null;
    }
+   if($fontsSetJsonStr === FALSE){
+      $fontsSetJsonStr = '{"latin":"true","greek-ex":"false","cyrillic":"false","cyrillic-ext":"false","greek":"false","greek-ext":"false"}';
+   }
    
    $fontsJson = json_decode($fontsJsonStr);
-    $protocol = is_ssl() ? 'https' : 'http';
+   $fontsSetJson = json_decode($fontsSetJsonStr);
+    
+   $protocol = is_ssl() ? 'https' : 'http';
    
    if($fontsJsonStr != FALSE){
       $link = "$protocol://fonts.googleapis.com/css?family=";
@@ -40,6 +46,24 @@ function get_google_fonts_link(){
          }
          
          $mainCount++;
+      }
+
+
+      if($fontsSetJson != FALSE){
+         $link .= "&subset=";
+
+         $count = 0;
+         foreach($fontsSetJson as $key => $bol){
+            if($bol === "true"){
+               if($count != 0)
+                  $link = $link.",";
+
+               //Add variant
+               $link = $link.$key; 
+
+               $count++;
+            }
+         }
       }
       
       return $link;

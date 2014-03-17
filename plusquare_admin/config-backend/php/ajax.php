@@ -287,7 +287,9 @@ function pq_import_dummy_fun() {
    $folder = $_POST['folder'];
 
 	// get the submitted parameters
-	$sql_file = get_template_directory_uri()."/plusquare_admin/config-backend/dummy/".$folder."/content.sql";
+	//$sql_file = get_template_directory_uri()."/plusquare_admin/config-backend/dummy/".$folder."/content.sql";
+
+  $sql_file = "http://plusquare.pt/Essenza_images/dummy/".$folder."/content.sql";
 
 	$sql_query = curlFetchData($sql_file);
 	$sql_query = remove_comments($sql_query);
@@ -380,7 +382,8 @@ function pq_import_options_fun() {
    $folder = $_POST['folder'];
 
   // get the submitted parameters
-  $sql_file = get_template_directory_uri()."/plusquare_admin/config-backend/dummy/".$folder."/options.sql";
+  //$sql_file = get_template_directory_uri()."/plusquare_admin/config-backend/dummy/".$folder."/options.sql";
+  $sql_file = "http://plusquare.pt/Essenza_images/dummy/".$folder."/options.sql";
 
   $sql_query = curlFetchData($sql_file);
   $sql_query = remove_comments($sql_query);
@@ -410,7 +413,8 @@ function pq_import_dummy_css_fun() {
 
    //Uploads
    //$zip_path = get_template_directory_uri()."/plusquare_admin/dummy/light_images.zip";
-   $zip_path = "../wp-content/themes/essenza/plusquare_admin/config-backend/dummy/".$folder."/css.zip";
+   //$zip_path = "../wp-content/themes/essenza/plusquare_admin/config-backend/dummy/".$folder."/css.zip";
+    $zip_path = "http://plusquare.pt/Essenza_images/dummy/".$folder."/css.zip";
    $target_path = "../wp-content/themes/essenza/css/";
 
    echo $zip_path;

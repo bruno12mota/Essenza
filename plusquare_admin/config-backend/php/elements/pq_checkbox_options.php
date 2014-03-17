@@ -21,7 +21,7 @@ class pq_checkbox_options {
 		}
 		
 		?>
-        <input type="text" value="<?php echo $value; ?>" id="<?php echo $id; ?>" name="<?php echo $id; ?>" style="display:;"/>
+        <input type="text" value="" id="<?php echo $id; ?>" name="<?php echo $id; ?>" style="display:none;"/>
 
         <?php
         $output = '<div id="'.$id.'_holder" class="category_picker">';
@@ -76,6 +76,8 @@ class pq_checkbox_options {
 
 						$(checkbox).bind("change", onChange);
 					});
+
+					change_input();
 				}
 			);
 		</script>

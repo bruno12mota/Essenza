@@ -2506,6 +2506,7 @@ $plusquare_template_options = array(
 							"greek" => "Greek",
 							"greek-ext" => "Greek Extended"
 						),
+						"default" => '{"latin":"true","greek-ex":"false","cyrillic":"false","cyrillic-ext":"false","greek":"false","greek-ext":"false"}',
 						"info" => "The fonts subsets you want to be imported for each selected font."
 					)
 				)
