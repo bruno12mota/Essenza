@@ -2033,9 +2033,20 @@ function plusquare_image_func( $atts, $content ){
 		'max_width' => '0'
 	), $atts ) );
 	
-	$imageUrl = wp_get_attachment_url( $content );
+    $imageUrl = wp_get_attachment_image_src( $content , "full");
+    $imageUrl = $imageUrl[0];
 	
 	if($imageUrl != ""){
+		if($max_width != "0"){
+			//Pixel ratio
+			if( isset($_COOKIE["pixel_ratio"]) )
+				$pixel_ratio = $_COOKIE["pixel_ratio"];
+			else
+				$pixel_ratio = 2;
+			
+			$imageUrl = mr_image_resize($imageUrl, $max_width, ($height=="0"? null : $height), true, 'c', $pixel_ratio > 1);
+		}
+
 		//Has an image available
 		if($link != ""){
 			$return = 	'<a href="'.$link.'" target="'.$target.'" class="image_shortcode overable_type" style="'.($max_width == "0" ? "max-width: 100%;" : "max-width: ".$max_width."px;").' height:'.($height==0?"auto":$height."px").';">';

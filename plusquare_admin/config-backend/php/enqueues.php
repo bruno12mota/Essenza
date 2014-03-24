@@ -15,7 +15,8 @@ function plusquare_admin_enqueue_scripts($hook) {
   wp_enqueue_media();
 
   //Google fonts
-  if($google_fonts = get_google_fonts_link() != null){
+  $google_fonts = get_google_fonts_link();
+  if($google_fonts != null){
     wp_enqueue_style( 'essenza_google_fonts', $google_fonts );
   }
 

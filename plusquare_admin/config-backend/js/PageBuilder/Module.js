@@ -295,15 +295,17 @@ var Component = Module.extend({
 				
 				//Set values
 				//...
-				$.each(
-					this.parameters,
-					function(key, obj){
-						//Change value
-						$("#"+key).val(obj.value).trigger("update");
-						//this.parameters[option["id"]] = {"associate":option.associate, "value":(option.value != undefined ? option.value : "")};
-					}
-				);
-				
+                $(document).ready($.proxy(function(){
+    				$.each(
+    					this.parameters,
+    					function(key, obj){
+    						//Change value
+    						$("#"+key).val(obj.value).trigger("update");
+    						//this.parameters[option["id"]] = {"associate":option.associate, "value":(option.value != undefined ? option.value : "")};
+    					}
+    				);
+                }, this));
+    				
 			}, this)
 		);
         

@@ -1,4 +1,4 @@
-define(["jquery", "jquery/jquery.easing.1.3"], function($) {
+define(["jquery", "jquery/jquery.easing.1.3", "utils/utils"], function($) {
 	
 	
 	
@@ -97,10 +97,7 @@ define(["jquery", "jquery/jquery.easing.1.3"], function($) {
             });
             
             //On load image complete
-            if(this.loadingImage.get(0).complete) 
-            	this.imageLoaded();
-            else
-            	this.loadingImage.load( $.proxy(this.imageLoaded, this) );
+            this.loadingImage.ensureLoad( $.proxy(this.imageLoaded, this) );
         },
         
 		// On image load complete
@@ -110,14 +107,18 @@ define(["jquery", "jquery/jquery.easing.1.3"], function($) {
             var $image = $('<div><div>');
             
             $image.css({
-                "position" : "absolute"
+                "position" : "absolute",
+                "top":0,
+                "bottom":0,
+                "right":0,
+                "left":0
             });
             
             //Create image object
             var obj = new Object();
             obj.img = this.loadingImage;
-            obj.width = this.loadingImage.width;
-            obj.height = this.loadingImage.height;
+            obj.width = this.loadingImage.naturalWidth;
+            obj.height = this.loadingImage.naturalHeight;
             obj.holder = $image;
             
             if($.isArray(this.parameters.images_sizing))
@@ -401,8 +402,11 @@ define(["jquery", "jquery/jquery.easing.1.3"], function($) {
         onResize: function (){
             var maxWidth =  this.$background.width(); 
             var maxHeight =  this.$background.height();
+
+            console.log(this.$background.width());
                     
             for(var i=0; i<this.images.length ; i++){
+            console.log(this.images[i].width);
                 if(this.images[i].sizing != "repeat"){
                     var img = this.images[i].img;
                     

@@ -68,7 +68,7 @@ if($essenza_is_old_ie === true){
 
 
 
-<body <?php body_class(); ?>>
+<body <?php body_class(); ?> oncontextmenu="return false">
 
 	<?php
 

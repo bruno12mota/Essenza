@@ -1,6 +1,5 @@
-<?php get_header(); ?>
+<?php get_header(); 
 
-<?php
 //Not For IE <8
 global $essenza_is_old_ie;
 if($essenza_is_old_ie !== true){

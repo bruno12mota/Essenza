@@ -1,9 +1,8 @@
-<?php /* Template Name: Slider */ ?>
+<?php /* Template Name: Slider */ 
 
-<?php get_header(); ?>
+get_header(); 
 
-
-<?php global $post;
+global $post;
 
 if($post->post_type == "page"){
 	$post = get_post( get_post_meta($post->ID, "slider_option", true) );

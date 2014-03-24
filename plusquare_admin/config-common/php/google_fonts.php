@@ -19,8 +19,8 @@ function get_google_fonts_link(){
     
    $protocol = is_ssl() ? 'https' : 'http';
    
-   if($fontsJsonStr != FALSE){
-      $link = "$protocol://fonts.googleapis.com/css?family=";
+   if($fontsJsonStr !== FALSE){
+      $link = $protocol."://fonts.googleapis.com/css?family=";
    
       $mainCount = 0;
       foreach($fontsJson->items as $item){
@@ -49,7 +49,7 @@ function get_google_fonts_link(){
       }
 
 
-      if($fontsSetJson != FALSE){
+      if($fontsSetJson !== FALSE){
          $link .= "&subset=";
 
          $count = 0;

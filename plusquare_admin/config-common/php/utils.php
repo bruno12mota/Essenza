@@ -2,6 +2,99 @@
 
 
 
+
+
+/*
+ *
+ *  Get Social Video URL 
+ *
+ *  @description: Return the social video url according to the parameters
+ *
+ */
+function plusquare_get_social_video_url($type, $id, $autoplay = "0"){
+  if($type == "vimeo"){
+    //Vimeo options
+    $options = array(
+      "title" => get_option("vimeo_title"),
+      "byline" => get_option("vimeo_byline"),
+      "portrait" => get_option("vimeo_portrait"),
+      "color" => get_option("vimeo_color"),
+      "autoplay" => $autoplay
+    );
+    
+    $parameters="";
+    $count = 0;
+    foreach($options as $key => $value){        
+      if($value !== FALSE){
+        if($count++ != 0)
+          $parameters = $parameters."&";
+
+        if($key == "color")
+          $value = substr($value, 1);
+        $parameters = $parameters.$key."=".$value;
+      }
+    }
+    
+    //Make vimeo iframe
+    return 'http://player.vimeo.com/video/'.$id.'?'.$parameters;
+  }
+  
+  
+  //YOUTUBE
+  else if($type == "youtube"){
+    //Youtube options
+    $options = array(
+      "autohide" => get_option("youtube_autohide"),
+      "cc_load_policy" => get_option("youtube_cc_load_policy"),
+      "color" => get_option("youtube_color"),
+      "theme" => get_option("youtube_theme"),
+      "controls" => get_option("youtube_controls"),
+      "iv_load_policy" => get_option("youtube_iv_load_policy"),
+      "modestbranding" => get_option("youtube_modestbranding"),
+      "rel" => get_option("youtube_rel"),
+      "autoplay" => $autoplay
+    );
+    
+    //Make youtube iframe
+    $parameters="";
+    foreach($options as $key => $value){
+      if($value !== FALSE)
+        $parameters = $parameters."&".$key."=".$value;  
+    }
+    
+    return 'http://www.youtube.com/embed/'.$id.'?wmode=transparent'.$parameters;
+  }
+  
+  
+  //DAILYMOTION
+  else if($type == "dailymotion"){
+    //Vimeo options
+    $options = array(
+      "foreground" => get_option("dailymotion_foreground"),
+      "background" => get_option("dailymotion_background"),
+      "highlight" => get_option("dailymotion_highlight"),
+      "related" => get_option("dailymotion_related"),
+      "logo" => get_option("dailymotion_logo"),
+      "info" => get_option("dailymotion_info"),
+      "autoplay" => $autoplay
+    );
+    
+    //Make vimeo iframe
+    $parameters="";
+    $count = 0;
+    foreach($options as $key => $value){
+      if($count++ != 0)
+        $parameters = $parameters."&";
+        
+      if($value !== FALSE)
+        $parameters = $parameters.$key."=".$value;
+    }
+    return 'http://www.dailymotion.com/embed/video/'.$id.'?'.$parameters;
+  }
+}
+
+
+
 /*
  *  Returns true if user's browser is unsupported
 */

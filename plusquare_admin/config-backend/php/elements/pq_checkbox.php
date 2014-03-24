@@ -24,21 +24,26 @@ class pq_checkbox {
         	//Make checkbox
 			require(["jquery", "elements/Checkbox"],
 				function($, Checkbox) {
-					var checkbox = new Checkbox($("#<?php echo $id; ?>_checkbox"), "<?php echo $value; ?>", ["<?php echo $values[0]; ?>", "<?php echo $values[1]; ?>"]);
-					var $input = $("#<?php echo $id; ?>");
-					var onChange = function(){
-						var value = checkbox.val();
-						$input.val(value).trigger("change");
-					};
-					onChange();
-					$(checkbox).bind("change", onChange);
-					
-					
-					function onUpdate(){
-						var value = $input.val();
-						checkbox.val(value);
-					}
-					$input.bind("update", onUpdate);
+					$(document).ready(function(){
+						var $input = $("#<?php echo $id; ?>");
+						var checkbox = new Checkbox($("#<?php echo $id; ?>_checkbox"), $input.val(), ["<?php echo $values[0]; ?>", "<?php echo $values[1]; ?>"]);
+						
+						//On Checkbox Change
+						var onChange = function(){
+							var value = checkbox.val();
+							$input.val(value).trigger("change");
+						};
+						onChange();
+						$(checkbox).bind("change", onChange);
+						
+						
+						function onUpdate(){
+							console.log("UPDATE IT");
+							var value = $input.val();
+							checkbox.val(value);
+						}
+						$input.bind("update", onUpdate);
+					});
 				}
 			);
 		</script>

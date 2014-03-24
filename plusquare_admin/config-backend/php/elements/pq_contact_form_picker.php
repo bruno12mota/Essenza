@@ -16,6 +16,11 @@ class pq_contact_form_picker {
 	function __construct($id, $value){
 		$this->id = $id;
 
+		global $post;
+		if(isset($post)){
+			$old_post = $post;
+		}
+
 		$options = array();
 		$values = array();
 		
@@ -27,6 +32,10 @@ class pq_contact_form_picker {
 			array_push($values, $post->ID);
 		endwhile;
 		wp_reset_postdata();
+
+		if(isset($old_post)){
+			$post = $old_post;
+		}
 
 		if(WP_DEBUG)fb::log($value);
 		

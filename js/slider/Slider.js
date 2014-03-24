@@ -412,7 +412,20 @@ define(["jquery",
             this.ease = this.easeTemp;
 			
 			//Change slide
-			if(this.difference <= 0 && this.currentSlide < this.slides.length-1)
+            if(this.difference == 0){
+                var off_left = this.$root.offset().left;
+                var rel_off = this.dragInitialX - off_left;
+
+                if(rel_off < this.width/2){
+                    //left side
+                    this.previousSlide();
+                }
+                else {
+                    //right side
+                    this.nextSlide();
+                }
+            }
+			else if(this.difference < 0 && this.currentSlide < this.slides.length-1)
 				this.nextSlide();
 			else if(this.difference > 0 && this.currentSlide > 0)
 				this.previousSlide();

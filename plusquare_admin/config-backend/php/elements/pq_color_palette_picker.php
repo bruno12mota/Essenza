@@ -24,6 +24,7 @@ class pq_color_palette_picker {
 		$options = $options === "" || $options === FALSE ? "[]" : $options;
 
 		$value = $value == "" || $value == NULL ? 0 : $value;
+		if(WP_DEBUG)fb::log("COLOR: ".$value);
 		
 		?>
         <div class="palette_combobox" id="<?php echo $id; ?>_palette_combobox">	
@@ -37,7 +38,7 @@ class pq_color_palette_picker {
 			require(["jquery", "elements/Palette_combobox"],
 				function($, Palette_combobox) {
 					$(document).ready(function(){
-						var combobox = new Palette_combobox("<?php echo $id; ?>", "<?php echo $value; ?>", <?php echo $options; ?>);
+						var combobox = new Palette_combobox("<?php echo $id; ?>", $("#<?php echo $id; ?>").val(), <?php echo $options; ?>);
 					});
 				}
 			);

@@ -1,11 +1,3 @@
-
-<?php
-//Not For IE <8
-global $essenza_is_old_ie;
-if($essenza_is_old_ie !== true){
-?>
-
-
 <?php
 
 	if(isset($_GET["rel"])){
@@ -142,9 +134,7 @@ if($essenza_is_old_ie !== true){
 
 	<?php wp_footer(); ?>
 
-<?php
-} 
-?>
+
 
 
 </body>

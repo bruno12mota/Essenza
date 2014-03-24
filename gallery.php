@@ -1,8 +1,7 @@
-<?php /* Template Name: Gallery */ ?>
+<?php /* Template Name: Gallery */ 
 
-<?php get_header(); ?>
+get_header(); 
 
-<?php
 //Not For IE <8
 global $essenza_is_old_ie;
 if($essenza_is_old_ie !== true){

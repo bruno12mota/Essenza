@@ -36,7 +36,7 @@ requirejs.config({
 	"slider/Slider",
 	
 	//Other
-	"other/bootstrap.min",
+	//"other/bootstrap.min",
 	"other/Dragable",
 	"other/html5",
 	"other/modernizr",

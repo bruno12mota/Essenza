@@ -149,17 +149,15 @@ define(["jquery", "utils/utils"], function($){
 			
 			//GET COLOR
 			var rgb = hsvToRgb(this.h, this.s, this.v);
-			var color = rgbToHex(rgb[0], rgb[1], rgb[2]);
+			var color = rgbToHex( Math.round(rgb["r"]), Math.round(rgb["g"]), Math.round(rgb["b"]));
 			
 			this.active = color;
 			this.$currentColor.css("background-color", this.active);
 			this.$currentText.val(this.active);
-			console.log("COOOOLORsssss RGB");
-			console.log(rgb);
 			
 			
 			var trueRgb = hsvToRgb(this.h, 100, 100);
-			var trueColor = rgbToHex(trueRgb[0], trueRgb[1], trueRgb[2]);
+			var trueColor = rgbToHex(Math.round(trueRgb["r"]), Math.round(trueRgb["g"]), Math.round(trueRgb["b"]));
 			this.$color_triangle.css({
 				"border-left": "60px solid "+trueColor
 			});
@@ -181,12 +179,10 @@ define(["jquery", "utils/utils"], function($){
 
 			var rgb = hex2rgb(hex);
 			var hsv = rgbToHsv(rgb.red, rgb.green, rgb.blue);
-			console.log(rgb);
-			console.log(hsv);
 
-			this.h =hsv[0];
-			this.s = hsv[1];
-			this.v = hsv[2];
+			this.h = hsv["h"]*359;
+			this.s = hsv["s"]*100;
+			this.v = hsv["v"]*100;
 			
 			this.updatePickers();
 		},

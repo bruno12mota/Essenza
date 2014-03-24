@@ -28,53 +28,57 @@ class pq_combobox {
         	//Make Combobox
 			require(["jquery", "elements/Combobox"],
 				function($, Combobox) {
-					var comboBox = new Combobox($("#<?php echo $id; ?>_combobox"), <?php echo (($value == "" || $value == NULL) ? 0 : "'".$value."'"); ?>, [<?php
-						$count = 0; 
-						foreach($options as $option){ 
-							if($count != 0)
-								echo ",";
-							echo "'".plusquare_single_quotes_html($option)."'";
-							$count++;
-						} 
-					?>], [<?php 
-						$count = 0; 
-						foreach($values as $value){ 
-							if($count != 0)
-								echo ",";
-							echo "'".$value."'";
-							$count++;
-						} ?>]);
-					
-					var onChange = function(){
-						var value = comboBox.val();
-						$("#<?php echo $id; ?>").val(value);
-						$("#<?php echo $id; ?>").trigger("change");
+					$(document).ready(function(){
+						var $input = $("#<?php echo $id; ?>");
+
+						var comboBox = new Combobox($("#<?php echo $id; ?>_combobox"), $input.val(), [<?php
+							$count = 0; 
+							foreach($options as $option){ 
+								if($count != 0)
+									echo ",";
+								echo "'".plusquare_single_quotes_html($option)."'";
+								$count++;
+							} 
+						?>], [<?php 
+							$count = 0; 
+							foreach($values as $value){ 
+								if($count != 0)
+									echo ",";
+								echo "'".$value."'";
+								$count++;
+							} ?>]);
 						
-						//Check for trigger visibility rows
-						$(".<?php echo $id; ?>").each(function(){
-							var $row = $(this);
-							var rel = $row.attr("rel");
+						var onChange = function(){
+							var value = comboBox.val();
+							$input.val(value);
+							$input.trigger("change");
 							
-							if(rel == value)
-								$row.css("display", "inline");
-							else
-								$row.css("display", "none");
-						});
-					};
-					onChange();
-					$(comboBox).bind("change", onChange);
+							//Check for trigger visibility rows
+							$(".<?php echo $id; ?>").each(function(){
+								var $row = $(this);
+								var rel = $row.attr("rel");
+								
+								if(rel == value)
+									$row.css("display", "inline");
+								else
+									$row.css("display", "none");
+							});
+						};
+						onChange();
+						$(comboBox).bind("change", onChange);
+						
+						$input.bind("update", function(){
+							var val = $("#<?php echo $id; ?>").val();
+
+							if(val == ""){
+								$("#<?php echo $id; ?>").val("<?php echo isset($values[0]) ? $values[0] : ''; ?>");
+								val = "<?php echo isset($values[0]) ? $values[0] : ''; ?>";
+							}
+
+							comboBox.val(val);
+						});					
+					});
 					
-					$("#<?php echo $id; ?>").bind("update", function(){
-						var val = $("#<?php echo $id; ?>").val();
-
-						if(val == ""){
-							$("#<?php echo $id; ?>").val("<?php echo isset($values[0]) ? $values[0] : ''; ?>");
-							val = "<?php echo isset($values[0]) ? $values[0] : ''; ?>";
-						}
-
-						comboBox.val(val);
-					});					
-					comboBox.val($("#<?php echo $id; ?>").val());
 				}
 			);
         </script>

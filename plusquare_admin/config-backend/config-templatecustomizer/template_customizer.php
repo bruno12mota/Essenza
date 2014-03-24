@@ -19,13 +19,12 @@ require_once( 'php/less-process.php' );
 //ADD MENU OPTION
 add_action('admin_menu','plusquare_template_customizer');
 function plusquare_template_customizer () {
-	if ( !current_user_can( 'manage_options' ) )  {
-		wp_die( 'You do not have sufficient permissions to access this page.'  );
+	if ( current_user_can( 'manage_options' ) )  {
+		add_menu_page('Essenza Customizer', 'Essenza', 'manage_options', 'template_customizer', 'plusquare_template_customizer_init');
+		
+		//call register settings function
+		add_action( 'admin_init', 'register_essenza_settings' );
 	}
-	add_menu_page('Essenza Customizer', 'Essenza', 'manage_options', 'template_customizer', 'plusquare_template_customizer_init');
-	
-	//call register settings function
-	add_action( 'admin_init', 'register_essenza_settings' );
 }
 
 
@@ -60,6 +59,9 @@ function register_essenza_settings(){
 
 //CONTENT
 function plusquare_template_customizer_init(){
+	if ( !current_user_can( 'manage_options' ) )  {
+		wp_die( 'You do not have sufficient permissions to access this page.'  );
+	}
 
 	/*Check for update*/
 	$updated = isset($_GET["settings-updated"]);

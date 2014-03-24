@@ -466,47 +466,51 @@ function componentToHex(c) {
 function rgbToHex(r, g, b) {
     return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
+function isOnePointZero(n) {
+    return typeof n == "string" && n.indexOf('.') != -1 && parseFloat(n) === 1;
+}
+// Check to see if string passed in is a percentage
+function isPercentage(n) {
+    return typeof n === "string" && n.indexOf('%') != -1;
+}
+// Take input from [0, n] and return it as [0, 1]
+function bound01(n, max) {
+    if (isOnePointZero(n)) { n = "100%"; }
 
+    var processPercent = isPercentage(n);
+    n = Math.min(max, Math.max(0, parseFloat(n)));
 
-function hsvToRgb(h, s, l) {
-	var r, g, b;
-	var i;
-	var f, p, q, t;
-	
-	// Make sure our arguments stay in-range
-	h = Math.max(0, Math.min(360, h));
-	s = Math.max(0, Math.min(100, s));
-	l = Math.max(0, Math.min(100, l));
-	
-	// We accept saturation and value arguments from 0 to 100 because that's
-	// how Photoshop represents those values. Internally, however, the
-	// saturation and value are calculated from a range of 0 to 1. We make
-	// That conversion here.
-    h /= 360;
-	s /= 100;
-	l /= 100;
- 
-  if (s == 0) {
-    r = g = b = l; // achromatic
-  } else {
-    function hue2rgb(p, q, t) {
-      if (t < 0) t += 1;
-      if (t > 1) t -= 1;
-      if (t < 1/6) return p + (q - p) * 6 * t;
-      if (t < 1/2) return q;
-      if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
-      return p;
+    // Automatically convert percentage into number
+    if (processPercent) {
+        n = parseInt(n * max, 10) / 100;
     }
- 
-    var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-    var p = 2 * l - q;
- 
-    r = hue2rgb(p, q, h + 1/3);
-    g = hue2rgb(p, q, h);
-    b = hue2rgb(p, q, h - 1/3);
-  }
- 
-  return [ Math.round(r * 255), Math.round(g * 255), Math.round(b * 255) ];
+
+    // Handle floating point rounding errors
+    if ((Math.abs(n - max) < 0.000001)) {
+        return 1;
+    }
+
+    // Convert into [0, 1] range if it isn't already
+    return (n % max) / parseFloat(max);
+}
+
+
+function hsvToRgb(h, s, v) {
+	h = bound01(h, 360) * 6;
+    s = bound01(s, 100);
+    v = bound01(v, 100);
+
+    var i = Math.floor(h),
+        f = h - i,
+        p = v * (1 - s),
+        q = v * (1 - f * s),
+        t = v * (1 - (1 - f) * s),
+        mod = i % 6,
+        r = [v, q, p, p, t, v][mod],
+        g = [t, v, v, q, p, p][mod],
+        b = [p, p, t, v, v, q][mod];
+
+    return { r: r * 255, g: g * 255, b: b * 255 };
 }
 
 function hex2rgb(hex) {
@@ -531,24 +535,28 @@ function hex2rgb(hex) {
 }
 
 function rgbToHsv (r,g,b) {
-    r /= 255, g /= 255, b /= 255;
-    var max = Math.max(r, g, b), min = Math.min(r, g, b);
-    var h, s, l = (max + min) / 2;
+    r = bound01(r, 255);
+    g = bound01(g, 255);
+    b = bound01(b, 255);
 
-    if(max == min){
-        h = s = 0; // achromatic
-    }else{
-        var d = max - min;
-        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-        switch(max){
+    var max = Math.max(r, g, b), min = Math.min(r, g, b);
+    var h, s, v = max;
+
+    var d = max - min;
+    s = max === 0 ? 0 : d / max;
+
+    if(max == min) {
+        h = 0; // achromatic
+    }
+    else {
+        switch(max) {
             case r: h = (g - b) / d + (g < b ? 6 : 0); break;
             case g: h = (b - r) / d + 2; break;
             case b: h = (r - g) / d + 4; break;
         }
         h /= 6;
     }
-
-    return [h*359, s*100, l*100];
+    return { h: h, s: s, v: v };
 }
 
 jQuery.fn.resizeAndCenter = function(w, h, ow, oh, sizing){

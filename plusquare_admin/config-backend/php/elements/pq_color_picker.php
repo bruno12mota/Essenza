@@ -25,7 +25,7 @@ class pq_color_picker {
 			require(["jquery", "elements/ColorPicker"],
 				function($, ColorPicker) {
 					$(document).ready(function(){
-						var colorPicker = new ColorPicker($("#<?php echo $id; ?>_color_picker"), "<?php echo $value; ?>", "<?php echo $id; ?>");
+						var colorPicker = new ColorPicker($("#<?php echo $id; ?>_color_picker"), $("#<?php echo $id; ?>").val(), "<?php echo $id; ?>");
 					});
 				}
 			);

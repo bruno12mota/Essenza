@@ -1,11 +1,9 @@
-<?php /* Template Name: Portfolio  */ ?>
+<?php /* Template Name: Portfolio  */ 
 
-<?php get_header(); ?>
+get_header(); 
 
-
-<?php
-    $descPosition = get_post_meta( $post->ID, "description_position", true );
-    $filterMenu = get_post_meta( $post->ID, "show_filter_menu", true );
+$descPosition = get_post_meta( $post->ID, "description_position", true );
+$filterMenu = get_post_meta( $post->ID, "show_filter_menu", true );
 ?>
      
 <!-- START PAGE WRAPER -->

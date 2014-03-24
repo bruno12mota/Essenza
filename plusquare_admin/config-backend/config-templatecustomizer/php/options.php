@@ -319,7 +319,7 @@ $plusquare_template_options = array(
 					array(
 						"label" => "Footer Text",
 						"id" => $pq_shortname."_footer_text",
-						"type" => "text",
+						"type" => "text_area",
 						"default" => "E-mail us: <a href='#'>info@youremail.com</a>",
 						"help" => "The text that will appear next to the social icons if twitter feed is checked, or floated to the left if not."
 					),

@@ -1,8 +1,7 @@
-<?php /* Template Name: Regular Blog */ ?>
+<?php /* Template Name: Regular Blog */ 
 
-<?php get_header(); ?>
+get_header(); 
 
-<?php
 //Not For IE <8
 global $essenza_is_old_ie;
 if($essenza_is_old_ie !== true){

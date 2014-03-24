@@ -97,10 +97,11 @@ class pq_meta_box {
 	
 	function save_meta($option){
 		global $post;	
-		
+
 		if($option["type"] != NULL && $option["type"] != "page_builder" ){
 			$value = $_POST[$option["id"]];
-			
+
+
 			if($option["type"] == "media_picker"){
 				$value_sizing = $_POST[$option["id"]."_sizing"];
 				update_post_meta( $post->ID, $option["id"]."_sizing", $value_sizing );
@@ -116,12 +117,13 @@ class pq_meta_box {
 				}
 				else{
 					//Multiple options
-					foreach($tab as $tabOption)
-						$this->save_meta($tabOption);
+					foreach($tab as $tabOption){
+						$this->save_meta($tabOption);	
+					}
 				}
 			}
 
-			if($option["type"] == "tabs_unbinded"){
+			else if($option["type"] == "tabs_unbinded"){
 				$tabs = $option["tabs"];
 				foreach($tabs as $tab){
 					foreach($tab as $tabOption){
@@ -150,8 +152,9 @@ class pq_meta_box {
 		
 		if( $_POST ) {
 			//Go through tabs
-			foreach ( $this->meta_options as $option) 
+			foreach ( $this->meta_options as $option) {
 				$this->save_meta($option);
+			}
 		}
 	}
 }
