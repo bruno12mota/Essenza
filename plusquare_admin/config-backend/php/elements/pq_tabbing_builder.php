@@ -40,7 +40,7 @@ class pq_tabbing_builder {
         
         <script type="text/javascript">
         	//Make Combobox
-			require(["jquery", "StackBuilder", "elements/Combobox", "utils/utils"],
+			require(["jquery", "PageBuilder/StackBuilder", "ui/elements/Combobox", "utils/utils"],
 				function($, StackBuilder, Combobox) {
 					$(document).ready(function(){
 						var $holder = $("#<?php echo $this->id; ?>_holder");
@@ -48,13 +48,21 @@ class pq_tabbing_builder {
 						var $mainInput = $("#<?php echo $this->id; ?>");
 						var $input = $("#<?php echo $this->id; ?>_tabs");
 						
+						var titleInputs = new Array();
+						var $titles_holder = $holder.find(".titles_holder");
 						
+						var regexComponent = new RegExp("\\[tab.{0,1}?\\][\\s\\S]*\\[\\/tab.{0,1}?\\]", "gi");
+						var matchedComponents = $mainInput.val().match(regexComponent);
+						if(matchedComponents != null){
+							$input.val( matchedComponents[0] );
+						}
 						
 						//Make stack builder
-						var stackBuilder = new StackBuilder($input, $holder.find(".placeholders_holder"), $holder.find(".menu_holder"), true, "<?php echo get_template_directory_uri(); ?>/plusquare_admin/", <?php echo json_encode($essenza_shortcodes_options); ?>, "tab");
+						var stackBuilder = new StackBuilder($input, $holder.find(".placeholders_holder"), $holder.find(".menu_holder"), true, "<?php echo get_template_directory_uri(); ?>/plusquare_admin/config-backend/", <?php echo json_encode($essenza_shortcodes_options); ?>, "tab");
 						
-						$mainInput.bind("update", function(){
+						function onUpdate(){
 							var mainValue = $mainInput.val();
+
 							//tab
 							var regexComponent = new RegExp("\\[tab.{0,1}?\\][\\s\\S]*?\\[\\/tab.{0,1}?\\]", "gi");
 							var matchedComponents = mainValue.match(regexComponent);
@@ -85,11 +93,13 @@ class pq_tabbing_builder {
 								$input.val(contentInput);
 								stackBuilder.fromHtml();
 							}
-						});
-						
-						
-						var titleInputs = new Array();
-						var $titles_holder = $holder.find(".titles_holder");
+
+							if($titles_holder.find("*").length == 0){
+								addNewInput();
+							}
+						}
+						onUpdate();
+						$mainInput.bind("update", onUpdate);
 						
 						function addNewInput(e, text, number){
 							if(text == undefined)
@@ -108,7 +118,6 @@ class pq_tabbing_builder {
 						
 						//New placeholder added
 						$(stackBuilder).bind("placeholderAdded", addNewInput);
-						$(stackBuilder).trigger("placeholderAdded");
 						
 						function removeAllTitles(){
 							$titles_holder.find("*").remove();
@@ -143,7 +152,6 @@ class pq_tabbing_builder {
 							
 							$mainInput.val(str);
 						}
-						
 						$input.bind("change", updateMainVal);
 					});
 				}

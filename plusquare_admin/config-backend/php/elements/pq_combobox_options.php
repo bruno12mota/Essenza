@@ -29,7 +29,7 @@ class pq_combobox_options {
         
         <script type="text/javascript">
         	//Make Combobox
-			require(["jquery", "elements/OrderableList"],
+			require(["jquery", "ui/elements/OrderableList"],
 				function($, OrderableList, Lightbox) {
 					$(document).ready(function(){
 						var $input = $("#<?php echo $id; ?>");

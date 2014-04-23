@@ -141,7 +141,8 @@ define(["jquery",
 						'width': Math.ceil(this.width*imageScale),
 						'height': Math.ceil(this.height*imageScale),
 						'crop': "false",
-						"snap": 'true'
+						"snap": 'true',
+						"frontend": "true"
 					},
 					$.proxy(function( response ) {
 						if(response["success"] == true){

@@ -236,7 +236,8 @@ define(["jquery",
 					'height': availableHeight,
 					'crop': "false",
 					"snap": "true",
-					"adjust": "true"
+					"adjust": "true",
+					"frontend": "true"
 				},
 				$.proxy(function( response ) {
 					if(response["success"] == true){

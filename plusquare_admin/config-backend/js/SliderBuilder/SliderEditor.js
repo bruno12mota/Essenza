@@ -1,8 +1,8 @@
 define(["jquery",
 		"./SliderEditorSlide",
 		"./SliderEditorElement",
-		"ui-elements",
-		"elements/OrderableList"], function($, Slide, SlideElement, Elements) {
+		"ui/ui-elements",
+		"ui/elements/OrderableList"], function($, Slide, SlideElement, Elements) {
 
 
 	var SliderEditor = function ($this, builderPath, mainOptionsIds, id){

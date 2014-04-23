@@ -45,7 +45,7 @@ define(["jquery",
     		if(!this.firstFurnace)
     			this.$loading_more.show();
 
-    		var objSend = "number="+this.number+"&offset="+this.offset+"&action="+this.ajaxFunction+"&postId="+this.postID+"&maxWidth="+this.maxWidth;
+    		var objSend = "frontend=true&number="+this.number+"&offset="+this.offset+"&action="+this.ajaxFunction+"&postId="+this.postID+"&maxWidth="+this.maxWidth;
 
     		this.loadingFurnace = true;
     		this.offset += this.number;

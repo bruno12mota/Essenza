@@ -231,6 +231,11 @@ define(["jquery",
 	        }
 	        else if(this.parameters.buttonsHide)
 	        	this.overButtonsHolder = true;
+
+            if(this.parameters.pauseOnOver){
+                //Pause autoplay
+                this.pauseAutoplay();
+            }
 	    },
 	    
 	    //Mouse out slider handler
@@ -241,6 +246,12 @@ define(["jquery",
             }
 	        else if(this.parameters.buttonsHide)
 	        	this.overButtonsHolder = false;
+            
+            
+            if(this.parameters.pauseOnOver){
+                //Pause autoplay
+                this.resumeAutoplay();
+            }
         },
 	    
 	    
@@ -855,7 +866,8 @@ define(["jquery",
                 {
                     'action' : 'pq_get_video',
                     'id': backgroundId,
-                    'type': backgroundType
+                    'type': backgroundType,
+                    "frontend": "true"
                 },
                 $.proxy(function( response ) {
                     $('<iframe src="'+response+'&autoplay=1" width="100%" height="100%" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>').prependTo(this.$videoHolder);
@@ -934,16 +946,17 @@ define(["jquery",
         
         //Keyboard interaction
         addKeyboardInteraction: function(){
-        	$(document).keypress($.proxy(this.keyPressed, this));
+        	$(document).keydown($.proxy(this.keyPressed, this));
         },
         
         //On keyboard key press
         keyPressed: function(event){
-        	if ( event.keyCode  == 37 ) {
+            var key = event.which;
+        	if ( key  == 37 ) {
         		//left
         		this.previousSlide();
         	}
-        	else if ( event.keyCode  == 39 ) {
+        	else if ( key  == 39 ) {
         		//right
         		this.nextSlide();
         	}

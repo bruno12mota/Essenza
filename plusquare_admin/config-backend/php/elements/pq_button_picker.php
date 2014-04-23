@@ -273,7 +273,7 @@ class pq_button_picker {
         
         <script type="text/javascript">
         	//Make Combobox
-			require(["jquery", "elements/Combobox", "utils/utils", "elements/ColorPicker"],
+			require(["jquery", "ui/elements/Combobox", "utils/utils", "ui/elements/ColorPicker"],
 				function($, Combobox) {
 					$(document).ready(function(){
 						var $input = $("#<?php echo $id; ?>");

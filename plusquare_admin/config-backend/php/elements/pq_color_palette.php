@@ -33,7 +33,7 @@ class pq_color_palette {
         
         <script type="text/javascript">
         	//Make checkbox
-			require(["jquery", "elements/OrderableList", "Lightbox/Lightbox"],
+			require(["jquery", "ui/elements/OrderableList", "Lightbox/Lightbox"],
 				function($, OrderableList, Lightbox) {
 					$(document).ready(function(){
 						//input 

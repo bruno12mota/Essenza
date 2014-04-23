@@ -1,5 +1,5 @@
 define(["jquery", 
-		"ui-elements",
+		"ui/ui-elements",
         "libraries/inheritance"], function($, ui) {
 
 	var SliderEditorElement = Class.extend({

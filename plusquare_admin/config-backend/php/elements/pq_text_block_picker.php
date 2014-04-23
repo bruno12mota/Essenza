@@ -189,7 +189,7 @@ class pq_text_block_picker {
         
         <script type="text/javascript">
         	//Make Combobox
-			require(["jquery", "elements/Combobox", "utils/utils"],
+			require(["jquery", "ui/elements/Combobox", "utils/utils"],
 				function($, Combobox) {
 					$(document).ready(function(){
 						var $input = $("#<?php echo $id; ?>");

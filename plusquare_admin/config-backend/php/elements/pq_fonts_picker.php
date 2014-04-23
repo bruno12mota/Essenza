@@ -19,7 +19,7 @@ class pq_fonts_picker {
 		global $pq_shortname;
 		$googleId = get_option($pq_shortname."_google_id");
 		
-		if($googleId == FALSE){
+		if($googleId == FALSE || $googleId == ""){
 			echo "<div class='ui_alert'><div class='ui_alert_text'>An error occured loading google app options! Before managing your fonts you need to set up your application, go to 'Apis Settings'>'Google Fonts&Maps api' and follow the indications to do so.</div></div>";
 			return;
 		}

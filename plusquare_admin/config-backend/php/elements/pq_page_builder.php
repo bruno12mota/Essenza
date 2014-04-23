@@ -22,19 +22,33 @@ class pq_page_builder {
 		$saved_pages = get_option("esza_saved_pages_builder");
 		$saved_pages = $saved_pages === FALSE || $saved_pages === null || $saved_pages === "" ? '{}' : str_replace("\n", "", $saved_pages);
 		?>
+
+        <div id="ajax_editor_holder" style="display:none;">
+        	<?php 
+        	wp_editor( "", "ajax_editor", array(
+				"media_buttons" => false,
+				"default_editor" => "tinymce"
+			));
+			?>
+        </div>
+
         <div id="<?php echo $id; ?>">
         	<div class="page_builder" id='page_builder'>
             </div>
         </div>
+
         
         <!-- Add page builder dynamically -->
         <script type="text/javascript">
-            require(["jquery", "PageBuilder"],
+            require(["jquery", "PageBuilder/PageBuilder"],
                 function($, PageBuilder) {
+
                 	//Saved pages
                 	var saved_pages = <?php echo $saved_pages; ?>;
                 	if(saved_pages == null)
                 		saved_pages = new Object();
+
+                	//Debug
                 	if(WP_DEBUG)console.log("saved_pages");
                 	if(WP_DEBUG)console.log(saved_pages);
 

@@ -377,6 +377,16 @@ class pq_slider_builder {
 								"default" => "true",
 								"help" => "Check if you want the slider to autoplay at start."
 							),
+							
+							//keyboard 
+							array(
+								"label" => "Keyboard Navigation",
+								"id" => "keyboard",
+								"type" => "checkbox",
+								"values" => array("false", "true"),
+								"default" => "true",
+								"help" => "Check if you want the user to be able to navigate between slides with keyboard interaction."
+							),
 
 							//background color
 							array(
@@ -906,7 +916,7 @@ class pq_slider_builder {
                 <div class="info">Current selected slide: <span>1/3</span></div>
                 <a href="#" class="changeSlide next"></a>
 
-                <a id="slider_publish_button" class="ui-button livePreview" href="#"><img class="arrow-icon-left" src="<?php echo get_template_directory_uri(); ?>/plusquare_admin/config-backend/images/live_preview_icon.png"/>Publish Slider</a>
+                <a id="slider_publish_button" class="ui-button livePreview" href="#"><img class="arrow-icon-left" src="<?php echo get_template_directory_uri(); ?>/plusquare_admin/config-backend/images/slider_builder/live_preview_icon.png"/>Publish Slider</a>
             
                 <a href='#' class='menu_btn remove_slide'>Remove this slide</a>
                 <a href='#' class='menu_btn add_new'>Add new slide</a>
@@ -914,7 +924,7 @@ class pq_slider_builder {
             </div>
             
             <!-- Edit Tabs -->
-            <div class="customizer_tabs_wraper">
+            <div class="customizer_tabs_wraper" style="background-color: #262626;">
             	<!-- MENU -->
                 <div class="menu">
                 	<ul>
@@ -937,7 +947,7 @@ class pq_slider_builder {
                 </div>
                 
                 <!-- CONTENT -->
-                <div class="contents" style="width: 695px;">
+                <div class="contents" style="width: 727px;">
                 	<?php
                         foreach($options as $mainTab) {
                             foreach ($mainTab['tabs'] as $tab) {

@@ -19,8 +19,38 @@ include_once("config-pages/pages.php");
 
 
 //Prevent user from rich editing
-add_filter ( 'user_can_richedit' , create_function ( '$a' , 'return false;' ) , 50 );
+//add_filter ( 'user_can_richedit' , create_function ( '$a' , 'return false;' ) , 50 );
 
+//Before rich editor builds
+add_filter('tiny_mce_before_init', 'myformatTinyMCE' );
+add_filter( 'wp_default_editor', create_function('', 'return "html";') );
+function myformatTinyMCE($in){
+    if($in["selector"] == "#content"){
+        $in["wpautop"] = 0;
+    }
+    else{
+        $style_formats = get_google_fonts_list();
+        $in['style_formats'] = json_encode( $style_formats );
+    }
+    return $in;
+}
+
+
+//Add styles dropdown
+add_filter( 'mce_buttons_2', 'my_mce_buttons_2' );
+function my_mce_buttons_2( $buttons ) {
+    array_unshift( $buttons, 'styleselect' );
+    return $buttons;
+}
+
+//Add styles to editors
+add_action( 'init', 'pq_add_editor_styles' );
+function pq_add_editor_styles() {
+    $font_url = get_google_fonts_link();
+    add_editor_style( str_replace( ',', '%2C', $font_url ) );
+    add_editor_style( get_template_directory_uri().'/css/text_styles.css' );
+
+}
 
 
 
@@ -41,28 +71,15 @@ function get_google_fonts_list(){
     $fontsJsonStr = get_option($pq_shortname."_google_fonts");
     $fontsJson = json_decode($fontsJsonStr);
 
-    if($fontsJsonStr != FALSE){
-        $mainCount = 0;
-        $list = "[";
+    if($fontsJsonStr != FALSE && $fontsJsonStr != ""){
+        $list = array();
         foreach($fontsJson->items as $item){
-            if(WP_DEBUG)fb::log($item);
 
             $fontName = $item->family; 
             $fontName = str_replace("_", " ", $fontName);
 
-            if($mainCount != 0)
-               $list .= ",";
-
-            $count = 0;
             foreach($item->variants as $variant){
                 $variant = (string)$variant;
-                if($count != 0)
-                   $list .= ",";
-
-                $list .= "{name: '".$fontName." (".$variant.")', element: 'span', styles : { ";
-                
-                //Font family
-                $list .= "'font-family': '\"".$fontName."\"',";
 
                 //Weight and style
                 $num = strpos($variant, "italic");
@@ -84,25 +101,26 @@ function get_google_fonts_list(){
                     $weight = substr($variant, -$num);
                     $style = "italic";
                 }
-                $list .= "'font-weight': '".$weight."',";
-                $list .= "'font-style': '".$style."'";
 
-                //Close styles
-                $list .= "}"; 
-
-                //Close element
-                $list .= "}"; 
+                //Create object
+                $obj = array(
+                    'title' => $fontName ." (".$variant.")",
+                    'inline' => 'span',
+                    'styles' => array(
+                        'fontFamily' => '"'.$fontName.'"',
+                        'fontWeight' => $weight,
+                        'fontStyle' => $style
+                    )
+                );
                 
-                $count++;
+                $list[] = $obj;
              }
-       
-            $mainCount ++;
         }
 
-        return $list."]";
+        return $list;
     }
 
-    return "[]";
+    return array();
 }
 
 

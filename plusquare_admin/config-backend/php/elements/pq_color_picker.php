@@ -22,7 +22,7 @@ class pq_color_picker {
         
         <script type="text/javascript">
         	//Make checkbox
-			require(["jquery", "elements/ColorPicker"],
+			require(["jquery", "ui/elements/ColorPicker"],
 				function($, ColorPicker) {
 					$(document).ready(function(){
 						var colorPicker = new ColorPicker($("#<?php echo $id; ?>_color_picker"), $("#<?php echo $id; ?>").val(), "<?php echo $id; ?>");

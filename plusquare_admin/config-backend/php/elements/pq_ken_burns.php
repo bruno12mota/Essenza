@@ -33,7 +33,7 @@ class pq_ken_burns {
         <script type="text/javascript">
         	//Make Combobox
 			require(["jquery",
-					"elements/Kenburns"],
+					"ui/elements/Kenburns"],
 				function($, Kenburns) {
 					$(document).ready(function(){
 						var kenburns = new Kenburns($("#<?php echo $id; ?>_kenburns"), <?php echo (($value == "" || $value == NULL) ? 0 : "'".$value."'"); ?>, 200, 200);

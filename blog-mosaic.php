@@ -51,8 +51,13 @@ if($essenza_is_old_ie !== true){
 						});
 						$new.removeClass("new");
 
-						if(!first)
-							update_category(false);
+						<?php 
+	    				if($filterMenu == "true"){
+	    					?>
+							if(!first)
+								update_category(false);
+							<?php
+						}?>
 
 						if (!Modernizr.touch)
 							$posts.hover(onOver, onOut);

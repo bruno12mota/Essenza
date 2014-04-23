@@ -16,49 +16,59 @@ class pq_rich_editor {
 	function __construct($id, $value, $rich = false){
 		$this->id = $id;
 
-    	global $pq_shortname;
-		$pagesColor = get_option($pq_shortname."_pages_color");
+		if(defined('DOING_AJAX') && DOING_AJAX){
+			?>
+			<textarea style="margin-bottom: 10px;max-width: 100%;min-height: 200px;width: 100%;" class="ui-textbox for-textarea" id="<?php echo $id; ?>" name="<?php echo $id; ?>"><?php echo $value; ?></textarea>
+			<a href="#" class="button button-primary button-large" id="<?php echo $id; ?>_btn">Open rich editor</a>
+			<script>
+				jQuery(document).ready(function($){
+					var time_interval; 
+					var $editor_hold = $("#ajax_editor_holder");
+					var $text_area = $("#<?php echo $id; ?>");
 
-		?>
-        <textarea class="ui-textbox" id="<?php echo $id; ?>" name="<?php echo $id; ?>"><?php echo $value; ?></textarea>
-        
-		<script type="text/javascript">
-			//Make ckeditor instance
-        	require(["jquery", "ckeditor/ckeditor",
-					"ckeditor/jquery_adapter"],
-        		function($){
-        			var backgroundColor = "#111111";
-					var hEd = CKEDITOR.instances['<?php echo $id; ?>'];
-					if (hEd) {
-						CKEDITOR.remove(hEd);
+					function check_fullscreen_out(){
+						var $d = $editor_hold.find(".mce-fullscreen");
+						if($d.length == 0){
+							clearInterval(time_interval);
+
+							$text_area.val( tinymce.get('ajax_editor').getContent() );
+							$editor_hold.hide();
+						}
 					}
-					CKEDITOR.replace( "<?php echo $id; ?>" ,{
-						resize_maxWidth : 700,
-						resize_minWidth : 700,
-						toolbar : '<?php if($rich) echo "MyToolbar"; else echo "Simple"; ?>'
+
+					$("#<?php echo $id; ?>_btn").click(function(){
+						//Open fullscreen ajax rich editor
+						if(typeof(tinymce) !== "undefined" ){
+							var editor = tinymce.get('ajax_editor');
+
+							if(editor != null){
+								$editor_hold.show();
+
+								tinymce.execCommand('mceFocus',false,'ajax_editor');
+
+								editor.setContent($text_area.val());
+								editor.execCommand('mceFullScreen', false, null);
+
+								time_interval = setInterval(check_fullscreen_out, 100);
+							}
+							
+						}
+
+						return false;
 					});
-					CKEDITOR.config.contentsCss = ['<?php echo get_template_directory_uri(); ?>/css/text_styles.css', '<?php echo get_google_fonts_link(); ?>'] ;
+				});
+				
+			</script>
+			<?php
+		}
+		else{
+			wp_editor( $value, $id, array(
+				"media_buttons" => false,
+				"teeny" => !$rich,
+				"default_editor" => "tinymce"
+			));
+		}
 
-					CKEDITOR.config.stylesSet = <?php echo get_google_fonts_list(); ?>;
-
-					//Background color
-					CKEDITOR.on('instanceReady', function(e) {
-
-						// First time
-						e.editor.document.getBody().setStyle('background-color', "<?php echo $pagesColor == FALSE ? "#111111" : $pagesColor; ?>");
-						e.editor.document.getBody().setStyle('padding', "20px");
-						// in case the user switches to source and back
-						e.editor.on('contentDom', function() {
-							e.editor.document.getBody().setStyle('background-color', "<?php echo $pagesColor == FALSE ? "#111111" : $pagesColor; ?>");
-							e.editor.document.getBody().setStyle('padding', "20px");
-        				});
-       				});
-					hEd = CKEDITOR.instances['<?php echo $id; ?>'];
-					$("#<?php echo $id; ?>").data( 'ckeditorInstance', hEd );
-        		}
-        	);
-        </script>
-        <?php
 	}
 	
 	

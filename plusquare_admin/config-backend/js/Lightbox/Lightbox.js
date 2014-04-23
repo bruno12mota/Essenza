@@ -1,4 +1,4 @@
-define(["jquery", "ui-elements"], function($) {
+define(["jquery", "ui/ui-elements"], function($) {
 
 	var Lightbox = function(title, builderPath, saveFunction, width, exit_text, submit_text, loadingLightbox){
 		if(exit_text == undefined)
@@ -103,12 +103,12 @@ define(["jquery", "ui-elements"], function($) {
 		            "overflow":"hidden"
 		        }).appendTo(this.$editPage);
 		        
-		        this.$submitButton = $('<a class="ui-button disabled" href="#">'+this.submit_text+'</a>').css({
+		        this.$submitButton = $('<a class="button button-primary button-large disabled" href="#">'+this.submit_text+'</a>').css({
 		            "position":"relative",
 		            "float":"right"
 		        }).appendTo(this.$submitMenu).click($.proxy(this.saveEdit, this));
 		        
-		        this.$exitButton = $('<a class="ui-button disabled" href="#">'+this.exit_text+'</a>').css({
+		        this.$exitButton = $('<a class="button button-primary button-large disabled" href="#">'+this.exit_text+'</a>').css({
 		            "position":"relative",
 		            "float":"right",
 		            "left": "-10px"

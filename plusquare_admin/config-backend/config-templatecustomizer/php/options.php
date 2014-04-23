@@ -367,7 +367,14 @@ $plusquare_template_options = array(
 						"default" => "#03aaee",
 						"less_var" => true,
 						"help" => "Defines the color to use for the footer's twitter icon when you have a tweet feed enabled."
-					),
+					)
+				)
+			),
+
+			//Footer SOcial Icons
+			array(
+				"name" => "Footer Social Icons",
+				"options" => array(
 					
 					//Links
 					array(

@@ -35,7 +35,7 @@ class pq_color_palette_picker {
         
         <script type="text/javascript">
         	//Make Combobox
-			require(["jquery", "elements/Palette_combobox"],
+			require(["jquery", "ui/elements/Palette_combobox"],
 				function($, Palette_combobox) {
 					$(document).ready(function(){
 						var combobox = new Palette_combobox("<?php echo $id; ?>", $("#<?php echo $id; ?>").val(), <?php echo $options; ?>);

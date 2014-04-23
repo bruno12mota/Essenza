@@ -34,6 +34,8 @@ define(["jquery", "essenza/Cover"], function($) {
     	
     	//Close Info
 	    close : function(){
+        	this.shown = false;
+
 			this.$obj.stop().fadeTo(200, 0, function(){
 				$(this).css("display", "none");
 			});    
@@ -52,6 +54,8 @@ define(["jquery", "essenza/Cover"], function($) {
 	    open : function(){
 	        //Content cover in
 	        if(contentCoverIn(true)){
+	        	this.shown = true;
+
 	        	this.$obj.css("display", "");
 	    		this.resize();
 	        	this.$obj.stop().fadeTo(200, 1);

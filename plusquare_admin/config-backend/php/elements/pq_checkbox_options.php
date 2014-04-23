@@ -40,7 +40,7 @@ class pq_checkbox_options {
         
         <script type="text/javascript">
         	//Make checkbox
-			require(["jquery", "elements/Checkbox"],
+			require(["jquery", "ui/elements/Checkbox"],
 				function($, Checkbox) {
 					var $checkboxes = $("#<?php echo $id; ?>_holder .ui-checkbox");
 					var $input = $("#<?php echo $id; ?>");

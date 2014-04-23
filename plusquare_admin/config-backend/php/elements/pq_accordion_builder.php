@@ -40,7 +40,7 @@ class pq_accordion_builder {
         
         <script type="text/javascript">
         	//Make Combobox
-			require(["jquery", "StackBuilder", "elements/Combobox", "utils/utils"],
+			require(["jquery", "PageBuilder/StackBuilder", "ui/elements/Combobox", "utils/utils"],
 				function($, StackBuilder, Combobox) {
 					$(document).ready(function(){
 						var $holder = $("#<?php echo $this->id; ?>_holder");
@@ -48,11 +48,14 @@ class pq_accordion_builder {
 						var $mainInput = $("#<?php echo $this->id; ?>");
 						var $input = $("#<?php echo $this->id; ?>_tabs");
 						
+						var titleInputs = new Array();
+						var $titles_holder = $holder.find(".titles_holder");
+						
 						
 						//Make stack builder
-						var stackBuilder = new StackBuilder($input, $holder.find(".placeholders_holder"), $holder.find(".menu_holder"), true, "<?php echo get_template_directory_uri(); ?>/plusquare_admin/", <?php echo json_encode($essenza_shortcodes_options); ?>, "accordion_item_content");
+						var stackBuilder = new StackBuilder($input, $holder.find(".placeholders_holder"), $holder.find(".menu_holder"), true, "<?php echo get_template_directory_uri(); ?>/plusquare_admin/config-backend/", <?php echo json_encode($essenza_shortcodes_options); ?>, "accordion_item_content");
 						
-						$mainInput.bind("update", function(){
+						function onUpdate(){
 							var mainValue = $mainInput.val();
 							
 							//accordion_item
@@ -61,10 +64,12 @@ class pq_accordion_builder {
 							
 							//accordion_item_title
 							var regexTitle = new RegExp("\\[accordion_item_title\\][\\s\\S]*?\\[\\/accordion_item_title\\]", "gi");
+							var matchedTitles = mainValue.match(regexTitle);
 							
 							//accordion_item_title
 							var regexContent = new RegExp("\\[accordion_item_content.{0,1}?\\][\\s\\S]*?\\[\\/accordion_item_content.{0,1}?\\]", "gi");
 							var contentInput = "";
+						
 							
 							if(matchedComponents != null){
 								removeAllTitles();
@@ -72,9 +77,11 @@ class pq_accordion_builder {
 									matchedComponents,
 									function(ind, matchedComponent){
 										//get title		
-										var title = matchedComponent.match(regexTitle);
-										title = title[0];
-										var title = title.substring(22, title.length - 23);
+										var title = "";
+										if(matchedTitles[ind] != null){
+											title = matchedTitles[ind];
+											title = title.substring(22, title.length - 23);
+										}
 										addNewInput(null, title ,ind+1);
 										
 										//get content
@@ -87,11 +94,13 @@ class pq_accordion_builder {
 								$input.val(contentInput);
 								stackBuilder.fromHtml();
 							}
-						});
-						
-						
-						var titleInputs = new Array();
-						var $titles_holder = $holder.find(".titles_holder");
+
+							if($titles_holder.find("*").length == 0){
+								addNewInput();
+							}
+						}
+						onUpdate();
+						$mainInput.bind("update", onUpdate);
 						
 						function addNewInput(e, text, number){
 							if(text == undefined)
@@ -110,7 +119,6 @@ class pq_accordion_builder {
 						
 						//New placeholder added
 						$(stackBuilder).bind("placeholderAdded", addNewInput);
-						$(stackBuilder).trigger("placeholderAdded");
 						
 						function removeAllTitles(){
 							$titles_holder.find("*").remove();

@@ -19,6 +19,16 @@ class pq_sidebar_builder {
 		global $essenza_shortcodes_options;
 
 		?>
+
+        <div id="ajax_editor_holder" style="display:none;">
+        	<?php 
+        	wp_editor( "", "ajax_editor", array(
+				"media_buttons" => false,
+				"default_editor" => "tinymce"
+			));
+			?>
+        </div>
+        
 		<div class="sidebar_picker" id ="<?php echo $this->id; ?>_sidebar_picker" style="min-height: 500px;">
         	<div class="option_help"></div>
         	<div class="page_builder">
@@ -33,7 +43,7 @@ class pq_sidebar_builder {
         
         <script type="text/javascript">
         	//Make Combobox
-			require(["jquery", "StackBuilder", "utils/utils"],
+			require(["jquery", "PageBuilder/StackBuilder", "utils/utils"],
 				function($, StackBuilder) {
 					$(document).ready(function(){
 

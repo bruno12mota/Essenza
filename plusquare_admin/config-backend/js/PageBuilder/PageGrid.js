@@ -5,7 +5,7 @@ define(["jquery",
         "./PageBuilder/Line",
         "./PageBuilder/Tooltip",
         "utils/utils", 
-        "ui-elements"], function($, Vmouse, ModuleButton, Module, Line) {
+        "ui/ui-elements"], function($, Vmouse, ModuleButton, Module, Line) {
     
     //Shortcodes info
     var shortcodes = [

@@ -208,6 +208,12 @@ if($essenza_is_old_ie === true){
 						
 						$(".searchButton").click(function(){
 							searchInfo.toogle();
+
+							if(searchInfo.shown){
+								//Focus input
+								$("#search").focus();
+							}
+
 							return false;
 						});
 					});

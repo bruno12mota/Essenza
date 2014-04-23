@@ -1,4 +1,4 @@
-define(["jquery", "Lightbox/Lightbox", "libraries/jquery.mobile.vmouse", "ui-elements", "libraries/inheritance"], function($, Lightbox) {
+define(["jquery", "Lightbox/Lightbox", "libraries/jquery.mobile.vmouse", "ui/ui-elements", "libraries/inheritance"], function($, Lightbox) {
     
     var modulesMovementSpeed = 400;
     var modulesSizeSpeed = 400;

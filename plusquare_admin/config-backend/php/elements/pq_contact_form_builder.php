@@ -22,7 +22,7 @@ class pq_contact_form_builder {
         
         <script type="text/javascript">
         	//Make Combobox
-			require(["jquery", "elements/OrderableList", "Lightbox/Lightbox"],
+			require(["jquery", "ui/elements/OrderableList", "Lightbox/Lightbox"],
 				function($, OrderableList, Lightbox) {
 					$(document).ready(function(){
 						var $input = $("#content");

@@ -1,5 +1,31 @@
 <?php
 
+function json_decode_has_error(){
+   if(function_exists("json_last_error")){
+      switch(json_last_error()) {
+          case JSON_ERROR_DEPTH:
+               return true;
+          break;
+          case JSON_ERROR_CTRL_CHAR:
+               return true;
+          break;
+          case JSON_ERROR_SYNTAX:
+               return true;
+          break;
+          case JSON_ERROR_NONE:
+               return false;
+          break;
+      }
+   }
+   else{
+      return false;
+   }
+   
+
+   return true;
+}
+
+
 //Google Fonts
 function get_google_fonts_link(){
    global $pq_shortname;
@@ -7,19 +33,27 @@ function get_google_fonts_link(){
    $fontsJsonStr = get_option($pq_shortname."_google_fonts");
    $fontsSetJsonStr = get_option($pq_shortname."_google_fonts_set");
 
-   if($fontsJsonStr === FALSE){
+   if($fontsJsonStr === FALSE || $fontsJsonStr == ""){
       return null;
    }
-   if($fontsSetJsonStr === FALSE){
+   if($fontsSetJsonStr === FALSE || $fontsSetJsonStr == ""){
       $fontsSetJsonStr = '{"latin":"true","greek-ex":"false","cyrillic":"false","cyrillic-ext":"false","greek":"false","greek-ext":"false"}';
    }
    
    $fontsJson = json_decode($fontsJsonStr);
+   if(json_decode_has_error() || $fontsJson == null){
+         return null;
+   }
+
    $fontsSetJson = json_decode($fontsSetJsonStr);
+   if(json_decode_has_error() || $fontsSetJson == null){
+         return null;
+   }
+
     
    $protocol = is_ssl() ? 'https' : 'http';
    
-   if($fontsJsonStr !== FALSE){
+   if( $fontsJsonStr !== FALSE){
       $link = $protocol."://fonts.googleapis.com/css?family=";
    
       $mainCount = 0;

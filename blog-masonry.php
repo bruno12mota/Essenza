@@ -42,8 +42,13 @@ if($essenza_is_old_ie !== true){
 					$(masonryGrid).bind("added", function(){
 						$works = $( '#masonry-holder' ).find(">.masonry-post");
 
-						if(!first)
-							update_category(false);
+						<?php 
+	    				if($filterMenu == "true"){
+	    					?>
+							if(!first)
+								update_category(false);
+							<?php
+						}?>
 
 						Lightbox.getElements();
 						runShortcodes();

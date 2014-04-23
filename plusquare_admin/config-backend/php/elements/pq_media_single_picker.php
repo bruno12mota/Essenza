@@ -33,7 +33,7 @@ class pq_media_single_picker {
 				adminAjax = "<?php echo get_site_url(); ?>/wp-admin/admin-ajax.php";
 				
 				//Make Single Pick
-				require(["elements/pq_media_single_picker"],
+				require(["ui/elements/pq_media_single_picker"],
 					function(Single_Pick) {
 						new Single_Pick("<?php echo $this->id; ?>", <?php echo $width; ?>, <?php echo $height; ?>);
 					}

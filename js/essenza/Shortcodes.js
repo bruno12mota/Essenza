@@ -597,8 +597,9 @@ define(["jquery", "essenza/MusicPlayer", "utils/utils"], function($, MusicPlayer
 						}
 
 
-						$shader.css("opacity", shade_over_opacity);
-						$text.css("opacity", 1);
+						$shader.css("opacity", shade_over_opacity);$shader.height();
+						$text.css("opacity", 1);$text.height();
+						
 					}
 				},
 				function (e) {
@@ -635,8 +636,8 @@ define(["jquery", "essenza/MusicPlayer", "utils/utils"], function($, MusicPlayer
 						}
 
 						//Out
-						$shader.css("opacity", shade_opacity);
-						$text.css("opacity", 0);
+						$shader.css("opacity", shade_opacity);$shader.height();
+						$text.css("opacity", 0);$text.height();
 					}
 				}
 			);
@@ -802,7 +803,7 @@ define(["jquery", "essenza/MusicPlayer", "utils/utils"], function($, MusicPlayer
 
 						//SEND EMAIL
 						var objSend = $form.serialize();
-						objSend += "&action=pq_send_email";
+						objSend += "&action=pq_send_email&frontend=true";
 						$form.find(".button").fadeTo(300, 0.4).trigger("mouseout").addClass("disabled");
 						$.post( adminAjax, objSend, function(data, textStatus){
 							if((data == "1" || data == 1) && textStatus == "success"){

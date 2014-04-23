@@ -26,7 +26,7 @@ class pq_combobox {
         
         <script type="text/javascript">
         	//Make Combobox
-			require(["jquery", "elements/Combobox"],
+			require(["jquery", "ui/elements/Combobox"],
 				function($, Combobox) {
 					$(document).ready(function(){
 						var $input = $("#<?php echo $id; ?>");

@@ -8,4 +8,8 @@ FOR /D %%d in (.\*) DO (
 	)
 )
 
+FOR %%c in (.\ui\elements\*.js) DO (
+	java -jar compiler.jar --js ui/elements/%%~nc.js --js_output_file _production/ui/elements/%%~nc.js
+)
+
 PAUSE

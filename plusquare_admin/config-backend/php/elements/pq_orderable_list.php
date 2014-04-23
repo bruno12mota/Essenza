@@ -40,7 +40,7 @@ class pq_orderable_list {
         
 		<script type="text/javascript">
             //Make Single Pick
-            require(["jquery", "elements/OrderableList"], function($, OrderableList) {
+            require(["jquery", "ui/elements/OrderableList"], function($, OrderableList) {
 			     $(document).ready(function($){
 					new OrderableList("<?php echo $this->id; ?>_orderable_list");
 

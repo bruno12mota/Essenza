@@ -1,4 +1,4 @@
-define(["jquery", "libraries/jquery.mobile.vmouse", "ui-elements", "libraries/inheritance"], function($) {
+define(["jquery", "libraries/jquery.mobile.vmouse", "ui/ui-elements", "libraries/inheritance"], function($) {
 
 
 //MODULE BUTTON CLASS

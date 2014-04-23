@@ -22,7 +22,7 @@ class pq_checkbox {
         
         <script type="text/javascript">
         	//Make checkbox
-			require(["jquery", "elements/Checkbox"],
+			require(["jquery", "ui/elements/Checkbox"],
 				function($, Checkbox) {
 					$(document).ready(function(){
 						var $input = $("#<?php echo $id; ?>");

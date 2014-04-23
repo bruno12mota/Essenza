@@ -176,7 +176,12 @@ function pq_get_resized_fun() {
 	if (preg_match('/\/[0-9]{4}\/[0-9]{2}\/.+$/', $urlinfo['path'], $matches)) {
 		$file_path = $wp_upload_dir['basedir'] . $matches[0];
 	} else {
-		return $url;
+		wp_send_json_success( array(
+			"url"=> $url,
+			"width"=> NULL,
+			"height"=> NULL
+		) );
+		exit();
 	}
 
 	//Get image original size

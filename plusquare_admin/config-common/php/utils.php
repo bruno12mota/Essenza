@@ -12,13 +12,15 @@
  *
  */
 function plusquare_get_social_video_url($type, $id, $autoplay = "0"){
+  global $pq_shortname;
+
   if($type == "vimeo"){
     //Vimeo options
     $options = array(
-      "title" => get_option("vimeo_title"),
-      "byline" => get_option("vimeo_byline"),
-      "portrait" => get_option("vimeo_portrait"),
-      "color" => get_option("vimeo_color"),
+      "title" => get_option($pq_shortname."_vimeo_title"),
+      "byline" => get_option($pq_shortname."_vimeo_byline"),
+      "portrait" => get_option($pq_shortname."_vimeo_portrait"),
+      "color" => get_option($pq_shortname."_vimeo_color"),
       "autoplay" => $autoplay
     );
     
@@ -44,14 +46,14 @@ function plusquare_get_social_video_url($type, $id, $autoplay = "0"){
   else if($type == "youtube"){
     //Youtube options
     $options = array(
-      "autohide" => get_option("youtube_autohide"),
-      "cc_load_policy" => get_option("youtube_cc_load_policy"),
-      "color" => get_option("youtube_color"),
-      "theme" => get_option("youtube_theme"),
-      "controls" => get_option("youtube_controls"),
-      "iv_load_policy" => get_option("youtube_iv_load_policy"),
-      "modestbranding" => get_option("youtube_modestbranding"),
-      "rel" => get_option("youtube_rel"),
+      "autohide" => get_option($pq_shortname."_youtube_autohide"),
+      "cc_load_policy" => get_option($pq_shortname."_youtube_cc_load_policy"),
+      "color" => get_option($pq_shortname."_youtube_color"),
+      "theme" => get_option($pq_shortname."_youtube_theme"),
+      "controls" => get_option($pq_shortname."_youtube_controls"),
+      "iv_load_policy" => get_option($pq_shortname."_youtube_iv_load_policy"),
+      "modestbranding" => get_option($pq_shortname."_youtube_modestbranding"),
+      "rel" => get_option($pq_shortname."_youtube_rel"),
       "autoplay" => $autoplay
     );
     
@@ -70,12 +72,12 @@ function plusquare_get_social_video_url($type, $id, $autoplay = "0"){
   else if($type == "dailymotion"){
     //Vimeo options
     $options = array(
-      "foreground" => get_option("dailymotion_foreground"),
-      "background" => get_option("dailymotion_background"),
-      "highlight" => get_option("dailymotion_highlight"),
-      "related" => get_option("dailymotion_related"),
-      "logo" => get_option("dailymotion_logo"),
-      "info" => get_option("dailymotion_info"),
+      "foreground" => get_option($pq_shortname."_dailymotion_foreground"),
+      "background" => get_option($pq_shortname."_dailymotion_background"),
+      "highlight" => get_option($pq_shortname."_dailymotion_highlight"),
+      "related" => get_option($pq_shortname."_dailymotion_related"),
+      "logo" => get_option($pq_shortname."_dailymotion_logo"),
+      "info" => get_option($pq_shortname."_dailymotion_info"),
       "autoplay" => $autoplay
     );
     

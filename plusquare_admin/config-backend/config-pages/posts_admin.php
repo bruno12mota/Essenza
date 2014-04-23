@@ -5,6 +5,8 @@
 *  Actions performed only in the backend
 */
 if(is_admin()){
+
+
 	/*
 	*  Create new pq meta box with the options set
 	*/

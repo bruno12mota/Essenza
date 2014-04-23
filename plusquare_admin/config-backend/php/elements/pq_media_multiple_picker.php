@@ -83,7 +83,7 @@ class pq_media_multiple_picker {
 				adminAjax = "<?php echo get_site_url(); ?>/wp-admin/admin-ajax.php";
 				
 				//Make Media Grid
-				require(["elements/pq_media_multiple_picker"],
+				require(["ui/elements/pq_media_multiple_picker"],
 					function(Media_Grid) {
 						var grid = new Media_Grid("<?php echo $this->id; ?>", <?php echo ($value_sizing === false ?  "false" : "true"); ?>);
 						

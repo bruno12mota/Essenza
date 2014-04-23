@@ -109,6 +109,8 @@ class pq_meta_box {
 		
 			//Tabs
 			if($option["type"] == "tabs"){
+				update_post_meta( $post->ID, $option["id"], $value );
+
 				$tab = $option["tabs"][ $value ];
 				
 				if($tab["id"] != NULL || $tab["label"] != NULL){
