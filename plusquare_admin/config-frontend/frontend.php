@@ -662,19 +662,22 @@ function get_tax_query($option, $taxonomy){
 	//if(WP_DEBUG)fb::log($post->ID);
 	
 	if($categories !== FALSE && $categories !== "all"){
+		
+		$cats = explode(",", $categories);
+		$terms = array();
+		foreach($cats as $cat){
+			array_push ($terms, $cat);	
+		}
+		
 		$categoriesArray = array(
 			'relation' => 'OR'
 		);
-		
-		$cats = explode(",", $categories);
-		foreach($cats as $cat){
-			$ar = array(
-				'taxonomy' => $taxonomy,
-				'field' => 'id',
-				'terms' => $cat
-			);
-			array_push ($categoriesArray, $ar);	
-		}
+		$ar = array(
+			'taxonomy' => $taxonomy,
+			'field' => 'id',
+			'terms' => $terms
+		);
+		array_push ($categoriesArray, $ar);	
 		
 		return $categoriesArray;
 	}

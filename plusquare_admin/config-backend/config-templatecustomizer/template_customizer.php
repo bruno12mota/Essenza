@@ -19,11 +19,12 @@ require_once( 'php/less-process.php' );
 //ADD MENU OPTION
 add_action('admin_menu','plusquare_template_customizer');
 function plusquare_template_customizer () {
+	global $pq_themename;
 	if ( current_user_can( 'manage_options' ) )  {
-		add_menu_page('Essenza Customizer', 'Essenza', 'manage_options', 'template_customizer', 'plusquare_template_customizer_init');
+		add_menu_page( $pq_themename.' Customizer', $pq_themename, 'manage_options', 'template_customizer', 'plusquare_template_customizer_init');
 		
 		//call register settings function
-		add_action( 'admin_init', 'register_essenza_settings' );
+		add_action( 'admin_init', 'register_tc_settings' );
 	}
 }
 
@@ -33,7 +34,7 @@ function plusquare_template_customizer () {
 /*
  *     Register Settings to be saved when saving page
  */
-function register_essenza_settings(){
+function register_tc_settings(){
 	global $plusquare_template_options;
 	
 	foreach($plusquare_template_options as $mainTab) {

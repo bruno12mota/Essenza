@@ -1,5 +1,6 @@
 <?php
-$essenza_shortcodes_options = array();
+global $pq_shortname;
+$plusquare_shortcodes_options = array();
 
 
 
@@ -81,7 +82,7 @@ function plusquare_social_video_player($atts, $id){
 add_shortcode( 'socialVideo', 'plusquare_social_video_player' );
 
 //social video shortcode options
-$essenza_shortcodes_options["socialVideo"] = array(
+$plusquare_shortcodes_options["socialVideo"] = array(
 	"shortcode" => "socialVideo",
 	"name" => "Video Object",
 	"color" => "#eb3338",
@@ -156,7 +157,7 @@ function plusquare_raw_code($atts, $content){
 add_shortcode( 'raw', 'plusquare_raw_code' );
 
 //social video shortcode options
-$essenza_shortcodes_options["raw"] = array(
+$plusquare_shortcodes_options["raw"] = array(
 	"shortcode" => "raw",
 	"name" => "Raw Code",
 	"color" => "#cccccc",
@@ -215,7 +216,7 @@ function plusquare_tab_title_func($atts, $title){
 add_shortcode( 'tab_title', 'plusquare_tab_title_func' );
 
 //slider shortcode options
-$essenza_shortcodes_options["tabs"] = array(
+$plusquare_shortcodes_options["tabs"] = array(
 	"shortcode" => "tabs",
 	"name" => "Tabs",
 	"color" => "#cc66cc",
@@ -271,7 +272,7 @@ function plusquare_accordion_item_title_func($atts, $title){
 add_shortcode( 'accordion_item_title', 'plusquare_accordion_item_title_func' );
 
 //slider shortcode options
-$essenza_shortcodes_options["accordion"] = array(
+$plusquare_shortcodes_options["accordion"] = array(
 	"shortcode" => "accordion",
 	"name" => "Accordion",
 	"color" => "#cc66cc",
@@ -335,7 +336,7 @@ function plusquare_text_divider_func($atts, $content){
 add_shortcode( 'text_divider', 'plusquare_text_divider_func' );
 
 //line text divider shortcode options
-$essenza_shortcodes_options["text_divider"] = array(
+$plusquare_shortcodes_options["text_divider"] = array(
 	"shortcode" => "text_divider",
 	"name" => "Text Divider",
 	"color" => "#ffff00",
@@ -501,7 +502,7 @@ function plusquare_divider_func($atts, $content){
 add_shortcode( 'divider', 'plusquare_divider_func' );
 
 //line divider shortcode options
-$essenza_shortcodes_options["divider"] = array(
+$plusquare_shortcodes_options["divider"] = array(
 	"shortcode" => "divider",
 	"name" => "Line Divider",
 	"color" => "#ffff00",
@@ -670,7 +671,7 @@ function plusquare_music_player_func($atts, $url){
 add_shortcode( 'music_player', 'plusquare_music_player_func' );
 
 //music player shortcode options
-$essenza_shortcodes_options["music_player"] = array(
+$plusquare_shortcodes_options["music_player"] = array(
 	"shortcode" => "music_player",
 	"name" => "Music Object",
 	"color" => "#eb3338",
@@ -768,7 +769,7 @@ function plusquare_slider_func( $atts, $sliderId ){
 add_shortcode( 'slider', 'plusquare_slider_func' );
 
 //slider shortcode options
-$essenza_shortcodes_options["slider"] = array(
+$plusquare_shortcodes_options["slider"] = array(
 	"shortcode" => "slider",
 	"name" => "Slider",
 	"color" => "#eb3338",
@@ -808,7 +809,7 @@ function plusquare_message_box_func( $atts, $content ){
 add_shortcode( 'message_box', 'plusquare_message_box_func' );
 
 //tweet shortcode options
-$essenza_shortcodes_options["message_box"] = array(
+$plusquare_shortcodes_options["message_box"] = array(
 	"shortcode" => "message_box",
 	"name" => "Message Box",
 	"color" => "#a7e200",
@@ -894,7 +895,7 @@ function plusquare_pinterest_func( $atts, $content ){
 add_shortcode( 'pinterest', 'plusquare_pinterest_func' );
 
 //pinterest shortcode options
-$essenza_shortcodes_options["pinterest"] = array(
+$plusquare_shortcodes_options["pinterest"] = array(
 	"shortcode" => "pinterest",
 	"name" => "Pinterest Gallery",
 	"color" => "#ac1e1c",
@@ -952,49 +953,12 @@ function plusquare_dribbble_func( $atts, $content ){
 		'height' => '80'
 	), $atts ) );
 	
-	$data = curlFetchData("http://api.dribbble.com/players/".$content."/shots?per_page=".$number);
-	
-	$returnStr = "";
-	$json = json_decode($data);
-
-	//Pixel ratio
-	if( isset($_COOKIE["pixel_ratio"]) )
-		$pixel_ratio = $_COOKIE["pixel_ratio"];
-	else
-		$pixel_ratio = 2;
-			
-
-	foreach ($json->shots as $photo) {
-		$imageUrl = $photo->image_teaser_url;
-		$width = floatval($width);
-		$height = floatval($height);
-
-		$size = @getimagesize($imageUrl);
-
-		$background_size = "";
-		if($size !== FALSE){
-			$width_image = floatval($size[0]);
-			$height_image = floatval($size[1]);
-			$ratio = min( $width_image/$width , $height_image/$height);
-			$width_image = round($width_image/$ratio);
-			$height_image = round($height_image/$ratio);
-			$background_size = 'background-size: '.$width_image.'px '.$height_image.'px;';
-		}
-
-    	$returnStr .= '<a target="_blank" class="overable_type" href="'.$photo->url.'" style="width: '.$width.'px; height: '.$height.'px; '.$background_size.' background-position: 50%; background-image:url('.$photo->image_teaser_url.');">';
-		
-		//$returnStr .= '<img src="'.$imageUrl.'" width="'.$width.'" height="'.$height.'" alt="Dribbble Image"/>';
-		$returnStr .= '<div class="cover"></div>';
-		$returnStr .= '<div class="post_type"><i class="esza-link"></i></div>';
-		$returnStr .= '</a>';
-	}
-	
-	return '<div class="blog_gallery" data-width="'.$width.'" data-height="'.$height.'">'.$returnStr.'</div>';
+	return '<div class="blog_gallery dribbble_gallery" data-id="'.$content.'" data-number="'.$number.'" data-width="'.$width.'" data-height="'.$height.'"><p style="text-align:center;">Loading Dribbble images..</p></div>';
 }
 add_shortcode( 'dribbble', 'plusquare_dribbble_func' );
 
 //Dribble shortcode options
-$essenza_shortcodes_options["dribbble"] = array(
+$plusquare_shortcodes_options["dribbble"] = array(
 	"shortcode" => "dribbble",
 	"name" => "Dribbble Gallery",
 	"color" => "#e6306b",
@@ -1093,7 +1057,7 @@ function plusquare_instagram_func( $atts, $content ){
 add_shortcode( 'instagram', 'plusquare_instagram_func' );
 
 //instagram shortcode options
-$essenza_shortcodes_options["instagram"] = array(
+$plusquare_shortcodes_options["instagram"] = array(
 	"shortcode" => "instagram",
 	"name" => "Instagram Gal.",
 	"color" => "#e6306b",
@@ -1171,7 +1135,7 @@ function plusquare_google_plus_func( $atts ){
 add_shortcode( 'google_plus', 'plusquare_google_plus_func' );
 
 //google + shortcode options
-$essenza_shortcodes_options["google_plus"] = array(
+$plusquare_shortcodes_options["google_plus"] = array(
 	"shortcode" => "google_plus",
 	"name" => "Google+ Button",
 	"color" => "#c5351a",
@@ -1256,7 +1220,7 @@ function plusquare_twitter_button_func( $atts ){
 add_shortcode( 'twitter_button', 'plusquare_twitter_button_func' );
 
 //twitter share shortcode options
-$essenza_shortcodes_options["twitter_button"] = array(
+$plusquare_shortcodes_options["twitter_button"] = array(
 	"shortcode" => "twitter_button",
 	"name" => "Twitter Button",
 	"color" => "#4bc6f0",
@@ -1336,7 +1300,7 @@ function plusquare_facebook_like_func( $atts ){
 add_shortcode( 'facebook_like', 'plusquare_facebook_like_func' );
 
 //facebook_like shortcode options
-$essenza_shortcodes_options["facebook_like"] = array(
+$plusquare_shortcodes_options["facebook_like"] = array(
 	"shortcode" => "facebook_like",
 	"name" => "Facebook Like",
 	"color" => "#395499",
@@ -1386,12 +1350,6 @@ $essenza_shortcodes_options["facebook_like"] = array(
  *  @content: Behance user
  */
 function plusquare_behance_func( $atts, $content ){
-	$behanceId = get_option("esza_behance_id");
-	$behanceSecret = get_option("esza_behance_secret");
-	
-	if($behanceId == FALSE || $behanceSecret == FALSE)
-		return "<p>An error occured loading behance app options!</p>";
-	
 	extract( shortcode_atts( array(
 		'number' => '6',
 		'type' => 'group',
@@ -1399,61 +1357,12 @@ function plusquare_behance_func( $atts, $content ){
 		'height' => '80'
 	), $atts ) );
 	
-	$api = new Be_Api( $behanceId, $behanceSecret );
-	$json = $api->getUserProjects( $content );
-
-	//Pixel ratio
-	if( isset($_COOKIE["pixel_ratio"]) )
-		$pixel_ratio = $_COOKIE["pixel_ratio"];
-	else
-		$pixel_ratio = 2;
-		
-	$returnStr = "";
-	$count = 0;
-	$number = intval($number);
-	foreach ($json as $project) {
-    	//$returnStr .= '<a target="_blank" class="overable_type" href="'.$project->url.'">';
-		
-		//Get image sizes
-		$width = intval($width);
-		$height = intval($height);
-		$url = "";
-		
-		foreach ($project->covers as $size => $thisUrl) {
-			if(intval($size) >= $width && intval($size) >= $height){
-				$url = $thisUrl;
-			}
-		}
-
-		$imageUrl = $url;
-		
-		/*$size = @getimagesize($imageUrl);
-		$width_image = $size[0];
-		$height_image = $size[1];
-		$ratio = min( $width_image/$width , $height_image/$height);
-		$width_image = round($width_image/$ratio);
-		$height_image = round($height_image/$ratio);*/
-		//$width_image = $width;
-		//$height_image = $height;
-
-    	$returnStr .= '<a target="_blank" class="overable_type" href="'.$url.'" style="width: '.$width.'px; height: '.$height.'px; background-position: 50%; background-image:url('.$imageUrl.');">';
-		
-
-		$returnStr .= '<div class="cover"></div>';
-		$returnStr .= '<div class="post_type"><i class="esza-link"></i></div>';
-		$returnStr .= '</a>';
-		
-		$count ++;
-		if($count >= $number)
-			break;
-	}
-	
-	return '<div class="blog_gallery" data-width="'.$width.'" data-height="'.$height.'">'.$returnStr.'</div>';
+	return '<div class="blog_gallery behance_gallery" data-id="'.$content.'" data-number="'.$number.'" data-type="'.$type.'" data-width="'.$width.'" data-height="'.$height.'"><p style="text-align:center;">Loading Behance images..</p></div>';
 }
 add_shortcode( 'behance', 'plusquare_behance_func' );
 
 //Behance shortcode options
-$essenza_shortcodes_options["behance"] = array(
+$plusquare_shortcodes_options["behance"] = array(
 	"shortcode" => "behance",
 	"name" => "Behance Gallery",
 	"color" => "#e6306b",
@@ -1461,7 +1370,7 @@ $essenza_shortcodes_options["behance"] = array(
 	"options" => array(
 		array(
 			"label" => "Behance User Id",
-			"id" => "esza_behance_id",
+			"id" => "pq_behance_id",
 			"type" => "text",
 			"help" => "The id of the behance user you want to fetch the projects covers from.",
 			"associate" => "content"
@@ -1507,8 +1416,8 @@ $essenza_shortcodes_options["behance"] = array(
  *  @content: Alert's Text
  */
 function plusquare_flickr_func( $atts, $content ){
-	
-	$flickrId = get_option("esza_flickr_id");
+	global $pq_shortname;
+	$flickrId = get_option($pq_shortname."_flickr_id");
 	
 	if($flickrId == FALSE)
 		return "<p>An error occured loading flickr app options!</p>";
@@ -1519,72 +1428,15 @@ function plusquare_flickr_func( $atts, $content ){
 		'width' => '80',
 		'height' => '80'
 	), $atts ) );
+
+	fb::log("KMKMKM");
 	
-	$f = new phpFlickr($flickrId);
-
-	
-	// Find the NSID of the username inputted via the form
-    $person = $f->people_findByUsername($content);
- 
-    // Get the friendly URL of the user's photos
-    $photos_url = $f->urls_getUserPhotos($person['id']);
- 
-    // Get the user's first 36 public photos
-    $photos = $f->people_getPublicPhotos($person['id'], NULL, NULL, $number);
-	
-	if(!$photos)
-		return;
-
-	//Pixel ratio
-	if( isset($_COOKIE["pixel_ratio"]) )
-		$pixel_ratio = $_COOKIE["pixel_ratio"];
-	else
-		$pixel_ratio = 2;
-
-	$returnStr = "";
-	foreach ((array)$photos['photos']['photo'] as $photo) {
-		//Get image sizes
-		$sizes = $f->photos_getSizes($photo['id']);
-		$width = intval($width);
-		$height = intval($height);
-		$url = "";
-		
-		if(!$sizes)
-			return;
-		
-		foreach ($sizes as $size) {
-			if(intval($size['width']) >= $width && intval($size['height']) >= $height){
-				$url = $size['source'];
-			}
-		}
-
-		$imageUrl = $url;
-		
-		$size = @getimagesize($imageUrl);
-
-		$background_size = "";
-		if($size !== FALSE){
-			$width_image = floatval($size[0]);
-			$height_image = floatval($size[1]);
-			$ratio = min( $width_image/$width , $height_image/$height);
-			$width_image = round($width_image/$ratio);
-			$height_image = round($height_image/$ratio);
-			$background_size = 'background-size: '.$width_image.'px '.$height_image.'px;';
-		}
-
-    	$returnStr .= '<a target="_blank" class="overable_type" href="http://www.flickr.com/photos/' . $photo['owner'] . '/' . $photo['id'] . '/" style="width: '.$width.'px; height: '.$height.'px; '.$background_size.' background-position: 50%; background-image:url('.$photo->image_teaser_url.');">';
-		
-		$returnStr .= '<div class="cover"></div>';
-		$returnStr .= '<div class="post_type"><i class="esza-link"></i></div>';
-		$returnStr .= '</a>';
-	}
-	
-	return '<div class="blog_gallery" data-width="'.$width.'" data-height="'.$height.'">'.$returnStr.'</div>';
+	return '<div class="blog_gallery flickr_gallery" data-id="'.$content.'" data-number="'.$number.'" data-type="'.$type.'" data-width="'.$width.'" data-height="'.$height.'"> <p style="text-align:center;">Loading Flickr images..</p> </div>';
 }
 add_shortcode( 'flickr', 'plusquare_flickr_func' );
 
 //flickr shortcode options
-$essenza_shortcodes_options["flickr"] = array(
+$plusquare_shortcodes_options["flickr"] = array(
 	"shortcode" => "flickr",
 	"name" => "Flickr Gallery",
 	"color" => "#e6306b",
@@ -1592,7 +1444,7 @@ $essenza_shortcodes_options["flickr"] = array(
 	"options" => array(
 		array(
 			"label" => "Flickr Username",
-			"id" => "esza_flickr_id",
+			"id" => "pq_flickr_id",
 			"type" => "text",
 			"help" => "The username of the flickr user you want to fetch images from.",
 			"associate" => "content"
@@ -1638,30 +1490,12 @@ $essenza_shortcodes_options["flickr"] = array(
  *  @content: Tweet's id
  */
 function plusquare_tweet_func( $atts, $tweetStatus ){
-	$tweetId = get_option("esza_twitter_id");
-	$tweetSecret = get_option("esza_twitter_secret");
-	$tweetToken = get_option("esza_twitter_token");
-	$tweetTokenSecret = get_option("esza_twitter_token_secret");
-	
-	if($tweetId == FALSE || $tweetSecret == FALSE || $tweetToken == FALSE || $tweetTokenSecret == FALSE)
-		return "<p>An error occured loading twitter app options!</p>";
-	
-	$connection = new TwitterOAuth($tweetId, $tweetSecret, $tweetToken, $tweetTokenSecret);
-	$tweet = $connection->get("statuses/show", array("id" => $tweetStatus));
-	
-	//parse tweet date
-	$time = strtotime($tweet->created_at);
-	$newformat = date('jS \of F Y', $time);
-	
-	return '<div class="tweet">
-				<h2>'.$tweet->text.'</h2>
-				<p>@'.$tweet->user->screen_name.' on '.$newformat.'</p>
-			</div>';
+	return '<div class="tweet single_tweet_stat" data-status="'.$tweetStatus.'"><p>Loading Tweet..</p></div>';
 }
 add_shortcode( 'tweet', 'plusquare_tweet_func' );
 
 //tweet shortcode options
-$essenza_shortcodes_options["tweet"] = array(
+$plusquare_shortcodes_options["tweet"] = array(
 	"shortcode" => "tweet",
 	"name" => "Single Tweet",
 	"color" => "#4bc6f0",
@@ -1689,62 +1523,17 @@ $essenza_shortcodes_options["tweet"] = array(
  *  @parameters: none
  *  @content: Tweet's user
  */
-function getTweetHtml($tweet){
-	$html = $tweet->text;
-	//if(WP_DEBUG)fb::log($tweet);
-	foreach($tweet->entities->urls as $urlObj){
-		$html = str_replace( $urlObj->url, "<a href='".$urlObj->expanded_url."'><span>".$urlObj->url."</span></a>", $html);
-	}
-	foreach($tweet->entities->hashtags as $hashObj){
-		$html = str_replace( "#".$hashObj->text, "<a href='https://twitter.com/search?q=%23".$hashObj->text."&src=hash'><span>#".$hashObj->text."</span></a>", $html);
-	}
-	
-	return $html;
-}
 function plusquare_tweet_feed_func( $atts, $tweetUser ){
-	$tweetId = get_option("esza_twitter_id");
-	$tweetSecret = get_option("esza_twitter_secret");
-	$tweetToken = get_option("esza_twitter_token");
-	$tweetTokenSecret = get_option("esza_twitter_token_secret");
-	
-	if($tweetId == FALSE || $tweetSecret == FALSE || $tweetToken == FALSE || $tweetTokenSecret == FALSE)
-		return "<p>An error occured loading twitter app options!</p>";
-		
 	extract( shortcode_atts( array(
 		'number' => '2'
 	), $atts ) );
-	
-	$connection = new TwitterOAuth($tweetId, $tweetSecret, $tweetToken, $tweetTokenSecret);
-	$tweets = $connection->get("statuses/user_timeline", array("screen_name" => $tweetUser, "count" => $number));
-	
-	$return = "";
-	
-	foreach($tweets as $tweet){
-		if(!isset($tweet->created_at))
-			break;
 
-		//parse tweet date
-		$time = strtotime($tweet->created_at);
-		//$newformat = date('jS \of F Y', $time);
-		
-		$diff = time() - $time;
-		
-		$return .= '<div class="tweet_small">
-						<div class="bird"></div>
-						<div class="tweet_content">
-							<a href="https://twitter.com/'.$tweet->user->screen_name.'"><span>@'.$tweet->user->screen_name.':</span></a>
-							<p>'.getTweetHtml($tweet).'</p>
-							<a href="https://twitter.com/'.$tweet->user->screen_name.'/status/'.$tweet->id_str.'"><span>'.plusquare_get_string_time_passed($diff).'</span></a>
-						</div>
-					</div>';
-	}
-	
-	return $return;
+	return '<div class="twitter_feed_short" data-user="'.$tweetUser.'" data-number="'.$number.'"></div>';
 }
 add_shortcode( 'tweet_feed', 'plusquare_tweet_feed_func' );
 
 //tweet shortcode options
-$essenza_shortcodes_options["tweet_feed"] = array(
+$plusquare_shortcodes_options["tweet_feed"] = array(
 	"shortcode" => "tweet_feed",
 	"name" => "Tweet Feed",
 	"color" => "#4bc6f0",
@@ -1823,7 +1612,7 @@ function plusquare_blog_gallery_fun( $atts, $attachments_str ){
 add_shortcode( 'blog_gallery', 'plusquare_blog_gallery_fun' );
 
 //blog gallery shortcode options
-$essenza_shortcodes_options["blog_gallery"] = array(
+$plusquare_shortcodes_options["blog_gallery"] = array(
 	"shortcode" => "blog_gallery",
 	"name" => "Image Gallery",
 	"color" => "#eb3338",
@@ -1917,7 +1706,7 @@ function plusquare_column_func( $atts, $content ){
 add_shortcode( 'column', 'plusquare_column_func' );
 
 //blog gallery shortcode options
-$essenza_column_options = array(
+$plusquare_column_options = array(
 	"options" => array(
 		array(
 			"label" => "Content alignment",
@@ -1948,14 +1737,14 @@ $essenza_column_options = array(
 			"label" => "Left padding",
 			"id" => "colum_left_padding",
 			"type" => "pixels",
-			"default" => get_option("esza_page_grid_gap", "15"),
+			"default" => get_option($pq_shortname."_page_grid_gap", "15"),
 			"associate" => "author"
 		),
 		array(
 			"label" => "Right padding",
 			"id" => "colum_right_padding",
 			"type" => "pixels",
-			"default" => get_option("esza_page_grid_gap", "15"),
+			"default" => get_option($pq_shortname."_page_grid_gap", "15"),
 			"associate" => "author"
 		),
 		array(
@@ -1991,7 +1780,7 @@ function plusquare_quote_func( $atts, $content ){
 add_shortcode( 'quote', 'plusquare_quote_func' );
 						
 //blog gallery shortcode options
-$essenza_shortcodes_options["quote"] = array(
+$plusquare_shortcodes_options["quote"] = array(
 	"shortcode" => "quote",
 	"name" => "Quote",
 	"color" => "#a7e200",
@@ -2071,7 +1860,7 @@ function plusquare_image_func( $atts, $content ){
 add_shortcode( 'image', 'plusquare_image_func' );
 						
 //blog gallery shortcode options
-$essenza_shortcodes_options["image"] = array(
+$plusquare_shortcodes_options["image"] = array(
 	"shortcode" => "image",
 	"name" => "Single Image",
 	"color" => "#eb3338",
@@ -2163,7 +1952,7 @@ function plusquare_actionbox_func( $atts, $content ){
 add_shortcode( 'actionbox', 'plusquare_actionbox_func' );
 
 //Button shortcode options
-$essenza_shortcodes_options["actionbox"] = array(
+$plusquare_shortcodes_options["actionbox"] = array(
 	"shortcode" => "actionbox",
 	"name" => "Action Box",
 	"color" => "#00c5ec",
@@ -2420,7 +2209,7 @@ function plusquare_button_func( $atts, $content ){
 add_shortcode( 'button', 'plusquare_button_func' );
 			
 //Button shortcode options
-$essenza_shortcodes_options["button"] = array(
+$plusquare_shortcodes_options["button"] = array(
 	"shortcode" => "button",
 	"name" => "Button",
 	"color" => "#00c5ec",
@@ -2567,7 +2356,7 @@ function plusquare_image_button_func( $atts, $content ){
 }
 
 add_shortcode( 'image_button', 'plusquare_image_button_func' );
-$essenza_shortcodes_options["image_button"] = array(
+$plusquare_shortcodes_options["image_button"] = array(
 	"shortcode" => "image_button",
 	"name" => "Image Button",
 	"color" => "#00c5ec",
@@ -2949,7 +2738,7 @@ function plusquare_contact_field_func( $field ){
 }
 			
 //Contact form shortcode options
-$essenza_shortcodes_options["contact_form"] = array(
+$plusquare_shortcodes_options["contact_form"] = array(
 	"shortcode" => "contact_form",
 	"name" => "Contact Form",
 	"color" => "#3366cc",
@@ -2987,7 +2776,7 @@ function plusquare_text_func( $atts, $content ){
 add_shortcode( 'text', 'plusquare_text_func' );
 
 //text shortcode options
-$essenza_shortcodes_options["text"] = array(
+$plusquare_shortcodes_options["text"] = array(
 	"shortcode" => "text",
 	"name" => "Text Block",
 	"color" => "#a7e200",
@@ -3013,7 +2802,8 @@ $essenza_shortcodes_options["text"] = array(
  *  @content: Text
  */
 function plusquare_google_maps_func( $atts, $styles ){
-	$googleId = get_option("esza_google_id");
+	global $pq_shortname;
+	$googleId = get_option($pq_shortname."_google_id");
 	
 	if($googleId == FALSE)
 		return "<p>An error occured loading google app options!</p>";
@@ -3101,7 +2891,7 @@ function plusquare_google_maps_func( $atts, $styles ){
 add_shortcode( 'google_maps', 'plusquare_google_maps_func' );
 
 //google_maps shortcode options
-$essenza_shortcodes_options["google_maps"] = array(
+$plusquare_shortcodes_options["google_maps"] = array(
 	"shortcode" => "google_maps",
 	"name" => "Google Maps",
 	"color" => "#b2d516",
@@ -3254,7 +3044,7 @@ function plusquare_text_box_func( $atts, $content ){
 add_shortcode( 'text_box', 'plusquare_text_box_func' );
 
 //text shortcode options
-$essenza_shortcodes_options["text_box"] = array(
+$plusquare_shortcodes_options["text_box"] = array(
 	"shortcode" => "text_box",
 	"name" => "Text Box Block",
 	"color" => "#a7e200",
@@ -3403,7 +3193,7 @@ function plusquare_text_header_func( $atts, $content ){
 add_shortcode( 'text_header', 'plusquare_text_header_func' );
 
 //text shortcode options
-$essenza_shortcodes_options["text_header"] = array(
+$plusquare_shortcodes_options["text_header"] = array(
 	"shortcode" => "text_header",
 	"name" => "Text Header",
 	"color" => "#a7e200",
@@ -3611,7 +3401,7 @@ function plusquare_vertical_space_func( $atts, $content ){
 add_shortcode( 'vertical_space', 'plusquare_vertical_space_func' );
 
 //text shortcode options
-$essenza_shortcodes_options["vertical_space"] = array(
+$plusquare_shortcodes_options["vertical_space"] = array(
 	"shortcode" => "vertical_space",
 	"name" => "Vertical Space",
 	"color" => "#ffff00",
@@ -3657,6 +3447,7 @@ add_shortcode( 'dropcap', 'plusquare_dropcap_func' );
  */
 add_shortcode( 'display-posts', 'plusquare_be_display_posts_shortcode' );
 function plusquare_be_display_posts_shortcode( $atts ) {
+	global $pq_shortname;
 
 	// Original Attributes, for filters
 	$original_atts = $atts;
@@ -3889,8 +3680,8 @@ function plusquare_be_display_posts_shortcode( $atts ) {
 		//Comments
 		$num_comments = get_comments_number(); // get_comments_number returns only a numeric value
 
-		$comment_Str = get_option("esza_trans_comment");
-		$comments_Str = get_option("esza_trans_comments");
+		$comment_Str = get_option($pq_shortname."_trans_comment", "Comment");
+		$comments_Str = get_option($pq_shortname."_trans_comments", "comments");
 		if ( comments_open() ) {
 			if ( $num_comments == 0 ) {
 				$write_comments = '0 '.$comments_Str;
@@ -3926,7 +3717,7 @@ function plusquare_be_display_posts_shortcode( $atts ) {
 }
 
 //posts_per_page orderby order offset
-$essenza_shortcodes_options["display-posts"] = array(
+$plusquare_shortcodes_options["display-posts"] = array(
 	"shortcode" => "display-posts",
 	"name" => "Display Posts",
 	"color" => "#00cc00",
@@ -3979,7 +3770,7 @@ $essenza_shortcodes_options["display-posts"] = array(
 
 //Orders shortcodes for page builder and stack builder
 function plusquare_order_shortcodes(){
-	global $essenza_shortcodes_options;
+	global $plusquare_shortcodes_options;
 
 	//Order shortcodes
 	$order = array(
@@ -4036,10 +3827,10 @@ function plusquare_order_shortcodes(){
 
 	$temp = array();
 	foreach($order as $id){
-		$temp[$id] = $essenza_shortcodes_options[$id];
+		$temp[$id] = $plusquare_shortcodes_options[$id];
 	}
 
 	return $temp;
 }
 
-$essenza_shortcodes_options = plusquare_order_shortcodes();
+$plusquare_shortcodes_options = plusquare_order_shortcodes();

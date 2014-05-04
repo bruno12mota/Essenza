@@ -192,4 +192,4 @@ if($essenza_is_old_ie !== true){
 }
 ?>
 
-<?php get_footer(); ?>
+<?php get_footer(); 

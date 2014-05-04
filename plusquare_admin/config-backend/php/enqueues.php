@@ -36,7 +36,7 @@ function plusquare_admin_enqueue_scripts($hook) {
   //wp_enqueue_script( 'jquery', get_stylesheet_directory_uri() . '/js/jquery/jquery-2.0.3.min.js');
 
   //Meta box options javascript
-  wp_register_script( 'require-js', get_stylesheet_directory_uri() . '/js/libs/require-2.1.9.min.js', array( 'jquery', 'wp-mediaelement', 'backbone' ), false, false );
+  wp_register_script( 'require-js', get_stylesheet_directory_uri() . '/js/libs/require.js', array( 'jquery', 'wp-mediaelement', 'backbone' ), false, false );
   wp_register_script( 'metabox-js', get_stylesheet_directory_uri() . '/plusquare_admin/config-backend/js/Backend.js', array( 'require-js' ), false, false);
  
   wp_localize_script( 'metabox-js', 'directory', array( 'path' => get_stylesheet_directory_uri() . '/plusquare_admin/config-backend/js' ) );

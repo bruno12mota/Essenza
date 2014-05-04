@@ -20,6 +20,7 @@ class pq_rich_editor {
 			?>
 			<textarea style="margin-bottom: 10px;max-width: 100%;min-height: 200px;width: 100%;" class="ui-textbox for-textarea" id="<?php echo $id; ?>" name="<?php echo $id; ?>"><?php echo $value; ?></textarea>
 			<a href="#" class="button button-primary button-large" id="<?php echo $id; ?>_btn">Open rich editor</a>
+			<p>Click on close fullscreen mode to save and close rich editor.</p>
 			<script>
 				jQuery(document).ready(function($){
 					var time_interval; 

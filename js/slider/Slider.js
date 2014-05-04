@@ -110,7 +110,7 @@ define(["jquery",
             };
             
             //Parse parameters
-            this.parseParameters(this.inParameters);
+            this.parseParameters(this.inParameters); 
             this.transitionString = getTransition(this.parameters.slider_transition_ease, this.parameters.slider_transition_type, this.parameters.slider_transition_duration);
             this.parameters.slider_transition_starting = parseInt(this.parameters.slider_transition_starting, 10);
 
@@ -173,6 +173,7 @@ define(["jquery",
 
         //Check the loading on all slides in an ordered way
         loadSlides: function(){
+
 
             //Slide already loaded
             if(this.slides[this.loadedSlides].loadedSlide)
@@ -867,10 +868,11 @@ define(["jquery",
                     'action' : 'pq_get_video',
                     'id': backgroundId,
                     'type': backgroundType,
+                    'autoplay': "1",
                     "frontend": "true"
                 },
                 $.proxy(function( response ) {
-                    $('<iframe src="'+response+'&autoplay=1" width="100%" height="100%" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>').prependTo(this.$videoHolder);
+                    $('<iframe src="'+response+'" width="100%" height="100%" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>').prependTo(this.$videoHolder);
                 }, this)
             );
             

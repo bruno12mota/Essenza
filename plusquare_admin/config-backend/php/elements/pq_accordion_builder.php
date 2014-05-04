@@ -16,7 +16,7 @@ class pq_accordion_builder {
 	function __construct($id, $value){
 		$this->id = $id;
 		
-		global $essenza_shortcodes_options;
+		global $plusquare_shortcodes_options;
 		
 		?>
 		<input id="<?php echo $this->id; ?>" name="<?php echo $this->id; ?>" type="text" value='<?php echo $value; ?>' style="display:none;"/>
@@ -53,7 +53,7 @@ class pq_accordion_builder {
 						
 						
 						//Make stack builder
-						var stackBuilder = new StackBuilder($input, $holder.find(".placeholders_holder"), $holder.find(".menu_holder"), true, "<?php echo get_template_directory_uri(); ?>/plusquare_admin/config-backend/", <?php echo json_encode($essenza_shortcodes_options); ?>, "accordion_item_content");
+						var stackBuilder = new StackBuilder($input, $holder.find(".placeholders_holder"), $holder.find(".menu_holder"), true, "<?php echo get_template_directory_uri(); ?>/plusquare_admin/config-backend/", <?php echo json_encode($plusquare_shortcodes_options); ?>, "accordion_item_content");
 						
 						function onUpdate(){
 							var mainValue = $mainInput.val();

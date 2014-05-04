@@ -1,4 +1,5 @@
 define(["jquery",
+		"jquery/jquery.easing.1.3",
 		"utils/utils"], function($) {
 	
     var Masonry = function($holder, objects_query, maxWidth, minColumns, ajaxFunction, postID){
@@ -32,6 +33,7 @@ define(["jquery",
 
     		//Listen for window resize
             $(window).resize($.proxy(this.window_resize_timeout, this));
+            $(window).bind("resize_grid", $.proxy(this.window_resize_timeout, this));
 			
 	    }, this));
     }
@@ -56,7 +58,7 @@ define(["jquery",
     		var startTime = new Date().getTime();
 			$.post( adminAjax, objSend, $.proxy(function(data, textStatus){
 				var time = new Date().getTime();
-				console.log("Time: "+(time-startTime));
+				if(WP_DEBUG)console.log("Time: "+(time-startTime));
 				var $data = $(data);
 
 				//Append new objects

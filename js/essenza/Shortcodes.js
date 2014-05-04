@@ -1,9 +1,12 @@
-define(["jquery", "essenza/MusicPlayer", "utils/utils"], function($, MusicPlayer) {
+define(["jquery", "essenza/MusicPlayer",
+		"jquery/jquery.easing.1.3", "utils/utils"], function($, MusicPlayer) {
     var tabsTweenSpeed = 150;
     var accordionTweenSpeed = 150;
 	
+
+
 	
-	//TABS
+	// Tabs Shortcode
 	var Tabs = function($tabs){
 		jQuery(document).ready($.proxy(function ($){
 		    this.current = -1;
@@ -76,10 +79,11 @@ define(["jquery", "essenza/MusicPlayer", "utils/utils"], function($, MusicPlayer
             this.$tab.stop().fadeTo(tabsTweenSpeed, 0 , function(){$(this).css("display", "none");});
         }
     }
-	//TABS END
 	
 	
-	//ACCORDION
+	
+
+	// Accordion Shortcode
 	var Accordion = function($accordion){
 	    this.multiple = $accordion.attr("data-multiple");
 	    
@@ -390,10 +394,14 @@ define(["jquery", "essenza/MusicPlayer", "utils/utils"], function($, MusicPlayer
     function resizeGalleries(){
         $(".blog_gallery").each(function(){
         	var $this = $(this);
+        	var $items = $this.find(">a");
+
+        	if($items.length == 0){
+				return;
+        	}
 
         	var width = $this.width();
 
-        	var $items = $this.find(">a");
         	var numItems = $items.length;
 
         	var eachItemWidth = parseInt($this.attr("data-width"), 10);
@@ -694,189 +702,313 @@ define(["jquery", "essenza/MusicPlayer", "utils/utils"], function($, MusicPlayer
 
 	
 	runShortcodes = function(){
-		//Pages with sidebar
-		var $pageWithSidebar = $(".with_sidebar");
-
-		if($pageWithSidebar.length > 0){
-			var parentHeight = $pageWithSidebar.height(),
-			    contentHeight = $pageWithSidebar.find('.content_wraper').height(),
-			    sidebarHeight = $pageWithSidebar.find('.sidebar .row-fluid').height();
-
-			if (sidebarHeight > parentHeight) {
-			    $pageWithSidebar.find('.content_wraper').height(sidebarHeight+"px");
-			}
-		}
 
 
-		//Video
-		$(".social_video").each(function(){
-			var $social_video = $(this);
-			var heightPerc = parseFloat($social_video.data("height"), 10) / 100.0;
-			function social_video_resize(){
-				$social_video.height( Math.round($social_video.parent().width()*heightPerc) );
-			}
-			social_video_resize();
+		//Tweets
+		$(document).ready(function(){
+			$(".single_tweet_stat").each(function(){
+				var $this = $(this);
+				var status = $this.attr("data-status");
 
-			var timeout;
-			$(window).resize(function(){
-				clearTimeout(timeout);
-				timeout = setTimeout(social_video_resize, 200);
-			});
-			$social_video.bind("gridResize", social_video_resize);
+				$.post(
+					adminAjax,
+					{
+						'action' : 'pq_get_twitter_single_stat',
+						'frontend': true,
+						'tweetStatus': status
+					},
+					function(response){
+						$this.html(response);
 
-
-
-			//Covers
-			function close_social_video(){
-				$close_btn = $social_video.find(".close_button").unbind("click");
-
-				$social_video.find("iframe, .close_button").remove();
-				$social_video.find("a, div, img").show();
-			}
-			function open_social_video(){
-				var src = $social_video.data("src");
-				
-				var $iframe = $('<iframe src="'+src+'" width="100%" height="100%" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>');
-				var $close_btn = $('<a class="close_button" onclick="return false;" href="#"><div class="close_ico inside_icon"></div></a>').click(close_social_video);
-
-				$social_video.find("a, div, img").hide();
-				$social_video.append($iframe);
-				$social_video.append($close_btn);
-			}
-
-			if($social_video.data("src") != undefined){
-				$social_video.find(".tooglePlayVideo").click(open_social_video);
-			}
-		});
-
-		
-		//CONTACT FORMS
-		$(".form_shortcode").each(function(){
-			var $form = $(this);
-			$form.find(".button").click(function(){
-				$form.submit();
-				return false;
-			});
-			$form.submit(function(){
-				if(!$form.hasClass("busy")){
-					var $error = $form.find(".on_error");
-					var valid = true;
-
-					//VERIFICATIONS
-					$form.find("input, textarea").each(function(index, input){
-						$input = $(input);
-						var type = $input.attr("type");
-
-						//Ignore hidden
-						if(type != "hidden"){
-							var isRequired = $input.attr("data-required");
-							var value = $input.val();
-
-							if(isRequired == "true" && value == ""){
-								//Require field is empty
-								$error.slideDown(250);
-								valid = false;
-								return;
-							}
-							else if(isRequired == "true" || (isRequired == "false" && type == "email" && value != "")){
-								//Check Required field, or non required email filled
-
-								if(type == "email"){
-	    							var pattern = new RegExp(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i);
-	    							
-	    							if( !pattern.test(value) ){
-	    								//Email inputed is invalid
-										$error.slideDown(250);
-										valid = false;
-										return;
-	    							}
-								}
-							}
-							
-						}
-					});
-
-					if(valid){
-						$form.addClass("busy");
-						if(!$error.is(":hidden"))
-							$error.slideUp(250);
-
-						//SEND EMAIL
-						var objSend = $form.serialize();
-						objSend += "&action=pq_send_email&frontend=true";
-						$form.find(".button").fadeTo(300, 0.4).trigger("mouseout").addClass("disabled");
-						$.post( adminAjax, objSend, function(data, textStatus){
-							if((data == "1" || data == 1) && textStatus == "success"){
-								$form.find(".on_success").slideDown(250);
-								$form.find("input, textarea").val("");
-							}
-							else{
-								$form.find(".on_error").slideDown(250);
-							}
-							$form.removeClass("busy");
-							$form.find(".button").fadeTo(300, 1).removeClass("disabled");
-						});
+						$(document).trigger("resize_grid");
 					}
-				}
-				
-				return false;
+				);
 			});
-		});
-		
-	    //TABS
-        $(".tabs").each(function(){
-            new Tabs($(this));
-        });
 
-        //Checkbox
-        $(".checkbox").each(function(){
-        	new Checkbox($(this));
-        });
-        
-        
-        // Combobox
-        $(".combobox").each(function(){
-            new Combobox($(this));
-        });
-        
-        
-        //ACCORDION
-        $(".accordion").each(function(){
-            new Accordion($(this));
-        });
+			$(".twitter_feed_short").each(function(){
+				var $this = $(this);
+				var user = $this.attr("data-user");
+				var number = $this.attr("data-number");
+
+				$.post(
+					adminAjax,
+					{
+						'action' : 'pq_get_twitter_short_feed',
+						'frontend': true,
+						'user': user,
+						'number': number
+					},
+					function(response){
+						$this.html(response);
+					}
+				);
+			});
+
+			$(".behance_gallery").each(function(){
+				var $this = $(this);
+				var id = $this.attr("data-id");
+				var type = $this.attr("data-type");
+				var number = $this.attr("data-number");
+				var width = $this.attr("data-width");
+				var height = $this.attr("data-height");
+
+				$.post(
+					adminAjax,
+					{
+						'action' : 'pq_get_behance',
+						'frontend': true,
+						'id': id,
+						'type': type,
+						'number': number,
+						'width': width,
+						'height': height
+					},
+					function(response){
+						$this.html(response);
+						resizeGalleries();
+					}
+				);
+			});
+
+			
+			$(".dribbble_gallery").each(function(){
+				var $this = $(this);
+				var id = $this.attr("data-id");
+				var number = $this.attr("data-number");
+				var width = $this.attr("data-width");
+				var height = $this.attr("data-height");
+
+				$.post(
+					adminAjax,
+					{
+						'action' : 'pq_get_dribbble',
+						'frontend': true,
+						'id': id,
+						'number': number,
+						'width': width,
+						'height': height
+					},
+					function(response){
+						$this.html(response);
+						resizeGalleries();
+					}
+				);
+			});
+
+			
+			$(".flickr_gallery").each(function(){
+				var $this = $(this);
+				var id = $this.attr("data-id");
+				var type = $this.attr("data-type");
+				var number = $this.attr("data-number");
+				var width = $this.attr("data-width");
+				var height = $this.attr("data-height");
+
+				$.post(
+					adminAjax,
+					{
+						'action' : 'pq_get_flickr',
+						'frontend': true,
+						'id': id,
+						'type': type,
+						'number': number,
+						'width': width,
+						'height': height
+					},
+					function(response){
+						$this.html(response);
+						resizeGalleries();
+					}
+				);
+			});
 
 
-        //GALLERIES
-        resizeGalleries();
 
-        
-        //BUTTONS
-		$(".pq_button").each(newPqButton);
+			//Pages with sidebar
+			var $pageWithSidebar = $(".with_sidebar");
+
+			if($pageWithSidebar.length > 0){
+				var parentHeight = $pageWithSidebar.height(),
+				    contentHeight = $pageWithSidebar.find('.content_wraper').height(),
+				    sidebarHeight = $pageWithSidebar.find('.sidebar .row-fluid').height();
+
+				if (sidebarHeight > parentHeight) {
+				    $pageWithSidebar.find('.content_wraper').height(sidebarHeight+"px");
+				}
+			}
 
 
-		//IMAGE BUTTONS
-		$(".image_button").each(imageButton);
+			//Video
+			$(".social_video").each(function(){
+				var $social_video = $(this);
+				var heightPerc = parseFloat($social_video.data("height"), 10) / 100.0;
+				function social_video_resize(){
+					$social_video.height( Math.round($social_video.parent().width()*heightPerc) );
+				}
+				social_video_resize();
 
-        
-        //Music player
-		var consumer_key = "6c786345f5161898f1e1380802ce9226";
-		$(".music_player").each(function(){
-			var $this = $(this);
-			var url = $this.data("url");
-			var type = $this.data("type");
-			if(type == "sound")
-				new MusicPlayer($this, url);
-			else
-				$.getJSON("http://api.soundcloud.com/resolve?url=" + url + "&format=json&consumer_key=" + consumer_key + "&callback=?", function(music){
-					//Sound information loaded from soundcloud
-					if(WP_DEBUG)console.log(music);
-					var music_url = music.stream_url;
-					(music_url.indexOf("secret_token") == -1) ? music_url = music_url + "?" : music_url = music_url + "&";
-					music_url = music_url + "consumer_key=" + consumer_key;
-					
-					new MusicPlayer($this, music_url);
-					
+				var timeout;
+				$(window).resize(function(){
+					clearTimeout(timeout);
+					timeout = setTimeout(social_video_resize, 200);
 				});
+				$social_video.bind("gridResize", social_video_resize);
+
+
+
+				//Covers
+				function close_social_video(){
+					$close_btn = $social_video.find(".close_button").unbind("click");
+
+					$social_video.find("iframe, .close_button").remove();
+					$social_video.find("a, div, img").show();
+				}
+				function open_social_video(){
+					var src = $social_video.data("src");
+					
+					var $iframe = $('<iframe src="'+src+'" width="100%" height="100%" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>');
+					var $close_btn = $('<a class="close_button" onclick="return false;" href="#"><div class="close_ico inside_icon"></div></a>').click(close_social_video);
+
+					$social_video.find("a, div, img").hide();
+					$social_video.append($iframe);
+					$social_video.append($close_btn);
+				}
+
+				if($social_video.data("src") != undefined){
+					$social_video.find(".tooglePlayVideo").click(open_social_video);
+				}
+			});
+
+			
+			//CONTACT FORMS
+			$(".form_shortcode").each(function(){
+				var $form = $(this);
+				$form.find(".button").click(function(){
+					$form.submit();
+					return false;
+				});
+				$form.submit(function(){
+					if(!$form.hasClass("busy")){
+						var $error = $form.find(".on_error");
+						var valid = true;
+
+						//VERIFICATIONS
+						$form.find("input, textarea").each(function(index, input){
+							$input = $(input);
+							var type = $input.attr("type");
+
+							//Ignore hidden
+							if(type != "hidden"){
+								var isRequired = $input.attr("data-required");
+								var value = $input.val();
+
+								if(isRequired == "true" && value == ""){
+									//Require field is empty
+									$error.slideDown(250);
+									valid = false;
+									return;
+								}
+								else if(isRequired == "true" || (isRequired == "false" && type == "email" && value != "")){
+									//Check Required field, or non required email filled
+
+									if(type == "email"){
+		    							var pattern = new RegExp(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i);
+		    							
+		    							if( !pattern.test(value) ){
+		    								//Email inputed is invalid
+											$error.slideDown(250);
+											valid = false;
+											return;
+		    							}
+									}
+								}
+								
+							}
+						});
+
+						if(valid){
+							$form.addClass("busy");
+							if(!$error.is(":hidden"))
+								$error.slideUp(250);
+
+							//SEND EMAIL
+							var objSend = $form.serialize();
+							objSend += "&action=pq_send_email&frontend=true";
+							$form.find(".button").fadeTo(300, 0.4).trigger("mouseout").addClass("disabled");
+							$.post( adminAjax, objSend, function(data, textStatus){
+								if((data == "1" || data == 1) && textStatus == "success"){
+									$form.find(".on_success").slideDown(250);
+									$form.find("input, textarea").val("");
+								}
+								else{
+									$form.find(".on_error").slideDown(250);
+								}
+								$form.removeClass("busy");
+								$form.find(".button").fadeTo(300, 1).removeClass("disabled");
+							});
+						}
+					}
+					
+					return false;
+				});
+			});
+			
+		    //TABS
+	        $(".tabs").each(function(){
+	            new Tabs($(this));
+	        });
+
+	        //Checkbox
+	        $(".checkbox").each(function(){
+	        	new Checkbox($(this));
+	        });
+	        
+	        
+	        // Combobox
+	        $(".combobox").each(function(){
+	            new Combobox($(this));
+	        });
+	        
+	        
+	        //ACCORDION
+	        $(".accordion").each(function(){
+	            new Accordion($(this));
+	        });
+
+
+	        //GALLERIES
+	        resizeGalleries();
+
+	        
+	        //BUTTONS
+			$(".pq_button").each(newPqButton);
+
+
+			//IMAGE BUTTONS
+			$(".image_button").each(imageButton);
+
+	        
+	        //Music player
+			var consumer_key = "6c786345f5161898f1e1380802ce9226";
+			$(".music_player").each(function(){
+				var $this = $(this);
+				var url = $this.data("url");
+				var type = $this.data("type");
+				if(type == "sound")
+					new MusicPlayer($this, url);
+				else
+					$.getJSON("http://api.soundcloud.com/resolve?url=" + url + "&format=json&consumer_key=" + consumer_key + "&callback=?", function(music){
+						//Sound information loaded from soundcloud
+						if(WP_DEBUG)console.log(music);
+						var music_url = music.stream_url;
+						(music_url.indexOf("secret_token") == -1) ? music_url = music_url + "?" : music_url = music_url + "&";
+						music_url = music_url + "consumer_key=" + consumer_key;
+						
+						new MusicPlayer($this, music_url);
+						
+					});
+			});
+			
 		});
 	}
 	

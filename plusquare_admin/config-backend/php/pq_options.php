@@ -2,7 +2,8 @@
 
 		
 //elements
-foreach (glob(get_theme_root()."/essenza/plusquare_admin/config-backend/php/elements/*.php") as $filename)
+global $pq_themename_lc;
+foreach (glob(get_theme_root()."/".$pq_themename_lc."/plusquare_admin/config-backend/php/elements/*.php") as $filename)
 {
     include_once $filename;
 }
@@ -281,6 +282,12 @@ function make_option($option, $typeOption = "post_meta", $init_value = NULL){
 
     else if($type == "pages_posts_picker")
         new pq_pages_posts_picker($option["id"], $value);
+
+    else if($type == "text_formats")
+        new pq_text_formats($option["id"], $value);
+
+    else if($type == "text_format_picker")
+        new pq_text_format_picker($option["id"], $value);
 	
     ?>
     </div>

@@ -22,20 +22,22 @@ require_once( 'ajax/functions.php' );
 add_action( 'wp_ajax_nopriv_pq_save_page_template', 'pq_save_page_template_fun' );
 add_action( 'wp_ajax_pq_save_page_template', 'pq_save_page_template_fun' );
 function pq_save_page_template_fun(){
+  global $pq_shortname;
+
 	$title = $_POST['title'];
 	$content = $_POST['content'];
 
 	//Get saved pages
-	$saved_pages = get_option("esza_saved_pages_builder");
+	$saved_pages = get_option($pq_shortname."_saved_pages_builder");
 
 	if($saved_pages === FALSE){
 		$new_item = sprintf('{"%s":"%s"}', $title, $content);
-		update_option("esza_saved_pages_builder", $new_item);
+		update_option($pq_shortname."_saved_pages_builder", $new_item);
 	}
 	else{
 		$saved_pages = json_decode($saved_pages);
 		$saved_pages->$title = str_replace('\"', '"', $content);
-		update_option("esza_saved_pages_builder", json_encode($saved_pages));
+		update_option($pq_shortname."_saved_pages_builder", json_encode($saved_pages));
 	}
 
 	exit;
@@ -45,15 +47,17 @@ function pq_save_page_template_fun(){
 add_action( 'wp_ajax_nopriv_pq_remove_page_template', 'pq_remove_page_template_fun' );
 add_action( 'wp_ajax_pq_remove_page_template', 'pq_remove_page_template_fun' );
 function pq_remove_page_template_fun(){
+  global $pq_shortname;
+  
   $title = $_POST['title'];
 
   //Get saved pages
-  $saved_pages = get_option("esza_saved_pages_builder");
+  $saved_pages = get_option($pq_shortname."_saved_pages_builder");
 
   if($saved_pages !== FALSE){
     $saved_pages = json_decode($saved_pages);
     unset($saved_pages->$title);
-    update_option("esza_saved_pages_builder", json_encode($saved_pages));
+    update_option($pq_shortname."_saved_pages_builder", json_encode($saved_pages));
   }
 
   exit;
@@ -63,18 +67,18 @@ function pq_remove_page_template_fun(){
 add_action( 'wp_ajax_nopriv_pq_get_shortcode_options', 'pq_get_shortcode_options_fun' );
 add_action( 'wp_ajax_pq_get_shortcode_options', 'pq_get_shortcode_options_fun' );
 function pq_get_shortcode_options_fun() {
-	global $essenza_shortcodes_options;
-  global $essenza_column_options;
+	global $plusquare_shortcodes_options;
+  global $plusquare_column_options;
 	
 	// get the submitted parameters
 	$shortcodeId = $_POST['shortcode'];	
 	
 	//Get shortcode parameters
   if($shortcodeId == 'column'){
-      $shortcode = $essenza_column_options;
+      $shortcode = $plusquare_column_options;
   }
   else{
-     $shortcode = $essenza_shortcodes_options[$shortcodeId];
+     $shortcode = $plusquare_shortcodes_options[$shortcodeId];
   }
 	
 	// response output
@@ -168,6 +172,73 @@ function pq_get_color_options_fun() {
       "label" => "Color",
       "id" => "pq_color_option_color",
       "type" => "color_picker"
+    )
+  );
+  
+  // response output
+  foreach ( $plusquare_color_options as $option) {
+    //Make option
+    make_option($option);
+  }
+
+  exit;
+}
+
+
+//Get New/Edit Style options
+add_action( 'wp_ajax_pq_get_style_options', 'pq_get_style_options_fun' );
+function pq_get_style_options_fun() {
+  $plusquare_color_options = array(
+    array(
+      "label" => "Style Title",
+      "id" => "pq_font_option_title",
+      "info" => "This will be the indication that will appear on the color pickers accross the admin area",
+      "type" => "text"
+    ),
+
+    //Font family
+    array(
+      "label" => "Font Family",
+      "id" => "pq_font",
+      "type" => "font_picker",
+      "less_var" => true,
+      "help" => "Select the font you want for this style from the ones selected by you in the fonts tab."
+    ),
+                
+    //Font size
+    array(
+      "label" => "Font Size",
+      "id" => "pq_font_size",
+      "type" => "pixels",
+      "default" => "37",
+      "less_var" => true,
+      "help" => "The font size in pixels you want for this style!"
+    ),
+    
+    //Font line height
+    array(
+      "label" => "Line Height",
+      "id" => "pq_line_height",
+      "type" => "pixels",
+      "default" => "41",
+      "less_var" => true,
+      "help" => "The style's line height in pixels!"
+    ),
+    
+    //Font spacing
+    array(
+      "label" => "Letter Spacing",
+      "id" => "pq_font_letterspacing",
+      "type" => "pixels",
+      "default" => "0",
+      "less_var" => true,
+      "help" => "The style's letter spacing in pixels!"
+    ),
+
+    array(
+      "label" => "Color",
+      "id" => "pq_font_color",
+      "type" => "color_palette_picker"
     )
   );
   
@@ -319,62 +390,6 @@ function pq_import_dummy_fun() {
 
 
 
-// Move images
-add_action( 'wp_ajax_nopriv_pq_import_dummy_images', 'pq_import_dummy_images_fun' );
-add_action( 'wp_ajax_pq_import_dummy_images', 'pq_import_dummy_images_fun' );
-function pq_import_dummy_images_fun() {
-  echo "Loading ...";
-  $url = "http://plusquare.pt/Essenza_images/sidebar.zip";
-
-  echo '<div id="progress-bar">';
-  echo  '<div id="progress">0%</div>';
-  echo '</div>';
-
-  ob_flush();
-  flush();
-
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, $url);  
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-  curl_setopt($ch, CURLOPT_PROGRESSFUNCTION, 'progress_import_dummy');
-  curl_setopt($ch, CURLOPT_NOPROGRESS, false); // needed to make progress function work
-  curl_setopt($ch, CURLOPT_HEADER, 0);
-  curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
-  $html = curl_exec($ch);
-  curl_close($ch);
-
-  echo "Done";
-  ob_flush();
-  flush();
-  /*$folder = $_POST['folder'];
-
-   //Uploads
-   //$zip_path = get_template_directory_uri()."/plusquare_admin/dummy/light_images.zip";
-   $zip_path = "../wp-content/themes/essenza/plusquare_admin/config-backend/dummy/".$folder."/media.zip";
-   $target_path = "../wp-content/uploads/";
-
-   echo $zip_path;
-   echo $target_path;
-   
-   $zip = new ZipArchive();
-   $x = $zip->open($zip_path);
-
-   echo $x;
-   if ($x === true) {
-      $zip->extractTo($target_path);
-      $zip->close();
-
-      $message = "Your .zip file was unpacked.";
-   }
-   else { 
-      $message = "There was a problem with the unpacking. Please try again.";
-   }
-
-   echo $message;*/
-
-   exit;
-}
-
 // Options sql run
 add_action( 'wp_ajax_nopriv_pq_import_options', 'pq_import_options_fun' );
 add_action( 'wp_ajax_pq_import_options', 'pq_import_options_fun' );
@@ -414,27 +429,51 @@ function pq_import_dummy_css_fun() {
    //Uploads
    //$zip_path = get_template_directory_uri()."/plusquare_admin/dummy/light_images.zip";
    //$zip_path = "../wp-content/themes/essenza/plusquare_admin/config-backend/dummy/".$folder."/css.zip";
-    $zip_path = "http://plusquare.pt/Essenza_images/dummy/".$folder."/css.zip";
-   $target_path = "../wp-content/themes/essenza/css/";
+  set_time_limit(0);
+
+  $url = "http://plusquare.pt/Essenza_images/dummy/".$folder."/css.zip";
+  $target_file = "css.zip";
+  $target_path = "../wp-content/themes/essenza/css/";
 
    echo $zip_path;
    echo $target_path;
-   
-   $zip = new ZipArchive();
-   $x = $zip->open($zip_path);
 
-   echo $x;
-   if ($x === true) {
-      $zip->extractTo($target_path);
-      $zip->close();
+  $file = fopen($target_file, 'w');
 
-      $message = "Your .zip file was unpacked.";
-   }
-   else { 
-      $message = "There was a problem with the unpacking. Please try again.";
-   }
+  $ch = curl_init($url);
+  curl_setopt($ch, CURLOPT_FILE, $file); //auto write to file
+  $page = curl_exec($ch);
 
-   echo $message;
+  if (!$page) {  
+    echo "<br />cURL error number:" .curl_errno($ch);  
+    echo "<br />cURL error:" . curl_error($ch);  
+    exit;  
+  }  
+
+  curl_close($ch);
+  fclose($file);
+
+  echo "UNZIPPING";
+
+  $zip = new ZipArchive();
+  if (! $zip) {  
+    echo "<br>Could not make ZipArchive object.";  
+    exit;  
+  }  
+
+  $x = $zip->open($target_file);
+  if ($x === true) {
+    $zip->extractTo($target_path);
+    $zip->close();
+
+    $message = "Your .zip file was unpacked.";
+  }
+  else { 
+    $message = "There was a problem with the unpacking. Please try again.";
+  }
+
+  echo $message;
+  unlink($target_file);
 
    exit;
 }

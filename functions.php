@@ -8,18 +8,15 @@ if(WP_DEBUG){
 
 if(WP_DEBUG)fb::log("DEBUG ON");
 
-//apis
-require_once( 'scripts/twitteroauth/twitteroauth.php');
-require_once( 'scripts/phpFlickr.php');
-require_once( 'scripts/Be/Api.php' );
-
 
 //Require Scripts
 require_once( 'scripts/mr-image-resize.php' );
 
 
-//to contact before options
+//variables
 $pq_shortname = "esza";
+$pq_themename = "Essenza";
+$pq_themename_lc = "essenza";
 
 
 //Check if it's an ajax call from frontend
@@ -41,6 +38,7 @@ if(!$pq_ajax_frontent && is_admin()){
  *     FRONTEND
  */
 else{
+
 	require_once( get_template_directory() . '/plusquare_admin/config-frontend/frontend.php' );
 }
 

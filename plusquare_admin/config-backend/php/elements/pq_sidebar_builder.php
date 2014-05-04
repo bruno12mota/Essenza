@@ -16,7 +16,7 @@ class pq_sidebar_builder {
 	function __construct($id, $value){
 		$this->id = $id;
 
-		global $essenza_shortcodes_options;
+		global $plusquare_shortcodes_options;
 
 		?>
 
@@ -55,7 +55,7 @@ class pq_sidebar_builder {
 							$sidebarsPicker.find(".placeholders_holder"), 
 							$sidebarsPicker.find(".menu_holder"), false, 
 							"<?php echo get_template_directory_uri(); ?>/plusquare_admin/config-backend/", 
-							<?php echo stripslashes (json_encode($essenza_shortcodes_options)); ?>);
+							<?php echo stripslashes (json_encode($plusquare_shortcodes_options)); ?>);
 
 						
 					});

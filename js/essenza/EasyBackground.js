@@ -402,11 +402,8 @@ define(["jquery", "jquery/jquery.easing.1.3", "utils/utils"], function($) {
         onResize: function (){
             var maxWidth =  this.$background.width(); 
             var maxHeight =  this.$background.height();
-
-            console.log(this.$background.width());
                     
             for(var i=0; i<this.images.length ; i++){
-            console.log(this.images[i].width);
                 if(this.images[i].sizing != "repeat"){
                     var img = this.images[i].img;
                     

@@ -86,35 +86,7 @@
                 
                 <div class="tweets">
                     <div class="tweets_holder">
-                    <?php
-                        $tweetId = get_option("esza_twitter_id");
-                        $tweetSecret = get_option("esza_twitter_secret");
-                        $tweetToken = get_option("esza_twitter_token");
-                        $tweetTokenSecret = get_option("esza_twitter_token_secret");
-                        
-                        if($tweetId == FALSE || $tweetSecret == FALSE || $tweetToken == FALSE || $tweetTokenSecret == FALSE){
-                            if(WP_DEBUG)fb::log("An error occured loading twitter app options!");
-                        }
-                        else{
-                            $number = 5;
-                            $tweetUser = get_option("esza_footer_twitter_user");
-                            
-                            $connection = new TwitterOAuth($tweetId, $tweetSecret, $tweetToken, $tweetTokenSecret);
-                            $tweets = $connection->get("statuses/user_timeline", array("screen_name" => $tweetUser, "count" => $number));
-                            
-                            if (is_array($tweets)) {
-                              foreach($tweets as $tweet){
-                                  //parse tweet date
-                                  $time = strtotime($tweet->created_at);
-                                  //$newformat = date('jS \of F Y', $time);
-                                  
-                                  $diff = time() - $time;
-                                  
-                                  echo '<div class="tweet_small"><p>'.getTweetHtml($tweet).'</p></div>';
-                              }
-                            }
-                        }
-                    ?>
+                          <div class="tweet_small"><p>Loading Tweets..</p></div>
                     </div>
                 </div>
             </div>

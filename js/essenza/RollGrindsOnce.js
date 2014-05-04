@@ -3,20 +3,43 @@ require(["jquery", "jquery/jquery.easing.1.3"],
         //COVER CONTROL
         jQuery(document).ready(	function ($){
 			var $tw = $("#footer_twitter");
-			var $tweets = $("#footer_twitter").find(".tweets");
-			var $tweetsHolder = $("#footer_twitter").find(".tweets_holder");
-			var $smallTweets = $tweets.find(".tweet_small");
+
+			if($tw.length > 0){
+				var $tweets = $("#footer_twitter").find(".tweets");
+				var $tweetsHolder = $("#footer_twitter").find(".tweets_holder");
+				var $smallTweets;
+
+				var numTweets;
+				var currentTweet;
+				var twitter_height;
+
+				$.post(
+					adminAjax,
+					{
+						'action' : 'pq_get_twitter_feed',
+						'frontend': true
+					},
+					function(response){
+						$tweetsHolder.html(response);
+
+						$smallTweets = $tweets.find(".tweet_small");
+
+						numTweets = $smallTweets.length;
+						currentTweet = 0;
+						twitter_height = $tw.height();
 			
-			var numTweets = $smallTweets.length;
-			var currentTweet = 0;
-			var twitter_height = $tw.height();
-			function nextTweet(){
-				currentTweet++;
-				if(currentTweet >= numTweets)
-					currentTweet = 0;
-				$tweetsHolder.stop().animate({"top": -twitter_height*currentTweet}, 500, "easeOutExpo");
+						setInterval(nextTweet, 4000);
+					}
+				);
+
+				function nextTweet(){
+					currentTweet++;
+					if(currentTweet >= numTweets)
+						currentTweet = 0;
+					$tweetsHolder.stop().animate({"top": -twitter_height*currentTweet}, 500, "easeOutExpo");
+				}
 			}
-			setInterval(nextTweet, 4000);
+			
 			
             
 			

@@ -2,6 +2,7 @@ var esza_portfolio_title_font_size_max = parseInt(directory["esza_portfolio_titl
 var esza_portfolio_title_font_size_min = parseInt(directory["esza_portfolio_title_font_size_min"], 10);
 
 define(["jquery", 
+		"jquery/jquery.easing.1.3",
 		"utils/utils",
 		"other/modernizr"], function($) {
 			

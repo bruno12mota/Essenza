@@ -16,10 +16,11 @@ class pq_page_builder {
 	function __construct($id){
 		$this->id = $id;
 		
-		global $essenza_shortcodes_options;
+		global $plusquare_shortcodes_options;
+		global $pq_shortname;
 
 		//Saved pages
-		$saved_pages = get_option("esza_saved_pages_builder");
+		$saved_pages = get_option($pq_shortname."_saved_pages_builder");
 		$saved_pages = $saved_pages === FALSE || $saved_pages === null || $saved_pages === "" ? '{}' : str_replace("\n", "", $saved_pages);
 		?>
 
@@ -53,7 +54,7 @@ class pq_page_builder {
                 	if(WP_DEBUG)console.log(saved_pages);
 
                 	//Shortcodes options
-                	var shortcodes_options = <?php echo stripslashes(json_encode($essenza_shortcodes_options)); ?>;
+                	var shortcodes_options = <?php echo stripslashes(json_encode($plusquare_shortcodes_options)); ?>;
 
                     new PageBuilder($("#page_builder"), "<?php echo get_template_directory_uri(); ?>/plusquare_admin/config-backend/", shortcodes_options, saved_pages);   	
                 }

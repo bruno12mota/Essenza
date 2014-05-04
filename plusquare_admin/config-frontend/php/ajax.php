@@ -8,8 +8,9 @@ function pq_get_video_fun() {
 	// get the submitted parameters
 	$id = $_POST['id'];	
 	$type = $_POST['type'];
+	$auto = isset($_POST['autoplay']) ? $_POST['autoplay'] : "0";
 	
-	echo plusquare_get_social_video_url($type, $id);
+	echo plusquare_get_social_video_url($type, $id, $auto);
 
 	exit;
 }
@@ -40,6 +41,374 @@ function pq_send_email_fun() {
 
 	exit;
 }
+
+
+
+//Twitter Feed
+add_action( 'wp_ajax_nopriv_pq_get_twitter_feed', 'pq_get_twitter_feed_fun' );
+add_action( 'wp_ajax_pq_get_twitter_feed', 'pq_get_twitter_feed_fun' );
+function pq_get_twitter_feed_fun(){
+	global $pq_shortname;
+
+	$dirName = dirname(__FILE__);
+	require_once( $dirName.'/../../../scripts/twitteroauth/twitteroauth.php');
+
+	$tweetId = get_option($pq_shortname."_twitter_id");
+	$tweetSecret = get_option($pq_shortname."_twitter_secret");
+	$tweetToken = get_option($pq_shortname."_twitter_token");
+	$tweetTokenSecret = get_option($pq_shortname."_twitter_token_secret");
+	$tweetUser = get_option($pq_shortname."_footer_twitter_user");
+
+	if($tweetId == FALSE || $tweetSecret == FALSE || $tweetToken == FALSE || $tweetTokenSecret == FALSE || $tweetUser == FALSE){
+		if(WP_DEBUG)fb::log("An error occured loading twitter app options!");
+	}
+	else{
+		$number = 5;
+
+		$connection = new TwitterOAuth($tweetId, $tweetSecret, $tweetToken, $tweetTokenSecret);
+		$tweets = $connection->get("statuses/user_timeline", array("screen_name" => $tweetUser, "count" => $number));
+
+		if (is_array($tweets)) {
+			foreach($tweets as $tweet){
+				//parse tweet date
+				$time = strtotime($tweet->created_at);
+				//$newformat = date('jS \of F Y', $time);
+
+				$diff = time() - $time;
+
+				echo '<div class="tweet_small"><p>'.getTweetHtml($tweet).'</p></div>';
+			}
+		}
+	}
+
+	exit;
+}
+
+
+//Twitter Single Stat
+add_action( 'wp_ajax_nopriv_pq_get_twitter_single_stat', 'pq_get_twitter_single_stat_fun' );
+add_action( 'wp_ajax_pq_get_twitter_single_stat', 'pq_get_twitter_single_stat_fun' );
+function pq_get_twitter_single_stat_fun(){
+	global $pq_shortname;
+
+	$dirName = dirname(__FILE__);
+	require_once( $dirName.'/../../../scripts/twitteroauth/twitteroauth.php');
+
+	$tweetId = get_option($pq_shortname."_twitter_id");
+	$tweetSecret = get_option($pq_shortname."_twitter_secret");
+	$tweetToken = get_option($pq_shortname."_twitter_token");
+	$tweetTokenSecret = get_option($pq_shortname."_twitter_token_secret");
+	$tweetStatus = $_POST['tweetStatus'];
+
+	if($tweetId == FALSE || $tweetSecret == FALSE || $tweetToken == FALSE || $tweetTokenSecret == FALSE){
+		if(WP_DEBUG)fb::log("An error occured loading twitter app options!");
+	}
+	else{
+		$connection = new TwitterOAuth($tweetId, $tweetSecret, $tweetToken, $tweetTokenSecret);
+		$tweet = $connection->get("statuses/show", array("id" => $tweetStatus));
+		
+		//parse tweet date
+		$time = strtotime($tweet->created_at);
+		$newformat = date('jS \of F Y', $time);
+		
+		echo '<h2>'.$tweet->text.'</h2><p>@'.$tweet->user->screen_name.' on '.$newformat.'</p>';
+	}
+
+	exit;
+}
+
+
+
+//Twitter Shortcode feed
+add_action( 'wp_ajax_nopriv_pq_get_twitter_short_feed', 'pq_get_twitter_short_feed_fun' );
+add_action( 'wp_ajax_pq_get_twitter_short_feed', 'pq_get_twitter_short_feed_fun' );
+function getTweetHtml($tweet){
+	$html = $tweet->text;
+	//if(WP_DEBUG)fb::log($tweet);
+	foreach($tweet->entities->urls as $urlObj){
+		$html = str_replace( $urlObj->url, "<a href='".$urlObj->expanded_url."'><span>".$urlObj->url."</span></a>", $html);
+	}
+	foreach($tweet->entities->hashtags as $hashObj){
+		$html = str_replace( "#".$hashObj->text, "<a href='https://twitter.com/search?q=%23".$hashObj->text."&src=hash'><span>#".$hashObj->text."</span></a>", $html);
+	}
+	
+	return $html;
+}
+function pq_get_twitter_short_feed_fun(){
+	global $pq_shortname;
+
+	$dirName = dirname(__FILE__);
+	require_once( $dirName.'/../../../scripts/twitteroauth/twitteroauth.php');
+
+	$tweetId = get_option($pq_shortname."_twitter_id");
+	$tweetSecret = get_option($pq_shortname."_twitter_secret");
+	$tweetToken = get_option($pq_shortname."_twitter_token");
+	$tweetTokenSecret = get_option($pq_shortname."_twitter_token_secret");
+	$tweetUser = $_POST['user'];
+	$number = $_POST['number'];
+
+	if($tweetId == FALSE || $tweetSecret == FALSE || $tweetToken == FALSE || $tweetTokenSecret == FALSE){
+		if(WP_DEBUG)fb::log("An error occured loading twitter app options!");
+	}
+	else{
+		$connection = new TwitterOAuth($tweetId, $tweetSecret, $tweetToken, $tweetTokenSecret);
+		$tweets = $connection->get("statuses/user_timeline", array("screen_name" => $tweetUser, "count" => $number));
+		
+		$return = "";
+	
+		foreach($tweets as $tweet){
+			if(!isset($tweet->created_at))
+				break;
+
+			//parse tweet date
+			$time = strtotime($tweet->created_at);
+			//$newformat = date('jS \of F Y', $time);
+			
+			$diff = time() - $time;
+			
+			$return .= '<div class="tweet_small">
+							<div class="bird"></div>
+							<div class="tweet_content">
+								<a href="https://twitter.com/'.$tweet->user->screen_name.'"><span>@'.$tweet->user->screen_name.':</span></a>
+								<p>'.getTweetHtml($tweet).'</p>
+								<a href="https://twitter.com/'.$tweet->user->screen_name.'/status/'.$tweet->id_str.'"><span>'.plusquare_get_string_time_passed($diff).'</span></a>
+							</div>
+						</div>';
+		}
+		
+		echo $return;
+	}
+
+	exit;
+}
+
+
+
+
+//Dribbble Gallery
+add_action( 'wp_ajax_nopriv_pq_get_dribbble', 'pq_get_dribbble_fun' );
+add_action( 'wp_ajax_pq_get_dribbble', 'pq_get_dribbble_fun' );
+function pq_get_dribbble_fun(){
+	global $pq_shortname;
+
+	$content = $_POST['id'];
+	$number = $_POST['number'];
+	$width = $_POST['width'];
+	$height = $_POST['height'];
+
+	$data = curlFetchData("http://api.dribbble.com/players/".$content."/shots?per_page=".$number);
+	
+	$returnStr = "";
+	$json = json_decode($data);
+
+	//Pixel ratio
+	if( isset($_COOKIE["pixel_ratio"]) )
+		$pixel_ratio = $_COOKIE["pixel_ratio"];
+	else
+		$pixel_ratio = 2;
+			
+
+	$width = floatval($width);
+	$height = floatval($height);
+	foreach ($json->shots as $photo) {
+		$imageUrl = $photo->image_teaser_url;
+
+		$size = @getimagesize($imageUrl);
+
+		$background_size = "";
+		if($size !== FALSE){
+			$width_image = floatval($size[0]);
+			$height_image = floatval($size[1]);
+			$ratio = min( $width_image/$width , $height_image/$height);
+			$width_image = round($width_image/$ratio);
+			$height_image = round($height_image/$ratio);
+			$background_size = 'background-size: '.$width_image.'px '.$height_image.'px;';
+		}
+
+    	$returnStr .= '<a target="_blank" class="overable_type" href="'.$photo->url.'" style="width: '.$width.'px; height: '.$height.'px; '.$background_size.' background-position: 50%; background-image:url('.$photo->image_teaser_url.');">';
+		
+		//$returnStr .= '<img src="'.$imageUrl.'" width="'.$width.'" height="'.$height.'" alt="Dribbble Image"/>';
+		$returnStr .= '<div class="cover"></div>';
+		$returnStr .= '<div class="post_type"><i class="esza-link"></i></div>';
+		$returnStr .= '</a>';
+	}
+	
+	echo $returnStr;
+
+	exit;
+}
+
+
+
+
+//Behance Gallery
+add_action( 'wp_ajax_nopriv_pq_get_behance', 'pq_get_behance_fun' );
+add_action( 'wp_ajax_pq_get_behance', 'pq_get_behance_fun' );
+function pq_get_behance_fun(){
+	global $pq_shortname;
+
+	if(!class_exists("Be_Api")){
+		$dirName = dirname(__FILE__);
+		require_once( $dirName.'/../../../scripts/Be/Api.php');
+	}
+
+	$behanceId = get_option($pq_shortname."_behance_id");
+	$behanceSecret = get_option($pq_shortname."_behance_secret");
+
+	$content = $_POST['id'];
+	$type = $_POST['type'];
+	$number = $_POST['number'];
+	$width = $_POST['width'];
+	$height = $_POST['height'];
+	
+	if($behanceId == FALSE || $behanceSecret == FALSE)
+		return "<p>An error occured loading behance app options!</p>";
+	
+	$api = new Be_Api( $behanceId, $behanceSecret );
+	$json = $api->getUserProjects( $content );
+
+	//Pixel ratio
+	if( isset($_COOKIE["pixel_ratio"]) )
+		$pixel_ratio = $_COOKIE["pixel_ratio"];
+	else
+		$pixel_ratio = 2;
+		
+	$returnStr = "";
+	$count = 0;
+	$number = intval($number);
+	$width = intval($width);
+	$height = intval($height);
+	foreach ($json as $project) {
+    	//$returnStr .= '<a target="_blank" class="overable_type" href="'.$project->url.'">';
+		
+		//Get image sizes
+		$url = "";
+		
+		foreach ($project->covers as $size => $thisUrl) {
+			if(intval($size) >= $width && intval($size) >= $height){
+				$url = $thisUrl;
+			}
+		}
+
+		$imageUrl = $url;
+		
+		/*$size = @getimagesize($imageUrl);
+		$width_image = $size[0];
+		$height_image = $size[1];
+		$ratio = min( $width_image/$width , $height_image/$height);
+		$width_image = round($width_image/$ratio);
+		$height_image = round($height_image/$ratio);*/
+		//$width_image = $width;
+		//$height_image = $height;
+
+    	$returnStr .= '<a target="_blank" class="overable_type" href="'.$url.'" style="width: '.$width.'px; height: '.$height.'px; background-position: 50%; background-image:url('.$imageUrl.');">';
+		
+		$returnStr .= '<div class="cover"></div>';
+		$returnStr .= '<div class="post_type"><i class="esza-link"></i></div>';
+		$returnStr .= '</a>';
+		
+		$count ++;
+		if($count >= $number)
+			break;
+	}
+	
+	echo $returnStr;
+
+	exit;
+}
+
+
+
+
+//Flickr Gallery
+add_action( 'wp_ajax_nopriv_pq_get_flickr', 'pq_get_flickr_fun' );
+add_action( 'wp_ajax_pq_get_flickr', 'pq_get_flickr_fun' );
+function pq_get_flickr_fun(){
+	global $pq_shortname;
+
+	if(!class_exists("phpFlickr")){
+		$dirName = dirname(__FILE__);
+		require_once( $dirName.'/../../../scripts/phpFlickr.php');
+	}
+
+	$flickrId = get_option($pq_shortname."_flickr_id");
+	
+	if($flickrId == FALSE){
+		if(WP_DEBUG)fb::log("An error occured loading flickr app options!");
+		exit;
+	}
+	$content = $_POST['id'];
+	$type = $_POST['type'];
+	$number = $_POST['number'];
+	$width = $_POST['width'];
+	$height = $_POST['height'];
+	
+	$f = new phpFlickr($flickrId);
+	
+	// Find the NSID of the username inputted via the form
+    $person = $f->people_findByUsername($content);
+ 
+    // Get the friendly URL of the user's photos
+    $photos_url = $f->urls_getUserPhotos($person['id']);
+ 
+    // Get the user's first 36 public photos
+    $photos = $f->people_getPublicPhotos($person['id'], NULL, NULL, $number);
+	
+	if(!$photos){
+		echo "";
+		exit;
+	}
+
+	//Pixel ratio
+	if( isset($_COOKIE["pixel_ratio"]) )
+		$pixel_ratio = $_COOKIE["pixel_ratio"];
+	else
+		$pixel_ratio = 2;
+
+	$returnStr = "";
+	foreach ((array)$photos['photos']['photo'] as $photo) {
+		//Get image sizes
+		$sizes = $f->photos_getSizes($photo['id']);
+		$width = intval($width);
+		$height = intval($height);
+		$url = "";
+		
+		if(!$sizes)
+			return;
+		
+		foreach ($sizes as $size) {
+			if(intval($size['width']) >= $width && intval($size['height']) >= $height){
+				$url = $size['source'];
+				break;
+			}
+		}
+
+		$imageUrl = $url;
+		
+		$size = @getimagesize($imageUrl);
+
+		$background_size = "";
+		if($size !== FALSE){
+			$width_image = floatval($size[0]);
+			$height_image = floatval($size[1]);
+			$ratio = min( $width_image/$width , $height_image/$height);
+			$width_image = round($width_image/$ratio);
+			$height_image = round($height_image/$ratio);
+			$background_size = 'background-size: '.$width_image.'px '.$height_image.'px;';
+		}
+
+    	$returnStr .= '<a target="_blank" class="overable_type" href="http://www.flickr.com/photos/' . $photo['owner'] . '/' . $photo['id'] . '/" style="width: '.$width.'px; height: '.$height.'px; '.$background_size.' background-position: 50%; background-image:url('.$url.');">';
+		
+		$returnStr .= '<div class="cover"></div>';
+		$returnStr .= '<div class="post_type"><i class="esza-link"></i></div>';
+		$returnStr .= '</a>';
+	}
+
+	echo $returnStr;
+
+	exit;
+}
+
 
 
 
@@ -138,6 +507,8 @@ function pq_get_portfolio_posts_fun() {
 	// Restore original Query & Post Data
 	wp_reset_query();
 	wp_reset_postdata();
+
+	exit;
 }
 
 
@@ -165,10 +536,11 @@ function pq_get_blog_posts_fun() {
 	
 	//Parse categories
 	$args["tax_query"] = get_tax_query("included_blog_categories", 'category');
-	
+
 	$posts = new WP_Query( $args );
 
 	//Start works iteration
+	$start = microtime(true);
     if($posts->have_posts()): 
         while($posts->have_posts()):  $posts->the_post();
 
@@ -221,7 +593,7 @@ function pq_get_blog_posts_fun() {
                 <!-- Continue Reading -->
                 <div>
                 	<a href="<?php the_permalink(); ?>" class="continue-reading-button subHeader dynamic_loading new">
-                    	<p>Continue reading</p>
+                    	<p><?php echo get_option("esza_trans_continue_reading", "Continue Reading"); ?></p>
                  	</a>
                 </div>
             </div>
@@ -292,6 +664,8 @@ function pq_get_blog_posts_fun() {
     // Restore original Query & Post Data
     wp_reset_query();
     wp_reset_postdata();
+	$time_taken = microtime(true) - $start;
+	if(WP_DEBUG)fb::log($time_taken);
 
 	exit;
 }

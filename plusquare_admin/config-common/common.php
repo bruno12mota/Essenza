@@ -96,9 +96,10 @@ if ( ! isset( $content_width ) )
  */
 add_filter( 'avatar_defaults', 'new_default_avatar' );
 function new_default_avatar ( $avatar_defaults ) {
+    global $pq_themename;
     //Set the URL where the image file for your avatar is located
     $new_avatar_url = 'http://pt.gravatar.com/userimage/40519953/0921295dde73766afe618d0da03491ba.png?size=200';
     //Set the text that will appear to the right of your avatar in Settings>>Discussion
-    $avatar_defaults[$new_avatar_url] = 'Essenza Default Avatar';
+    $avatar_defaults[$new_avatar_url] = $pq_themename.' Default Avatar';
     return $avatar_defaults;
 }

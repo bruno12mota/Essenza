@@ -6,7 +6,9 @@
 /**
  * Enqueues
  */
-function essenza_scripts() {
+function plusquare_frontend_scripts() {
+	if(isset($_GET["rel"]))
+		return;
 
 	//Check ie version
 	preg_match('/MSIE (.*?);/', $_SERVER['HTTP_USER_AGENT'], $matches);
@@ -45,7 +47,7 @@ function essenza_scripts() {
 
 
 	//Main Javascript compilation
-  	wp_register_script( 'require-js', get_stylesheet_directory_uri() . '/js/libs/require-2.1.9.min.js', array(), false, false );
+  	wp_register_script( 'require-js', get_stylesheet_directory_uri() . '/js/libs/require.js', array( "jquery" ), false, false );
   	wp_register_script( 'essenza-js', get_stylesheet_directory_uri() . '/js/Essenza.js', array( 'require-js' ), false, false);
 
 	$esza_portfolio_title_font_size_max = get_option("esza_portfolio_title_font_size_max", "true");
@@ -142,31 +144,15 @@ function essenza_scripts() {
 	wp_enqueue_script( 'roll_grinds_once', get_template_directory_uri().'/js/essenza/RollGrindsOnce.js', array("require-js"), false, true );
 
 }
-add_action( 'wp_enqueue_scripts', 'essenza_scripts' );
+add_action( 'wp_enqueue_scripts', 'plusquare_frontend_scripts' );
 
 
 function print_inline_script() {
+	global $pq_shortname;
 	?>
 	<style type="text/css">
-		<?php echo get_option("esza_custom_css"); ?>
+		<?php echo get_option($pq_shortname."_custom_css"); ?>
 	</style>
 	<?php
 }
 add_action( 'wp_head', 'print_inline_script' );
-
-
-
-
-function essenza_admin_scripts() {
-    
-    //Font Awesome
-    wp_enqueue_style( 'font_awesome',  get_template_directory_uri().'/css/font_awesome/font-awesome.min.css' );
-    
-    //Plusquare icons
-    wp_enqueue_style( 'essenza_icons',  get_template_directory_uri().'/css/essenza_icons/pq-icon-font.css' );
-
-    //Google fonts
-    wp_enqueue_style( 'essenza_google_fonts', get_google_fonts_link() );
-
-}
-add_action( 'admin_enqueue_scripts', 'essenza_admin_scripts' ); 

@@ -228,7 +228,7 @@ function plusquare_get_filter_menu_js(){
     	if(vertical < 1)
         	top = Math.round(allowedHeight*vertical)+ $header.height();
 
-        console.log("top:"+vertical);
+        if(WP_DEBUG)console.log("top:"+vertical);
 
         $filterMenu.css({
             "top": (vertical < 1 ? top +"px" : "auto"),

@@ -1,11 +1,13 @@
 
-require(["jquery"], function($){
+require(["jquery",
+		"jquery/jquery.easing.1.3"], function($){
 	plusquare_runtime_javascript = function(dynamic_loaded, animate_scroll, to_scroll){
 
-		//Shortcodes
-		require(["essenza/Shortcodes"],
-			function(){
-				$(document).ready(function(){
+		$(document).ready(function(){
+
+			//Shortcodes
+			require(["essenza/Shortcodes"],
+				function(){
 					runShortcodes();
 
 					var $sidebar = $(".sidebar");
@@ -15,14 +17,12 @@ require(["jquery"], function($){
 							$(".content_wraper").css("height", sidebarHeight+70+"px");
 						}
 					}
-				});
-			}
-		);
+				}
+			);
 
-		//Dynamic loading buttons
-		require(["essenza/DynamicLoading"],
-			function(dynamicLoadingButton){
-				$(document).ready(function(){
+			//Dynamic loading buttons
+			require(["essenza/DynamicLoading"],
+				function(dynamicLoadingButton){
 					$(".dynamic_loading").each(function(){
 						new dynamicLoadingButton($(this));
 					});
@@ -44,61 +44,56 @@ require(["jquery"], function($){
 							new dynamicLoadingButton($(this));
 						}
 					});
-				});
-			}
-		);
-
-		//Lightbox
-		require(["essenza/Lightbox"],
-			function(Lightbox){
-				$(document).ready(function(){
-					Lightbox.getElements();
-				});
-			}
-		);
-
-		//To top buttons
-		require(["other/modernizr", "jquery/jquery.easing.1.3"], function(){
-			jQuery(document).ready(function() {
-				var $to_top = $(".to_top_btn");
-				var $top_button = $(".to_top_btn");
-
-				if(Modernizr.touch || !vars.mw_scroll == "true"){
-					$to_top.click(function(){
-						$('html, body').animate({"scrollTop":0}, 300, "easeOutExpo");
-						
-						return false;
-					});
-
-					if(dynamic_loaded === true){
-						if(animate_scroll === true)
-							$(window).animate({"scrollTop":to_scroll}, 400, "easeOutExpo");
-						else
-							$(window).scrollTop(to_scroll);
-					}
-
-					function top_button_check(){
-						var top = $(this).scrollTop();
-						if(top > 0)
-							$top_button.addClass("active");
-						else
-							$top_button.removeClass("active");
-					}
-					
-
-					$(window).scroll(top_button_check);
-					$(window).resize(top_button_check);
 				}
+			);
 
-				if($("#page-wraper").height() < $(".easyBackground").height())
-					$to_top.removeClass("active");
+			//Lightbox
+			require(["essenza/Lightbox"],
+				function(Lightbox){
+					Lightbox.getElements();
+				}
+			);
+
+			//To top buttons
+			require(["other/modernizr"], function(){
+					var $to_top = $(".to_top_btn");
+					var $top_button = $(".to_top_btn");
+
+					if(Modernizr.touch || !vars.mw_scroll == "true"){
+						$to_top.click(function(){
+							$('html, body').animate({"scrollTop":0}, 300, "easeOutExpo");
+							
+							return false;
+						});
+
+						if(dynamic_loaded === true){
+							if(animate_scroll === true)
+								$(window).animate({"scrollTop":to_scroll}, 400, "easeOutExpo");
+							else
+								$(window).scrollTop(to_scroll);
+						}
+
+						function top_button_check(){
+							var top = $(this).scrollTop();
+							if(top > 0)
+								$top_button.addClass("active");
+							else
+								$top_button.removeClass("active");
+						}
+						
+
+						$(window).scroll(top_button_check);
+						$(window).resize(top_button_check);
+					}
+
+					if($("#page-wraper").height() < $(".easyBackground").height())
+						$to_top.removeClass("active");
+				
 			});
-		});
 
 
-		//Window scroll with ease
-		require(["other/modernizr", "jquery/jquery.mousewheel.min", "jquery/jquery.easing.1.3"], function(){
-			$(document).ready(function() {  
+			//Window scroll with ease
+			require(["other/modernizr", "jquery/jquery.mousewheel.min", "jquery/jquery.easing.1.3"], function(){
 				if(!Modernizr.touch && vars.mw_scroll == "true"){
 					var currentTop = $(window).scrollTop();
 					var current = currentTop;
@@ -203,7 +198,6 @@ require(["jquery"], function($){
 				}
 			});
 		});
-
 	}
 
 	plusquare_runtime_javascript();

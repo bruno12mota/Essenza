@@ -68,7 +68,7 @@ if($essenza_is_old_ie === true){
 
 
 
-<body <?php body_class(); ?> oncontextmenu="return false">
+<body <?php body_class(); ?>> <!-- oncontextmenu="return false"> -->
 
 	<?php
 
@@ -260,15 +260,18 @@ if($essenza_is_old_ie === true){
 else if($essenza_page_dynamically_loaded == "ajax"){
 	?>
 	<script>
-		$(document).ready(function() {
-			document.title = '<?php echo $essenza_title; ?>';
-		});
-	
-		//Easy background instanciation
-		require(["essenza/EasyBackground"],
-			function(EasyBackground) {
-				<?php plusquare_change_easy_background(); ?>
+		require(["jquery"], function($){
+			$(document).ready(function() {
+				document.title = '<?php echo $essenza_title; ?>';
+
+				//Easy background instanciation
+				require(["essenza/EasyBackground"],
+					function(EasyBackground) {
+						<?php plusquare_change_easy_background(); ?>
+					}
+				);
 			});
+		});
 	</script>
     <?php
 }
