@@ -58,173 +58,166 @@ class pq_import_dummy {
 		    </div>
 
 			<script type="text/javascript">
-				//<img src="<?php echo get_template_directory_uri(); ?>/plusquare_admin/config-backend/images/ui/loading.gif" />
-				require(["jquery"], function($) {
+				jQuery(document).ready(function($){
+					var $cover = $("#loading_dummy_cover");
+					var $holder = $cover.find(">div");
+					var $loadingLabel = $("#loading_label");
 
-					$(document).ready(function(){
-						var $cover = $("#loading_dummy_cover");
-						var $holder = $cover.find(">div");
-						var $loadingLabel = $("#loading_label");
+					var $dummy_progress = $("#dummy_progress");
+					var $dummy_confirm = $("#dummy_confirm");
 
-						var $dummy_progress = $("#dummy_progress");
-						var $dummy_confirm = $("#dummy_confirm");
+					var $confirm_continue = $("#confirm_continue");
+					var $confirm_cancel = $("#confirm_cancel");
 
-						var $confirm_continue = $("#confirm_continue");
-						var $confirm_cancel = $("#confirm_cancel");
+					var folder = "";
 
-						var folder = "";
-
-						var $progressBar = $(".ui_progress .progress");
-						var prog_inc = 0;
-						var prog_total = 0;
+					var $progressBar = $(".ui_progress .progress");
+					var prog_inc = 0;
+					var prog_total = 0;
 
 
-						function updatePermalinks(){
-							prog_inc = prog_inc+prog_total*100;
-							prog_total = 0.05;
-							$loadingLabel.text("Updating permalinks");
+					function updatePermalinks(){
+						prog_inc = prog_inc+prog_total*100;
+						prog_total = 0.05;
+						$loadingLabel.text("Updating permalinks");
 
-							jQuery.post(
-								adminAjax,
-								{
-									'action' : 'pq_import_dummy_perma'
-								},
-								function( response ) {
-									window.progressOptions(100);
-									$cover.find("img").hide();
-									$loadingLabel.text("Loaded successful (page will now refresh)!");
-									location.reload();
-								}
-							);
-						}
+						jQuery.post(
+							adminAjax,
+							{
+								'action' : 'pq_import_dummy_perma'
+							},
+							function( response ) {
+								window.progressOptions(100);
+								$cover.find("img").hide();
+								$loadingLabel.text("Loaded successful (page will now refresh)!");
+								location.reload();
+							}
+						);
+					}
 
-						function loadCss(){
-							prog_inc = prog_inc+prog_total*100;
-							prog_total = 0.05;
-							$loadingLabel.text("Uploading css");
+					function loadCss(){
+						prog_inc = prog_inc+prog_total*100;
+						prog_total = 0.05;
+						$loadingLabel.text("Uploading css");
 
-							jQuery.post(
-								adminAjax,
-								{
-									'action' : 'pq_import_dummy_css',
-									'folder'	: folder
-								},
-								function( response ) {
-									window.progressOptions(100);
-									//Load images
-									updatePermalinks();
-								}
-							);
-						}
+						jQuery.post(
+							adminAjax,
+							{
+								'action' : 'pq_import_dummy_css',
+								'folder'	: folder
+							},
+							function( response ) {
+								window.progressOptions(100);
+								//Load images
+								updatePermalinks();
+							}
+						);
+					}
 
-						window.loadOptions = function(){
-							prog_inc = prog_inc+prog_total*100;
-							prog_total = 0.05;
+					window.loadOptions = function(){
+						prog_inc = prog_inc+prog_total*100;
+						prog_total = 0.05;
 
-							$dummy_progress.show();
-							$dummy_confirm.hide();
+						$dummy_progress.show();
+						$dummy_confirm.hide();
 
-							$loadingLabel.text("Loading Options");
-							$cover.show();
+						$loadingLabel.text("Loading Options");
+						$cover.show();
 
-							jQuery.post(
-								adminAjax,
-								{
-									'action' : 'pq_import_options',
-									'folder'	: folder
-								},
-								function( response ) {
-									window.progressOptions(100);
-									//Load images
-									loadCss();
-								}
-							);
-						}
+						jQuery.post(
+							adminAjax,
+							{
+								'action' : 'pq_import_options',
+								'folder'	: folder
+							},
+							function( response ) {
+								window.progressOptions(100);
+								//Load images
+								loadCss();
+							}
+						);
+					}
 
-						window.progressOptions = function(perc){
-							$progressBar.css("width", prog_inc+perc*prog_total+"%");
-						}
+					window.progressOptions = function(perc){
+						$progressBar.css("width", prog_inc+perc*prog_total+"%");
+					}
 
-						function loadImages(){
-							prog_inc = prog_inc+prog_total*100;
-							prog_total = 0.80;
-							$loadingLabel.text("Uploading media");
+					function loadImages(){
+						prog_inc = prog_inc+prog_total*100;
+						prog_total = 0.80;
+						$loadingLabel.text("Uploading media");
 
-							console.log(adminAjax);
+						$iframe = $("<iframe style='display:none;' src='../wp-content/themes/essenza/plusquare_admin/config-backend/php/import.php?folder="+folder+"'></iframe>").appendTo($holder);
 
-							$iframe = $("<iframe style='display:none;' src='../wp-content/themes/essenza/plusquare_admin/config-backend/php/import.php?folder="+folder+"'></iframe>").appendTo($holder);
+					}
 
-						}
+					function loadSql(){
+						prog_inc = 0;
+						prog_total = 0.05;
 
-						function loadSql(){
-							prog_inc = 0;
-							prog_total = 0.05;
+						$dummy_progress.show();
+						$dummy_confirm.hide();
 
-							$dummy_progress.show();
-							$dummy_confirm.hide();
+						$loadingLabel.text("Running sql");
 
-							$loadingLabel.text("Running sql");
+						jQuery.post(
+							adminAjax,
+							{
+								'action' : 'pq_import_dummy',
+								'folder'	: folder
+							},
+							function( response ) {
+								window.progressOptions(100);
 
-							jQuery.post(
-								adminAjax,
-								{
-									'action' : 'pq_import_dummy',
-									'folder'	: folder
-								},
-								function( response ) {
-									window.progressOptions(100);
+								//Load images
+								loadImages();
+							}
+						);
 
-									//Load images
-									loadImages();
-								}
-							);
+					}
 
-						}
+					function cancel_import(){
+						$cover.hide();
 
-						function cancel_import(){
-							$cover.hide();
+						$confirm_continue.unbind("click");
+						$confirm_cancel.unbind("click");
+					}
 
-							$confirm_continue.unbind("click");
-							$confirm_cancel.unbind("click");
-						}
+					function import_dummy_content(){
 
-						function import_dummy_content(){
+						$dummy_progress.hide();
+						$dummy_confirm.show();
 
-							$dummy_progress.hide();
-							$dummy_confirm.show();
+						$confirm_continue.click(loadSql);
+						$confirm_cancel.click(cancel_import);
 
-							$confirm_continue.click(loadSql);
-							$confirm_cancel.click(cancel_import);
+						$cover.show();
+					}
 
-							$cover.show();
-						}
+					function import_options(){
+						$dummy_progress = $("#dummy_progress");
+						$dummy_confirm = $("#dummy_confirm");
 
-						function import_options(){
-							$dummy_progress = $("#dummy_progress");
-							$dummy_confirm = $("#dummy_confirm");
+						$confirm_continue.click(loadOptions);
+						$confirm_cancel.click(cancel_import);
+						
+						$cover.show();
+					}
 
-							$confirm_continue.click(loadOptions);
-							$confirm_cancel.click(cancel_import);
-							
-							$cover.show();
-						}
+					$(".import_button.dummy_btn").click(function(){
+						folder = $(this).data("folder");
 
-						$(".import_button.dummy_btn").click(function(){
-							folder = $(this).data("folder");
+						import_dummy_content();
 
-							import_dummy_content();
+						return false;
+					});
 
-							return false;
-						});
+					$(".import_button.options_btn").click(function(){
+						folder = $(this).data("folder");
 
-						$(".import_button.options_btn").click(function(){
-							folder = $(this).data("folder");
+						import_options();
 
-							import_options();
-
-							return false;
-						});
-
+						return false;
 					});
 
 				});

@@ -128,7 +128,11 @@ function pq_get_image_resized_fun($url, $width, $height, $crop, $retina, $snap, 
 	if (preg_match('/\/[0-9]{4}\/[0-9]{2}\/.+$/', $urlinfo['path'], $matches)) {
 		$file_path = $wp_upload_dir['basedir'] . $matches[0];
 	} else {
-		return $url;
+		return array(
+			"url"=> $url,
+			"width"=> NULL,
+			"height"=> NULL
+		);
 	}
 
 	//Get image original size

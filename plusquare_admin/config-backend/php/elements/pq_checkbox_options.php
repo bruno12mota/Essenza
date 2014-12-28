@@ -39,47 +39,47 @@ class pq_checkbox_options {
         ?>
         
         <script type="text/javascript">
-        	//Make checkbox
-			require(["jquery", "ui/elements/Checkbox"],
-				function($, Checkbox) {
-					var $checkboxes = $("#<?php echo $id; ?>_holder .ui-checkbox");
-					var $input = $("#<?php echo $id; ?>");
-					var values = <?php echo $value; ?>;
+			jQuery(document).ready(function($){
+				var Backend = require("./Backend.js");
+				var Checkbox = Backend.ui.Checkbox;
 
-					function onChange(){
-						var $checkbox = this.$checkbox;
-							
-						var id = $checkbox.attr("data-value");
-						var activeVal = this.active?"true":"false";
+				var $checkboxes = $("#<?php echo $id; ?>_holder .ui-checkbox");
+				var $input = $("#<?php echo $id; ?>");
+				var values = <?php echo $value; ?>;
 
-						values[id] = activeVal;
+				function onChange(){
+					var $checkbox = this.$checkbox;
+						
+					var id = $checkbox.attr("data-value");
+					var activeVal = this.active?"true":"false";
 
-						change_input();
-					}
-
-					function change_input(){
-						$input.val( JSON.stringify(values) );
-					}
-					
-					$checkboxes.each(function(index, _checkbox){
-						var $checkbox = $(_checkbox);
-						var checkbox = new Checkbox($checkbox, "false", ["false", "true"]);
-
-						var id = $checkbox.attr("data-value");
-
-						if(values.hasOwnProperty(id)){
-							checkbox.val( values[id] );
-						}
-						else{
-							values[id] = "false";
-						}
-
-						$(checkbox).bind("change", onChange);
-					});
+					values[id] = activeVal;
 
 					change_input();
 				}
-			);
+
+				function change_input(){
+					$input.val( JSON.stringify(values) );
+				}
+				
+				$checkboxes.each(function(index, _checkbox){
+					var $checkbox = $(_checkbox);
+					var checkbox = new Checkbox($checkbox, "false", ["false", "true"]);
+
+					var id = $checkbox.attr("data-value");
+
+					if(values.hasOwnProperty(id)){
+						checkbox.val( values[id] );
+					}
+					else{
+						values[id] = "false";
+					}
+
+					$(checkbox).bind("change", onChange);
+				});
+
+				change_input();
+			});
 		</script>
         <?php
 	}

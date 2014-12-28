@@ -27,38 +27,41 @@ if($essenza_is_old_ie !== true){
     
 	<script>
 		jQuery(document).ready(function ($){
-			require(["essenza/Masonry", "essenza/DynamicLoading", "essenza/Lightbox", "jquery/jquery.easing.1.3"],
-				function(Masonry, dynamicLoadingButton, Lightbox){
-					var masonryGrid = new Masonry( $( '#masonry-holder' ) , ".masonry-post" , 440, 1, "pq_get_blog_posts", "<?php echo $post->ID; ?>");
+			var Essenza = require("./Essenza.js");
+			var Masonry = Essenza.Masonry;
+			var dynamicLoadingButton = Essenza.DynamicLoading;
+			var Lightbox = Essenza.Lightbox;
+			var Cover = Essenza.Cover;
 
-					var $works = $( '#masonry-holder' ).find(">.masonry-post");
-					<?php 
-	    			if($filterMenu == "true"){
-	    				plusquare_get_filter_menu_js();
-	    			}
-	    			?>
+			var masonryGrid = new Masonry( $( '#masonry-holder' ) , ".masonry-post" , 440, 1, "pq_get_blog_posts", "<?php echo $post->ID; ?>");
 
-					var first = true;
-					$(masonryGrid).bind("added", function(){
-						$works = $( '#masonry-holder' ).find(">.masonry-post");
+			var $works = $( '#masonry-holder' ).find(">.masonry-post");
+			<?php 
+			if($filterMenu == "true"){
+				plusquare_get_filter_menu_js();
+			}
+			?>
 
-						<?php 
-	    				if($filterMenu == "true"){
-	    					?>
-							if(!first)
-								update_category(false);
-							<?php
-						}?>
+			var first = true;
+			$(masonryGrid).bind("added", function(){
+				$works = $( '#masonry-holder' ).find(">.masonry-post");
 
-						Lightbox.getElements();
-						runShortcodes();
-					});
-					$(masonryGrid).bind("furnaceLoaded", function(){
-						if(first){
-							contentLoadingOut();
-							first = false;
-						}
-					});
+				<?php 
+				if($filterMenu == "true"){
+					?>
+					if(!first)
+						update_category(false);
+					<?php
+				}?>
+
+				Lightbox.getElements();
+				runShortcodes();
+			});
+			$(masonryGrid).bind("furnaceLoaded", function(){
+				if(first){
+					Cover.contentLoadingOut();
+					first = false;
+				}
 			});
 		});
 	</script>

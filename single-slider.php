@@ -20,23 +20,25 @@ if($post->post_type == "page"){
 	
     
     <script type="text/javascript">
-    	require(["slider/Slider", "essenza/Cover"],
-			function(Slider) {
-			 	var slider = new Slider({
-					holder:".slider",
-					ease:7,
-					pathImages: "<?php echo get_template_directory_uri(); ?>/img/ui_slider/",
-					height: "100%"
-				});
+		jQuery(document).ready(function ($){
+			var Essenza = require("./Essenza.js");
+			var Slider = Essenza.Slider;
+			var Cover = Essenza.Cover;
+			
+		 	var slider = new Slider({
+				holder:".slider",
+				ease:7,
+				pathImages: "<?php echo get_template_directory_uri(); ?>/img/ui_slider/",
+				height: "100%"
+			});
 
-				if(slider.hasLoaded)
-					contentLoadingOut();
-				else
-					$(slider).bind("sliderLoaded", function(){
-	            		contentLoadingOut();
-					});
-			}
-		);
+			if(slider.hasLoaded)
+				Cover.contentLoadingOut();
+			else
+				$(slider).bind("sliderLoaded", function(){
+            		Cover.contentLoadingOut();
+				});
+		});
     </script>
 
 </div>

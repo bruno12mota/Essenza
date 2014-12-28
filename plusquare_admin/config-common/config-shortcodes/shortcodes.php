@@ -756,14 +756,16 @@ function plusquare_slider_func( $atts, $sliderId ){
 	
 	return $returnStr.'
     <script type="text/javascript">
-    	require(["slider/Slider"],
-			function(Slider) {
-			 	var slider = new Slider({
-					holder:"#slider_'.$sliderId.'",
-					ease:7
-				});
-			}
-		);
+		jQuery(document).ready(function ($){
+			var Essenza = require("./Essenza.js");
+
+			var Slider = Essenza.Slider;
+
+		 	var slider = new Slider({
+				holder:"#slider_'.$sliderId.'",
+				ease:7
+			});
+		});
     </script>';
 }
 add_shortcode( 'slider', 'plusquare_slider_func' );
@@ -1204,10 +1206,10 @@ function plusquare_twitter_button_func( $atts ){
 	
 	
 	return '<div style="vertical-align: top; display: inline-block; float:'.$float.';width: '.$width.'px;">
-			<a href="https://twitter.com/share" data-url="'.get_permalink().'" class="twitter-share-button" data-related="plusquare" data-size="'.$size.'" data-count="'.$count.'">Tweet</a>
+			<a href="https://twitter.com/share" data-url="'.get_permalink().'" class="twitter-share-button" data-related="festaseflagras" data-size="'.$size.'" data-count="'.$count.'">Tweet</a>
 			</div>
 			<script>
-				require(["jquery"], function($){
+				jQuery(document).ready(function ($){
 					if($("body").hasClass("TwitterLoaded"))
 						refreshTweetButtons();
 					else
@@ -1287,7 +1289,7 @@ function plusquare_facebook_like_func( $atts ){
 			<div class="fb-like" data-href="'.get_permalink().'" data-send="false" data-layout="'.$layout.'" data-width="'.$width.'" data-show-faces="false" data-font="arial"></div>
 			</div>
 			<script>
-				require(["jquery"], function($){
+				jQuery(document).ready(function ($){
 					if($("body").hasClass("FacebookLoaded"))
 						refreshFacebookButtons();
 					else
@@ -2129,10 +2131,7 @@ function plusquare_button_func( $atts, $content ){
 		'margin' => '0'
 	), $atts ) );
 	
-	
-	$content = str_replace  ('&#8220;', '"', $content);
-	$content = str_replace  ('&#8221;', '"', $content);
-	$content = str_replace  ('&#8243;', '"', $content);
+	$content = str_replace  ( array('&#8243;', '&#171;', '&#8221;', '&#8220;', '&#187;'), '"', $content);
 
 	$content = str_replace("&laquo;&nbsp;", '"', $content);
 	$content = str_replace("&laquo;", '"', $content);
@@ -2143,6 +2142,11 @@ function plusquare_button_func( $atts, $content ){
 	$content = str_replace("»", '"', $content);
 	$content = str_replace("&#8222;", '"', $content);
 	//$content = sanitize_text_field( $content );
+
+	
+	if(WP_DEBUG){
+		fb::log($content);
+	}
 	
 	$fields = json_decode($content, true);
 	//if(WP_DEBUG)fb::log($fields);
@@ -2842,7 +2846,7 @@ function plusquare_google_maps_func( $atts, $styles ){
 
 	return '<div style="height:'.$height.'px;"><div id="g_map_'.$mapId.'" class="g_map" style="height:'.$height.'px; margin:0;"></div></div>
 			<script>
-				require(["jquery"], function($){ $(document).ready(function(){
+				jQuery(document).ready(function ($){
 					window.plusquare_initialize = function() {
 						$("body").addClass("googleInitiated").trigger("googleInitiated");
 					}
@@ -2885,7 +2889,7 @@ function plusquare_google_maps_func( $atts, $styles ){
 						plusquare_initiateThis();
 					else
 						body.bind("googleInitiated", plusquare_initiateThis);
-				})});
+				});
 			</script>';
 }
 add_shortcode( 'google_maps', 'plusquare_google_maps_func' );

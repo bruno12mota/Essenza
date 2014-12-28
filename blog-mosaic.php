@@ -27,76 +27,78 @@ if($essenza_is_old_ie !== true){
 
 	<script>
 		jQuery(document).ready(function ($){
-			require(["essenza/Masonry", "essenza/DynamicLoading", "jquery/jquery.easing.1.3"],
-				function(Masonry, dynamicLoadingButton){
-					var masonryGrid = new Masonry( $( '#mosaic-holder' ) , ".mosaic-post" , 440, 1, "pq_get_blog_mosaic_posts", "<?php echo $post->ID; ?>");
+			var Essenza = require("./Essenza.js");
+			var Masonry = Essenza.Masonry;
+			var dynamicLoadingButton = Essenza.DynamicLoading;
+			var Cover = Essenza.Cover;
 
-					var $posts;
-					var $works = $( '#mosaic-holder' ).find(">.mosaic-post");
-					
-					<?php 
-	    			if($filterMenu == "true"){
-	    				plusquare_get_filter_menu_js();
-	    			}
-	    			?>
+			var masonryGrid = new Masonry( $( '#mosaic-holder' ) , ".mosaic-post" , 440, 1, "pq_get_blog_mosaic_posts", "<?php echo $post->ID; ?>");
 
-					var first = true;
-					$(masonryGrid).bind("added", function(){
-						$posts = $( '#mosaic-holder' ).find(".mosaic-post");
-						$works = $posts;
+			var $posts;
+			var $works = $( '#mosaic-holder' ).find(">.mosaic-post");
+			
+			<?php 
+			if($filterMenu == "true"){
+				plusquare_get_filter_menu_js();
+			}
+			?>
 
-						var $new = $(".dynamic_loading.new");
-						$new.each(function(){
-							new dynamicLoadingButton($(this));
-						});
-						$new.removeClass("new");
+			var first = true;
+			$(masonryGrid).bind("added", function(){
+				$posts = $( '#mosaic-holder' ).find(".mosaic-post");
+				$works = $posts;
 
-						<?php 
-	    				if($filterMenu == "true"){
-	    					?>
-							if(!first)
-								update_category(false);
-							<?php
-						}?>
+				var $new = $(".dynamic_loading.new");
+				$new.each(function(){
+					new dynamicLoadingButton($(this));
+				});
+				$new.removeClass("new");
 
-						if (!Modernizr.touch)
-							$posts.hover(onOver, onOut);
-					});
-					$(masonryGrid).bind("furnaceLoaded", function(){
-						if(first){
-							contentLoadingOut();
-							first = false;
-						}
-					});
+				<?php 
+				if($filterMenu == "true"){
+					?>
+					if(!first)
+						update_category(false);
+					<?php
+				}?>
 
-					function onOver(){
-						$posts.addClass("inactive");
-						$(this).removeClass("inactive");
-					}
-
-					function onOut(){
-						$posts.removeClass("inactive");
-					}
-
-					function reposContents(){
-						$posts = $(".mosaic-post");
-
-						$posts.each(function(index, post){
-							var $post = $(post);
-							var height = $post.height();
-
-							var $content = $post.find(".mosaic-content");
-							var perc = parseFloat($content.data("position"), 10)/100;
-
-							var availableHeight = height-$content.outerHeight();
-
-							var top = availableHeight*perc;
-							$content.css("top", top+"px");
-						});
-					}
-
-					$(masonryGrid).bind("gridResize", reposContents);
+				if (!Modernizr.touch)
+					$posts.hover(onOver, onOut);
 			});
+			$(masonryGrid).bind("furnaceLoaded", function(){
+				if(first){
+					Cover.contentLoadingOut();
+					first = false;
+				}
+			});
+
+			function onOver(){
+				$posts.addClass("inactive");
+				$(this).removeClass("inactive");
+			}
+
+			function onOut(){
+				$posts.removeClass("inactive");
+			}
+
+			function reposContents(){
+				$posts = $(".mosaic-post");
+
+				$posts.each(function(index, post){
+					var $post = $(post);
+					var height = $post.height();
+
+					var $content = $post.find(".mosaic-content");
+					var perc = parseFloat($content.data("position"), 10)/100;
+
+					var availableHeight = height-$content.outerHeight();
+
+					var top = availableHeight*perc;
+					$content.css("top", top+"px");
+				});
+			}
+
+			$(masonryGrid).bind("gridResize", reposContents);
 		});
 	</script>
 

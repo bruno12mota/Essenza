@@ -33,78 +33,73 @@ class pq_pages_posts_picker{
 
 
         <script type="text/javascript">
-        	//Make checkbox
-			require(["jquery"],
-				function($) {
-					$(document).ready(function(){
-						//Input
-						var $input = $("#<?php echo $id; ?>"); 
+        	jQuery(document).ready(function($){
+				//Input
+				var $input = $("#<?php echo $id; ?>"); 
 
-						//List holder
-						var $list = $(".pp_picker_list");
+				//List holder
+				var $list = $(".pp_picker_list");
 
-						//Loading
-						var $loading = $(".pp_picker_loading");
+				//Loading
+				var $loading = $(".pp_picker_loading");
 
-						//Filter buttons
-						var $filter = $(".pp_picker_filter");
-						var $buttons = $(".pp_picker_filter a");
+				//Filter buttons
+				var $filter = $(".pp_picker_filter");
+				var $buttons = $(".pp_picker_filter a");
 
-						//Filter button clicked
-						$buttons.click(function(){
-							var post_type = $(this).attr("data-type");
+				//Filter button clicked
+				$buttons.click(function(){
+					var post_type = $(this).attr("data-type");
 
-							load_list(post_type);
+					load_list(post_type);
 
-							return false;
-						});
+					return false;
+				});
 
-						//Load new list
-						function load_list(post_type){
-							$buttons.removeClass("active");
-							$filter.find("a[data-type='"+post_type+"']").addClass("active");
+				//Load new list
+				function load_list(post_type){
+					$buttons.removeClass("active");
+					$filter.find("a[data-type='"+post_type+"']").addClass("active");
 
-							$loading.show();
-							$list.hide();
+					$loading.show();
+					$list.hide();
 
-							//Asyn load
-							jQuery.post(
-					            adminAjax,
-					            {
-					                'action' : 'pq_get_pages_posts_list',
-					                'post_type' : post_type
-					            },
-					            $.proxy(function( response ) {
+					//Asyn load
+					jQuery.post(
+			            adminAjax,
+			            {
+			                'action' : 'pq_get_pages_posts_list',
+			                'post_type' : post_type
+			            },
+			            $.proxy(function( response ) {
 
-					            	//Add list to holder
-					                $list.html( response );
+			            	//Add list to holder
+			                $list.html( response );
 
-									$loading.hide();
-									$list.show();
+							$loading.hide();
+							$list.show();
 
-									$list.find("a").click(list_item_clicked);
+							$list.find("a").click(list_item_clicked);
 
-					            }, this)
-					        );
-						}
-
-						load_list("page");
-
-
-						//List item clicked
-						function list_item_clicked(){
-							var $link = $(this);
-
-							$list.find("a").removeClass("active");
-							$link.addClass("active");
-
-							$input.val( $link.attr("data-id") );
-
-							return false;
-						}
-					});
+			            }, this)
+			        );
 				}
-			);
+
+				load_list("page");
+
+
+				//List item clicked
+				function list_item_clicked(){
+					var $link = $(this);
+
+					$list.find("a").removeClass("active");
+					$link.addClass("active");
+
+					$input.val( $link.attr("data-id") );
+
+					return false;
+				}
+			});
 		</script>
 
 

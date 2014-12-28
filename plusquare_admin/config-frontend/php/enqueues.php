@@ -45,10 +45,16 @@ function plusquare_frontend_scripts() {
 	wp_localize_script( 'soundmanager2-js', 'directory', array('path' => get_template_directory_uri() . '/swf') );
 	wp_enqueue_script( 'soundmanager2-js' );
 
+	// Libs
+  	wp_register_script( 'jquery-easing',  get_stylesheet_directory_uri() . '/js/jquery/jquery.easing.1.3.js', array('jquery'), false, false);
+  	wp_register_script( 'jquery-vmouse',  get_stylesheet_directory_uri() . '/js/jquery/jquery.mobile.vmouse.js', array('jquery'), false, false);
+  	wp_register_script( 'jquery-mousewheel',  get_stylesheet_directory_uri() . '/js/jquery/jquery.mousewheel.min.js', array('jquery'), false, false);
+  	wp_register_script( 'modernizr',  get_stylesheet_directory_uri() . '/js/other/modernizr.js', array('jquery'), false, false);
+  	wp_register_script( 'pq-utils',  get_stylesheet_directory_uri() . '/js/utils/utils.js', array('jquery'), false, false);
+  	wp_register_script( 'pq-knob',  get_stylesheet_directory_uri() . '/js/utils/knob.js', array('jquery'), false, false);
 
 	//Main Javascript compilation
-  	wp_register_script( 'require-js', get_stylesheet_directory_uri() . '/js/libs/require.js', array( "jquery" ), false, false );
-  	wp_register_script( 'essenza-js', get_stylesheet_directory_uri() . '/js/Essenza.js', array( 'require-js' ), false, false);
+  	wp_register_script( 'essenza-js',  get_stylesheet_directory_uri() . '/js/Essenza-built.js', array('jquery', 'jquery-easing', 'jquery-vmouse', 'jquery-mousewheel', 'modernizr', 'pq-utils', 'pq-knob'), false, false);
 
 	$esza_portfolio_title_font_size_max = get_option("esza_portfolio_title_font_size_max", "true");
 	$esza_portfolio_title_font_size_min = get_option("esza_portfolio_title_font_size_min", "true");
@@ -72,7 +78,6 @@ function plusquare_frontend_scripts() {
 	wp_localize_script( 'essenza-js', 'directory', $WP_DIRECTORY );
 	
 	wp_enqueue_script( 'essenza-js' );
-	wp_enqueue_script( 'require-js' );
 
 
 	//Html 5 fallback script
@@ -133,7 +138,7 @@ function plusquare_frontend_scripts() {
 	$mw_amount = get_option("esza_mw_amount");
 	$useFooterTwitter = get_option("esza_footer_twitter");
 
-	wp_register_script( 'roll_grinds', get_template_directory_uri().'/js/essenza/RollGrinds.js', array("require-js"), false, true );
+	wp_register_script( 'roll_grinds', get_template_directory_uri().'/js/essenza/RollGrinds.js', array("essenza-js"), false, true );
 	wp_localize_script( 'roll_grinds', 'vars', array(
 		'mw_scroll' => $mw_scroll, 
 		'mw_ease' => $mw_ease ,
@@ -141,7 +146,7 @@ function plusquare_frontend_scripts() {
 		'dynamic_loaded' => isset($essenza_page_dynamically_loaded) ? true : false
 	));
 	wp_enqueue_script( 'roll_grinds');
-	wp_enqueue_script( 'roll_grinds_once', get_template_directory_uri().'/js/essenza/RollGrindsOnce.js', array("require-js"), false, true );
+	wp_enqueue_script( 'roll_grinds_once', get_template_directory_uri().'/js/essenza/RollGrindsOnce.js', array("essenza-js"), false, true );
 
 }
 add_action( 'wp_enqueue_scripts', 'plusquare_frontend_scripts' );

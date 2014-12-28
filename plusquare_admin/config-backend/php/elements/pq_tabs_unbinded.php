@@ -52,37 +52,37 @@ class pq_tabs_unbinded {
         </div>
         
         <script type="text/javascript">
-        	//Make Combobox
-			require(["jquery","ui/elements/Tabs"],
-				function($, Tabs) {
-					var tabs = new Tabs(
-						//id
-						$("#<?php echo $id; ?>_tabs"), 
-						
-						//options
-						0, [<?php
-						$count = 0; 
-						foreach($options as $option){ 
-							if($count != 0)
-								echo ",";
-							echo "'".$option."'";
-							$count++;
-						} 
-						?>], [<?php
-						$count = 0; 
-						foreach($options as $option){ 
-							if($count != 0)
-								echo ",";
-							echo "'".$count."'";
-							$count++;
-						}
-						?>]);
+			jQuery(document).ready(function($){
+				var Backend = require("./Backend.js");
+				var Tabs = Backend.ui.Tabs;
 
-					$("#<?php echo $id; ?>_tabs").bind("change", function(e, to){
-						tabs.val(to);
-					});
-				}
-			);
+				var tabs = new Tabs(
+					//id
+					$("#<?php echo $id; ?>_tabs"), 
+					
+					//options
+					0, [<?php
+					$count = 0; 
+					foreach($options as $option){ 
+						if($count != 0)
+							echo ",";
+						echo "'".$option."'";
+						$count++;
+					} 
+					?>], [<?php
+					$count = 0; 
+					foreach($options as $option){ 
+						if($count != 0)
+							echo ",";
+						echo "'".$count."'";
+						$count++;
+					}
+					?>]);
+
+				$("#<?php echo $id; ?>_tabs").bind("change", function(e, to){
+					tabs.val(to);
+				});
+			});
         </script>
         
         <?php

@@ -39,55 +39,54 @@ if($essenza_is_old_ie !== true){
     
 	<script>
 		jQuery(document).ready(function ($){
+			var Essenza = require("./Essenza.js");
+			var Masonry = Essenza.Masonry;
+			var Lightbox = Essenza.Lightbox;
+			var Cover = Essenza.Cover;
+
 			//Masonry grid
-			require(["essenza/Masonry", "essenza/Lightbox", "jquery/jquery.easing.1.3"],
-				function(Masonry, Lightbox){
-					var masonryGrid = new Masonry( $( '#gallery-holder' ) , ".gallery-item" , <?php echo $max_thumb_width; ?>, 2, 'pq_get_gallery_posts', "<?php echo $post->ID; ?>");
-					
-					var $works = $( '#gallery-holder' ).find(">.gallery-item");
-					
-					<?php 
-	    			if($filterMenu == "true"){
-	    				plusquare_get_filter_menu_js();
-	    			}
-	    			?>
-
-					var first = true;
-					$(masonryGrid).bind("added", function(){
-						$works = $( '#gallery-holder' ).find(">.gallery-item");
-
-						<?php 
-	    				if($filterMenu == "true"){
-	    					?>
-							if(!first)
-								update_category(false);
-							<?php
-						}?>
-
-						Lightbox.getElements();
-					});
-
-					$(masonryGrid).bind("furnaceLoaded", function(){
-						if(first){
-							contentLoadingOut();
-							first = false;
-
-							<?php
-							if(isset($_GET["item"])){
-								?>
-								var url = "<?php echo get_gallery_item_content($_GET['item']); ?>";
-								var type = "<?php echo get_post_meta($_GET['item'], 'item_media_type', true); ?>";
-								var description = $('<?php echo get_gallery_item_description($_GET['item']); ?>');
-								Lightbox.open(url, type, undefined, undefined, description);
-								<?php
-							}
-							?>
-						}
-					});
-
-					
-			});
+			var masonryGrid = new Masonry( $( '#gallery-holder' ) , ".gallery-item" , <?php echo $max_thumb_width; ?>, 2, 'pq_get_gallery_posts', "<?php echo $post->ID; ?>");
 			
+			var $works = $( '#gallery-holder' ).find(">.gallery-item");
+			
+			<?php 
+			if($filterMenu == "true"){
+				plusquare_get_filter_menu_js();
+			}
+			?>
+
+			var first = true;
+			$(masonryGrid).bind("added", function(){
+				$works = $( '#gallery-holder' ).find(">.gallery-item");
+
+				<?php 
+				if($filterMenu == "true"){
+					?>
+					if(!first)
+						update_category(false);
+					<?php
+				}?>
+
+				Lightbox.getElements();
+			});
+
+			$(masonryGrid).bind("furnaceLoaded", function(){
+				if(first){
+					Cover.contentLoadingOut();
+					first = false;
+
+					<?php
+					if(isset($_GET["item"])){
+						?>
+						var url = "<?php echo get_gallery_item_content($_GET['item']); ?>";
+						var type = "<?php echo get_post_meta($_GET['item'], 'item_media_type', true); ?>";
+						var description = $('<?php echo get_gallery_item_description($_GET['item']); ?>');
+						Lightbox.open(url, type, undefined, undefined, description);
+						<?php
+					}
+					?>
+				}
+			});
 		});
 	</script>
    

@@ -227,289 +227,290 @@ if($parentPage != NULL){
 	?>
  
     <script type="text/javascript">
-    	require(["jquery", "slider/Slider", "other/Dragable", "essenza/Cover", "jquery/jquery.easing.1.3"],
-			function($, Slider, Dragable) {
-				$(document).ready(function(){
-					var $pageWraperFull = $("#page-wraper-full");
-					
-					//Slider
-					var $slider = $("#slider<?php echo $post->ID; ?>");
-					
-					//Work Panel
-					var $workPanel = $(".work-panel");
-					
-					//Work Expanded
-					var $workExpanded = $workPanel.find(".work-expanded");
-					var hasDescription = $workExpanded.length > 0;
-					if(hasDescription){
-						var $toDrag = $workExpanded.find(".expanded-holder");
-						var $scrollbar = $workExpanded.find(".scrollbar");
-						var $item_header = $workExpanded.find(".item_header");
-						var $item_desc = $workExpanded.find(".item_desc");
-						var $item_desc_content = $workExpanded.find(".item_desc_content");
-					}
-					
-					
-					//Small Menu
-					var $workMenuNumber = $workPanel.find(".workMenuNumber");
-					var $workMenuTitle = $workPanel.find(".workMenuTitle");
-					var $workMenuLine = $workPanel.find(".workMenuLine");
-					var $workMenuText = $workPanel.find('>.workMenuText');
-					var $rightArrow = $(".work-panel .right-arrow");
-					var $leftArrow = $(".work-panel .left-arrow");
-					var expandButtons = $workPanel.find('.expand-panel');
-					var expandButtonMobile = $workPanel.find('.expand-panel.for_mobile');
-					
-					
-					//Other variables
-					var numSlides = ($slider.find("div")).length;
-					var numberButtons = numSlides <= 1 ? 1 : 3;
-					var buttonsWidth = 41*numberButtons;
-					var titleWidth = $workMenuText.outerWidth();
-					var totalPanelWidth = buttonsWidth + titleWidth;
-					var userTop = <?php echo $fromTop; ?> /100;
-					var userLeft = <?php echo $fromLeft; ?> /100;
-					if(hasDescription)
-					var expandedHeight = $workExpanded.height();
-					
-					//Make description dragable
-					if(hasDescription)
-					var dragableDescription = new Dragable($item_desc, $item_desc_content, true, false);
-					
-					//Make Slider
-				 	var slider = new Slider({
-						"holder": "#slider<?php echo $post->ID; ?>",
-						"ease": 7,
-						"background_color": "<?php echo $background_color; ?>",
-						"slider_transition_duration": <?php echo $slider_transition_duration; ?>  ,
-						"slider_transition_type": "<?php echo $slider_transition_type; ?>",
-						"slider_transition_ease": "<?php echo $slider_transition_ease; ?>",
-						"slider_transition_starting": <?php echo $slider_transition_starting; ?>
-					}, true);
-					$(slider).bind("sliderLoaded", function(){
-	            		contentLoadingOut();
-	            		$workPanel.show().fadeTo(400, 1);
-					});
+		jQuery(document).ready(function ($){
+			var Essenza = require("./Essenza.js");
+			var Slider = Essenza.Slider;
+			var Dragable = Essenza.Dragable;
+			var Cover = Essenza.Cover;
 
-					$(slider).bind("video_play", function(){
-						$workPanel.stop().fadeTo(500, 0);
-					});
+			var $pageWraperFull = $("#page-wraper-full");
+			
+			//Slider
+			var $slider = $("#slider<?php echo $post->ID; ?>");
+			
+			//Work Panel
+			var $workPanel = $(".work-panel");
+			
+			//Work Expanded
+			var $workExpanded = $workPanel.find(".work-expanded");
+			var hasDescription = $workExpanded.length > 0;
+			if(hasDescription){
+				var $toDrag = $workExpanded.find(".expanded-holder");
+				var $scrollbar = $workExpanded.find(".scrollbar");
+				var $item_header = $workExpanded.find(".item_header");
+				var $item_desc = $workExpanded.find(".item_desc");
+				var $item_desc_content = $workExpanded.find(".item_desc_content");
+			}
+			
+			
+			//Small Menu
+			var $workMenuNumber = $workPanel.find(".workMenuNumber");
+			var $workMenuTitle = $workPanel.find(".workMenuTitle");
+			var $workMenuLine = $workPanel.find(".workMenuLine");
+			var $workMenuText = $workPanel.find('>.workMenuText');
+			var $rightArrow = $(".work-panel .right-arrow");
+			var $leftArrow = $(".work-panel .left-arrow");
+			var expandButtons = $workPanel.find('.expand-panel');
+			var expandButtonMobile = $workPanel.find('.expand-panel.for_mobile');
+			
+			
+			//Other variables
+			var numSlides = ($slider.find("div")).length;
+			var numberButtons = numSlides <= 1 ? 1 : 3;
+			var buttonsWidth = 41*numberButtons;
+			var titleWidth = $workMenuText.outerWidth();
+			var totalPanelWidth = buttonsWidth + titleWidth;
+			var userTop = <?php echo $fromTop; ?> /100;
+			var userLeft = <?php echo $fromLeft; ?> /100;
+			if(hasDescription)
+			var expandedHeight = $workExpanded.height();
+			
+			//Make description dragable
+			if(hasDescription)
+			var dragableDescription = new Dragable($item_desc, $item_desc_content, true, false);
+			
+			//Make Slider
+		 	var slider = new Slider({
+				"holder": "#slider<?php echo $post->ID; ?>",
+				"ease": 7,
+				"background_color": "<?php echo $background_color; ?>",
+				"slider_transition_duration": <?php echo $slider_transition_duration; ?>  ,
+				"slider_transition_type": "<?php echo $slider_transition_type; ?>",
+				"slider_transition_ease": "<?php echo $slider_transition_ease; ?>",
+				"slider_transition_starting": <?php echo $slider_transition_starting; ?>
+			}, true);
+			$(slider).bind("sliderLoaded", function(){
+        		Cover.contentLoadingOut();
+        		$workPanel.show().fadeTo(400, 1);
+			});
 
-					$(slider).bind("video_close", function(){
-						$workPanel.stop().fadeTo(500, 1);
-					});
-					
-					
-					//Small Menu Events
-					/*$rightArrow.click( $.proxy(slider.nextSlide, slider) );
-					$leftArrow.click( $.proxy(slider.previousSlide, slider) );
-					if(numSlides <= 1){
-						$rightArrow.css("display", "none");
-						$leftArrow.css("display", "none");
-					}*/
-					
-					
-					//Check previous description opened var
-					if(window['IS_DESC_OPENED'] != undefined) {
-						//User has changed description opened state before
-						if(IS_DESC_OPENED == "true" && hasDescription)
-							expandDescription();
-						else
-							collapseDescription();
-					}
-					
-					//Update it
-					/*if( $workPanel.hasClass("active") )
-						IS_DESC_OPENED = "true";
-					else
-						IS_DESC_OPENED = "false";*/
-						
+			$(slider).bind("video_play", function(){
+				$workPanel.stop().fadeTo(500, 0);
+			});
+
+			$(slider).bind("video_close", function(){
+				$workPanel.stop().fadeTo(500, 1);
+			});
+			
+			
+			//Small Menu Events
+			/*$rightArrow.click( $.proxy(slider.nextSlide, slider) );
+			$leftArrow.click( $.proxy(slider.previousSlide, slider) );
+			if(numSlides <= 1){
+				$rightArrow.css("display", "none");
+				$leftArrow.css("display", "none");
+			}*/
+			
+			
+			//Check previous description opened var
+			if(window['IS_DESC_OPENED'] != undefined) {
+				//User has changed description opened state before
+				if(IS_DESC_OPENED == "true" && hasDescription)
+					expandDescription();
+				else
+					collapseDescription();
+			}
+			
+			//Update it
+			/*if( $workPanel.hasClass("active") )
+				IS_DESC_OPENED = "true";
+			else
+				IS_DESC_OPENED = "false";*/
+				
 
 
-					//If no arrows take description a bit lower
-					if($rightArrow.length == 0 && $leftArrow.length == 0)
-						$workExpanded.css("margin-bottom", "-41px");
-					
-					
-					
-					
-					//Expand Description
-					function expandDescription(){
-						if(!hasDescription)
-							return false;
+			//If no arrows take description a bit lower
+			if($rightArrow.length == 0 && $leftArrow.length == 0)
+				$workExpanded.css("margin-bottom", "-41px");
+			
+			
+			
+			
+			//Expand Description
+			function expandDescription(){
+				if(!hasDescription)
+					return false;
 
-						//Add active class
-						$workPanel.addClass("active");
-						IS_DESC_OPENED = "true";
-						onResize();
-						
-						$toDrag.stop().css("top", "15px").animate({
-							"top": "0px"
-						}, 300, "easeOutExpo");
-						
-						return false;
-					}
-					//Collapse Description
-					function collapseDescription(){
-						if(!hasDescription)
-							return false;
+				//Add active class
+				$workPanel.addClass("active");
+				IS_DESC_OPENED = "true";
+				onResize();
+				
+				$toDrag.stop().css("top", "15px").animate({
+					"top": "0px"
+				}, 300, "easeOutExpo");
+				
+				return false;
+			}
+			//Collapse Description
+			function collapseDescription(){
+				if(!hasDescription)
+					return false;
 
-						//Remove active class
-						$workPanel.removeClass("active");
-						IS_DESC_OPENED = "false";
-						$workExpanded.css({
-							"height": "0"
-						});
-						$toDrag.css({
-							"top": "",
-							"left": ""
-						});
-						onResize();
-						$(window).trigger("scroll");
+				//Remove active class
+				$workPanel.removeClass("active");
+				IS_DESC_OPENED = "false";
+				$workExpanded.css({
+					"height": "0"
+				});
+				$toDrag.css({
+					"top": "",
+					"left": ""
+				});
+				onResize();
+				$(window).trigger("scroll");
 
-						return false;
-					}
-					if(hasDescription){
-						$(".work-panel .expand-panel").click( expandDescription );
-						$(".work-expanded .close-panel").click(collapseDescription);
-						$(".work-expanded .close-panel").bind("vclick", collapseDescription);
-					}
-					
-					
-					
-					
-					//Bind slide change to update text
-					if(<?php echo $portfolio_work_numbering != "works" ? "true" : "false" ?>){
-						$(slider).bind("changeSlide", function(e, num){
-							num++;
-							$workMenuNumber.text(num < 10 ? ("0"+num) : (num));
-						});
-					}
-					
-					
-					
-					//On Resize Event
-					var bodymargins = parseInt("<?php echo get_option('esza_site_border_size'); ?>", 10);
-					function onResize(){
-						/*$pageWraperFull.css({
-							"position": "",
-							"bottom": "",
-							"left":"",
-							"right":""
-						});*/
-						
-						var windowWidth = $(window).width() - bodymargins*2;
-						var windowHeight = $pageWraperFull.height();
-						
-						if(windowWidth < 300)
-							$workPanel.css("min-width", "0");
-						else 
-							$workPanel.css("min-width", "300px");
-						
-						$workMenuTitle.css("display", "");
-						$workMenuLine.css("display", "");
-						if(hasDescription){
-							$scrollbar.css("display", "none");
-							$item_desc.css("height", "auto");
-						}
-						titleWidth = $workMenuText.outerWidth();
-						totalPanelWidth = buttonsWidth + titleWidth;
-						
-						expandButtons.css("display", "");
-						expandButtonMobile.css("display", "none");
-						
-						if($workPanel.hasClass("active") && hasDescription)
-							$workExpanded.css("height", "auto");
-						
-						var allowedWidth = windowWidth - totalPanelWidth;
-						var allowedHeight = windowHeight - $workPanel.height();
-						
-						var sizeAvailable;
-						
-						//Small Window
-						if(windowWidth < 500 || windowWidth < totalPanelWidth){
-							//Change to mobile version
-							$workPanel.addClass("mobile");
-							
-							if(hasDescription)
-							dragableDescription.remove();
-							
-							//Remove position 
-							$workPanel.css({
-								"top":"",
-								"left":""
-							});
-							
-							allowedHeight = windowHeight - 41;
-							sizeAvailable = allowedHeight;
-							
-							//Update Slider's size
-							var sliderHeight = ((allowedHeight/windowHeight)*100);
-							if(sliderHeight<0 || $workPanel.hasClass("active"))
-								sliderHeight=0;
-							slider.updateSize(false, sliderHeight+"%", true);
-						}
-						
-						//Big Window
-						else{
-							//Not mobile version
-							$workPanel.removeClass("mobile");
-							
-							if(hasDescription)
-							dragableDescription.rebind();
-							
-							//Change position according to user options
-							$workPanel.css({
-								"top":userTop*allowedHeight+"px",
-								"left":userLeft*allowedWidth+"px"
-							});
-							sizeAvailable = userTop*allowedHeight;
-							
-							//Update Slider's size
-							slider.updateSize(false, "100%", true);
-						
-							//Description Size Handling
-							if($workPanel.hasClass("active") && hasDescription){
-								var descriptionHeight = $workExpanded.height();
-								var maxHeight = 370;
-								
-								if(descriptionHeight > maxHeight){
-									descriptionHeight = maxHeight;
-									$workExpanded.css("height", maxHeight+"px");
-									$scrollbar.css("display", "");
-								}
-								
-								if(descriptionHeight > sizeAvailable){
-									descriptionHeight = sizeAvailable;
-									$workExpanded.css("height", sizeAvailable+"px");
-									$scrollbar.css("display", "");
-								}
-								
-								$item_desc.css("height", descriptionHeight-$item_header.outerHeight()-15);
-								dragableDescription.resize();
-
-								if(!dragableDescription.enabled)
-									$scrollbar.css("display", "none");
-								
-							}
-						}
-							
-						//Check if title is overflowing
-						if(windowWidth < totalPanelWidth){
-							$workMenuTitle.css("display", "none");
-							$workMenuLine.css("display", "none");
-							
-							expandButtons.css("display", "none");
-							expandButtonMobile.css("display", "");
-						}
-						
-					}
-					$(window).resize(onResize);
-					onResize();
-					onResize();
+				return false;
+			}
+			if(hasDescription){
+				$(".work-panel .expand-panel").click( expandDescription );
+				$(".work-expanded .close-panel").click(collapseDescription);
+				$(".work-expanded .close-panel").bind("vclick", collapseDescription);
+			}
+			
+			
+			
+			
+			//Bind slide change to update text
+			if(<?php echo $portfolio_work_numbering != "works" ? "true" : "false" ?>){
+				$(slider).bind("changeSlide", function(e, num){
+					num++;
+					$workMenuNumber.text(num < 10 ? ("0"+num) : (num));
 				});
 			}
-		);
+			
+			
+			
+			//On Resize Event
+			var bodymargins = parseInt("<?php echo get_option('esza_site_border_size'); ?>", 10);
+			function onResize(){
+				/*$pageWraperFull.css({
+					"position": "",
+					"bottom": "",
+					"left":"",
+					"right":""
+				});*/
+				
+				var windowWidth = $(window).width() - bodymargins*2;
+				var windowHeight = $pageWraperFull.height();
+				
+				if(windowWidth < 300)
+					$workPanel.css("min-width", "0");
+				else 
+					$workPanel.css("min-width", "300px");
+				
+				$workMenuTitle.css("display", "");
+				$workMenuLine.css("display", "");
+				if(hasDescription){
+					$scrollbar.css("display", "none");
+					$item_desc.css("height", "auto");
+				}
+				titleWidth = $workMenuText.outerWidth();
+				totalPanelWidth = buttonsWidth + titleWidth;
+				
+				expandButtons.css("display", "");
+				expandButtonMobile.css("display", "none");
+				
+				if($workPanel.hasClass("active") && hasDescription)
+					$workExpanded.css("height", "auto");
+				
+				var allowedWidth = windowWidth - totalPanelWidth;
+				var allowedHeight = windowHeight - $workPanel.height();
+				
+				var sizeAvailable;
+				
+				//Small Window
+				if(windowWidth < 500 || windowWidth < totalPanelWidth){
+					//Change to mobile version
+					$workPanel.addClass("mobile");
+					
+					if(hasDescription)
+					dragableDescription.remove();
+					
+					//Remove position 
+					$workPanel.css({
+						"top":"",
+						"left":""
+					});
+					
+					allowedHeight = windowHeight - 41;
+					sizeAvailable = allowedHeight;
+					
+					//Update Slider's size
+					var sliderHeight = ((allowedHeight/windowHeight)*100);
+					if(sliderHeight<0 || $workPanel.hasClass("active"))
+						sliderHeight=0;
+					slider.updateSize(false, sliderHeight+"%", true);
+				}
+				
+				//Big Window
+				else{
+					//Not mobile version
+					$workPanel.removeClass("mobile");
+					
+					if(hasDescription)
+					dragableDescription.rebind();
+					
+					//Change position according to user options
+					$workPanel.css({
+						"top":userTop*allowedHeight+"px",
+						"left":userLeft*allowedWidth+"px"
+					});
+					sizeAvailable = userTop*allowedHeight;
+					
+					//Update Slider's size
+					slider.updateSize(false, "100%", true);
+				
+					//Description Size Handling
+					if($workPanel.hasClass("active") && hasDescription){
+						var descriptionHeight = $workExpanded.height();
+						var maxHeight = 370;
+						
+						if(descriptionHeight > maxHeight){
+							descriptionHeight = maxHeight;
+							$workExpanded.css("height", maxHeight+"px");
+							$scrollbar.css("display", "");
+						}
+						
+						if(descriptionHeight > sizeAvailable){
+							descriptionHeight = sizeAvailable;
+							$workExpanded.css("height", sizeAvailable+"px");
+							$scrollbar.css("display", "");
+						}
+						
+						$item_desc.css("height", descriptionHeight-$item_header.outerHeight()-15);
+						dragableDescription.resize();
+
+						if(!dragableDescription.enabled)
+							$scrollbar.css("display", "none");
+						
+					}
+				}
+					
+				//Check if title is overflowing
+				if(windowWidth < totalPanelWidth){
+					$workMenuTitle.css("display", "none");
+					$workMenuLine.css("display", "none");
+					
+					expandButtons.css("display", "none");
+					expandButtonMobile.css("display", "");
+				}
+				
+			}
+			$(window).resize(onResize);
+			onResize();
+			onResize();
+		});
     </script>
 
 </div>

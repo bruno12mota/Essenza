@@ -69,187 +69,186 @@ class pq_category_picker {
 		
 		?>
 		<script>
-			require(["jquery", "ui/elements/Checkbox"],
-				function($, Checkbox) {
-					$(document).ready(function(){
-						var $input = $("#<?php echo $this->id; ?>");
-						var $holder = $("#<?php echo $this->id; ?>_holder");
-						var $checkboxes = $("<?php echo $checkboxesStr; ?>");
-						var checkboxes = new Object();
+			jQuery(document).ready(function($){
+	        	var Backend = require("./Backend.js");
+				var Checkbox = Backend.ui.Checkbox;
 						
-						function updateInput(){
-							var str = "";
-							var count = 0;
-							
-							if(checkboxes["all"]["checkbox"].active){
-								$input.val("all");
-								return;
-							}
+				var $input = $("#<?php echo $this->id; ?>");
+				var $holder = $("#<?php echo $this->id; ?>_holder");
+				var $checkboxes = $("<?php echo $checkboxesStr; ?>");
+				var checkboxes = new Object();
+				
+				function updateInput(){
+					var str = "";
+					var count = 0;
+					
+					if(checkboxes["all"]["checkbox"].active){
+						$input.val("all");
+						return;
+					}
+						
+					$.each(
+						checkboxes,
+						function(index, main_category){
+							//Active main category (all active)
+							if(main_category["checkbox"].active){
+								var slug = main_category["checkbox"].$checkbox.data("id");
 								
-							$.each(
-								checkboxes,
-								function(index, main_category){
-									//Active main category (all active)
-									if(main_category["checkbox"].active){
-										var slug = main_category["checkbox"].$checkbox.data("id");
-										
-										if(count != 0)
-											str += ",";
-										str += slug;
-										count++;
-									}
-									
-									//Main category not active (Check subs)
-									else{
-										$.each(
-											main_category["subs"],
-											function(index, sub){
-												if(sub.active){
-													var slug = sub.$checkbox.data("id");
-													
-													if(count != 0)
-														str += ",";
-													str += slug;
-													count++;
-												}
-											}
-										);
-									}
-								}
-							);
-							$input.val(str);
-						}
-						
-						function changeAll(value){
-							$.each(
-								checkboxes,
-								function(index, main){
-									main["checkbox"].val(value);
-									$.each(
-										main["subs"],
-										function(index, sub){
-											sub.val(value);
-										}
-									);
-								}
-							);
-						}
-						
-						function initialValue(){
-							var val = $input.val();
-							
-							if(val == "all"){
-								changeAll("true");
+								if(count != 0)
+									str += ",";
+								str += slug;
+								count++;
 							}
+							
+							//Main category not active (Check subs)
 							else{
-								var ids = val.split(",");
 								$.each(
-									ids,
-									function(index, id){
-										if(checkboxes.hasOwnProperty(id)){
-											//Is parent
-											checkboxes[id]["checkbox"].val("true");	
-											$.each(
-												checkboxes[id]["subs"],
-												function(index, sub){
-													sub.val("true");
-											});
-										}
-										else{
-											//Is sub
-											$.each(
-												checkboxes,
-												function(i, checkbox){
-													//Iterate subs		
-													$.each(
-														checkbox["subs"],
-														function(index, sub){
-															if(index == id){
-																sub.val("true");	
-																return;
-															}
-													});
-											});
-										}
-									}
-								);
-							}
-							updateInput();
-						}
-						
-						function onChange(){
-							var $checkbox = this.$checkbox;
-							
-							var parent = $checkbox.data("parent");
-							var id = $checkbox.data("id");
-							var activeVal = this.active?"true":"false";
-							
-							//All Selected
-							if(id == "all"){
-								if(this.active){
-									//active all	
-									changeAll("true");
-								}
-							}
-							//clicked a parent category
-							else if(parent == "0"){
-								if(!this.active){
-									checkboxes["all"]["checkbox"].val("false");
-								}
-								//Make all sub items the same
-								$.each(
-									checkboxes[id]["subs"],
+									main_category["subs"],
 									function(index, sub){
-										sub.val(activeVal);
+										if(sub.active){
+											var slug = sub.$checkbox.data("id");
+											
+											if(count != 0)
+												str += ",";
+											str += slug;
+											count++;
+										}
 									}
 								);
 							}
-							
-							//Clicked a sub item
-							else{
-								//If unchecked
-								if(!this.active){
-									checkboxes[parent]["checkbox"].val("false");
-									checkboxes["all"]["checkbox"].val("false");
+						}
+					);
+					$input.val(str);
+				}
+				
+				function changeAll(value){
+					$.each(
+						checkboxes,
+						function(index, main){
+							main["checkbox"].val(value);
+							$.each(
+								main["subs"],
+								function(index, sub){
+									sub.val(value);
 								}
-								
-								//If checked
-								else{
-									//Check if all are checked
-									var allChecked = true;
+							);
+						}
+					);
+				}
+				
+				function initialValue(){
+					var val = $input.val();
+					
+					if(val == "all"){
+						changeAll("true");
+					}
+					else{
+						var ids = val.split(",");
+						$.each(
+							ids,
+							function(index, id){
+								if(checkboxes.hasOwnProperty(id)){
+									//Is parent
+									checkboxes[id]["checkbox"].val("true");	
 									$.each(
-										checkboxes[parent]["subs"],
+										checkboxes[id]["subs"],
 										function(index, sub){
-											if(!sub.active)
-												allChecked = false;
-										}
-									);
-									if(allChecked)
-										checkboxes[parent]["checkbox"].val("true");
+											sub.val("true");
+									});
+								}
+								else{
+									//Is sub
+									$.each(
+										checkboxes,
+										function(i, checkbox){
+											//Iterate subs		
+											$.each(
+												checkbox["subs"],
+												function(index, sub){
+													if(index == id){
+														sub.val("true");	
+														return;
+													}
+											});
+									});
 								}
 							}
-							updateInput();
-						};
-						
-						$checkboxes.each(function(index, _checkbox){
-							var $checkbox = $(_checkbox);
-							var checkbox = new Checkbox($checkbox, "false", ["false", "true"]);
-							
-							var parent = $checkbox.data("parent");
-							var id = $checkbox.data("id");
-							
-							if(parent == 0)
-								checkboxes[ id ] = {"checkbox": checkbox, "subs": new Object()};
-							else
-								checkboxes[ parent ]["subs"][id] = checkbox;
-							
-							$(checkbox).bind("change", onChange);
-						});
-						if(WP_DEBUG)console.log(checkboxes);
-						initialValue();
-					});
+						);
+					}
+					updateInput();
 				}
-			);
+				
+				function onChange(){
+					var $checkbox = this.$checkbox;
+					
+					var parent = $checkbox.data("parent");
+					var id = $checkbox.data("id");
+					var activeVal = this.active?"true":"false";
+					
+					//All Selected
+					if(id == "all"){
+						if(this.active){
+							//active all	
+							changeAll("true");
+						}
+					}
+					//clicked a parent category
+					else if(parent == "0"){
+						if(!this.active){
+							checkboxes["all"]["checkbox"].val("false");
+						}
+						//Make all sub items the same
+						$.each(
+							checkboxes[id]["subs"],
+							function(index, sub){
+								sub.val(activeVal);
+							}
+						);
+					}
+					
+					//Clicked a sub item
+					else{
+						//If unchecked
+						if(!this.active){
+							checkboxes[parent]["checkbox"].val("false");
+							checkboxes["all"]["checkbox"].val("false");
+						}
+						
+						//If checked
+						else{
+							//Check if all are checked
+							var allChecked = true;
+							$.each(
+								checkboxes[parent]["subs"],
+								function(index, sub){
+									if(!sub.active)
+										allChecked = false;
+								}
+							);
+							if(allChecked)
+								checkboxes[parent]["checkbox"].val("true");
+						}
+					}
+					updateInput();
+				};
+				
+				$checkboxes.each(function(index, _checkbox){
+					var $checkbox = $(_checkbox);
+					var checkbox = new Checkbox($checkbox, "false", ["false", "true"]);
+					
+					var parent = $checkbox.data("parent");
+					var id = $checkbox.data("id");
+					
+					if(parent == 0)
+						checkboxes[ id ] = {"checkbox": checkbox, "subs": new Object()};
+					else
+						checkboxes[ parent ]["subs"][id] = checkbox;
+					
+					$(checkbox).bind("change", onChange);
+				});
+				if(WP_DEBUG)console.log(checkboxes);
+				initialValue();
+			});
 		</script>
         <?php
 	}

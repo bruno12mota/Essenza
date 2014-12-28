@@ -29,15 +29,12 @@ class pq_media_single_picker {
 		<a class="button button-primary button-large" id="<?php echo $this->id; ?>_button" href="#">Choose Image</a>
 		<script type="text/javascript">
 			jQuery(document).ready(function($){
-				//Global variables
+				var Backend = require("./Backend.js");
+				var Single_Pick = Backend.ui.pq_media_single_picker;
+
 				adminAjax = "<?php echo get_site_url(); ?>/wp-admin/admin-ajax.php";
-				
-				//Make Single Pick
-				require(["ui/elements/pq_media_single_picker"],
-					function(Single_Pick) {
-						new Single_Pick("<?php echo $this->id; ?>", <?php echo $width; ?>, <?php echo $height; ?>);
-					}
-				);
+
+				new Single_Pick("<?php echo $this->id; ?>", <?php echo $width; ?>, <?php echo $height; ?>);
 			});
 		</script>
 		<?php

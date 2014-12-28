@@ -1,7 +1,11 @@
-define(["jquery", "Lightbox/Lightbox", "libraries/jquery.mobile.vmouse", "ui/ui-elements", "libraries/inheritance"], function($, Lightbox) {
-    
-    var modulesMovementSpeed = 400;
-    var modulesSizeSpeed = 400;
+var $ = jQuery;
+var Lightbox = require("../Lightbox/Lightbox.js");
+
+require("../libraries/jquery.mobile.vmouse.js");
+require("../libraries/inheritance.js");
+ 
+var modulesMovementSpeed = 400;
+var modulesSizeSpeed = 400;
     
 //MODULE (CONTENTS AND PLACEHOLDERS)
 var Module = Class.extend({
@@ -1093,7 +1097,9 @@ var Pagebreak = Module.extend({
     }
 });
     
-return {"Component": Component,
-        "Placeholder": Placeholder,
-        "Pagebreak": Pagebreak};
-});
+module.exports = {
+    "Component": Component,
+    "Placeholder": Placeholder,
+    "Pagebreak": Pagebreak
+};
+

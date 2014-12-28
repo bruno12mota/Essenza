@@ -17,10 +17,10 @@ if($essenza_is_old_ie !== true){
         comments_template('', true);
         ?>
         <script>
-            require(["jquery", "essenza/Cover"],function($){
-                $(document).ready(function(){
-                    contentLoadingOut();
-                });
+            jQuery(document).ready(function($){
+                var Essenza = require("./Essenza.js");
+                    var Cover = Essenza.Cover;
+                    Cover.contentLoadingOut();
             });
         </script>
         <?php
@@ -222,10 +222,10 @@ if($essenza_is_old_ie !== true){
                             ?>
 
                             <script>
-                                require(["jquery", "essenza/Cover"],function($){
-                                    $(document).ready(function(){
-                                        contentLoadingOut();
-                                    });
+                                jQuery(document).ready(function($){
+                                    var Essenza = require("./Essenza.js");
+                                    var Cover = Essenza.Cover;
+                                    Cover.contentLoadingOut();
                                 });
                             </script>
 

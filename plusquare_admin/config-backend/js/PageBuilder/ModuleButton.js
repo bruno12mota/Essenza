@@ -1,5 +1,7 @@
-define(["jquery", "libraries/jquery.mobile.vmouse", "ui/ui-elements", "libraries/inheritance"], function($) {
+var $ = jQuery;
 
+require("../libraries/jquery.mobile.vmouse.js");
+require("../libraries/inheritance.js");
 
 //MODULE BUTTON CLASS
 var ModuleButton = Class.extend({
@@ -167,7 +169,7 @@ var PlaceholderButton = ModuleButton.extend({
     }
 });
 
-  return {	"ComponentButton": ComponentButton,
-        	"PlaceholderButton": PlaceholderButton};
-
-});
+module.exports = {	
+    "ComponentButton": ComponentButton,
+	"PlaceholderButton": PlaceholderButton
+};

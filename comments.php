@@ -84,43 +84,39 @@ if(!isset($essenza_page_dynamically_loaded) || (isset($essenza_page_dynamically_
 	    <div class="clearfix"></div>
 
 	    <script>
-		    require(["jquery",
-				"jquery/jquery.easing.1.3"], function($) {
-				$(document).ready(function($){
-	    			var cancel_reply = $("#cancel_reply");
-					var formLabel = $("#form_label");
-					var initialText = $("#form_label").text(); 
-					var comment_parent = $("#comment_parent");
-					comment_parent.val(0);
-				
-					//MAKE REPLY
-					$(".comment_reply").click(function(){
-						var rel = $(this).attr("data-commentId");
-						var author = $(this).data("author");
-						comment_parent.val(rel);
-						
-						formLabel.text("<?php echo $reply_to_Str; ?> "+author);
-						
-						cancel_reply.text("(<?php echo $cancel_reply_Str; ?> "+author+")");
-						cancel_reply.css("display", "");
-						
-						//$(document).scrollTo("#form_label");
-						$('html, body').animate({"scrollTop":formLabel.offset().top+"px"}, 500, "easeOutExpo");
-						
-						return false;
-					});
-					
-					
-					//CANCEL REPLY
-					$("#cancel_reply").click(function(){
-						formLabel.text(initialText);
-						cancel_reply.css("display", "none");
-						comment_parent.val(0);
-						
-						return false;
-					});
-				});
+		    jQuery(document).ready(function($){
+    			var cancel_reply = $("#cancel_reply");
+				var formLabel = $("#form_label");
+				var initialText = $("#form_label").text(); 
+				var comment_parent = $("#comment_parent");
+				comment_parent.val(0);
 			
+				//MAKE REPLY
+				$(".comment_reply").click(function(){
+					var rel = $(this).attr("data-commentId");
+					var author = $(this).data("author");
+					comment_parent.val(rel);
+					
+					formLabel.text("<?php echo $reply_to_Str; ?> "+author);
+					
+					cancel_reply.text("(<?php echo $cancel_reply_Str; ?> "+author+")");
+					cancel_reply.css("display", "");
+					
+					//$(document).scrollTo("#form_label");
+					$('html, body').animate({"scrollTop":formLabel.offset().top+"px"}, 500, "easeOutExpo");
+					
+					return false;
+				});
+				
+				
+				//CANCEL REPLY
+				$("#cancel_reply").click(function(){
+					formLabel.text(initialText);
+					cancel_reply.css("display", "none");
+					comment_parent.val(0);
+					
+					return false;
+				});
 			});
 	    </script>
 	</div>
@@ -195,126 +191,123 @@ if(!isset($essenza_page_dynamically_loaded) || (isset($essenza_page_dynamically_
     </form>
     
     <script>
-	require(["jquery",
-			"jquery/jquery.easing.1.3"], function($) {
-			$(document).ready(function($){
-				var $not_logged_holder = $("#not_logged_holder");
-				var $logged_holder = $("#logged_holder");
-				//FACEBOOK
-				function facebookInitiated() {
-					// Additional initialization code such as adding Event Listeners goes here
-					FB.getLoginStatus(function(response) {
-						if (response.status === 'connected') {
-							// connected
-							loggedIn();
-						} else if (response.status === 'not_authorized') {
-							// not_authorized
-							$("#author").val("");
-						} else {
-							// not_logged_in
-							$("#author").val("");
-						}
-					});
-					
-					$(".facebook_comment").each(function(){
-						var authorId = $(this).find(".comment_author").text();
-					});
-				};
-				
-				if($("body").hasClass("FacebookLoaded"))
-					facebookInitiated();
-				else
-					$("body").bind("FacebookLoaded", facebookInitiated);
-				
-				function loggedIn(){
-					FB.api('/me?fields=name,picture,id', function(response) {
-						$logged_holder.find("p span").text(response.name);
-						if(!response.picture.data.is_silhouette)
-							$logged_holder.find(".thumbnail_comment").css("background-image", "url("+response.picture.data.url+")");
-						else
-							$logged_holder.find(".thumbnail_comment").css("background-image", "");
-							
-						$not_logged_holder.css("display", "none");
-						$logged_holder.css("display", "");
-						
-						$("#author").val("facebook:"+response.id);
-					});	
-				}
-				function login() {
-					FB.login(function(response) {
-						if (response.authResponse) {
-							// connected
-							loggedIn();
-						} else {
-							// cancelled
-						}
-					});
-				}
-				function logout() {
-					FB.logout(function(response) {
-						$not_logged_holder.css("display", "");
-						$logged_holder.css("display", "none");
+		jQuery(document).ready(function($){
+			var $not_logged_holder = $("#not_logged_holder");
+			var $logged_holder = $("#logged_holder");
+			//FACEBOOK
+			function facebookInitiated() {
+				// Additional initialization code such as adding Event Listeners goes here
+				FB.getLoginStatus(function(response) {
+					if (response.status === 'connected') {
+						// connected
+						loggedIn();
+					} else if (response.status === 'not_authorized') {
+						// not_authorized
 						$("#author").val("");
-					});
-				}
-				$(".facebook_login_button").click(function(){
-					login();
-					return false;
-				});
-				$(".logout_button").click(function(){
-					logout();
-					return false;
-				});
-			
-			
-				var form = $("#commentform");
-				var subButton = $("#commentform").find(".button").click(function(){
-					form.submit();
-					return false;
-				});
-
-				var $error = form.find(".on_error");
-				form.submit(function(){
-					var name = $("#author").val();
-					var com = $("#comment").val();
-
-					if(name == "" || com == ""){
-						$error.slideDown(250);
-						return false;
+					} else {
+						// not_logged_in
+						$("#author").val("");
 					}
 				});
-			
-			
 				
-				
-				//SHOW COMMENTS
-				var $show_comments = $(".show_comments");
-				var $hide_comments = $("#hide_comments");
-				var $comments_holder = $("#comments_holder");
-				
-				function showComments(){
-					$comments_holder.css("display", "block");
-					$show_comments.css("display", "none");
-					return false;
-				}
-				
-				$show_comments.click(showComments);
-				
-				//HIDE COMMENTS
-				$hide_comments.click(function(){
-					$show_comments.css("display", "");
-					$comments_holder.css("display", "none");
-					return false;
+				$(".facebook_comment").each(function(){
+					var authorId = $(this).find(".comment_author").text();
 				});
-				
-				if(!(typeof TO_COMMENTS === 'undefined'))
-					if(TO_COMMENTS){
-						var tp = $show_comments.offset().top;
-						TO_COMMENTS = false;
-						showComments();
-						$('html, body').animate({"scrollTop":tp-40+"px"}, 1000, "easeOutExpo");
+			};
+			
+			if($("body").hasClass("FacebookLoaded"))
+				facebookInitiated();
+			else
+				$("body").bind("FacebookLoaded", facebookInitiated);
+			
+			function loggedIn(){
+				FB.api('/me?fields=name,picture,id', function(response) {
+					$logged_holder.find("p span").text(response.name);
+					if(!response.picture.data.is_silhouette)
+						$logged_holder.find(".thumbnail_comment").css("background-image", "url("+response.picture.data.url+")");
+					else
+						$logged_holder.find(".thumbnail_comment").css("background-image", "");
+						
+					$not_logged_holder.css("display", "none");
+					$logged_holder.css("display", "");
+					
+					$("#author").val("facebook:"+response.id);
+				});	
+			}
+			function login() {
+				FB.login(function(response) {
+					if (response.authResponse) {
+						// connected
+						loggedIn();
+					} else {
+						// cancelled
 					}
+				});
+			}
+			function logout() {
+				FB.logout(function(response) {
+					$not_logged_holder.css("display", "");
+					$logged_holder.css("display", "none");
+					$("#author").val("");
+				});
+			}
+			$(".facebook_login_button").click(function(){
+				login();
+				return false;
 			});
+			$(".logout_button").click(function(){
+				logout();
+				return false;
+			});
+		
+		
+			var form = $("#commentform");
+			var subButton = $("#commentform").find(".button").click(function(){
+				form.submit();
+				return false;
+			});
+
+			var $error = form.find(".on_error");
+			form.submit(function(){
+				var name = $("#author").val();
+				var com = $("#comment").val();
+
+				if(name == "" || com == ""){
+					$error.slideDown(250);
+					return false;
+				}
+			});
+		
+		
+			
+			
+			//SHOW COMMENTS
+			var $show_comments = $(".show_comments");
+			var $hide_comments = $("#hide_comments");
+			var $comments_holder = $("#comments_holder");
+			
+			function showComments(){
+				$comments_holder.css("display", "block");
+				$show_comments.css("display", "none");
+				return false;
+			}
+			
+			$show_comments.click(showComments);
+			
+			//HIDE COMMENTS
+			$hide_comments.click(function(){
+				$show_comments.css("display", "");
+				$comments_holder.css("display", "none");
+				return false;
+			});
+			
+			if(!(typeof TO_COMMENTS === 'undefined'))
+				if(TO_COMMENTS){
+					var tp = $show_comments.offset().top;
+					TO_COMMENTS = false;
+					showComments();
+					$('html, body').animate({"scrollTop":tp-40+"px"}, 1000, "easeOutExpo");
+				}
 		});
     </script>
 </div>

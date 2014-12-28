@@ -53,58 +53,58 @@ class pq_tabs {
         </div>
         
         <script type="text/javascript">
-        	//Make Combobox
-			require(["jquery", "ui/elements/Tabs"],
-				function($, Tabs) {
-					var tabs = new Tabs(
-						//id
-						$("#<?php echo $id; ?>_tabs"), 
-						
-						//options
-						<?php echo (($value == "" || $value == NULL) ? 0 : "'".$value."'"); ?>, [<?php
-						$count = 0; 
-						foreach($options as $option){ 
-							if($count != 0)
-								echo ",";
-							echo "'".$option."'";
-							$count++;
-						} 
-						?>], 
-						
-						//values
-						[<?php 
-						$count = 0; 
-						foreach($values as $value){ 
-							if($count != 0)
-								echo ",";
-							echo "'".$value."'";
-							$count++;
-						} ?>]);
-					
-					var $input = $("#<?php echo $id; ?>");
-					var ignoreOnce = false;
-					
-					//On Change
-					var onChange = function(){
-						if(ignoreOnce){
-							ignoreOnce = false;
-							return;
-						}
+			jQuery(document).ready(function($){
+				var Backend = require("./Backend.js");
+				var Tabs = Backend.ui.Tabs;
 
-						var value = tabs.val();
-						$input.val(value).trigger("change");
-					};
-					onChange();
-					$(tabs).bind("change", onChange);
+				var tabs = new Tabs(
+					//id
+					$("#<?php echo $id; ?>_tabs"), 
 					
-					//On Update
-					var onUpdate = function(){
-						ignoreOnce = true;
-						tabs.val($input.val());
-					};
-					$input.bind("update", onUpdate);
-				}
-			);
+					//options
+					<?php echo (($value == "" || $value == NULL) ? 0 : "'".$value."'"); ?>, [<?php
+					$count = 0; 
+					foreach($options as $option){ 
+						if($count != 0)
+							echo ",";
+						echo "'".$option."'";
+						$count++;
+					} 
+					?>], 
+					
+					//values
+					[<?php 
+					$count = 0; 
+					foreach($values as $value){ 
+						if($count != 0)
+							echo ",";
+						echo "'".$value."'";
+						$count++;
+					} ?>]);
+				
+				var $input = $("#<?php echo $id; ?>");
+				var ignoreOnce = false;
+				
+				//On Change
+				var onChange = function(){
+					if(ignoreOnce){
+						ignoreOnce = false;
+						return;
+					}
+
+					var value = tabs.val();
+					$input.val(value).trigger("change");
+				};
+				onChange();
+				$(tabs).bind("change", onChange);
+				
+				//On Update
+				var onUpdate = function(){
+					ignoreOnce = true;
+					tabs.val($input.val());
+				};
+				$input.bind("update", onUpdate);
+			});
         </script>
         
         <?php

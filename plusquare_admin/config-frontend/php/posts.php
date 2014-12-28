@@ -60,7 +60,7 @@ function pq_make_regular_blog_post(){
 	        <?php
 			
 			
-			//TITLE
+			// Title
 			$styleSpecial = "";
 			if($post_media_type != "quote" && $post_media_type != "tweet"){
 				?>
@@ -123,7 +123,7 @@ function pq_make_regular_blog_post(){
             if($description === false || $description == "")
             	the_excerpt();
             else
-            	echo $description; 
+            	echo '<p>'.$description.'</p>'; 
         	?>
 	        
 	        <a href="<?php the_permalink(); ?>" class="continue-reading-button subHeader dynamic_loading">

@@ -42,25 +42,22 @@ class pq_sidebar_builder {
         </div>
         
         <script type="text/javascript">
-        	//Make Combobox
-			require(["jquery", "PageBuilder/StackBuilder", "utils/utils"],
-				function($, StackBuilder) {
-					$(document).ready(function(){
+			jQuery(document).ready(function($){
+				var Backend = require("./Backend.js");
+				var StackBuilder = Backend.StackBuilder;
 
-						var $sidebarsPicker = $("#<?php echo $this->id; ?>_sidebar_picker");
-						
-						//Make stack builder
-						var stackBuilder = new StackBuilder(
-							$("#content"), 
-							$sidebarsPicker.find(".placeholders_holder"), 
-							$sidebarsPicker.find(".menu_holder"), false, 
-							"<?php echo get_template_directory_uri(); ?>/plusquare_admin/config-backend/", 
-							<?php echo stripslashes (json_encode($plusquare_shortcodes_options)); ?>);
+				var $sidebarsPicker = $("#<?php echo $this->id; ?>_sidebar_picker");
+				
+				//Make stack builder
+				var stackBuilder = new StackBuilder(
+					$("#content"), 
+					$sidebarsPicker.find(".placeholders_holder"), 
+					$sidebarsPicker.find(".menu_holder"), false, 
+					"<?php echo get_template_directory_uri(); ?>/plusquare_admin/config-backend/", 
+					<?php echo stripslashes (json_encode($plusquare_shortcodes_options)); ?>);
 
-						
-					});
-				}
-			);
+				
+			});
         </script>
 		<?php
 	}

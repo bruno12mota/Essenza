@@ -34,14 +34,12 @@ class pq_color_palette_picker {
         </div>
         
         <script type="text/javascript">
-        	//Make Combobox
-			require(["jquery", "ui/elements/Palette_combobox"],
-				function($, Palette_combobox) {
-					$(document).ready(function(){
-						var combobox = new Palette_combobox("<?php echo $id; ?>", $("#<?php echo $id; ?>").val(), <?php echo $options; ?>);
-					});
-				}
-			);
+			jQuery(document).ready(function($){
+				var Backend = require("./Backend.js");
+				var Palette_combobox = Backend.ui.Palette_combobox;
+				
+				var combobox = new Palette_combobox("<?php echo $id; ?>", $("#<?php echo $id; ?>").val(), <?php echo $options; ?>);
+			});
         </script>
         
         <?php

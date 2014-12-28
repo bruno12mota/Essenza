@@ -21,31 +21,28 @@ class pq_checkbox {
         <div id="<?php echo $id; ?>_checkbox" class="ui-checkbox"></div>
         
         <script type="text/javascript">
-        	//Make checkbox
-			require(["jquery", "ui/elements/Checkbox"],
-				function($, Checkbox) {
-					$(document).ready(function(){
-						var $input = $("#<?php echo $id; ?>");
-						var checkbox = new Checkbox($("#<?php echo $id; ?>_checkbox"), $input.val(), ["<?php echo $values[0]; ?>", "<?php echo $values[1]; ?>"]);
-						
-						//On Checkbox Change
-						var onChange = function(){
-							var value = checkbox.val();
-							$input.val(value).trigger("change");
-						};
-						onChange();
-						$(checkbox).bind("change", onChange);
-						
-						
-						function onUpdate(){
-							console.log("UPDATE IT");
-							var value = $input.val();
-							checkbox.val(value);
-						}
-						$input.bind("update", onUpdate);
-					});
+			jQuery(document).ready(function($){
+				var Backend = require("./Backend.js");
+				var Checkbox = Backend.ui.Checkbox;
+				
+				var $input = $("#<?php echo $id; ?>");
+				var checkbox = new Checkbox($("#<?php echo $id; ?>_checkbox"), $input.val(), ["<?php echo $values[0]; ?>", "<?php echo $values[1]; ?>"]);
+				
+				//On Checkbox Change
+				var onChange = function(){
+					var value = checkbox.val();
+					$input.val(value).trigger("change");
+				};
+				onChange();
+				$(checkbox).bind("change", onChange);
+				
+				
+				function onUpdate(){
+					var value = $input.val();
+					checkbox.val(value);
 				}
-			);
+				$input.bind("update", onUpdate);
+			});
 		</script>
         <?php
 	}

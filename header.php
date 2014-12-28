@@ -197,57 +197,52 @@ if($essenza_is_old_ie === true){
 	
 	<script>
 		jQuery(document).ready(function ($){
+			var Essenza = require("./Essenza.js");
+
+			var Info = Essenza.Info;
+			var EasyBackground = Essenza.EasyBackground;
 
 			//Info panels
-			require(["jquery", "essenza/Info"],
-				function($, Info) {
-					$(document).ready(function(){
-						if($("#initial_info").length > 0)
-							new Info($("#initial_info"), true); 
-						var searchInfo = new Info($("#search_info"), false);
-						
-						$(".searchButton").click(function(){
-							searchInfo.toogle();
+			if($("#initial_info").length > 0)
+				new Info($("#initial_info"), true); 
+			var searchInfo = new Info($("#search_info"), false);
+			
+			$(".searchButton").click(function(){
+				searchInfo.toogle();
 
-							if(searchInfo.shown){
-								//Focus input
-								$("#search").focus();
-							}
-
-							return false;
-						});
-					});
+				if(searchInfo.shown){
+					//Focus input
+					$("#search").focus();
 				}
-			);
+
+				return false;
+			});
+
 
 			//Easy background instanciation
-			require(["essenza/EasyBackground"],
-				function(EasyBackground) {
-					easyBackground = new EasyBackground({
-						background_color: "#111111",
-						pattern: "none",
-						autoplay: true,
-						autoplayTime: 10000,
-						
-						images:[],
-						images_sizing: "fill",
-						
-						animationIn: { attribute:["alpha"],
-						value:    [0],
-						easing:   ["easeOutExpo"],
-						time:     [1],
-						delay:    0 },
-						animationOut: { attribute:["alpha"],
-						value:    [0],
-						easing:    ["easeOutExpo"],
-						time:    [1],
-						delay:    0 }
-					});
-					if(!<?php echo is_search() ? "true" : "false"; ?>){
-						<?php plusquare_change_easy_background(); ?>
-					}
-				}
-			);
+			easyBackground = new EasyBackground({
+				background_color: "#111111",
+				pattern: "none",
+				autoplay: true,
+				autoplayTime: 10000,
+				
+				images:[],
+				images_sizing: "fill",
+				
+				animationIn: { attribute:["alpha"],
+				value:    [0],
+				easing:   ["easeOutExpo"],
+				time:     [1],
+				delay:    0 },
+				animationOut: { attribute:["alpha"],
+				value:    [0],
+				easing:    ["easeOutExpo"],
+				time:    [1],
+				delay:    0 }
+			});
+			if(!<?php echo is_search() ? "true" : "false"; ?>){
+				<?php plusquare_change_easy_background(); ?>
+			}
 		});
 	</script>
 
@@ -260,17 +255,14 @@ if($essenza_is_old_ie === true){
 else if($essenza_page_dynamically_loaded == "ajax"){
 	?>
 	<script>
-		require(["jquery"], function($){
-			$(document).ready(function() {
-				document.title = '<?php echo $essenza_title; ?>';
+		jQuery(document).ready(function($) {
+			document.title = '<?php echo $essenza_title; ?>'.replace("&", "\\u0026");
 
-				//Easy background instanciation
-				require(["essenza/EasyBackground"],
-					function(EasyBackground) {
-						<?php plusquare_change_easy_background(); ?>
-					}
-				);
-			});
+			//Easy background instanciation
+			var Essenza = require("./Essenza.js");
+			var EasyBackground = Essenza.EasyBackground;
+			
+			<?php plusquare_change_easy_background(); ?>
 		});
 	</script>
     <?php

@@ -81,7 +81,13 @@ if($essenza_is_old_ie !== true){
 				        	<hr/>
 				        </div>
 				        <?php
-			        }?>
+			        }
+			        else{
+			        	?>
+			        	<div class="headline"></div>
+			        	<?php
+			        }
+			        ?>
 
 
 		<?php
@@ -158,13 +164,11 @@ if($essenza_is_old_ie !== true){
 			            wp_reset_postdata();?>
     
 						<script>
-							require(["jquery", "essenza/Cover"],
-								function($){
-									$(document).ready(function(){
-										contentLoadingOut();
-									});
-								}
-							);
+							jQuery(document).ready(function($){
+								var Essenza = require("./Essenza.js");
+			                    var Cover = Essenza.Cover;
+			                    Cover.contentLoadingOut();
+							});
 						</script>
 		            </div>
     

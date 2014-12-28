@@ -31,21 +31,16 @@ class pq_snap_to {
         </div>
         
         <script type="text/javascript">
-        	//Make Combobox
-			require(["jquery"],
-				function($) {
-					$(document).ready(function(){
-						var $holder = $("#<?php echo $id; ?>_snap_to");
-						var $input = $("#<?php echo $id; ?>");
-						
-						$holder.find("a").click(function(){
-							$input.val($(this).attr("rel")).trigger("change");
-							
-							return false;
-						});
-					});
-				}
-			);
+        	jQuery(document).ready(function($){
+				var $holder = $("#<?php echo $id; ?>_snap_to");
+				var $input = $("#<?php echo $id; ?>");
+				
+				$holder.find("a").click(function(){
+					$input.val($(this).attr("rel")).trigger("change");
+					
+					return false;
+				});
+			});
         </script>
         
         <?php

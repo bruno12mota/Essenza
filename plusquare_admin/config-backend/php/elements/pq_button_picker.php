@@ -272,350 +272,347 @@ class pq_button_picker {
 		?>
         
         <script type="text/javascript">
-        	//Make Combobox
-			require(["jquery", "ui/elements/Combobox", "utils/utils", "ui/elements/ColorPicker"],
-				function($, Combobox) {
-					$(document).ready(function(){
-						var $input = $("#<?php echo $id; ?>");
-					
-						var saveOptionPath = "<?php echo get_template_directory_uri(); ?>/plusquare_admin/config-backend/php/save-option-ajax.php";
-						var $saveInput = $("#<?php echo $id; ?>_save_style_name");
-						var buttonsJson = <?php echo ($savedButtons != FALSE ? $savedButtons : '{"buttons":[]}'); ?>;
-						var buttons = buttonsJson["buttons"];
+			jQuery(document).ready(function($){
+
+	        	var Backend = require("./Backend.js");
+				var Combobox = Backend.ui.Combobox;
 						
-						function addDefault(){
-							buttons.push({"name": "default","field0": "20","field1": "10","field2": "0","field3": "0","field4": "#fa5654","field5": "#222222","field6": "#fa5654","field7": "#222222","field8": "100","field9": "100","field10": "Open_Sans:regular","field11": "13","field12": "#ffffff","field13": "#ffffff","field14": "0.2","field15": "ease-out","field16": "Button [i]icon-double-angle-right[/i]","field17": "center", "field18": "#", "field19": "_self", "field20": ""});
+				var $input = $("#<?php echo $id; ?>");
+			
+				var saveOptionPath = "<?php echo get_template_directory_uri(); ?>/plusquare_admin/config-backend/php/save-option-ajax.php";
+				var $saveInput = $("#<?php echo $id; ?>_save_style_name");
+				var buttonsJson = <?php echo ($savedButtons != FALSE ? $savedButtons : '{"buttons":[]}'); ?>;
+				var buttons = buttonsJson["buttons"];
+				
+				function addDefault(){
+					buttons.push({"name": "default","field0": "20","field1": "10","field2": "0","field3": "0","field4": "#fa5654","field5": "#222222","field6": "#fa5654","field7": "#222222","field8": "100","field9": "100","field10": "Open_Sans:regular","field11": "13","field12": "#ffffff","field13": "#ffffff","field14": "0.2","field15": "ease-out","field16": "Button [i]icon-double-angle-right[/i]","field17": "center", "field18": "#", "field19": "_self", "field20": ""});
+				}
+				addDefault();
+			
+				var $buttonPicker = $("#<?php echo $this->id; ?>_button_picker");
+				var $button = $("#<?php echo $this->id; ?>_button");
+				
+				var $saving = $buttonPicker.find(".saving_text");
+				var $deleteBtn = $buttonPicker.find(".delete_style_btn");
+				
+				
+				var $inputs = $("<?php
+					$count = 0;
+					foreach($tabs as $tab){
+						foreach($tab as $option){
+							if($count != 0)
+								echo ",";
+							echo "#".$option["id"]." ";
+							$count++;
 						}
-						addDefault();
-					
-						var $buttonPicker = $("#<?php echo $this->id; ?>_button_picker");
-						var $button = $("#<?php echo $this->id; ?>_button");
-						
-						var $saving = $buttonPicker.find(".saving_text");
-						var $deleteBtn = $buttonPicker.find(".delete_style_btn");
-						
-						
-						var $inputs = $("<?php
-							$count = 0;
-							foreach($tabs as $tab){
-								foreach($tab as $option){
-									if($count != 0)
-										echo ",";
-									echo "#".$option["id"]." ";
-									$count++;
-								}
-							}
-						?>");
-						var numInputs = $inputs.length;
-						
-						
-						//Make comboBox/////////////////////////////////
-						var comboBox = new Combobox($("#<?php echo $id; ?>_combobox"), 0, [<?php
-							echo "'default'";
-							if($savedButtons != FALSE){
-								foreach($savedButtonsDecoded->buttons as $button){ 
-									echo ",";
-									echo "'".$button->name."'";
-									$count++;
-								} 
-							}
-						?>], [<?php 
-							echo "'default'";
-							if($savedButtons != FALSE){
-								foreach($savedButtonsDecoded->buttons as $button){ 
-									echo ",";
-									echo "'".$button->name."'";
-									$count++;
-								}
-							}
-						?>]);
-						
-						function getButtonByName(name){
-							for(var i = 0; i < buttons.length; i++){
-								if(	buttons[i]["name"] == name)
-									return buttons[i];
-							}
+					}
+				?>");
+				var numInputs = $inputs.length;
+				
+				
+				//Make comboBox/////////////////////////////////
+				var comboBox = new Combobox($("#<?php echo $id; ?>_combobox"), 0, [<?php
+					echo "'default'";
+					if($savedButtons != FALSE){
+						foreach($savedButtonsDecoded->buttons as $button){ 
+							echo ",";
+							echo "'".$button->name."'";
+							$count++;
+						} 
+					}
+				?>], [<?php 
+					echo "'default'";
+					if($savedButtons != FALSE){
+						foreach($savedButtonsDecoded->buttons as $button){ 
+							echo ",";
+							echo "'".$button->name."'";
+							$count++;
 						}
+					}
+				?>]);
+				
+				function getButtonByName(name){
+					for(var i = 0; i < buttons.length; i++){
+						if(	buttons[i]["name"] == name)
+							return buttons[i];
+					}
+				}
+				
+				var changeByButton = function(button){
+					//Change according to combobox
+					for(var i = 0; i< numInputs; i++){
+						if(WP_DEBUG)console.log(button['field'+i]);
+						$inputs.eq(i).val( button['field'+i] );
+						$inputs.eq(i).trigger("update");
+						if(WP_DEBUG)console.log($inputs.eq(i).val());
+					}
+					
+					update();
+				}
+				
+				var onChange = function(){
+					var value = comboBox.val();
+					
+					if(buttons.length > 0){
+						var button = getButtonByName(value);
 						
-						var changeByButton = function(button){
-							//Change according to combobox
-							for(var i = 0; i< numInputs; i++){
-								if(WP_DEBUG)console.log(button['field'+i]);
-								$inputs.eq(i).val( button['field'+i] );
-								$inputs.eq(i).trigger("update");
-								if(WP_DEBUG)console.log($inputs.eq(i).val());
-							}
-							
-							update();
-						}
+						changeByButton(button);
+					}
+					
+					$saveInput.val(value);
+				};
+				$(comboBox).bind("change", onChange);
+				////////////////////////////////////////////////////////////////
+			
+			
+				function initialValues(){
+					var value = $input.val();
+					if(value == undefined || value == ""){
+						update();
+						value = $input.val();
+					}
 						
-						var onChange = function(){
-							var value = comboBox.val();
-							
-							if(buttons.length > 0){
-								var button = getButtonByName(value);
-								
-								changeByButton(button);
-							}
-							
-							$saveInput.val(value);
-						};
-						$(comboBox).bind("change", onChange);
-						////////////////////////////////////////////////////////////////
 					
+					var button = jQuery.parseJSON($input.val());
+					if(WP_DEBUG)console.log(button);
 					
-						function initialValues(){
-							var value = $input.val();
-							if(value == undefined || value == ""){
-								update();
-								value = $input.val();
-							}
-								
-							
-							var button = jQuery.parseJSON($input.val());
-							if(WP_DEBUG)console.log(button);
-							
-							if(button != undefined && button != null && button != "null"){
-								//if(WP_DEBUG)console.log(button);
-								changeByButton(button);
-							}
-						}
-						$input.bind("update", initialValues);
+					if(button != undefined && button != null && button != "null"){
+						//if(WP_DEBUG)console.log(button);
+						changeByButton(button);
+					}
+				}
+				$input.bind("update", initialValues);
+			
+				/// PREVIEW UPDATE //////////////////////////////
+				function update(){
+					var overCSS = {
+						//Border
+						"border-color": $inputs.eq(7).val(),
+						
+						//Font
+						"color": $inputs.eq(13).val()
+					}
 					
-						/// PREVIEW UPDATE //////////////////////////////
-						function update(){
-							var overCSS = {
-								//Border
-								"border-color": $inputs.eq(7).val(),
-								
-								//Font
-								"color": $inputs.eq(13).val()
-							}
-							
-							var fontStr = $inputs.eq(10).val();
-							var parts = fontStr.split(":");
-							var font = parts[0];
-							var weight = parts[1];
-							
-							if(weight == "regular")
-								weight = 400;
-							else if(weight == "bold")
-								weight = 800;
-							
-							font = font.replace("_", " ");
-							
-							var normalCSS = {
-								//Padding
-								"padding": $inputs.eq(1).val()+"px "+$inputs.eq(0).val()+"px",
-								
-								//Border
-								"border": $inputs.eq(2).val()+"px solid "+$inputs.eq(6).val(),
-								
-								//Round Corners
-								"-webkit-border-radius" : $inputs.eq(3).val()+"px",
-								"-moz-border-radius" : $inputs.eq(3).val()+"px",
-								"-o-border-radius" : $inputs.eq(3).val()+"px",
-								"border-radius" : $inputs.eq(3).val()+"px",
-								
-								//Font
-								"font-family": "'"+font+"'",
-								"font-weight": weight,
-								"font-size": $inputs.eq(11).val()+"px",
-								"color": $inputs.eq(12).val(),
-								"line-height": "normal",
-								"text-align": $inputs.eq(17).val()
-							}
-							
+					var fontStr = $inputs.eq(10).val();
+					var parts = fontStr.split(":");
+					var font = parts[0];
+					var weight = parts[1];
+					
+					if(weight == "regular")
+						weight = 400;
+					else if(weight == "bold")
+						weight = 800;
+					
+					font = font.replace("_", " ");
+					
+					var normalCSS = {
+						//Padding
+						"padding": $inputs.eq(1).val()+"px "+$inputs.eq(0).val()+"px",
+						
+						//Border
+						"border": $inputs.eq(2).val()+"px solid "+$inputs.eq(6).val(),
+						
+						//Round Corners
+						"-webkit-border-radius" : $inputs.eq(3).val()+"px",
+						"-moz-border-radius" : $inputs.eq(3).val()+"px",
+						"-o-border-radius" : $inputs.eq(3).val()+"px",
+						"border-radius" : $inputs.eq(3).val()+"px",
+						
+						//Font
+						"font-family": "'"+font+"'",
+						"font-weight": weight,
+						"font-size": $inputs.eq(11).val()+"px",
+						"color": $inputs.eq(12).val(),
+						"line-height": "normal",
+						"text-align": $inputs.eq(17).val()
+					}
+					
+					$button.css(normalCSS);
+					$button.processColorAndPattern($inputs.eq(4).val(), parseFloat($inputs.eq(8).val(), 10)/100.0);
+					$button.addEaseAll($inputs.eq(14).val(), $inputs.eq(15).val(), ["border-color", "color", "background-color"]);
+					$button.text($inputs.eq(16).val());
+					
+					$button.unbind("hover");
+					$button.hover(
+						function () {
+							//Over
+							$button.css(overCSS);
+							$button.processColorAndPattern($inputs.eq(5).val(), parseFloat($inputs.eq(9).val(), 10)/100.0);
+						},
+						function () {
+							//Out
 							$button.css(normalCSS);
 							$button.processColorAndPattern($inputs.eq(4).val(), parseFloat($inputs.eq(8).val(), 10)/100.0);
-							$button.addEaseAll($inputs.eq(14).val(), $inputs.eq(15).val(), ["border-color", "color", "background-color"]);
-							$button.text($inputs.eq(16).val());
-							
-							$button.unbind("hover");
-							$button.hover(
-								function () {
-									//Over
-									$button.css(overCSS);
-									$button.processColorAndPattern($inputs.eq(5).val(), parseFloat($inputs.eq(9).val(), 10)/100.0);
-								},
-								function () {
-									//Out
-									$button.css(normalCSS);
-									$button.processColorAndPattern($inputs.eq(4).val(), parseFloat($inputs.eq(8).val(), 10)/100.0);
-								}
-							);
-
-							$button.attr("data-background", $inputs.eq(4).val());
-							$button.attr("data-background_alpha", $inputs.eq(8).val());
-							$button.attr("data-background_over", $inputs.eq(5).val());
-							$button.attr("data-background_alpha_over", $inputs.eq(9).val());
-							
-							$button.attr("data-color", $inputs.eq(12).val());
-							$button.attr("data-color_over", $inputs.eq(13).val());
-							$button.attr("data-border", $inputs.eq(6).val());
-							$button.attr("data-border_over", $inputs.eq(7).val());
-							$button.attr("data-tween_time", $inputs.eq(14).val());
-							$button.attr("data-tween", $inputs.eq(15).val());
-
-							//link
-							$button.attr("href", $inputs.eq(18).val());
-							$button.attr("target", $inputs.eq(19).val());
-							$button.attr("onclick", $inputs.eq(20).val());
-							
-							//Parse values
-							var value = new Object();
-							for(var i = 0; i< numInputs; i++)
-								value["field"+i] = $inputs.eq(i).val();
-
-							var json = JSON.stringify(value);
-							$input.val( json ).trigger("change");
-							$button.attr("data-values", json);
 						}
-						
+					);
+
+					$button.attr("data-background", $inputs.eq(4).val());
+					$button.attr("data-background_alpha", $inputs.eq(8).val());
+					$button.attr("data-background_over", $inputs.eq(5).val());
+					$button.attr("data-background_alpha_over", $inputs.eq(9).val());
+					
+					$button.attr("data-color", $inputs.eq(12).val());
+					$button.attr("data-color_over", $inputs.eq(13).val());
+					$button.attr("data-border", $inputs.eq(6).val());
+					$button.attr("data-border_over", $inputs.eq(7).val());
+					$button.attr("data-tween_time", $inputs.eq(14).val());
+					$button.attr("data-tween", $inputs.eq(15).val());
+
+					//link
+					$button.attr("href", $inputs.eq(18).val());
+					$button.attr("target", $inputs.eq(19).val());
+					$button.attr("onclick", $inputs.eq(20).val());
+					
+					//Parse values
+					var value = new Object();
+					for(var i = 0; i< numInputs; i++)
+						value["field"+i] = $inputs.eq(i).val();
+
+					var json = JSON.stringify(value);
+					$input.val( json ).trigger("change");
+					$button.attr("data-values", json);
+				}
+				
 
 
 
-						if($input.val().length > 0)
-							initialValues();
-						else
-							update();
+				if($input.val().length > 0)
+					initialValues();
+				else
+					update();
 
-						//update();
-						$inputs.bind("change blur", update);
+				//update();
+				$inputs.bind("change blur", update);
+				
+				
+				
+				//Remove style
+				$deleteBtn.click(function(){
+					var current = comboBox.val();
+					
+					if(current != "default" && !$saving.is(":visible")){
+						//delete
+						var value = new Object();
+						value["buttons"] = new Array();
 						
-						
-						
-						//Remove style
-						$deleteBtn.click(function(){
-							var current = comboBox.val();
-							
-							if(current != "default" && !$saving.is(":visible")){
-								//delete
-								var value = new Object();
-								value["buttons"] = new Array();
-								
-								$.each(
-									buttons,
-									function(index, button){
-										if(button["name"] != "default" && button["name"] != current)
-											value["buttons"].push(button);
-									}
-								);
-								
-								save(value, "default");
-								
+						$.each(
+							buttons,
+							function(index, button){
+								if(button["name"] != "default" && button["name"] != current)
+									value["buttons"].push(button);
 							}
-							
-							return false;
-						});
+						);
 						
+						save(value, "default");
 						
-						//SAVE STYLE
-						function save(value, newValue){
-							$saving.css("display", "inline");
-							$.ajax({
-								url: saveOptionPath,
-								data: {
-									"id": "pq_saved_buttons",
-									"value": JSON.stringify(value)
-								},
-								success: function(data){
-									$saving.css("display", "none");
-									buttons = value["buttons"];
-									addDefault();
-									
-									var names = new Array();
-									$.each(
-										buttons,
-										function(index, button){
-											names.push(button["name"]);
-										}
-									);
-									
-									comboBox.changeOptions(null, names, names, newValue);
-									onChange();
-								}
-							});
-						}
-						
-						function getButtonObj(name){
-							var value = new Object();
+					}
+					
+					return false;
+				});
+				
+				
+				//SAVE STYLE
+				function save(value, newValue){
+					$saving.css("display", "inline");
+					$.ajax({
+						url: saveOptionPath,
+						data: {
+							"id": "pq_saved_buttons",
+							"value": JSON.stringify(value)
+						},
+						success: function(data){
+							$saving.css("display", "none");
+							buttons = value["buttons"];
+							addDefault();
 							
-							value["name"] = name;
-							
-							//Parse values
-							for(var i = 0; i< numInputs; i++)
-								value["field"+i] = $inputs.eq(i).val();
-							
-							return value;	
-						}
-						
-						$buttonPicker.find("a.save_style_btn").click(function(){
-							var name = $saveInput.val();
-							
-							if(name == "" || name == undefined || name == null || name == "default" || $saving.is(":visible")){
-								//name not valid
-								return false;
-							}
-							
-							var value = new Object();
-							value["buttons"] = new Array();
-							
-							//GET VALUE
-							var overwriten = false;
+							var names = new Array();
 							$.each(
 								buttons,
 								function(index, button){
-									if(button["name"] != "default"){
-										if(button["name"] == name){
-											//Override	
-											overwriten = true;
-											var val = getButtonObj(name);
-											value["buttons"].push(val);
-										}
-										else
-											value["buttons"].push(button);
-									}
+									names.push(button["name"]);
 								}
 							);
 							
-							if(!overwriten){
-								var val = getButtonObj(name);
-								value["buttons"].push(val);
-							}
-							
-							//Debug
-							if(WP_DEBUG)console.log(value);
-
-							//save
-							save(value, name);
-							
-							return false;
-						});
-						
-						
-						
-						
-						
-						//TOOGLE BACKGROUND
-						var toogled = true;
-						$buttonPicker.find("a.toogle_background").click(function(){
-							if(toogled){
-								$buttonPicker.find(".button_holder").css("background-color", "#222222");
-								toogled = false;
-							}
-							else{
-								$buttonPicker.find(".button_holder").css("background-color", "#ffffff");
-								toogled = true;
-							}
-							
-							return false;
-						});
+							comboBox.changeOptions(null, names, names, newValue);
+							onChange();
+						}
 					});
-					
-					/////////////////////////////////////////////////
 				}
-			);
+				
+				function getButtonObj(name){
+					var value = new Object();
+					
+					value["name"] = name;
+					
+					//Parse values
+					for(var i = 0; i< numInputs; i++)
+						value["field"+i] = $inputs.eq(i).val();
+					
+					return value;	
+				}
+				
+				$buttonPicker.find("a.save_style_btn").click(function(){
+					var name = $saveInput.val();
+					
+					if(name == "" || name == undefined || name == null || name == "default" || $saving.is(":visible")){
+						//name not valid
+						return false;
+					}
+					
+					var value = new Object();
+					value["buttons"] = new Array();
+					
+					//GET VALUE
+					var overwriten = false;
+					$.each(
+						buttons,
+						function(index, button){
+							if(button["name"] != "default"){
+								if(button["name"] == name){
+									//Override	
+									overwriten = true;
+									var val = getButtonObj(name);
+									value["buttons"].push(val);
+								}
+								else
+									value["buttons"].push(button);
+							}
+						}
+					);
+					
+					if(!overwriten){
+						var val = getButtonObj(name);
+						value["buttons"].push(val);
+					}
+					
+					//Debug
+					if(WP_DEBUG)console.log(value);
+
+					//save
+					save(value, name);
+					
+					return false;
+				});
+				
+				
+				
+				
+				
+				//TOOGLE BACKGROUND
+				var toogled = true;
+				$buttonPicker.find("a.toogle_background").click(function(){
+					if(toogled){
+						$buttonPicker.find(".button_holder").css("background-color", "#222222");
+						toogled = false;
+					}
+					else{
+						$buttonPicker.find(".button_holder").css("background-color", "#ffffff");
+						toogled = true;
+					}
+					
+					return false;
+				});
+			});
         </script>
         
 		<?php

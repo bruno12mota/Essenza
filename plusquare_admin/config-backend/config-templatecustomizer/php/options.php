@@ -2507,13 +2507,14 @@ $plusquare_template_options = array(
 						"type" => "checkbox_options",
 						"options" => array(
 							"latin" => "Latin",
+							"latin-ext" => "Latin Extended",
 							"greek-ex" => "Greek Extended",
 							"cyrillic" => "Cyrillic",
 							"cyrillic-ext" => "Cyrillic Extended",
 							"greek" => "Greek",
 							"greek-ext" => "Greek Extended"
 						),
-						"default" => '{"latin":"true","greek-ex":"false","cyrillic":"false","cyrillic-ext":"false","greek":"false","greek-ext":"false"}',
+						"default" => '{"latin":"true","latin-ext":"false","greek-ex":"false","cyrillic":"false","cyrillic-ext":"false","greek":"false","greek-ext":"false"}',
 						"info" => "The fonts subsets you want to be imported for each selected font."
 					)
 				)

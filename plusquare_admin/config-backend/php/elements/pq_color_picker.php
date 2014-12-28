@@ -21,14 +21,12 @@ class pq_color_picker {
         <div id="<?php echo $id; ?>_color_picker" class="ui_color_picker"></div>
         
         <script type="text/javascript">
-        	//Make checkbox
-			require(["jquery", "ui/elements/ColorPicker"],
-				function($, ColorPicker) {
-					$(document).ready(function(){
-						var colorPicker = new ColorPicker($("#<?php echo $id; ?>_color_picker"), $("#<?php echo $id; ?>").val(), "<?php echo $id; ?>");
-					});
-				}
-			);
+			jQuery(document).ready(function($){
+				var Backend = require("./Backend.js");
+				var ColorPicker = Backend.ui.ColorPicker;
+
+				var colorPicker = new ColorPicker($("#<?php echo $id; ?>_color_picker"), $("#<?php echo $id; ?>").val(), "<?php echo $id; ?>");
+			});
 		</script>
         <?php
 	}

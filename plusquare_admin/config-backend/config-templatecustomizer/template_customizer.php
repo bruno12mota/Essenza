@@ -191,36 +191,34 @@ function plusquare_template_customizer_init(){
 		</div>
 	</div>
     <script>
-		require(["jquery"], function($){
-			$(document).ready(function(){
-				document.title = 'Template Customizer';
+		jQuery(document).ready(function($){
+			document.title = 'Template Customizer';
 
-				//Tabs handling
-				var $template_customizer = $("#template_customizer");
-				
-				$template_customizer.find(".menu >ul >li").each(function(index, $li){
-					$li = $($li);
-					var $button = $li.find(".tc_button");
-					var $list = $li.find("ul");
-					$button.click(function(){
-						$list.slideToggle(200);
-					});
+			//Tabs handling
+			var $template_customizer = $("#template_customizer");
+			
+			$template_customizer.find(".menu >ul >li").each(function(index, $li){
+				$li = $($li);
+				var $button = $li.find(".tc_button");
+				var $list = $li.find("ul");
+				$button.click(function(){
+					$list.slideToggle(200);
 				});
-				
-				//FORM SUBMIT
-				var $form = $("#tc_form");
-				var $cover = $("#saving_cover_tc");
-				$form.submit(function(){
-					$cover.show();
+			});
+			
+			//FORM SUBMIT
+			var $form = $("#tc_form");
+			var $cover = $("#saving_cover_tc");
+			$form.submit(function(){
+				$cover.show();
 
-					var objSend = $form.serialize();
-					$.post( "options.php", objSend, function(data, textStatus){
+				var objSend = $form.serialize();
+				$.post( "options.php", objSend, function(data, textStatus){
 
-						$cover.hide();
-					});
-
-					return false;
+					$cover.hide();
 				});
+
+				return false;
 			});
 		});
 	</script>

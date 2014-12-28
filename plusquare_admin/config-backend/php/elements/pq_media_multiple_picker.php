@@ -79,36 +79,35 @@ class pq_media_multiple_picker {
         
 		<script type="text/javascript">
 			jQuery(document).ready(function($){
+				var Backend = require("./Backend.js");
+				var Media_Grid = Backend.ui.pq_media_multiple_picker;
+
 				//Global variables
 				adminAjax = "<?php echo get_site_url(); ?>/wp-admin/admin-ajax.php";
 				
 				//Make Media Grid
-				require(["ui/elements/pq_media_multiple_picker"],
-					function(Media_Grid) {
-						var grid = new Media_Grid("<?php echo $this->id; ?>", <?php echo ($value_sizing === false ?  "false" : "true"); ?>);
-						
-						//Add other content
-						var $addOtherContent = $("#<?php echo $this->id; ?>_add_other");
-						var $videoInput = $("#<?php echo $this->id; ?>_video");
-						var $videoIdInput = $("#<?php echo $this->id; ?>_video_id");
-						var $videoImageInput = $("#<?php echo $this->id; ?>_video_image");
-						$("#<?php echo $this->id; ?>_button_other").click(function(){
-							//Toogle add other content
-							$addOtherContent.slideToggle(300);
-						});
-						
-						$addOtherContent.find(".add_video").click(function(){
-							//Add video
-							grid.addVideo($videoInput.val(), $videoIdInput.val(), $videoImageInput.val());
-							$videoIdInput.val("");
-							$videoImageInput.val("").trigger("update");
-						});
-						$addOtherContent.find(".cancel_add_video").click(function(){
-							//Cancel button
-							$addOtherContent.slideUp(300);
-						});
-					}
-				);
+				var grid = new Media_Grid("<?php echo $this->id; ?>", <?php echo ($value_sizing === false ?  "false" : "true"); ?>);
+				
+				//Add other content
+				var $addOtherContent = $("#<?php echo $this->id; ?>_add_other");
+				var $videoInput = $("#<?php echo $this->id; ?>_video");
+				var $videoIdInput = $("#<?php echo $this->id; ?>_video_id");
+				var $videoImageInput = $("#<?php echo $this->id; ?>_video_image");
+				$("#<?php echo $this->id; ?>_button_other").click(function(){
+					//Toogle add other content
+					$addOtherContent.slideToggle(300);
+				});
+				
+				$addOtherContent.find(".add_video").click(function(){
+					//Add video
+					grid.addVideo($videoInput.val(), $videoIdInput.val(), $videoImageInput.val());
+					$videoIdInput.val("");
+					$videoImageInput.val("").trigger("update");
+				});
+				$addOtherContent.find(".cancel_add_video").click(function(){
+					//Cancel button
+					$addOtherContent.slideUp(300);
+				});
 				
 			});
           </script>

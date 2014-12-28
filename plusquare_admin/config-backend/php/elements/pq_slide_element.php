@@ -142,39 +142,35 @@ class pq_slide_element {
         </div>
         
         <script type="text/javascript">
-			require(["jquery"],
-				function($) {
-					$(document).ready(function(){
-						var $holder = $("#<?php echo $id; ?>");
-						var $stage = $holder.find(".stage");
-						var $animation = $holder.find(".animation");
-						var $buttons = $holder.find(".phase");
-						
-						$buttons.click(function(e){
-							var $button = $(e.target);
-							
-							if($button.hasClass("small")){
-								//Stage
-								$stage.css("display", "block");
-								$animation.css("display", "none");
-							}
-							else{
-								//animation
-								$stage.css("display", "none");
-								$animation.css("display", "block");
-							}
-							
-							$buttons.removeClass("active");
-							$button.addClass("active");
-							
-							$holder.trigger("changePhase", parseInt($button.attr("rel"), 10) );
-							
-							return false;
-						});
-						$buttons.eq(2).trigger("click");
-					});
-				}
-			);
+			jQuery(document).ready(function($){
+				var $holder = $("#<?php echo $id; ?>");
+				var $stage = $holder.find(".stage");
+				var $animation = $holder.find(".animation");
+				var $buttons = $holder.find(".phase");
+				
+				$buttons.click(function(e){
+					var $button = $(e.target);
+					
+					if($button.hasClass("small")){
+						//Stage
+						$stage.css("display", "block");
+						$animation.css("display", "none");
+					}
+					else{
+						//animation
+						$stage.css("display", "none");
+						$animation.css("display", "block");
+					}
+					
+					$buttons.removeClass("active");
+					$button.addClass("active");
+					
+					$holder.trigger("changePhase", parseInt($button.attr("rel"), 10) );
+					
+					return false;
+				});
+				$buttons.eq(2).trigger("click");
+			});
         </script>
         
         <?php

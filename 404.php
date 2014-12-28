@@ -16,13 +16,12 @@ if($essenza_is_old_ie !== true){
 							"<br/>Please use the menu or the <a href='#' id='search_again' onclick='return false;'>search menu</a> to find what you are looking for."; ?></h4>
             <script>
                 jQuery(document).ready(function($){
+                    var Essenza = require("./Essenza.js");
+                    var Cover = Essenza.Cover;
+                    Cover.contentLoadingOut();
+                    
                     $("#search_again").click(function(){
                         $("#search_info").trigger("open");
-                    });
-                });
-                require(["jquery", "essenza/Cover"],function($){
-                    $(document).ready(function(){
-                        contentLoadingOut();
                     });
                 });
             </script>

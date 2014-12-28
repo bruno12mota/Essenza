@@ -1,4 +1,5 @@
 ﻿function buttonsClass(classButton, normal, over, width, height, tweenTime) {
+	var $ = jQuery;
 	var $button = $(classButton);
 	
 	//NEXT OVER

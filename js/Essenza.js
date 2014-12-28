@@ -1,51 +1,19 @@
-//Define jQuery
-define('jquery', [], function() { return jQuery; });
 
-//Options
 esza_cover_menu = (directory.cover_menu === "true" || directory.cover_menu === true) ? true : false;
 
-//Require
-requirejs.config({
-	baseUrl : directory.path,
-    paths: {
-        slider: 'slider',
-        jquery: 'jquery',
-        other: 'other',
-        essenza: 'essenza',
-        utils: 'utils'
-    },
-    deps: [
-    //Jquery
-	//"jquery",
-	"jquery/jquery.easing.1.3",
-	"jquery/jquery.mobile.vmouse",
-	"jquery/jquery.mousewheel.min",
-	
-	//Essenza
-	"essenza/menu",
-	"essenza/Portfolio",
-	"essenza/Shortcodes",
-	"essenza/Info",
-	"essenza/EasyBackground",
-	"essenza/Lightbox",
-	"essenza/DynamicLoading",
-	"essenza/MusicPlayer",
-	"essenza/Cover",
-	
-	//Slider
-	"slider/Slider",
-	
-	//Other
-	//"other/bootstrap.min",
-	"other/Dragable",
-	"other/html5",
-	"other/modernizr",
-	"other/retina",
-	"other/Transform",
-	"other/vimeo",
-	//"other/soundmanager2",
-	
-	//Utils
-	"utils/utils"]
-});
+require("./essenza/Shortcodes.js");
+require("./essenza/menu.js");
 
+module.exports = {
+	Portfolio: require("./essenza/Portfolio.js"),
+	Masonry: require("./essenza/Masonry.js"),
+	DynamicLoading: require("./essenza/DynamicLoading.js"),
+	Lightbox: require("./essenza/Lightbox.js"),
+	Info: require("./essenza/Info.js"),
+	EasyBackground: require("./essenza/EasyBackground.js"),
+	Cover: require("./essenza/Cover.js"),
+
+	Slider: require("./slider/Slider.js"),
+
+	Dragable: require("./other/Dragable.js")
+};

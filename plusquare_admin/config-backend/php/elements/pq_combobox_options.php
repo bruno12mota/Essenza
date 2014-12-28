@@ -28,112 +28,108 @@ class pq_combobox_options {
         </div>
         
         <script type="text/javascript">
-        	//Make Combobox
-			require(["jquery", "ui/elements/OrderableList"],
-				function($, OrderableList, Lightbox) {
-					$(document).ready(function(){
-						var $input = $("#<?php echo $id; ?>");
-						var content = '<?php echo $value; ?>';
+			jQuery(document).ready(function($){
+				var Backend = require("./Backend.js");
+				var OrderableList = Backend.ui.OrderableList;
 
-						var $new_input = $("#<?php echo $id; ?>_new");
+				var $input = $("#<?php echo $id; ?>");
+				var content = '<?php echo $value; ?>';
 
-						//Current Value
-						var current_items = [];
+				var $new_input = $("#<?php echo $id; ?>_new");
 
-						if(content != ""){
-							if(WP_DEBUG) console.log(content);
-							current_items = $.parseJSON( content );
-						}
+				//Current Value
+				var current_items = [];
 
-						//Current Editing Element
-						var editing_id = -1;
-
-						//Make orderable list
-						var orderable_list = new OrderableList("<?php echo $this->id; ?>_orderable_list");
-
-						//Bind for edit button clicks
-						$orderable_list = $("#<?php echo $this->id; ?>_orderable_list");
-						$orderable_list.bind("itemRemoved", remove_item);
-						$orderable_list.bind("itemChanged", switch_items);
-
-
-						//other
-						var initial = true;
-
-
-						//Make initial building
-						var initial_call = function(){
-							$.each(
-								current_items,
-								function(index, item){
-									add_item(item);
-								}
-							);
-
-							initial = false;
-							update_value();
-						}
-						initial_call();
-
-
-						//Update input value
-						function update_value(){
-							$input.val( JSON.stringify(current_items) );
-						}
-
-
-						//Add Item Function
-						function add_item(label){
-							var $item = $(	'<p class="title">'+label+'</p>' );
-							orderable_list.addItem(null, $item, current_items.length);
-
-
-							//Update value if not initial set
-							if(!initial){
-								current_items.push(label);
-								update_value();
-							}
-						}
-
-
-						//ADD New Item
-						function add_new_item(){
-							//Get variables
-							var label = $new_input.val();
-
-							if(label != ""){
-								label = label.replace("'", "&#39;");
-								label = label.replace('"', "&#34;");
-								add_item(label);
-								$new_input.val("");
-							}
-						}
-						$("#<?php echo $id; ?>_new_button").click(add_new_item);
-
-
-						//Switched 2 items position
-						function switch_items(e, from, to){
-							current_items[from] = current_items.splice(to, 1, current_items[from])[0];
-
-							//Update input value
-							update_value();
-						}
-
-
-						//Remove item
-						function remove_item(e, id){
-							current_items.splice(id, 1);
-
-							//Update input value
-							update_value();
-						}
-
-
-					});
-					
-					/////////////////////////////////////////////////
+				if(content != ""){
+					if(WP_DEBUG) console.log(content);
+					current_items = $.parseJSON( content );
 				}
-			);
+
+				//Current Editing Element
+				var editing_id = -1;
+
+				//Make orderable list
+				var orderable_list = new OrderableList("<?php echo $this->id; ?>_orderable_list");
+
+				//Bind for edit button clicks
+				$orderable_list = $("#<?php echo $this->id; ?>_orderable_list");
+				$orderable_list.bind("itemRemoved", remove_item);
+				$orderable_list.bind("itemChanged", switch_items);
+
+
+				//other
+				var initial = true;
+
+
+				//Make initial building
+				var initial_call = function(){
+					$.each(
+						current_items,
+						function(index, item){
+							add_item(item);
+						}
+					);
+
+					initial = false;
+					update_value();
+				}
+				initial_call();
+
+
+				//Update input value
+				function update_value(){
+					$input.val( JSON.stringify(current_items) );
+				}
+
+
+				//Add Item Function
+				function add_item(label){
+					var $item = $(	'<p class="title">'+label+'</p>' );
+					orderable_list.addItem(null, $item, current_items.length);
+
+
+					//Update value if not initial set
+					if(!initial){
+						current_items.push(label);
+						update_value();
+					}
+				}
+
+
+				//ADD New Item
+				function add_new_item(){
+					//Get variables
+					var label = $new_input.val();
+
+					if(label != ""){
+						label = label.replace("'", "&#39;");
+						label = label.replace('"', "&#34;");
+						add_item(label);
+						$new_input.val("");
+					}
+				}
+				$("#<?php echo $id; ?>_new_button").click(add_new_item);
+
+
+				//Switched 2 items position
+				function switch_items(e, from, to){
+					current_items[from] = current_items.splice(to, 1, current_items[from])[0];
+
+					//Update input value
+					update_value();
+				}
+
+
+				//Remove item
+				function remove_item(e, id){
+					current_items.splice(id, 1);
+
+					//Update input value
+					update_value();
+				}
+
+
+			});
         </script>
         
 		<?php

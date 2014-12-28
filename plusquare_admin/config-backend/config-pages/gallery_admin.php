@@ -22,12 +22,9 @@ if(is_admin()){
 			#posts-filter, .subsubsub{display: none;}
 		</style>
 	    <script type="text/javascript">
-			require(["ui/CustomGridListing"],
-				function(CustomGridListing) {
-					adminAjax = "<?php echo get_site_url(); ?>/wp-admin/admin-ajax.php";
-				 	new CustomGridListing("gallery", "item_thumb");
-				}
-			);
+	    	var CustomGridListing = require("./Backend.js").ui.CustomGridListing;
+			adminAjax = "<?php echo get_site_url(); ?>/wp-admin/admin-ajax.php";
+		 	new CustomGridListing("gallery", "item_thumb");
 		</script>
 	    <?php
 	}

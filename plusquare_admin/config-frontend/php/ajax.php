@@ -201,7 +201,7 @@ function pq_get_dribbble_fun(){
 	$returnStr = "";
 	$json = json_decode($data);
 
-	//Pixel ratio
+	// Pixel ratio
 	if( isset($_COOKIE["pixel_ratio"]) )
 		$pixel_ratio = $_COOKIE["pixel_ratio"];
 	else
@@ -455,7 +455,8 @@ function pq_get_portfolio_posts_fun() {
 		$stdHeight = 275 * $pixel_ratio;
 		$stdWidth = 400 * $pixel_ratio;
 		
-		$imageUrl = wp_get_attachment_image_src( get_post_meta($post->ID, "thumbnail", true), "full" );
+		$imageId = get_post_meta($post->ID, "thumbnail", true);
+		$imageUrl = wp_get_attachment_image_src( $imageId, "full" );
 		$imageWidth = $imageUrl[1];
 		$imageHeight = $imageUrl[2];
 		$imageUrl = $imageUrl[0];
@@ -471,7 +472,10 @@ function pq_get_portfolio_posts_fun() {
 
 		$item_desc_back = get_post_meta($post->ID, "item_desc_back", true);
 
-		$imageUrl = mr_image_resize($imageUrl, $stdWidth, $stdHeight);
+		$imagetype = get_post_mime_type($imageId);
+		if($imagetype !== 'image/gif'){
+			$imageUrl = mr_image_resize($imageUrl, $stdWidth, $stdHeight);
+		}
 	//Make work object
 	?>
 	<a href="<?php echo $isExternalLink ? $item_external_link : get_permalink(); ?>" class="work masonry-block <?php echo !$isExternalLink ? "dynamic_loading " : ""; ?>new" data-categories="<?php echo $parentsStr; ?>" target="<?php echo $isExternalLink ? $item_external_link_target : "_self"; ?>">
@@ -622,7 +626,7 @@ function pq_get_blog_posts_fun() {
                     }
                 ?>
                 </p>
-                <?php echo get_post_meta( $post->ID, "description", true ) ?>
+                <p><?php echo get_post_meta( $post->ID, "description", true ) ?></p>
                 
                 
                 <?php
@@ -641,7 +645,7 @@ function pq_get_blog_posts_fun() {
 	                <i class="esza-comment"></i>
 	                <?php 
 	                    //comments number
-	                    comments_number( "0 comments", "1 comment", "% comments" ); 
+	                    comments_number( "0 ".get_option("esza_trans_comments", "comments"), "1 ".get_option("esza_trans_comment", "comment"), "% ".get_option("esza_trans_comments", "comments") ); 
 	                ?> 
 	                </span>
 	                <?php 
@@ -757,7 +761,7 @@ function pq_get_blog_mosaic_posts_fun() {
 		                <i class="esza-comment" style="color: <?php echo $mosaic_comment_color; ?>;"></i>&nbsp;
 		                <?php 
 		                    //comments number
-		                    comments_number( "0 comments", "1 comment", "% comments" ); 
+			        		comments_number( "0 ".get_option("esza_trans_comments", "comments"), "1 ".get_option("esza_trans_comment", "comment"), "% ".get_option("esza_trans_comments", "comments") );
 		                ?> 
 	        		</p>
 	        		<?php
@@ -801,7 +805,7 @@ function get_gallery_item_content($id){
 	else if( $item_type == "video"){
 		$type = get_post_meta($id, "item_video_type", true);
 		$video_id = get_post_meta($id, "item_video_id", true);
-		$href = plusquare_get_social_video_url($type, $video_id);
+		$href = plusquare_get_social_video_url($type, $video_id, "1"); // Autoplay by default????
 	}
 	else if( $item_type == "sound"){
 		$sound = get_post_meta($id, "item_sound_url", true);

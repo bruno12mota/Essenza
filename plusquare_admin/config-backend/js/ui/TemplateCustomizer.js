@@ -1,4 +1,6 @@
-jQuery(document).ready(function($){
+var $ = jQuery;
+
+$(document).ready(function($){
 	
 	var $templateCustomizer = $("#template_customizer");
 	var $contents = $templateCustomizer.find(".content");

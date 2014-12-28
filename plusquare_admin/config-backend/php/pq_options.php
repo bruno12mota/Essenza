@@ -31,7 +31,6 @@ function make_option($option, $typeOption = "post_meta", $init_value = NULL){
     //LABEL
     if(isset($option["label"])){
 
-
         ?>
         <h2 class="option_label" style="<?php echo $hidden; ?>">
             <?php echo $option["label"]; ?>

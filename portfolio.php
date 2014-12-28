@@ -25,43 +25,46 @@ $filterMenu = get_post_meta( $post->ID, "show_filter_menu", true );
     
     
     <script>
-		require(["jquery", "essenza/Portfolio", "essenza/Masonry", "essenza/DynamicLoading", "jquery/jquery.easing.1.3"], function($, portfolio, Masonry, dynamicLoadingButton){
-			$(document).ready(function(){
-				var $portfolio = $( '#portfolio' );
-				var $works = $portfolio.find(">.work");
-				
-				var port = new portfolio();
-				var masonryGrid = new Masonry( $portfolio , ".work" , 400, 2, 'pq_get_portfolio_posts', "<?php echo $post->ID; ?>");
-				
+		jQuery(document).ready(function ($){
+			var Essenza = require("./Essenza.js");
+			var Portfolio = Essenza.Portfolio;
+			var Masonry = Essenza.Masonry;
+			var dynamicLoadingButton = Essenza.DynamicLoading;
+			var Cover = Essenza.Cover;
 
-				<?php 
-    			if($filterMenu == "true"){
-    				plusquare_get_filter_menu_js();
-    			}
-    			?>
+			var $portfolio = $( '#portfolio' );
+			var $works = $portfolio.find(">.work");
+			
+			var port = new Portfolio();
+			var masonryGrid = new Masonry( $portfolio , ".work" , 400, 2, 'pq_get_portfolio_posts', "<?php echo $post->ID; ?>");
+			
+
+			<?php 
+			if($filterMenu == "true"){
+				plusquare_get_filter_menu_js();
+			}
+			?>
 
 
-				var first = true;
-				$(masonryGrid).bind("added", function(){
-					var $new = $(".dynamic_loading.new");
-					$new.each(function(){
-						new dynamicLoadingButton($(this));
-					});
-					port.initiate();
-
-					$works = $portfolio.find(">.work");
-					//update_category();
-					//masonryGrid.resize();
-
-					if(first){
-						if(masonryGrid.loadingFurnace)
-							$(masonryGrid).bind("furnaceLoaded", contentLoadingOut);
-						else
-							contentLoadingOut();
-						first = false;
-					}
+			var first = true;
+			$(masonryGrid).bind("added", function(){
+				var $new = $(".dynamic_loading.new");
+				$new.each(function(){
+					new dynamicLoadingButton($(this));
 				});
-					
+				port.initiate();
+
+				$works = $portfolio.find(">.work");
+				//update_category();
+				//masonryGrid.resize();
+
+				if(first){
+					if(masonryGrid.loadingFurnace)
+						$(masonryGrid).bind("furnaceLoaded", Cover.contentLoadingOut);
+					else
+						Cover.contentLoadingOut();
+					first = false;
+				}
 			});
 		});
 	</script>

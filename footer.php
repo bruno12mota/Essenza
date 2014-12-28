@@ -39,10 +39,10 @@
 					"behance",
 					"flickr",
 					"rss",
-          "linkedin",
-          "envato",
-          "tumblr",
-          "instagram"
+					"linkedin",
+					"envato",
+					"tumblr",
+					"instagram"
 				);
 				
 				$has_social = false;

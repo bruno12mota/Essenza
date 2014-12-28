@@ -986,49 +986,48 @@ class pq_slider_builder {
 		</style>
         <!-- Add page builder dynamically -->
         <script type="text/javascript">
-            require(["jquery", "SliderBuilder/SliderEditor"],
-                function($, SliderBuilder) {
-                	$(document).ready(function(){
-                		var mainOptionsIds = [
-						<?php 
-							$first = true;
-							foreach($options[1]["tabs"] as $tab){
-								foreach($tab["options"]	as $option){
-									
-									if($option["type"] == "tabs_unbinded"){
-										foreach($option["tabs"]	as $subTab){
-											foreach($subTab	as $suboption){
-												if(!$first)
-													echo ",";	
-												echo '"'.$suboption["id"].'"';
-												$first = false;
-											}
-										}
-									}
-									else{
+			jQuery(document).ready(function($){
+				var Backend = require("./Backend.js");
+				var SliderEditor = Backend.SliderEditor;
+                		
+        		var mainOptionsIds = [
+				<?php 
+					$first = true;
+					foreach($options[1]["tabs"] as $tab){
+						foreach($tab["options"]	as $option){
+							
+							if($option["type"] == "tabs_unbinded"){
+								foreach($option["tabs"]	as $subTab){
+									foreach($subTab	as $suboption){
 										if(!$first)
 											echo ",";	
-										echo '"'.$option["id"].'"';
+										echo '"'.$suboption["id"].'"';
 										$first = false;
 									}
 								}
 							}
-						?>
-						];
-						//if(WP_DEBUG)console.log(mainOptionsIds);
-						
-	                    new SliderBuilder("#<?php echo $id; ?>", "<?php echo get_template_directory_uri(); ?>/plusquare_admin/", mainOptionsIds, "<?php
-							global $post;
-							echo $post->ID;
-						?>");
-	                
-	                    $("#slider_publish_button").click(function(){
-	                    	$("#publish").trigger("click");
-	                    	return false;
-	                    });
-                	});
-                }
-            );
+							else{
+								if(!$first)
+									echo ",";	
+								echo '"'.$option["id"].'"';
+								$first = false;
+							}
+						}
+					}
+				?>
+				];
+				//if(WP_DEBUG)console.log(mainOptionsIds);
+				
+                new SliderBuilder("#<?php echo $id; ?>", "<?php echo get_template_directory_uri(); ?>/plusquare_admin/", mainOptionsIds, "<?php
+					global $post;
+					echo $post->ID;
+				?>");
+            
+                $("#slider_publish_button").click(function(){
+                	$("#publish").trigger("click");
+                	return false;
+                });
+        	});
         </script>
         <?php
 	}

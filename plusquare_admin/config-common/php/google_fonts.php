@@ -37,7 +37,7 @@ function get_google_fonts_link(){
       return null;
    }
    if($fontsSetJsonStr === FALSE || $fontsSetJsonStr == ""){
-      $fontsSetJsonStr = '{"latin":"true","greek-ex":"false","cyrillic":"false","cyrillic-ext":"false","greek":"false","greek-ext":"false"}';
+      $fontsSetJsonStr = '{"latin":"true","latin-ext":"false","greek-ex":"false","cyrillic":"false","cyrillic-ext":"false","greek":"false","greek-ext":"false"}';
    }
    
    $fontsJson = json_decode($fontsJsonStr);

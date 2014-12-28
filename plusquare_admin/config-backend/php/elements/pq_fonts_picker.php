@@ -107,14 +107,11 @@ class pq_fonts_picker {
             </div>
         </div>
         <script>
-			jQuery(document).ready(function ($){
-			
-				//FontPicker
-				require(["ui/FontPicker"],
-					function(FontPicker){
-						new FontPicker("<?php echo $id; ?>", <?php echo ($value === FALSE || $value === "" ? '{"items":[]}' : $value); ?>);
-					}
-				);
+			jQuery(document).ready(function($){
+				var Backend = require("./Backend.js");
+				var FontPicker = Backend.FontPicker;
+
+				new FontPicker("<?php echo $id; ?>", <?php echo ($value === FALSE || $value === "" ? '{"items":[]}' : $value); ?>);
 			
 			});
 		</script>

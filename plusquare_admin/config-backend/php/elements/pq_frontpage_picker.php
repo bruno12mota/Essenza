@@ -41,62 +41,60 @@ class pq_frontpage_picker {
         <input type="text" value="<?php echo $value; ?>" id="<?php echo $id; ?>" name="<?php echo $id; ?>" style="display:none;"/>
         
         <script type="text/javascript">
-        	//Make checkbox
-			require(["jquery", "Lightbox/Lightbox"],
-				function($, Lightbox) {
-					$(document).ready(function(){
-						//Lightbox
-						var lightbox = false;
+			jQuery(document).ready(function($){
+				var Backend = require("./Backend.js");
+				var Lightbox = Backend.Lightbox;
 
-						//Input
-						var $input = $("#<?php echo $id; ?>"); 
+				//Lightbox
+				var lightbox = false;
 
-						//Text
-						var $fp_text = $(".fp_text");
+				//Input
+				var $input = $("#<?php echo $id; ?>"); 
 
-						//Vars
-						var id, title;
+				//Text
+				var $fp_text = $(".fp_text");
 
-						//Choose page button on click
-						$("#choose_page").click(function(){
-							//Create lightbox
-							lightbox = new Lightbox("Choose Page/Post", "<?php echo get_template_directory_uri(); ?>/plusquare_admin/config-backend/", change_selected);
+				//Vars
+				var id, title;
 
-							//Make list
-					        jQuery.post(
-					            adminAjax,
-					            {
-					                'action' : 'pq_get_pages_posts'
-					            },
-					            $.proxy(function( response ) {
-					                lightbox.addContent(response);
-					            }, this)
-					        );
+				//Choose page button on click
+				$("#choose_page").click(function(){
+					//Create lightbox
+					lightbox = new Lightbox("Choose Page/Post", "<?php echo get_template_directory_uri(); ?>/plusquare_admin/config-backend/", change_selected);
 
-							return false;
-						});
+					//Make list
+			        jQuery.post(
+			            adminAjax,
+			            {
+			                'action' : 'pq_get_pages_posts'
+			            },
+			            $.proxy(function( response ) {
+			                lightbox.addContent(response);
+			            }, this)
+			        );
 
-						//When a new page or post is selected in the lightbox
-						function change_selected(){
-							id = $("#pq_pages_posts_picker").val();
+					return false;
+				});
 
-							if(id != ""){
-								title = $(".pp_picker_list").find("a[data-id='"+id+"']").html();
+				//When a new page or post is selected in the lightbox
+				function change_selected(){
+					id = $("#pq_pages_posts_picker").val();
 
-								//input
-								$input.val( id );
+					if(id != ""){
+						title = $(".pp_picker_list").find("a[data-id='"+id+"']").html();
 
-								//Change current text
-								$fp_text.html("Selected: "+title);
-							}
+						//input
+						$input.val( id );
 
-							//Close lightbox
-							if(lightbox !== false)
-        						lightbox.closeEdit();
-						}
-					});
+						//Change current text
+						$fp_text.html("Selected: "+title);
+					}
+
+					//Close lightbox
+					if(lightbox !== false)
+						lightbox.closeEdit();
 				}
-			);
+			});
 		</script>
         <?php
 	}

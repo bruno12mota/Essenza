@@ -39,13 +39,13 @@ class pq_orderable_list {
         </div>
         
 		<script type="text/javascript">
-            //Make Single Pick
-            require(["jquery", "ui/elements/OrderableList"], function($, OrderableList) {
-			     $(document).ready(function($){
-					new OrderableList("<?php echo $this->id; ?>_orderable_list");
+			jQuery(document).ready(function($){
+				var Backend = require("./Backend.js");
+				var OrderableList = Backend.ui.OrderableList;
 
-                    $("#<?php echo $this->id; ?>_orderable_list").addClass("ready").trigger("bindsReady");
-				});
+				new OrderableList("<?php echo $this->id; ?>_orderable_list");
+
+                $("#<?php echo $this->id; ?>_orderable_list").addClass("ready").trigger("bindsReady");
 			});
 		</script>
         <?php
